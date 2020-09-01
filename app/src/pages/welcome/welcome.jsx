@@ -3,6 +3,10 @@ import ROUTES from "Constants/routes";
 import { Link } from "react-router-dom";
 import "./welcome.css";
 
+import Button from '@material-ui/core/Button';
+
+
+
 class Welcome extends React.Component {
   render() {
     return (
@@ -22,6 +26,9 @@ class Welcome extends React.Component {
             View a sample of a custom context menu.
           </Link> <br />
         </div>
+        <Button variant="contained" color="primary">
+          Hello World
+        </Button>
       </div>
     );
   }
