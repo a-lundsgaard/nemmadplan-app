@@ -1,0 +1,8 @@
+{
+  "env": {
+    "MONGO_PASSWORD": "XFMnh46pvLqesSlb",
+    "MONGO_USER": "madplan-app",
+    "MONGO_DB":"react-express-electron-app",
+    "JWT_KEY": "secretKeyForjwt"
+  }
+}
