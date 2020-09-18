@@ -34,6 +34,7 @@ module.exports = {
     const result = await booking.save();
     return transformBooking(result);
   },
+
   cancelBooking: async args => {
     try {
       const booking = await Booking.findById(args.bookingId).populate('event');

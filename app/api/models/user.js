@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-
+const weekPlan = require('./weekPlan');
 const Schema = mongoose.Schema;
+
 
 const userSchema = new Schema({
   email: {
@@ -11,6 +12,9 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+
+  createdPlans: [weekPlan],
+
   createdEvents: [
     {
       type: Schema.Types.ObjectId,

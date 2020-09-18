@@ -45,7 +45,7 @@ async function createWindow() {
     height: 600,
     title: `Getting started with secure-electron-template (v${app.getVersion()})`,
     webPreferences: {
-      devTools: isDev,
+      //devTools: isDev,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
@@ -149,6 +149,26 @@ protocol.registerSchemesAsPrivileged([{
     secure: true
   }
 }]);
+
+
+
+
+//handle crashes and kill events
+/*process.on('uncaughtException', function(err) {
+  //log the message and stack trace
+  fs.writeFileSync('crash.log', err + "\n" + err.stack);
+
+  console.log(err)
+
+  //do any cleanup like shutting down servers, etc
+
+  //relaunch the app (if you want)
+  app.relaunch({args: []});
+  //app.exit(0);
+});*/
+
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

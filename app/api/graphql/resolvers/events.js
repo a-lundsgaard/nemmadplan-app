@@ -7,6 +7,7 @@ module.exports = {
   events: async () => {
     try {
       const events = await Event.find();
+      console.log(events)
       return events.map(event => {
         return transformEvent(event);
       });
@@ -16,9 +17,13 @@ module.exports = {
   },
   createEvent: async (args, req) => {
 
+
+    console.log('Function called nowww')
+    console.log(args)
+
     // protecting our resolver by accessing metadata from the request object attached by our middleware
     if(!req.isAuth) {
-      throw new Error('Unauthenticated');
+     // throw new Error('Unauthenticated');
     }
 
     const event = new Event({
@@ -26,13 +31,13 @@ module.exports = {
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      creator: req.userId
+      creator: "5f4ff005e1144e1ad8709e7f"
     });
     let createdEvent;
     try {
       const result = await event.save();
       createdEvent = transformEvent(result);
-      const creator = await User.findById(req.userId);
+      const creator = await User.findById("5f4ff005e1144e1ad8709e7f");
 
       console.log(creator);
 

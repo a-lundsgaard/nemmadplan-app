@@ -6,7 +6,8 @@ const ContextMenu = require("secure-electron-context-menu").default;
 
 // Create the electron store to be made available in the renderer process
 let store = new Store();
-let server = require('../api/testApp');
+//let server = require('../api/testApp');
+let server2 = require('../api/app')
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
