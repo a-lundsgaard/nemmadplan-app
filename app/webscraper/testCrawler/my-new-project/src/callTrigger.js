@@ -7,7 +7,7 @@ const triggerWebScraper = require('./src/trigger');
 
 let url = 'https://www.arla.dk/opskrifter/boller-i-karry/';
 module.exports = url;
-triggerWebScraper().then(res => console.log(res.stdout) );
+triggerWebScraper().then(res => console.log(res) );
 
 
 /*  (
