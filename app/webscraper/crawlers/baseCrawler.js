@@ -1,10 +1,18 @@
 const puppeteer = require('puppeteer');
 
+//const t = require('./helpers/helpers.js')
+// For vs code
+//const path = require('path');
+//path.resolve('test 2 secure\\secure-electron-template\\app\\webscraper\\libraries\\jQuery.js')
 
-function runCrawler (url, pageFunction, waitFor) {
 
-  return new Promise(async (resolve, reject) => {
+
+async function runCrawler (url, pageFunction, waitFor) {
+
+    console.log('Starting crawl...')
     try {
+
+      console.log('Launching pupeteer...')
       const browser = await puppeteer.launch({headless: true});
       const page = await browser.newPage();
 
@@ -22,9 +30,12 @@ function runCrawler (url, pageFunction, waitFor) {
           request.abort();
         }
       });*/
+      console.log('Entering url: ' + url);
       await page.goto(url);
+      console.log('Injecting scripts...');
       await page.addScriptTag({path: './libraries/jQuery.js'})
-      await page.addScriptTag({path: './libraries/scrapingLibrary.js'});
+      await page.addScriptTag({path: "./libraries/scrapingLibrary.js"});
+      //await page.addScriptTag({path: './helpers/helpers.js'})
 
       if (waitFor) {
         Number(waitFor) ?
@@ -32,19 +43,19 @@ function runCrawler (url, pageFunction, waitFor) {
           await page.waitForSelector(waitFor, {timeout: 1000});
       }
 
-
-      let results = [];
-        // runs custom javascript as if we were in the console
+      // runs custom javascript as if we were in the console
+      console.log('Running page function...')
       const scrapedData = await page.evaluate(pageFunction);
      // console.log(`Found %d results`, scrapedData.length)
 
+      console.log('Found result:' +scrapedData)
       await browser.close();
-      return resolve(scrapedData);
+      console.log('Finishing webscraper...');
+      return scrapedData;
 
     } catch (e) {
-      return reject(e);
+      return e;
     }
-  })
 }
 
 module.exports = runCrawler;
