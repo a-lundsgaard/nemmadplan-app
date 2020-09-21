@@ -1,11 +1,5 @@
 const puppeteer = require('puppeteer');
 
-//const t = require('../libraries/jQuery')
-
-const arla = require('../pageFunctions/pageFunction');
-
-
-
 
 function runCrawler (url, pageFunction, waitFor) {
 
