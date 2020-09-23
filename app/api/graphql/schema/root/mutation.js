@@ -1,4 +1,5 @@
 const rootMutation = `type RootMutation {
+        scrapeReceipt(crawlerInput: String!): Receipt
         createWeekPlan(weekPlanInput: weekPlanInput): WeekPlan
         deleteWeekPlan(weekPlanId: ID!): WeekPlan!
         createReceipt(receiptInput: receiptInput): Receipt

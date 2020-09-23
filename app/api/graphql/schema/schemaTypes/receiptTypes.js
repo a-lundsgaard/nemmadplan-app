@@ -15,9 +15,9 @@ const receiptSchema = {
     }
     
     type Ingredient {
-      name: String!
-      unit: String!
-      quantity: Float!
+      name: String
+      unit: String
+      quantity: Float
     }`,
 
   receiptInput: `
@@ -29,9 +29,9 @@ const receiptSchema = {
     }
     
     input ingredientInput {
-      name: String!
-      unit: String!
-      quantity: Float!
+      name: String
+      unit: String
+      quantity: Float
     }`
 }
 

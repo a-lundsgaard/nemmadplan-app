@@ -1,19 +1,23 @@
 const fs = require('fs');
 const readline = require('readline');
-const {google} = require('googleapis');
-
+const { google } = require('googleapis');
 const path = require('path')
 
 
 //const credentialsPath = 'C:\\Kodeprojekter\\electron express test\\test 2 secure\\secure-electron-template\\app\\webscraper\\gsheet\\credentials.json';
-const credentialsPath = path.resolve('./gsheet/credentials.json');
+
+const credentialsPath = path.resolve('app/webscraper/gsheet/credentials.json');
+//console.log('Found c path:' + credentialsPath)
+
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = path.resolve('./gsheet/token.json');
+//const TOKEN_PATH = 'C:\\Kodeprojekter\\electron express test\\test 2 secure\\secure-electron-template\\app\\webscraper\\gsheet\\token.json';
+
+const TOKEN_PATH = path.resolve('app/webscraper/gsheet/token.json');
 
 // Load client secrets from a local file.
 function readGoogleSheet() {

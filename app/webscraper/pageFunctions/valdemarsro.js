@@ -1,4 +1,5 @@
 
+// "https://www.valdemarsro.dk/chili-con-carne/"
 
 function valdemarsro() {
 
@@ -11,7 +12,7 @@ function valdemarsro() {
   })
 
 
-  const quantity = ingredientData.map(el => Number(el.innerText.split(' ')[0]) || '')
+  const quantity = ingredientData.map(el => Number(el.innerText.split(' ')[0].replace(",",".")) || '')
   console.log(quantity)
 
   const unit = ingredientData.map(el => {

@@ -3,11 +3,12 @@
 
 // arr = alle the units listed in the google sheet
 exports.checkIngredient = ( obj, arr )=> {
-  obj.unit = arr.includes(obj.unit) ? obj.unit :
-    obj.name.includes('hvidløg') ? 'fed' :
-      !obj.quantity ? '' :
-        'stk';
 
+  if (!arr.includes(obj.unit) && obj.unit) obj.name = obj.unit + obj.name;
+    obj.unit = arr.includes(obj.unit) ? obj.unit :
+      obj.name.includes('hvidløg') ? 'fed' :
+        !obj.quantity ? '' :
+          'stk';
   return obj;
 };
 

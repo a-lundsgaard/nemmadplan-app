@@ -2,9 +2,36 @@
 const Receipt = require('../../models/receipt');
 const User = require('../../models/user');
 
+const runCrawler = require('../../../webscraper/crawlers/baseCrawler');
+const pageFunctions = require('../../../webscraper/pageFunctions/index');
+
+
 const { transformReceipt } = require('./merge');
 
 module.exports = {
+
+  scrapeReceipt: async (args, req)=> {
+
+    try {
+      const url = args.crawlerInput;
+      const pageFunctionToRun = pageFunctions[Object.keys(pageFunctions).find(key => url.includes(key))];
+      const result = await runCrawler(url, pageFunctionToRun);
+      console.log(result)
+
+      return new Receipt({
+        name: result.title,
+        type: 'veg',
+        text: result.description,
+        ingredients: result.ingredients,
+        creator: "5f4ff005e1144e1ad8709e7f" // needs to find creator manually by token later
+      })
+
+    } catch (error) {
+      throw error
+    }
+  },
+
+
   receipts: async () => {
     try {
       // protecting our resolver by accessing metadata from the request object attached by our middleware
@@ -34,13 +61,14 @@ module.exports = {
     console.log('Function called')
     console.log(args.receiptInput.ingredients)
 
+    // find user by token herer
 
     const receipt = new Receipt({
       name: args.receiptInput.name,
       type: args.receiptInput.type,
       text: args.receiptInput.text,
       ingredients: args.receiptInput.ingredients,
-      creator: "5f4ff005e1144e1ad8709e7f"
+      creator: "5f4ff005e1144e1ad8709e7f" // needs to find creator manually by token later
     });
 
     let createdReceipt;
