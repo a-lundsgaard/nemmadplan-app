@@ -1,7 +1,7 @@
 
 # tokens and credentials for googlesheet
 app/webscraper/gsheet/credentials.json
-app/webscraper/gsheet/token.json.json
+app/webscraper/gsheet/token.json
 
 # passwords for mongodb
 nodemon.json
