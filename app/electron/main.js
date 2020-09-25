@@ -22,6 +22,23 @@ const isDev = process.env.NODE_ENV === "development";
 const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`;
 
+const { promisify } = require('util'); // tillader os at bruge async/await
+const exec = promisify(require("child_process").exec); // Node-funktion der tager en shell command og returnerer et promise
+
+// Used for shutting down the nodemon server further down
+async function triggerCommand(commandToRun){
+  let result;
+  try {
+    result = await exec(commandToRun);
+  } catch(e) {
+    console.log(`Fejl i kommando, tjek at den er stavet rigtigt: "${commandToRun}"`)
+    throw e
+  }
+  console.log('Server running and MongoDB connected succesfully')
+  return result;
+}
+
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
@@ -43,9 +60,10 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    autoHideMenuBar: !isDev,
     title: `Getting started with secure-electron-template (v${app.getVersion()})`,
     webPreferences: {
-      //devTools: isDev,
+      devTools: isDev,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
@@ -179,9 +197,13 @@ app.on("ready", createWindow);
 app.on("window-all-closed", () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
+
   if (process.platform !== "darwin") {
+    // Kills all node.exe tasks. This is to prevent that our server is running after the application has shut down
+    triggerCommand('taskkill /F /IM node.exe').then(res => console.log(res)).catch(e => console.log(e));
     app.quit();
   } else {
+    triggerCommand('sudo kill -9 PID').then(res => console.log(res)).catch(e => console.log(e));
     i18nextBackend.clearMainBindings(ipcMain);
     ContextMenu.clearMainBindings(ipcMain);
   }

@@ -1,6 +1,5 @@
 
 
-
 (
   function (){
 
@@ -33,13 +32,13 @@
         useCreateIndex: true,
         //useMongoClient: true
       }).then((data) => {
+       let server = app.listen(8080, function () {
+         console.log('Express server listening on port ' + server.address().port);
+       });
       console.log('MongoDB connected...')
-    }).catch(err => console.log(err))
-
-
-    let server = app.listen(8080, function () {
-      console.log('Express server listening on port ' + server.address().port);
-    });
+    }).catch(err => {
+       console.log('Kunne ikke oprette forbindelse til databasen')
+      console.log(err) })
 
 
     module.exports = app;

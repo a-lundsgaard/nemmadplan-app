@@ -6,8 +6,33 @@ import "./welcome.css";
 import Button from '@material-ui/core/Button';
 
 
+function homePage() {
 
-class Welcome extends React.Component {
+  return (
+    <div className={'frontPageContent'}>
+      <h1>Velkommen til NemMadplan</h1>
+      <div className={'fpHolder'}>
+        <button className={'fpButtons'}>Opret ny madplan</button>
+      </div>
+
+      <div className={'fpHolder'}>
+        <button className={'fpButtons'}>Gemte madplaner</button>
+      </div>
+
+      <div className={'fpHolder'}>
+        <button className={'fpButtons'}>Gemte retter</button>
+      </div>
+
+    </div>
+  )
+}
+
+export default homePage;
+
+
+
+
+/*class Welcome extends React.Component {
   render() {
     return (
       <div id="welcome">
@@ -34,4 +59,4 @@ class Welcome extends React.Component {
   }
 }
 
-export default Welcome;
+export default Welcome;*/

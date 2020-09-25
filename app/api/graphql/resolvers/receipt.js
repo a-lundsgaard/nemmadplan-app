@@ -14,6 +14,7 @@ module.exports = {
 
     try {
       const url = args.crawlerInput;
+      // Makes a lookup in the imported object module containiog the different pagefunctions
       const pageFunctionToRun = pageFunctions[Object.keys(pageFunctions).find(key => url.includes(key))];
       const result = await runCrawler(url, pageFunctionToRun);
       console.log(result)

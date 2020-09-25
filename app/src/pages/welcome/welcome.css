@@ -1,4 +1,4 @@
-#welcome {
+/*#welcome {
     display: grid;
     height: 100%;
     justify-items: center;
@@ -9,4 +9,24 @@
 .header {
     grid-column: 1;
     grid-row: 1;
+}*/
+.frontPageContent {
+  font-family: Calibri, sans-serif;
+  text-align: center;
+  margin-top: 14%;
+  width: 100%;
+}
+
+.fpHolder {
+  margin: 10px;
+}
+
+.fpButtons {
+  font-size: 120%;
+  width: 310px;
+  padding: 8px 35px;
+  cursor: pointer;
+  border-radius: 10px;
+  display: inline-block;
+  outline-style: none;
 }
