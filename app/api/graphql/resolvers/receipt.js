@@ -2,8 +2,8 @@
 const Receipt = require('../../models/receipt');
 const User = require('../../models/user');
 
-const runCrawler = require('../../../webscraper/crawlers/baseCrawler');
-const pageFunctions = require('../../../webscraper/pageFunctions/index');
+const runCrawler = require('../../webscraper/crawlers/baseCrawler');
+const pageFunctions = require('../../webscraper/pageFunctions/receipts');
 
 
 const { transformReceipt } = require('./merge');

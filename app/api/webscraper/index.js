@@ -1,7 +1,7 @@
 const runCrawler = require('./crawlers/baseCrawler');
-const arla = require('./pageFunctions/arla');
-const valdemarsro = require('./pageFunctions/valdemarsro.js');
-const stinna = require('./pageFunctions/stinna');
+const arla = require('./pageFunctions/receipts/arla');
+const valdemarsro = require('./pageFunctions/receipts/valdemarsro.js');
+const stinna = require('./pageFunctions/receipts/stinna');
 
 const path = require('path')
 

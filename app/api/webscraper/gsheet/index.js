@@ -6,7 +6,7 @@ const path = require('path')
 
 //const credentialsPath = 'C:\\Kodeprojekter\\electron express test\\test 2 secure\\secure-electron-template\\app\\webscraper\\gsheet\\credentials.json';
 
-const credentialsPath = path.resolve('app/webscraper/gsheet/credentials.json');
+const credentialsPath = path.resolve('app/api/webscraper/gsheet/credentials.json');
 //console.log('Found c path:' + credentialsPath)
 
 
@@ -17,7 +17,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // time.
 //const TOKEN_PATH = 'C:\\Kodeprojekter\\electron express test\\test 2 secure\\secure-electron-template\\app\\webscraper\\gsheet\\token.json';
 
-const TOKEN_PATH = path.resolve('app/webscraper/gsheet/token.json');
+const TOKEN_PATH = path.resolve('app/api/webscraper/gsheet/token.json');
 
 // Load client secrets from a local file.
 function readGoogleSheet() {
