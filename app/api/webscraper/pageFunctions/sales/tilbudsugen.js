@@ -12,9 +12,9 @@ function tilbudsavisen() {
 
     results.push({
       title: $(this).find('.product_title').text(),
-      price: priceInfo[2],
+      price: parseFloat(priceInfo[2].replace(/,/g, '.')),
       unit: priceInfo[1],
-      quantity: priceInfo[0],
+      quantity: parseInt(priceInfo[0].replace(/,/g, '.')),
       pricePrKg: $(this).find('small').text().trim(),
       chain:  $(this).find('.store_name').text(),
       img:  img.attr('src') || img.attr('data-src'),

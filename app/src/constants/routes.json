@@ -1,5 +1,6 @@
 {
   "WELCOME": "/",
+  "SIGNUP": "/signup",
   "MOTD": "/motd",
   "LOCALIZATION": "/localization",
   "UNDOREDO": "/undoredo",

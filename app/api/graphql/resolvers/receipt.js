@@ -3,12 +3,18 @@ const Receipt = require('../../models/receipt');
 const User = require('../../models/user');
 
 const runCrawler = require('../../webscraper/crawlers/baseCrawler');
-const pageFunctions = require('../../webscraper/pageFunctions/receipts');
+const runSalesCrawler = require('../../webscraper/crawlers/salesCrawler');
+const pageFunctions = require('../../webscraper/pageFunctions');
 
 
 const { transformReceipt } = require('./merge');
 
 module.exports = {
+
+  getSales: async (args, req) => {
+    console.log('Get sales called')
+    return await runSalesCrawler(pageFunctions.tilbudsugen, args.salesCrawlerInput);
+  },
 
   scrapeReceipt: async (args, req)=> {
 
