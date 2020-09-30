@@ -15,8 +15,6 @@ import Container from '@material-ui/core/Container';
 
 import { Link } from 'react-router-dom';
 
-// test
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
