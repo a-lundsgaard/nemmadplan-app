@@ -13,6 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+
+
+import { useForm } from "react-hook-form";
+
+
 import { Link } from 'react-router-dom';
 
 function Copyright() {
@@ -53,7 +58,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
+
   const classes = useStyles();
+  const { register, handleSubmit, errors, watch } = useForm();
+
 
   const [input, setInput] = useState({email: '', password: ''})
 
@@ -61,6 +69,40 @@ export default function SignIn() {
     console.log('Input changed');
     console.log(input);
   }, [input])
+  
+
+  const onSubmit = async ()=> {
+
+    //alert('Sending')
+
+
+    const requestBody = {
+        query: `query {
+        login(email: "test@test.com", password:"tester") {
+          token
+          userId
+          tokenExpiration
+        } 
+      }`
+      }
+
+      console.log(requestBody);
+
+      const data = await fetch('https://nmserver.herokuapp.com/graphql', {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const result = await data.json();
+      //.then(res => res.json()).then(res => alert(res));
+
+
+    
+   console.log(result);
+  }
 
 
 
@@ -74,7 +116,9 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}
+          onSubmit ={handleSubmit(onSubmit)}
+        >
           <TextField
             variant="outlined"
             margin="normal"
