@@ -3,12 +3,23 @@ import ROUTES from "Constants/routes";
 import { Link } from "react-router-dom";
 import "./welcome.css";
 
+import Drawer from "Components/drawer/drawer"
+
+import RightDrawer from "Components/drawer/rightDrawer"
+
+
+import AppBar from "Components/appbar/appbar"
+
+
 import Button from '@material-ui/core/Button';
 
 
 function homePage() {
 
   return (
+    <>
+      <Drawer/>
+
     <div className={'frontPageContent'}>
       <h1>Velkommen til NemMadplan</h1>
       <div className={'fpHolder'}>
@@ -24,6 +35,7 @@ function homePage() {
       </div>
 
     </div>
+    </>
   )
 }
 

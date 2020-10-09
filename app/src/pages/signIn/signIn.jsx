@@ -13,12 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-
-
+import Auth from '../../auth/auth';
+import SnackBar from "Components/snackbar/snackbar";
 import { useForm } from "react-hook-form";
-
-
 import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+
 
 function Copyright() {
   return (
@@ -59,49 +59,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
 
+  const history = useHistory();
   const classes = useStyles();
   const { register, handleSubmit, errors, watch } = useForm();
 
 
-  const [input, setInput] = useState({email: '', password: ''})
+  const [input, setInput] = useState({email: '', password: ''});
+  const [message, setMessage] = useState({});
 
-  useEffect(()=>{
-    console.log('Input changed');
-    console.log(input);
-  }, [input])
+
   
 
   const onSubmit = async ()=> {
 
-    //alert('Sending')
-
-
+    console.log('Sending request to: ' + process.env.API_URL)
     const requestBody = {
         query: `query {
-        login(email: "test@test.com", password:"tester") {
+        login(email: "${input.email}", password:"${input.password}") {
           token
           userId
           tokenExpiration
         } 
       }`
-      }
+    }
 
-      console.log(requestBody);
+    Auth.login(requestBody, 
+      user => { 
+        setMessage({msg: 'Login succesfull', type: 'success', key: Math.random()});
+        history.push('/home');
+    }, // on succes
+      error => {
+        setMessage({msg: error.message, type: 'error', key: Math.random()}) 
+      }// on failure
+      )
 
-      const data = await fetch('https://nmserver.herokuapp.com/graphql', {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      const result = await data.json();
-      //.then(res => res.json()).then(res => alert(res));
-
-
-    
-   console.log(result);
   }
 
 
@@ -174,6 +165,10 @@ export default function SignIn() {
       <Box mt={8}>
         <Copyright />
       </Box>
+
+
+      { message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg}/> : null}
+
     </Container>
   );
 }

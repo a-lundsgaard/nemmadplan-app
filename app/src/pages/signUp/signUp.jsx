@@ -12,6 +12,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import SnackBar from "Components/snackbar/snackbar";
+
+
+import { useForm } from "react-hook-form";
+import {HTTP} from "../../HTTP/http"
+
 
 function Copyright() {
   return (
@@ -53,12 +59,37 @@ export default function SignUp() {
   const classes = useStyles();
 
 
-  const [input, setInput] = useState({firstName:'', lastName:'', email: '', password: ''})
+  const { register, handleSubmit, errors, watch } = useForm();
+  const [input, setInput] = useState({firstName:'', lastName:'', email: '', password: ''});
 
-  useEffect(()=>{
-    console.log('Input changed');
-    console.log(input);
-  }, [input])
+  const [message, setMessage] = useState({});
+
+
+
+  
+  const onSubmit = async ()=> {
+
+    console.log('Sending request to: ' + process.env.API_URL)
+
+    const requestBody2 = {
+        query: `mutation {
+        createUser(userInput: {firstName: "${input.firstName}", lastName: "${input.lastName}", email: "${input.email}", password:"${input.password}"}) {
+          firstName
+          lastName
+          email 
+        }
+      }`
+    }
+
+    HTTP.post(requestBody2)
+      .then(res => 
+        setMessage({msg: `Welcome ${input.firstName}`, type: 'success', key: Math.random()})
+        )
+      .catch(e => 
+        setMessage({msg: error.message, type: 'error', key: Math.random()}) 
+        )
+        
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,7 +101,9 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}
+          onSubmit ={handleSubmit(onSubmit)}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -81,6 +114,8 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                onChange={(event)=> setInput({...input, firstName: event.target.value})}
+
                 autoFocus
               />
             </Grid>
@@ -93,6 +128,8 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={(event)=> setInput({...input, lastName: event.target.value})}
+
               />
             </Grid>
             <Grid item xs={12}>
@@ -104,6 +141,8 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={(event)=> setInput({...input, email: event.target.value})}
+
               />
             </Grid>
             <Grid item xs={12}>
@@ -116,6 +155,8 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(event)=> setInput({...input, password: event.target.value})}
+
               />
             </Grid>
             <Grid item xs={12}>
@@ -146,6 +187,9 @@ export default function SignUp() {
       <Box mt={5}>
         <Copyright />
       </Box>
+
+      { message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg}/> : null}
+
     </Container>
   );
 }
