@@ -14,7 +14,7 @@ export class  HTTP {
             body: JSON.stringify(data)
         })
 
-        console.log(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
 
         const jsonData = await response.json();
 

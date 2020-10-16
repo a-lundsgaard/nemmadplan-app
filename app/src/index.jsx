@@ -9,6 +9,19 @@ import store, { history } from "Redux/store/store";
 import regeneratorRuntime from "regenerator-runtime";
 
 process.env.API_URL = 'http://localhost:8080/graphql';
+
+const increment = () => {
+  return {
+    type: 'INCREMENT'
+  }
+}
+
+window.store = store;
+
+console.log(store.getState())
+
+store.dispatch(increment())
+
 //process.env.API_URL = 'https://nmserver.herokuapp.com/graphql';
 
 

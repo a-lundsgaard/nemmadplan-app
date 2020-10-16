@@ -18,6 +18,8 @@ import SnackBar from "Components/snackbar/snackbar";
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import ROUTES from "Constants/routes";
+
 
 
 function Copyright() {
@@ -155,7 +157,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link to="/signup" variant="body2">
+              <Link to={ROUTES.SIGNUP} variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

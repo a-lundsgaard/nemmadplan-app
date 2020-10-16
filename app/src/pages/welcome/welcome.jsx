@@ -18,7 +18,6 @@ function homePage() {
 
   return (
     <>
-      <Drawer/>
 
     <div className={'frontPageContent'}>
       <h1>Velkommen til NemMadplan</h1>

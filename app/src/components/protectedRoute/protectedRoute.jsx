@@ -25,7 +25,7 @@ function ProtectedRoute({component: Component, isAuthenticated, isLoading, ...re
                   } else {
                       return <Redirect to={
                           {
-                              pathname: "/signup",
+                              pathname: "/login",
                               state: {
                                   from: props.location
                               }

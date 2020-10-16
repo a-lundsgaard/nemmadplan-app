@@ -34,6 +34,9 @@ import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
+import SearchBar from 'Components/searchBar/searchBar1'
+
+
 import {HTTP} from "../../HTTP/http"
 
 import { Link, NavLink, useHistory  } from "react-router-dom";
@@ -50,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    background: '#c24e00'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -110,7 +114,7 @@ export default function PersistentDrawerLeft() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
 
-  const [user, setUser] = useState('No user found')
+  const [user, setUser] = useState('')
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -151,6 +155,7 @@ export default function PersistentDrawerLeft() {
 
 
 
+
     useEffect(()=> {
 
 
@@ -171,13 +176,13 @@ export default function PersistentDrawerLeft() {
               if(response.errors) {
               } else {
                 const {firstName, lastName } = response.data.verifyUser
-                setUser(firstName + ' ' + lastName)
+                setUser(firstName + ' ' + lastName.split('')[0] + '.')
               }
           })
           .catch((err) => {
               console.log('Verification err: ' + err);
           })
-  }, [])
+  })
 
 
 
@@ -200,10 +205,10 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-
+          <SearchBar/>
           
-          <Typography variant="h6" align="right" display="block" className={classes.appBar}style={{ flex: 1 }}
->          </Typography>
+          <Typography variant="h6" align="right" display="block" className={classes.appBar}style={{ flex: 1 }}> 
+         </Typography>
 
           <div >
               <IconButton
@@ -231,10 +236,9 @@ export default function PersistentDrawerLeft() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Min konto</MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <NavLink to="home" style={navStyle}>Log ud</NavLink>
-                </MenuItem>
-
+                <NavLink to="/login" style={navStyle} onClick={()=> { localStorage.removeItem('token'); }}>            
+                  <MenuItem onClick={handleClose}>Log ud</MenuItem>
+                </NavLink>
               </Menu>
             </div>
 
@@ -263,16 +267,23 @@ export default function PersistentDrawerLeft() {
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-        <Divider />
+        <Divider/>
         <List>
-          {['Hjem', 'Madplaner', 'Opskrifter'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{findIcon(text)}</ListItemIcon>
+          {[
+            {text: 'Hjem', url: 'home' }, 
+            {text: 'Madplaner', url: 'home' }, 
+            {text: 'Opskrifter', url: 'receipts' }
+          ].map((obj, index) => 
+          (
+            <NavLink to={`/${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
+
+            <ListItem button key={obj.text}>
+              <ListItemIcon>{findIcon(obj.text)}</ListItemIcon>
               
-                <NavLink to='/' style={navStyle} activeClassName="active">
-                  <ListItemText primary={text} />
-                </NavLink>
+                  <ListItemText primary={obj.text} />
             </ListItem>
+            </NavLink>
+
           ))}
         </List>
         <Divider />

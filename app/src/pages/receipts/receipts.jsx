@@ -1,0 +1,144 @@
+
+
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
+import ReceiptCard from 'Components/card/receiptCard';
+
+import SearchBar from 'Components/searchBar/searchBar1'
+
+import listenToSearchInput from 'Redux/helpers/subscribe'
+import {HTTP} from '../../HTTP/http'
+
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+
+  },
+  
+  card: {
+    maxWidth: 245,
+
+  //  height: 200,
+   // width: 200,
+  },
+
+  control: {
+    padding: theme.spacing(2),
+
+  },
+
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
+
+
+export default function SpacingGrid() {
+ // const [spacing, setSpacing] = React.useState(2);
+  const classes = useStyles();
+
+  const [search, setSearch] = useState(window.store.getState().searchInput);
+  const [receipts, setReceipts] = useState([])
+
+
+  useEffect(()=> {
+    listenToSearchInput(setSearch)
+  }, [])
+  
+
+  useEffect(()=> {
+    console.log(search);
+  }, [search])
+
+  useEffect(()=> {
+    console.log('Found receipts:')
+    console.log(receipts);
+  }, [receipts])
+
+
+  useEffect(()=> {
+
+    const token = localStorage.getItem('token')
+
+    console.log('Sending request to: ' + process.env.API_URL)
+
+    const requestBody = {
+        query: `query {
+        receipts {
+          name
+          text
+          image
+          createdAt
+          updatedAt
+          ingredients {
+            name
+            unit
+            quantity
+          }
+          creator {
+            email
+          }
+        }
+      }`
+    }
+
+    HTTP.post(requestBody, token)
+      .then(res => 
+        setReceipts(res.data.receipts)
+        )
+      .catch(e => 
+        console.log(e) 
+        )
+  }, [])
+
+ // const [expanded, setExpanded] = React.useState(false);
+
+  /*const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };*/
+
+  return (
+    <>
+    <Grid container className={classes.root} spacing={10}>
+      <Grid item xs={12}>
+        <Grid container justify="center" spacing={5}>
+
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10].map((value) => (
+
+          <Grid key={value} item>
+                <ReceiptCard/>
+          </Grid>
+
+          ))}
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+          <Grid container>
+            <Grid item>
+            </Grid>
+          </Grid>
+      </Grid>
+    </Grid>
+    </>
+  );
+}
+

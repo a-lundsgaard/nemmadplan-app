@@ -9,7 +9,7 @@ const ContextMenu = require("secure-electron-context-menu").default;
 let store = new Store();
 
 //tester
-let server = require('../pupeteerServer/server');
+let server = require('../server/server');
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
