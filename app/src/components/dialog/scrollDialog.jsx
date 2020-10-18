@@ -5,8 +5,37 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Checkbox from '@material-ui/core/Checkbox';
 
-export default function ScrollDialog( {boolean, onChange}) {
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+    
+  receiptText: {
+    whiteSpace: "pre-wrap"
+  },
+
+  image: {
+    maxWidth: 350
+  },
+
+  list: {
+  //  display: "inline-block"
+  }
+
+
+}));
+
+
+export default function ScrollDialog(props) {
+
+  const classes = useStyles();
+
 
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
@@ -18,16 +47,17 @@ export default function ScrollDialog( {boolean, onChange}) {
 
   const handleClose = () => {
     setOpen(false);
-    onChange(false)
+    props.onChange(false)
   };
 
   useEffect(()=>{
-    setOpen(boolean)
-    console.log('Dialog state changed: ' + open);
-  },[boolean])
+    setOpen(props.boolean)
+  },[props.boolean])
 
 
-
+  const handleCheckBoxChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
 
   const descriptionElementRef = React.useRef(null);
@@ -54,22 +84,44 @@ export default function ScrollDialog( {boolean, onChange}) {
         aria-describedby="scroll-dialog-description"
         maxWidth='lg'
       >
-        <DialogTitle id="scroll-dialog-title">Opskrift</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">{props.title}</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
+
+
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
+            className={classes.receiptText}
+            component={'div'}
           >
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-              )
-              .join('\n')}
+
+          <img className={classes.image} src={props.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}/>
+
+          <Grid container spacing={4}>
+
+            <Grid item xs={6} >
+            {props.ingredients.map((ingredient, index) => 
+              <li className={classes.list} key={index} variant={'body2'}>
+    
+
+              {`${ingredient.quantity || ""} ${ingredient.unit || ''} ${ingredient.name}`.trimLeft()}</li>
+
+              )}
+            </Grid>
+
+            <Grid item xs={6}>
+              <p>{props.text}</p>
+            </Grid>
+
+
+
+            </Grid>
+
+          
           </DialogContentText>
+
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

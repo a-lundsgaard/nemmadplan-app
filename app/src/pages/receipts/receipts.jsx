@@ -1,15 +1,19 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import ReceiptCard from 'Components/card/receiptCard';
-
-import SearchBar from 'Components/searchBar/searchBar1'
-
 import listenToSearchInput from 'Redux/helpers/subscribe'
 import {HTTP} from '../../HTTP/http'
+
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import IconButton from '@material-ui/core/IconButton';
+
+import PlusButton from 'Components/buttons/plusButton/plusButton'
+
+import FullScreenDialog from 'Components/dialog/fullScreenDialog';
+
+
 
 
 
@@ -21,9 +25,15 @@ const useStyles = makeStyles((theme) => ({
   
   card: {
     maxWidth: 245,
-
   //  height: 200,
    // width: 200,
+  },
+
+  addReceiptButton: {
+    position: 'fixed',
+    bottom:0,
+    left: "50%",
+    marginLeft: -50
   },
 
   control: {
@@ -60,6 +70,8 @@ export default function SpacingGrid() {
   const [receipts, setReceipts] = useState([])
 
 
+
+
   useEffect(()=> {
     listenToSearchInput(setSearch)
   }, [])
@@ -84,6 +96,7 @@ export default function SpacingGrid() {
     const requestBody = {
         query: `query {
         receipts {
+          _id
           name
           text
           image
@@ -102,8 +115,9 @@ export default function SpacingGrid() {
     }
 
     HTTP.post(requestBody, token)
-      .then(res => 
+      .then(res => {
         setReceipts(res.data.receipts)
+      }
         )
       .catch(e => 
         console.log(e) 
@@ -118,26 +132,35 @@ export default function SpacingGrid() {
 
   return (
     <>
+
     <Grid container className={classes.root} spacing={10}>
       <Grid item xs={12}>
+
+
         <Grid container justify="center" spacing={5}>
-
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10].map((value) => (
-
-          <Grid key={value} item>
-                <ReceiptCard/>
+          {receipts.map((receipt, index) => (
+          <Grid key={receipt._id} item>
+                <ReceiptCard 
+                  title={receipt.name} 
+                  createdAt={receipt.createdAt}
+                  text={receipt.text}
+                  image={receipt.image}
+                  ingredients={receipt.ingredients}
+                  title={receipt.name}
+                />
           </Grid>
-
           ))}
         </Grid>
+
       </Grid>
-      <Grid item xs={12}>
-          <Grid container>
-            <Grid item>
-            </Grid>
-          </Grid>
-      </Grid>
+
+
     </Grid>
+
+    <div className={classes.addReceiptButton}>
+    <FullScreenDialog/>
+    </div>
+    
     </>
   );
 }

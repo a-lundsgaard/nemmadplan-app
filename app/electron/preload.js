@@ -10,6 +10,7 @@ let store = new Store();
 
 //tester
 let server = require('../server/server');
+server();
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
