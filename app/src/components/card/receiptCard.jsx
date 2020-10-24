@@ -215,7 +215,7 @@ export default function ReceiptCard(props) {
         <i>Det skal du bruge:</i>
       {props.ingredients.map((ingredient, index) => 
               <p key={index}>
-                {`${ingredient.quantity || ""} ${ingredient.unit || ''} ${ingredient.name}`.trimLeft()}
+                {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : ''} ${ingredient.name}`.trimLeft()}
               </p>
               )}
       </CardContent>

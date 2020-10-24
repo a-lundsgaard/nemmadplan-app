@@ -200,10 +200,10 @@ app.on("window-all-closed", () => {
 
   if (process.platform !== "darwin") {
     // Kills all node.exe tasks. This is to prevent that our server is running after the application has shut down
-    triggerCommand('taskkill /F /IM node.exe').then(res => console.log(res)).catch(e => console.log(e));
+   triggerCommand('taskkill /F /IM node.exe').then(res => console.log(res)).catch(e => console.log(e));
     app.quit();
   } else {
-    triggerCommand('sudo kill -9 PID').then(res => console.log(res)).catch(e => console.log(e));
+   triggerCommand('sudo kill -9 PID').then(res => console.log(res)).catch(e => console.log(e));
     i18nextBackend.clearMainBindings(ipcMain);
     ContextMenu.clearMainBindings(ipcMain);
   }

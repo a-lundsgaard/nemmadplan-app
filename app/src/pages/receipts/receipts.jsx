@@ -93,8 +93,7 @@ export default function SpacingGrid() {
 
     console.log('Sending request to: ' + process.env.API_URL)
 
-    const requestBody = {
-        query: `query {
+    const requestBody = `query {
         receipts {
           _id
           name
@@ -111,8 +110,7 @@ export default function SpacingGrid() {
             email
           }
         }
-      }`
-    }
+      }`;
 
     HTTP.post(requestBody, token)
       .then(res => {

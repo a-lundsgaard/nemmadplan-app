@@ -160,14 +160,12 @@ export default function PersistentDrawerLeft() {
 
 
       const token = localStorage.getItem('token')  
-      const requestBody = {
-          query: `query{verifyUser(token: "${token}") { 
+      const requestBody = `query{verifyUser(token: "${token}") { 
             firstName
             lastName
             email
           }
-        }`
-      }
+        }`;
       
 
       HTTP.post(requestBody, token)

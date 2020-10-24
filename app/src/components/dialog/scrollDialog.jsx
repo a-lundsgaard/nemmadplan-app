@@ -103,9 +103,8 @@ export default function ScrollDialog(props) {
             <Grid item xs={6} >
             {props.ingredients.map((ingredient, index) => 
               <li className={classes.list} key={index} variant={'body2'}>
-    
-
-              {`${ingredient.quantity || ""} ${ingredient.unit || ''} ${ingredient.name}`.trimLeft()}</li>
+  
+              {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : '' } ${ingredient.name}`.trimLeft()}</li>
 
               )}
             </Grid>

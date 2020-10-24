@@ -75,15 +75,14 @@ export default function SignIn() {
   const onSubmit = async ()=> {
 
     console.log('Sending request to: ' + process.env.API_URL)
-    const requestBody = {
-        query: `query {
+    const requestBody = `query {
         login(email: "${input.email}", password:"${input.password}") {
           token
           userId
           tokenExpiration
         } 
       }`
-    }
+    
 
     Auth.login(requestBody, 
       user => { 

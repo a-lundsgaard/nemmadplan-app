@@ -4,14 +4,18 @@ import regeneratorRuntime from "regenerator-runtime";
 
 export class  HTTP {
 
-    static async post(data, token) {
+    static async post(query, token, variables) {
         const response = await fetch(process.env.API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization':'Bearer ' + token
             },
-            body: JSON.stringify(data)
+           // body: JSON.stringify(data)
+           body: JSON.stringify({
+            query: query,
+            variables: variables,
+          })
         })
 
         //console.log(JSON.stringify(data))

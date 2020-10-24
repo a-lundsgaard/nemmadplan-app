@@ -30,13 +30,11 @@ function Routes() {
   //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRmZjAwNWUxMTQ0ZTFhZDg3MDllN2YiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE2MDE3MzU2OTIsImV4cCI6MTYwMTczOTI5Mn0.bmqGy9VSJnazPwcveTA1Uf29NE4Iy5DxXVNIrkexuxU"
 
 
-  const requestBody = {
-      query: `query {
+  const requestBody = `query {
       verifyUser(token: "${token}") {
         firstName
       }
-    }`
-  }
+    }`;
 
 
   useEffect(()=> {

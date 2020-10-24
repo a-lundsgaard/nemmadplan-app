@@ -72,15 +72,13 @@ export default function SignUp() {
 
     console.log('Sending request to: ' + process.env.API_URL)
 
-    const requestBody2 = {
-        query: `mutation {
+    const requestBody2 = `mutation {
         createUser(userInput: {firstName: "${input.firstName}", lastName: "${input.lastName}", email: "${input.email}", password:"${input.password}"}) {
           firstName
           lastName
           email 
         }
-      }`
-    }
+      }`;
 
     HTTP.post(requestBody2)
       .then(res => 

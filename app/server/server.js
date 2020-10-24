@@ -1,5 +1,6 @@
+const { default: fetch } = require('node-fetch');
 
-    function app () {
+    async function app () {
         let express = require('express');
         let app = express();
 
@@ -10,23 +11,18 @@
         app.post('/list', function (req, res) {
             res.send('POST request to the homepage')
         })    
+
+      try {
+        await fetch('http://localhost:3001/');
         
-      //  const { promisify } = require('util'); // tillader os at bruge async/await
-      //  const exec = promisify(require("child_process").exec); // Node-funktion der tager en shell command og returnerer et promise
-
-
-        let server = app.listen(3783, function () {
-            console.log('Express server listening on port ' + server.address().port);
+      } catch (error) {
+          console.error('Could not fetch from local server, starting new server and displays error:')
+          console.error(error)
+          let localServer = app.listen(3001, function () {
+            console.log('Express server listening on port ' + localServer.address().port);
         })
-        // If the application is refreshed and the server isn't shut down, listen on different port
-        .on('error', function(err) {
-             console.error('port is already in use'); 
-             server.close();
-            let server2 = app.listen(3782, function () {
-                console.log('Express server listening on port ' + server2.address().port);
-            })
-        });
-
+          
+      }
 
     }
 
