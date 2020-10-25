@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
@@ -13,14 +13,23 @@ import PlusButton from 'Components/buttons/plusButton/plusButton'
 
 import FullScreenDialog from 'Components/dialog/fullScreenDialog';
 
+import ReceiptSceletonLoader from 'Components/loaders/receiptSceletonLoader'
+
 
 
 
 
 const useStyles = makeStyles((theme) => ({
+
+  fragment: {
+    overflowX: "hidden",
+    //boxSizing: "border-box"
+  },
+  
   root: {
     flexGrow: 1,
-
+    //overflowX: "hidden"
+   // marginLeft: -3,
   },
   
   card: {
@@ -37,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   control: {
-    padding: theme.spacing(2),
+    //padding: theme.spacing(2),
 
   },
 
@@ -66,31 +75,19 @@ export default function SpacingGrid() {
  // const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
-  const [search, setSearch] = useState(window.store.getState().searchInput);
+  const [search, setSearch] = useState(window.store.getState().searchInput); // getting search bar input
   const [receipts, setReceipts] = useState([])
+  const [isReceiptSaved, setReceiptSaved] = useState('') // letting us know when a receipt is saved to rerender dishes
+
+  const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
 
 
 
+  function getReceitps() {
 
-  useEffect(()=> {
-    listenToSearchInput(setSearch)
-  }, [])
-  
-
-  useEffect(()=> {
-    console.log(search);
-  }, [search])
-
-  useEffect(()=> {
-    console.log('Found receipts:')
-    console.log(receipts);
-  }, [receipts])
-
-
-  useEffect(()=> {
+    setIsLoading(true)
 
     const token = localStorage.getItem('token')
-
     console.log('Sending request to: ' + process.env.API_URL)
 
     const requestBody = `query {
@@ -115,12 +112,37 @@ export default function SpacingGrid() {
     HTTP.post(requestBody, token)
       .then(res => {
         setReceipts(res.data.receipts)
-      }
-        )
+        setIsLoading(false)
+      })
       .catch(e => 
         console.log(e) 
         )
+  }
+
+
+  useEffect(()=> {
+    listenToSearchInput(setSearch) // sets up redux listener on the search input
   }, [])
+  
+
+  useEffect(()=> {
+    console.log(search);
+  }, [search])
+
+  useEffect(()=> {
+    console.log('Found receipts:')
+    console.log(receipts);
+  }, [receipts])
+
+
+  useEffect(()=> {
+  //  getReceitps()
+  }, [])
+
+
+  useEffect(()=> {
+    getReceitps()
+  }, [isReceiptSaved])
 
  // const [expanded, setExpanded] = React.useState(false);
 
@@ -129,25 +151,32 @@ export default function SpacingGrid() {
   };*/
 
   return (
-    <>
+    <Fragment>
 
-    <Grid container className={classes.root} spacing={10}>
-      <Grid item xs={12}>
-
+    <Grid container className={classes.root} justify="center" >
+      <Grid item xs={10}>
 
         <Grid container justify="center" spacing={5}>
-          {receipts.map((receipt, index) => (
-          <Grid key={receipt._id} item>
-                <ReceiptCard 
-                  title={receipt.name} 
-                  createdAt={receipt.createdAt}
-                  text={receipt.text}
-                  image={receipt.image}
-                  ingredients={receipt.ingredients}
-                  title={receipt.name}
-                />
-          </Grid>
-          ))}
+          {
+          isLoading ? 
+          Array(8).fill(8)
+          .map((receipt, index) => (
+            <Grid key={index} item>
+              <ReceiptSceletonLoader/>
+            </Grid>)) 
+            : receipts
+            .map((receipt, index) => (
+                <Grid key={receipt._id} item>
+                      <ReceiptCard 
+                        title={receipt.name} 
+                        createdAt={receipt.createdAt}
+                        text={receipt.text}
+                        image={receipt.image}
+                        ingredients={receipt.ingredients}
+                        title={receipt.name}
+                      /> 
+                </Grid>
+          )) }
         </Grid>
 
       </Grid>
@@ -156,10 +185,10 @@ export default function SpacingGrid() {
     </Grid>
 
     <div className={classes.addReceiptButton}>
-    <FullScreenDialog/>
+    <FullScreenDialog onReceiptSave={(value) => setReceiptSaved(value) }/>
     </div>
     
-    </>
+    </Fragment>
   );
 }
 

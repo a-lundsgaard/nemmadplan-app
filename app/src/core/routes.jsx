@@ -14,6 +14,8 @@ import Receipts from "Pages/receipts/receipts";
 
 import Drawer from "Components/drawer/drawer"
 
+import MiniDrawer from "Components/drawer/miniDrawer"
+
 import Auth from "../auth/auth"
 
 import {HTTP} from '../HTTP/http';
@@ -70,10 +72,11 @@ function Routes() {
       </>
     )
 
+    //{ state.isLoading ? null : <Drawer key={1}/> }
 
     const DefaultContainer = () => (
       <>
-      { state.isLoading ? null : <Drawer key={1}/> }
+      { state.isLoading ? null : <MiniDrawer key={1}/> }
         <ProtectedRoute exact path={"/receipts"} component={Receipts} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
         <ProtectedRoute exact path={"/home"} component={Welcome} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
         <ProtectedRoute exact path={"/"} component={Welcome} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>

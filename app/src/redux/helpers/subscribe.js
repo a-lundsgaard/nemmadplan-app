@@ -13,7 +13,9 @@ export default function(cb){
         currentValue = select(store.getState())
     
         if (previousValue !== currentValue) {
-            cb(currentValue)
+            setTimeout(()=>{
+                cb(currentValue)
+            }, 1000)
             /*console.log(
             'Some deep nested property changed from',
             previousValue,

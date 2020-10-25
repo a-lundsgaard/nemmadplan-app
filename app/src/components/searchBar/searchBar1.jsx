@@ -80,6 +80,7 @@ function SearchBar ({keyword,setKeyword}) {
     <InputBase
       placeholder="Search…"
       onChange={storeSearchInputToRedux}
+     // onBlur={storeSearchInputToRedux}
       classes={{
         root: classes.inputRoot,
         input: classes.inputInput,

@@ -95,7 +95,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function FullScreenDialog() {
+export default function FullScreenDialog({onReceiptSave}) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false); // set false when not testing
@@ -246,16 +246,19 @@ export default function FullScreenDialog() {
     const transformedIngredients = ingrArray
       .map( (str, i)=> {
         let strArr = str.trimEnd().split(' ');
-        let quantity = parseFloat( strArr.find(el => Number(el)) ) || null;
+        let quantity = strArr.find(el => Number(el)) || null;
         let unit = strArr.find(el => el.includes('*')) || null;
 
         // removes quantity and unit from array and leaves name
         [quantity, unit].forEach((item)=>{
           const index = strArr.indexOf(item);
-          if(index != -1 ) strArr.splice(index, 1);
+          if(index != -1 ) {
+            //console.log('Splicing element: ' + strArr[index])
+            strArr.splice(index, 1);
+          } 
         })
 
-        return { name: strArr.join(' '), unit: unit, quantity: quantity}
+        return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity)}
       })
 
       console.log(transformedIngredients);
@@ -300,9 +303,10 @@ export default function FullScreenDialog() {
 
 
       HTTP.post(query, '', variables)
-      .then(res => 
+      .then(res => {
         setMessage({msg: `${state.title} er gemt`, type: 'success', key: Math.random()})
-        )
+        onReceiptSave(Date.now())
+      })
       .catch(error => {
       //  console.log(error)
         setMessage({msg: error.message, type: 'error', key: Math.random()}) 
