@@ -1,4 +1,4 @@
-import { HTTP } from '../HTTP/http.js';
+import HTTP from '../HTTP/http.js';
 import regeneratorRuntime from "regenerator-runtime";
 
 
@@ -7,7 +7,7 @@ class Auth {
         this.authenticated = false;
     }
     
-    async login(userSchema, onSucces, onFailure) {
+    async login(userSchema,  onSucces, onFailure) {
         const token = 'token';
         try {
             const user = await HTTP.post(userSchema); 

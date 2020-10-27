@@ -4,7 +4,7 @@ import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import ReceiptCard from 'Components/card/receiptCard';
 import listenToSearchInput from 'Redux/helpers/subscribe'
-import {HTTP} from '../../HTTP/http'
+import HTTP from '../../HTTP/http'
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
@@ -81,38 +81,23 @@ export default function SpacingGrid() {
 
   const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
 
-
+  const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
 
   function getReceitps() {
 
     setIsLoading(true)
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
+
     console.log('Sending request to: ' + process.env.API_URL)
 
-    const requestBody = `query {
-        receipts {
-          _id
-          name
-          text
-          image
-          createdAt
-          updatedAt
-          ingredients {
-            name
-            unit
-            quantity
-          }
-          creator {
-            email
-          }
-        }
-      }`;
+    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity}', {token: token})
 
       // test
-    HTTP.post(requestBody, token)
+    HTTP.post(requestBody)
       .then(res => {
-        setReceipts(res.data.receipts)
+        setReceipts(res.data.receipts);
+        localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length))
         setIsLoading(false)
       })
       .catch(e => 
@@ -160,7 +145,7 @@ export default function SpacingGrid() {
         <Grid container justify="center" spacing={5}>
           {
           isLoading ? 
-          Array(8).fill(8)
+          Array(recipeCount).fill(recipeCount)
           .map((receipt, index) => (
             <Grid key={index} item>
               <ReceiptSceletonLoader/>

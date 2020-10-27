@@ -123,7 +123,7 @@ module.exports = async function nemlig(preferences) {
    // alert('i remove cookies')
    //if(location.href.includes('refresh')) alert('Page includes refresh')
    const finished = await addItems;
-   alert('i remove cookies')
+   //alert('i remove cookies')
 
     return finished
 }

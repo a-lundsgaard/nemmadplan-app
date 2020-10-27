@@ -17,7 +17,7 @@ import SnackBar from "Components/snackbar/snackbar";
 import { Link } from 'react-router-dom';
 
 import { useForm } from "react-hook-form";
-import {HTTP} from "../../HTTP/http"
+import HTTP from "../../HTTP/http"
 
 
 function Copyright() {
@@ -72,15 +72,14 @@ export default function SignUp() {
 
     console.log('Sending request to: ' + process.env.API_URL)
 
-    const requestBody2 = `mutation {
-        createUser(userInput: {firstName: "${input.firstName}", lastName: "${input.lastName}", email: "${input.email}", password:"${input.password}"}) {
-          firstName
-          lastName
-          email 
-        }
-      }`;
+      const requestBody = HTTP.user.signUpAndReturnFields('firstName lastName email', {
+        firstName: input.firstName,
+        lastName: input.lastName,
+        email: input.email,
+        password: input.password
+      })
 
-    HTTP.post(requestBody2)
+    HTTP.post(requestBody)
       .then(res => 
         setMessage({msg: `Welcome ${input.firstName}`, type: 'success', key: Math.random()})
         )

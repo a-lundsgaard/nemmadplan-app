@@ -18,7 +18,7 @@ import MiniDrawer from "Components/drawer/miniDrawer"
 
 import Auth from "../auth/auth"
 
-import {HTTP} from '../HTTP/http';
+import HTTP from '../HTTP/http';
 
 function Routes() {
 
@@ -31,16 +31,17 @@ function Routes() {
   const token = localStorage.getItem('token')
   //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRmZjAwNWUxMTQ0ZTFhZDg3MDllN2YiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE2MDE3MzU2OTIsImV4cCI6MTYwMTczOTI5Mn0.bmqGy9VSJnazPwcveTA1Uf29NE4Iy5DxXVNIrkexuxU"
 
-
-  const requestBody = `query {
+  /*const requestBody2 = `query {
       verifyUser(token: "${token}") {
         firstName
       }
-    }`;
+    }`;*/
 
+    const requestBody = HTTP.user.verifyUserAndReturnFields('firstName', {token: token})
+    //console.log(requestBody)
 
   useEffect(()=> {
-      HTTP.post(requestBody, token)
+      HTTP.post(requestBody)
           .then(response => {
               if(response.errors) {
                 setState({isAuthenticated: false, isLoading: false})
@@ -49,6 +50,7 @@ function Routes() {
               }
           })
           .catch((err) => {
+              console.log('Token expired')
               console.log('Verification err: ' + err);
               setState({isAuthenticated: false, isLoading: false})//    history.push('/');
           })

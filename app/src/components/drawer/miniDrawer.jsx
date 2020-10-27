@@ -28,7 +28,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 
 import SearchBar from 'Components/searchBar/searchBar1'
-import {HTTP} from "../../HTTP/http"
+import HTTP from "../../HTTP/http"
 
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -173,15 +173,9 @@ export default function MiniDrawer() {
 
 
     const token = localStorage.getItem('token')  
-    const requestBody = `query{verifyUser(token: "${token}") { 
-          firstName
-          lastName
-          email
-        }
-      }`;
-    
+    const requestBody = HTTP.user.verifyUserAndReturnFields('firstName lastName', {token: token})
 
-    HTTP.post(requestBody, token)
+    HTTP.post(requestBody)
         .then(response => {
 
             if(response.errors) {

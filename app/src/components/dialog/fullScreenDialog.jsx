@@ -22,11 +22,12 @@ import ImageUploader from 'Components/upload/uploadImage.jsx'
 
 import CircularLoader from 'Components/loaders/circular/circularLoader'
 
-import {HTTP} from '../../HTTP/http';
+import HTTP from '../../HTTP/http';
 
 
 
 import SaveIcon from '@material-ui/icons/Save';
+//import http from '../../HTTP/http';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -170,22 +171,13 @@ export default function FullScreenDialog({onReceiptSave}) {
 
     setLoading(true)
 
-    const requestBody = `mutation {
-        scrapeReceipt(crawlerInput: "${state.importUrl}") {
-          _id
-          name
-          text
-          persons
-          source
-          text
-          image
-          ingredients {
-            name
-            unit
-            quantity
-          }
-        }
-      }`
+
+
+    const requestBody = HTTP.recipes.scrapeRecipesAndReturnFields(
+      '_id name text persons source text image ingredients { name unit quantity }',
+      {crawlerInput: state.importUrl}
+      )
+
 
     HTTP.post(requestBody)
     .then(res => {
@@ -225,6 +217,7 @@ export default function FullScreenDialog({onReceiptSave}) {
 
     // checks for empty required fields upon saving a receipt
     console.log(state);
+    console.log(HTTP.recipes.createRecipeQueryAndReturnFields('hej'))
 
     let errorState = inputError, stopScript = false;
     Object.keys(inputError)
@@ -240,9 +233,11 @@ export default function FullScreenDialog({onReceiptSave}) {
 
 
     // Script to transform ingredients into array with name, unit and quantity
+    // Creating array from ingredient input field 
     const ingrArray = state.ingredients.split('\n').filter(line => line !=="");
     console.log(ingrArray)
 
+    // returns array of ingredient objects from input field
     const transformedIngredients = ingrArray
       .map( (str, i)=> {
         let strArr = str.trimEnd().split(' ');
@@ -262,53 +257,55 @@ export default function FullScreenDialog({onReceiptSave}) {
       })
 
       console.log(transformedIngredients);
-
-      // Using variables. Variables type must be of same type as defined in Schema incl the "!"
-      const query = `mutation($name: String!, $type: String!, $persons: Float!, $source: String,  $text: String!, $image: String, $ingredients: [ingredientInput]!) {
-          createReceipt(receiptInput: {
-            name: $name, 
-            type: $type, 
-            persons: $persons,
-            source: $source,
-            text: $text, 
-            image: $image
-            ingredients: $ingredients }) {
-            _id
-            name
-            text
-            persons
-            source
-            text
-            image
-            ingredients {
-              name
-              unit
-              quantity
-            }
-          }
-        }`
-      
-      
+    /*  _id
+      name
+      text
+      persons
+      source
+      text
+      image
+      ingredients {
+        name
+        unit
+        quantity
+      }*/
+      // using method to build the query dynamically
+      //const query = HTTP.createRecipeQueryAndReturnFields('_id name persons source text image ingredients')
+      const token = localStorage.getItem('token');
       const {title, type, numPicker, source, receipt, image} = state;
 
-      const variables = {
+      const query = HTTP.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', 
+      {
+        token: token,
         name: title,
         type: 'veg',
         persons: numPicker,
         source: source,
-        text: receipt, // text is required
+        text: receipt, // text is required, but should probably not be
         image: image,
         ingredients: transformedIngredients
-      }
+      })
+  
+
+      // Using graphQl variables to avoid escaping strings in HTTP method. Variables type must be of same type as defined in Schema incl. the "!"
+     /* const variables = {
+        name: title,
+        type: 'veg',
+        persons: numPicker,
+        source: source,
+        text: receipt, // text is required, but should probably not be
+        image: image,
+        ingredients: transformedIngredients
+      }*/
 
 
-      HTTP.post(query, '', variables)
+      HTTP.post(query)
       .then(res => {
         setMessage({msg: `${state.title} er gemt`, type: 'success', key: Math.random()})
         onReceiptSave(Date.now())
       })
       .catch(error => {
-      //  console.log(error)
+        console.log(error)
         setMessage({msg: error.message, type: 'error', key: Math.random()}) 
       })
     

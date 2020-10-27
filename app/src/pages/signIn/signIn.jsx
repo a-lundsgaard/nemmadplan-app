@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import ROUTES from "Constants/routes";
+import http from '../../HTTP/http';
 
 
 
@@ -74,8 +75,8 @@ export default function SignIn() {
 
   const onSubmit = async ()=> {
 
-    console.log('Sending request to: ' + process.env.API_URL)
-    const requestBody = `query {
+  //  console.log('Sending request to: ' + process.env.API_URL)
+    const requestBody1 = `query {
         login(email: "${input.email}", password:"${input.password}") {
           token
           userId
@@ -83,8 +84,12 @@ export default function SignIn() {
         } 
       }`
     
+      const requestBody = http.user.signInAndReturnFields('token userId tokenExpiration', {email: input.email, password: input.password})
+      console.log(requestBody)
+      //const variables = {email: input.email, password: input.password}
 
-    Auth.login(requestBody, 
+
+    Auth.login(requestBody,
       user => { 
         setMessage({msg: 'Login succesfull', type: 'success', key: Math.random()});
         history.push('/home');

@@ -37,7 +37,7 @@ import Menu from "@material-ui/core/Menu";
 import SearchBar from 'Components/searchBar/searchBar1'
 
 
-import {HTTP} from "../../HTTP/http"
+import HTTP from "../../HTTP/http"
 
 import { Link, NavLink, useHistory  } from "react-router-dom";
 
@@ -160,15 +160,10 @@ export default function PersistentDrawerLeft() {
 
 
       const token = localStorage.getItem('token')  
-      const requestBody = `query{verifyUser(token: "${token}") { 
-            firstName
-            lastName
-            email
-          }
-        }`;
-      
+      const requestBody = HTTP.user.verifyUserAndReturnFields('firstName lastName', {token: token})
 
-      HTTP.post(requestBody, token)
+
+      HTTP.post(requestBody)
           .then(response => {
 
               if(response.errors) {
