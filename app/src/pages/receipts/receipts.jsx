@@ -109,6 +109,7 @@ export default function SpacingGrid() {
         }
       }`;
 
+      // test
     HTTP.post(requestBody, token)
       .then(res => {
         setReceipts(res.data.receipts)
