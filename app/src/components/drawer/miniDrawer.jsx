@@ -35,6 +35,10 @@ import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 
+import ROUTES from "Constants/routes";
+
+
+
 
 const drawerWidth = 240;
 
@@ -277,12 +281,12 @@ export default function MiniDrawer() {
         <Divider />
         <List>
         {[
-            {text: 'Hjem', url: 'home' }, 
-            {text: 'Madplaner', url: 'home' }, 
-            {text: 'Opskrifter', url: 'receipts' }
+            {text: 'Hjem', url: '/home' }, 
+            {text: 'Madplaner', url: ROUTES.CREATEPLAN }, 
+            {text: 'Opskrifter', url: '/receipts' }
           ].map((obj, index) => 
           (
-            <NavLink to={`/${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
+            <NavLink to={`${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
 
             <ListItem button key={obj.text}>
               <ListItemIcon>{findIcon(obj.text)}</ListItemIcon>

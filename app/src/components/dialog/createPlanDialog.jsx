@@ -16,19 +16,19 @@ import PlusButton from 'Components/buttons/plusButton/plusButton'
 
 import SnackBar from "Components/snackbar/snackbar";
 import TextField from '@material-ui/core/TextField';
-import NumberPicker from 'Components/pickers/number/numberPicker1/numberPicker.jsx'
 import Grid from '@material-ui/core/Grid';
-import ImageUploader from 'Components/upload/uploadImage.jsx'
 
-import CircularLoader from 'Components/loaders/circular/circularLoader'
+import CategorySelect from 'Components/select/categorySelect.jsx'
+import SmallNumberPicker from 'Components/pickers/number/smallNumPicker/smallNumPicker.jsx'
+import StaticDatePicker from 'Components/pickers/date/staticDatePicker.jsx'
+import Paper from '@material-ui/core/Paper';
 
 import HTTP from '../../HTTP/http';
 
 
 
 import SaveIcon from '@material-ui/icons/Save';
-//import http from '../../HTTP/http';
-
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -36,16 +36,24 @@ const useStyles = makeStyles((theme) => ({
     background: '#c24e00' // dark orange
   },
 
+  paper: {
+    padding: "15px 40px 0 40px"
+  },
+
   mainGrid: {
-    marginTop: -20
+    marginTop: -5
   },
 
   importButton: {
     marginLeft: 20
-  },  
+  },
+
+  daysSelect: {
+    marginLeft: 20,
+  },
+
   
   urlField: {
-    marginBottom: 20
   },
 
   imageInputField: {
@@ -56,12 +64,12 @@ const useStyles = makeStyles((theme) => ({
 
 
   importUrlInput: {
-    maxWidth: 500,
+    maxWidth: 280,
     width: "100%"
   },
 
   textAreaGrid: {
-    marginTop: 32,
+    marginTop: 20,
   },
 
   ImageUploader: {
@@ -76,11 +84,10 @@ const useStyles = makeStyles((theme) => ({
 
   prepareTextField: {
     minWidth: 400,
-    
   },
 
   numPicker: {
-    marginTop: 20
+    marginTop: 1
   },
 
   title: {
@@ -99,7 +106,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function FullScreenDialog({onReceiptSave}) {
 
   const classes = useStyles();
-  const [open, setOpen] = useState(false); // set false when not testing
+  const [open, setOpen] = useState(true); // set false when not testing
 
   // state for input fields
   const [state, setState] = useState({
@@ -296,7 +303,7 @@ export default function FullScreenDialog({onReceiptSave}) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Tilføj ny opskrift
+              Opret madplan
             </Typography>
             <Button autoFocus color="inherit" onClick={handleSaveReceipt}>
               gem
@@ -304,23 +311,7 @@ export default function FullScreenDialog({onReceiptSave}) {
           </Toolbar>
         </AppBar>
 
-        <List>
-          <ListItem className={classes.urlField}>
-          <TextField name="importUrl" id="standard-basic" label="Web-adresse*" 
-            error={inputError.importUrl}
-            onChange={onInputchange}
-            className={classes.importUrlInput}
-            value={state.importUrl}
-          />
-            <Button className={classes.importButton} variant="contained" onClick={handleImportUrl}>
-                Importér opskrift
-            </Button>
-            <span className={classes.importButton}>{ isLoading ? <CircularLoader/> : null}</span>
-              
-          </ListItem>
-          </List>
-
-          <Divider/>
+        
 
 
         <Grid
@@ -328,92 +319,104 @@ export default function FullScreenDialog({onReceiptSave}) {
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={8}
+          spacing={10}
           className={classes.mainGrid}
         >
 
           <Grid item >
+
+
           <List>
+
           <div>
+                <ListItem>
 
-          <ListItem className={classes.numPicker}>
-                <NumberPicker 
-                  name="numPicker" 
-                  onChange={(value) => onNumPickerChange(value)}
-                  value={state.numPicker}
-                />
-            </ListItem>
+                <span className={classes.daysSelect}>
+                <StaticDatePicker/>
+                  <span style={{display:"flex"}}>
+                    <CategorySelect label ={'Vælg ret'} />
+                    <IconButton>
+                      <AddCircleOutlineIcon fontSize="large"/>
+                    </IconButton>
+                    </span>
+                </span>
+                </ListItem> )
             
-            <ListItem>
-              <TextField name="title" id="standard-basic" label="Titel*" 
-              error={inputError.title}
-              onChange={onInputchange}
-              value={state.title}
-              InputLabelProps={{ shrink: state.title ? true : false }}
-              />
-            </ListItem>
-
-            <ListItem>
-              <TextField name="source" id="standard-basic" label="Kilde" 
-                onChange={onInputchange}
-                value={state.source}
-                InputLabelProps={{ shrink: state.source ? true : false }}
-
-              />
-            </ListItem>
-           
-
           </div>
           </List>
 
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
-          <TextField
-                name="ingredients"
-                className={classes.ingredientTextField}
-                label="Ingredienser*"
-                multiline
-                rows={20}
-                rowsMax={99}
-                variant="outlined" 
-                size="medium"
-                error={inputError.ingredients}
-                onChange={onInputchange}
-                helperText= 'Indtast * ved angivelse af enheder, f.eks. stk*'
-                value={state.ingredients}
-                InputLabelProps={{ shrink: state.ingredients ? true : false }}
+          <Grid item >
+          <Paper className={classes.paper} elevation={3} >
+          <TextField name="importUrl" id="standard-basic" label="Navn på madplan*" 
+            error={inputError.importUrl}
+            onChange={onInputchange}
+            className={classes.importUrlInput}
+            value={state.importUrl}
+          />
+            <List>
+                <div>Mandag: boller i karry: <span><SmallNumberPicker/></span></div>
 
-              />
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+            </List>
+          </Paper>
+
+          </Grid>
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
 
-          <TextField
-                name="receipt"
-                className={classes.prepareTextField}
-                label="Tilberedning"
-                multiline
-                rows={20}
-                rowsMax={99}
-                variant="outlined" 
-                size="medium"
-                onChange={onInputchange}
-                value={state.receipt}
-                InputLabelProps={{ shrink: state.receipt ? true : false }}
+          <Paper className={classes.paper} elevation={3} >
+            <h2>Indkøbsliste</h2>
+            <List>
+                <div>Grøntsager og frugt</div>
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                
+            </List>
 
-              />
+            <List>
+                <div>Grøntsager og frugt</div>
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                <ListItem >
+                    Ingrediens
+                </ListItem> 
+                
+            </List>
+          </Paper>
           </Grid>
 
-          <Grid item className={classes.textAreaGrid}>
-            <ImageUploader name="receipt" src={state.image}/>
-            <TextField name="image" id="standard-basic" label="Billede"
-                className={classes.imageInputField}
-                onChange={onInputchange}
-                value={state.image}
-                InputLabelProps={{ shrink: state.image ? true : false }}
-                />
-          </Grid>
 
         </Grid>
         { message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg}/> : null}

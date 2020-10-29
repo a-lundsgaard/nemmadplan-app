@@ -1,0 +1,27 @@
+.triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 9px solid #555;
+    cursor: pointer
+}
+
+
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 9px solid #555;
+    cursor: pointer
+}
+
+div.containerNum {
+	display: inline-block;
+}
+
+.number {
+	padding: 0 0 0 3px;
+	font-size: 70%;
+}

@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
    // width: 200,
   },
 
+  /* Placing add button at bottom center */
   addReceiptButton: {
     position: 'fixed',
     bottom:0,

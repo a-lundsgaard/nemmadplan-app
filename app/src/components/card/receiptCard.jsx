@@ -16,20 +16,19 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AddIcon from '@material-ui/icons/Add';
 
 import ScrollDialog from 'Components/dialog/scrollDialog';
-
-
-
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { Link, NavLink, useHistory  } from "react-router-dom";
 
 import Divider from '@material-ui/core/Divider';
-
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 
 
@@ -197,8 +196,13 @@ export default function ReceiptCard(props) {
         <FavoriteIcon />
       </IconButton>
       <IconButton aria-label="share">
+        <PostAddIcon />
+      </IconButton>
+      <IconButton aria-label="share">
         <ShareIcon />
       </IconButton>
+
+
       <IconButton
         className={clsx(classes.expand, {
           [classes.expandOpen]: expanded,
