@@ -217,9 +217,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <SearchBar/>
-
-          <Typography variant="h6" align="right" display="block" className={classes.appBar}style={{ flex: 1 }}> 
-         </Typography>
+          <span style={{ flex: 1 }}></span>
 
           <div >
               <IconButton

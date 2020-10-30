@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -24,11 +24,15 @@ import StaticDatePicker from 'Components/pickers/date/staticDatePicker.jsx'
 import Paper from '@material-ui/core/Paper';
 
 import HTTP from '../../HTTP/http';
+import RecipeDialog from './recipeDialog'
 
 
 
 import SaveIcon from '@material-ui/icons/Save';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import recipes from '../../HTTP/queries/recipes';
+import { tr } from 'date-fns/esm/locale';
+import { set } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -52,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 20,
   },
 
-  
+
   urlField: {
   },
 
@@ -103,16 +107,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function FullScreenDialog({onReceiptSave}) {
+export default function FullScreenDialog({ onReceiptSave }) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(true); // set false when not testing
+  const [recipesOpen, setRecipesOpen] = useState(false); // set false when not testing
 
   // state for input fields
-  const [state, setState] = useState({
-    //image: 'https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png',
-    numPicker: 1
-  }); 
+  const [state, setState] = useState({ 
+    recipes: []
+   });
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -125,14 +129,13 @@ export default function FullScreenDialog({onReceiptSave}) {
     importUrl: false,
     title: false,
     ingredients: false
-  }); 
+  });
 
 
 
- /* useEffect(()=> {
-    setState({...state, importUrl: 'tester'})
-  }, [])*/
-
+  useEffect(() => {
+    // console.log('Recipe Dialog changed: ' + recipesOpen)
+  }, [recipesOpen]);
 
 
   const onInputchange = (event) => {
@@ -142,15 +145,33 @@ export default function FullScreenDialog({onReceiptSave}) {
       [event.target.name]: event.target.value
     });
     // removes error when text field is edited
-    setInputError({...inputError, [event.target.name]: false});
+    setInputError({ ...inputError, [event.target.name]: false });
   }
 
   const onNumPickerChange = (value) => {
     //setPersons(value)
-   setState({
+    setState({
       ...state,
       numPicker: value
     });
+  }
+
+  const handleSetNewRecipe = (recipe) => {
+    //if(!state.recipes) state.recipes = [recipe];
+   // console.log('Found old array: ' + JSON.stringify(oldRecipeArray))
+    //const newRecipeArray = oldRecipeArray[1] ? [recipe] : [...state.recipes, recipe]
+   // let arr;
+   //if(!state.recipes[0].name) {
+
+    console.log(recipe)
+
+     console.log(state.recipes[0] === null)
+   //}
+   console.log([...state.recipes])
+
+
+   // let arr = state.recipes[0] === null? [recipe] : [...state.recipes, recipe]
+    setState({...state, recipes: [...state.recipes, recipe] })
   }
 
   const handleClickOpen = () => {
@@ -158,7 +179,6 @@ export default function FullScreenDialog({onReceiptSave}) {
   };
 
   const handleClose = () => {
-
     // Clearing states and messages
     setState({
       numPicker: 1
@@ -169,133 +189,14 @@ export default function FullScreenDialog({onReceiptSave}) {
 
 
 
-  const handleImportUrl = () => {
-
-    if(isLoading) return; // stops user from sending requests when already loading to get one
-
-    if(!state.importUrl) {
-      setInputError({...inputError, importUrl: true})
-      return;
-    } 
-
-    setLoading(true)
-
-    const requestBody = HTTP.recipes.scrapeRecipesAndReturnFields('_id name text persons source text image ingredients { name unit quantity }', {
-      crawlerInput: state.importUrl
-    })
-
-
-    HTTP.post(requestBody)
-    .then(res => {
-      setLoading(false)
-      setMessage({msg: `Opskrift blev hentet`, type: 'success', key: Math.random()})
-      const { data: { scrapeReceipt: {_id, name, text, persons, source, image, ingredients }} } = res;
-
-      let formattedAttachments = '';
-      ingredients.map(ingredient => {
-        formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();      
-      });
-
-      setState({
-        ...state,
-        numPicker: persons,
-        title: name,
-        receipt: text,
-        image: image,
-        source: source,
-        ingredients: formattedAttachments
-      })
-
-      // Removing alle red borders from input fields, when these are filled out automatically by scraper
-      let obj;
-      Object.keys(inputError).forEach(key => obj = {...obj, [key] : false })
-      setInputError(obj)
-
-    })
-    .catch(error => {
-    //  console.log(error)
-      setMessage({msg: error.message, type: 'error', key: Math.random()}) 
-      setLoading(false)
-    })
-  }
-  
-
   const handleSaveReceipt = () => {
-
-    // checks for empty required fields upon saving a receipt
-    console.log(state);
-    console.log(HTTP.recipes.createRecipeQueryAndReturnFields('hej'))
-
-    let errorState = inputError, stopScript = false;
-    Object.keys(inputError)
-    .forEach((key)=> {
-      if(key === 'importUrl') return;
-      if(!state[key]) {
-        errorState = {...errorState, [key]: true}
-         stopScript = true;
-        }
-    })
-    setInputError(errorState);
-    if(stopScript) return;
-
-
-    // Script to transform ingredients into array with name, unit and quantity
-    // Creating array from ingredient input field 
-    const ingrArray = state.ingredients.split('\n').filter(line => line !=="");
-    console.log(ingrArray)
-
-    // returns array of ingredient objects from input field
-    const transformedIngredients = ingrArray
-      .map( (str, i)=> {
-        let strArr = str.trimEnd().split(' ');
-        let quantity = strArr.find(el => Number(el)) || null;
-        let unit = strArr.find(el => el.includes('*')) || null;
-
-        // removes quantity and unit from array and leaves name
-        [quantity, unit].forEach((item)=>{
-          const index = strArr.indexOf(item);
-          if(index != -1 ) {
-            //console.log('Splicing element: ' + strArr[index])
-            strArr.splice(index, 1);
-          } 
-        })
-
-        return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity)}
-      })
-
-      console.log(transformedIngredients);
-
-      const token = localStorage.getItem('token');
-      const {title, type, numPicker, source, receipt, image} = state;
-
-      const query = HTTP.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', {
-        token: token,
-        name: title,
-        type: 'veg',
-        persons: numPicker,
-        source: source,
-        text: receipt, // text is required, but should probably not be
-        image: image,
-        ingredients: transformedIngredients
-      })
-  
-
-
-      HTTP.post(query)
-      .then(res => {
-        setMessage({msg: `${state.title} er gemt`, type: 'success', key: Math.random()})
-        onReceiptSave(Date.now())
-      })
-      .catch(error => {
-        console.log(error)
-        setMessage({msg: error.message, type: 'error', key: Math.random()}) 
-      })
-    
+    console.log('Saved')
+    console.log(state)
   }
 
   return (
     <div>
-      <span onClick={handleClickOpen}><PlusButton/></span>
+      <span onClick={handleClickOpen}><PlusButton /></span>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -311,9 +212,6 @@ export default function FullScreenDialog({onReceiptSave}) {
           </Toolbar>
         </AppBar>
 
-        
-
-
         <Grid
           container
           direction="row"
@@ -324,104 +222,112 @@ export default function FullScreenDialog({onReceiptSave}) {
         >
 
           <Grid item >
-
-
-          <List>
-
-          <div>
+            <List>
+              <div>
                 <ListItem>
-
-                <span className={classes.daysSelect}>
-                <StaticDatePicker/>
-                  <span style={{display:"flex"}}>
-                    <CategorySelect label ={'Vælg ret'} />
-                    <IconButton>
-                      <AddCircleOutlineIcon fontSize="large"/>
-                    </IconButton>
+                  <span className={classes.daysSelect}>
+                    <StaticDatePicker hasDbClicked={setRecipesOpen} />
+                    <span style={{ display: "flex" }}>
+                      <CategorySelect label={'Vælg ret'} />
+                      <IconButton>
+                        <AddCircleOutlineIcon fontSize="large" />
+                      </IconButton>
                     </span>
-                </span>
+                  </span>
                 </ListItem> )
-            
+
           </div>
-          </List>
+            </List>
 
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
-          <Grid item >
-          <Paper className={classes.paper} elevation={3} >
-          <TextField name="importUrl" id="standard-basic" label="Navn på madplan*" 
-            error={inputError.importUrl}
-            onChange={onInputchange}
-            className={classes.importUrlInput}
-            value={state.importUrl}
-          />
-            <List>
-                <div>Mandag: boller i karry: <span><SmallNumberPicker/></span></div>
+            <Grid item >
+              <Paper className={classes.paper} elevation={3} >
+                <TextField name="importUrl" id="standard-basic" label="Navn på madplan*"
+                  error={inputError.importUrl}
+                  onChange={onInputchange}
+                  className={classes.importUrlInput}
+                  value={state.importUrl}
+                />
+                <List>
+                  <div>Mandag: boller i karry: <span><SmallNumberPicker /></span></div>
 
-                <ListItem >
+                  <ListItem >
                     Ingrediens
-                </ListItem> 
-                <ListItem >
+                </ListItem>
+                  <ListItem >
                     Ingrediens
-                </ListItem> 
-                <ListItem >
+                </ListItem>
+                  <ListItem >
                     Ingrediens
-                </ListItem> 
-                <ListItem >
+                </ListItem>
+                  <ListItem >
                     Ingrediens
-                </ListItem> 
-            </List>
-          </Paper>
+                </ListItem>
+                </List>
+              </Paper>
 
-          </Grid>
+            </Grid>
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
 
-          <Paper className={classes.paper} elevation={3} >
-            <h2>Indkøbsliste</h2>
-            <List>
+            <Paper className={classes.paper} elevation={3} >
+              <h2>Indkøbsliste</h2>
+              <List>
                 <div>Grøntsager og frugt</div>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
+                  Ingrediens
+                </ListItem>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
+                  Ingrediens
+                </ListItem>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
+                  Ingrediens
+                </ListItem>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
-                
-            </List>
+                  Ingrediens
+                </ListItem>
 
-            <List>
+              </List>
+
+              <List>
                 <div>Grøntsager og frugt</div>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
+                  Ingrediens
+                </ListItem>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
+                  Ingrediens
+                </ListItem>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
+                  Ingrediens
+                </ListItem>
                 <ListItem >
-                    Ingrediens
-                </ListItem> 
-                
-            </List>
-          </Paper>
+                  Ingrediens
+                </ListItem>
+
+              </List>
+            </Paper>
           </Grid>
+
+
+          {recipesOpen ? <RecipeDialog
+            visible={recipesOpen}
+            setVisible={setRecipesOpen}
+            chosenRecipe={handleSetNewRecipe}
+          /> : null}
 
 
         </Grid>
-        { message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg}/> : null}
+        {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
       </Dialog>
+
+
+
+
+
     </div>
   );
 }

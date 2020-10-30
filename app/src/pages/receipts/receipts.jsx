@@ -25,23 +25,23 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     //boxSizing: "border-box"
   },
-  
+
   root: {
     flexGrow: 1,
     //overflowX: "hidden"
-   // marginLeft: -3,
+    // marginLeft: -3,
   },
-  
+
   card: {
     maxWidth: 245,
-  //  height: 200,
-   // width: 200,
+    //  height: 200,
+    // width: 200,
   },
 
   /* Placing add button at bottom center */
   addReceiptButton: {
     position: 'fixed',
-    bottom:0,
+    bottom: 0,
     left: "50%",
     marginLeft: -50
   },
@@ -72,14 +72,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function SpacingGrid() {
- // const [spacing, setSpacing] = React.useState(2);
+export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
+  // const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
   const [search, setSearch] = useState(window.store.getState().searchInput); // getting search bar input
   const [receipts, setReceipts] = useState([])
   const [isReceiptSaved, setReceiptSaved] = useState('') // letting us know when a receipt is saved to rerender dishes
-
   const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
 
   const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
@@ -89,49 +88,50 @@ export default function SpacingGrid() {
     setIsLoading(true)
 
     const token = localStorage.getItem('token');
+    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity}', { token: token })
 
-    console.log('Sending request to: ' + process.env.API_URL)
-
-    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity}', {token: token})
-
-      // test
     HTTP.post(requestBody)
       .then(res => {
         setReceipts(res.data.receipts);
-        localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length))
+        localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length)) // for loading skeleton recipes
         setIsLoading(false)
       })
-      .catch(e => 
-        console.log(e) 
-        )
+      .catch(e =>
+        console.log(e)
+      )
+  }
+
+  const handleRecipeCardClick = (id) => {
+    //console.log('ID of clicked dish: ' + id)
+    onClick(id)
   }
 
 
-  useEffect(()=> {
+  useEffect(() => {
     listenToSearchInput(setSearch) // sets up redux listener on the search input
   }, [])
-  
 
-  useEffect(()=> {
+
+  useEffect(() => {
     console.log(search);
   }, [search])
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log('Found receipts:')
     console.log(receipts);
   }, [receipts])
 
 
-  useEffect(()=> {
-  //  getReceitps()
+  useEffect(() => {
+    //  getReceitps()
   }, [])
 
 
-  useEffect(()=> {
+  useEffect(() => {
     getReceitps()
   }, [isReceiptSaved])
 
- // const [expanded, setExpanded] = React.useState(false);
+  // const [expanded, setExpanded] = React.useState(false);
 
   /*const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -140,41 +140,41 @@ export default function SpacingGrid() {
   return (
     <Fragment>
 
-    <Grid container className={classes.root} justify="center" >
-      <Grid item xs={10}>
+      <Grid container className={classes.root} justify="center" >
+        <Grid item xs={10}>
 
-        <Grid container justify="center" spacing={5}>
-          {
-          isLoading ? 
-          Array(recipeCount).fill(recipeCount)
-          .map((receipt, index) => (
-            <Grid key={index} item>
-              <ReceiptSceletonLoader/>
-            </Grid>)) 
-            : receipts
-            .map((receipt, index) => (
-                <Grid key={receipt._id} item>
-                      <ReceiptCard 
-                        title={receipt.name} 
-                        createdAt={receipt.createdAt}
-                        text={receipt.text}
-                        image={receipt.image}
-                        ingredients={receipt.ingredients}
-                        title={receipt.name}
-                      /> 
-                </Grid>
-          )) }
+          <Grid container justify="center" spacing={5}>
+            {
+              isLoading ?
+                Array(recipeCount).fill(recipeCount)
+                  .map((receipt, index) => (
+                    <Grid key={index} item>
+                      <ReceiptSceletonLoader />
+                    </Grid>))
+                : receipts
+                  .map((receipt, index) => (
+                    <Grid
+                      key={receipt._id}
+                      item>
+                      <ReceiptCard
+                        recipe={receipt}
+                        clikedDish={id => handleRecipeCardClick(id)}
+                        visitFromCreatePlan={props.visitFromCreatePlan}
+                        dialogOpen={bool => dialogOpen(bool)}
+                      />
+                    </Grid>
+                  ))}
+          </Grid>
+
         </Grid>
+
 
       </Grid>
 
+      <div className={classes.addReceiptButton}>
+        <FullScreenDialog onReceiptSave={(value) => setReceiptSaved(value)} />
+      </div>
 
-    </Grid>
-
-    <div className={classes.addReceiptButton}>
-    <FullScreenDialog onReceiptSave={(value) => setReceiptSaved(value) }/>
-    </div>
-    
     </Fragment>
   );
 }
