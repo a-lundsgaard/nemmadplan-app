@@ -57,9 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
 
-  urlField: {
-  },
-
   imageInputField: {
     marginTop: 20,
     maxWidth: 280,
@@ -69,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
   importUrlInput: {
     maxWidth: 280,
+    marginBottom: 20,
     width: "100%"
   },
 
@@ -76,19 +74,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
 
-  ImageUploader: {
-    cursor: 'pointer'
+  recipeFoodPlanImage: {
+    maxWidth: 80,
+    height: 'auto',
+    marginRight: 8
   },
 
 
-  ingredientTextField: {
-    maxWidth: 300,
-    width: "100%"
-  },
 
-  prepareTextField: {
-    minWidth: 400,
-  },
 
   numPicker: {
     marginTop: 1
@@ -114,9 +107,10 @@ export default function FullScreenDialog({ onReceiptSave }) {
   const [recipesOpen, setRecipesOpen] = useState(false); // set false when not testing
 
   // state for input fields
-  const [state, setState] = useState({ 
-    recipes: []
-   });
+  const [state, setState] = useState({
+    recipes: [],
+    date: new Date()
+  });
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -158,20 +152,21 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
   const handleSetNewRecipe = (recipe) => {
     //if(!state.recipes) state.recipes = [recipe];
-   // console.log('Found old array: ' + JSON.stringify(oldRecipeArray))
+    // console.log('Found old array: ' + JSON.stringify(oldRecipeArray))
     //const newRecipeArray = oldRecipeArray[1] ? [recipe] : [...state.recipes, recipe]
-   // let arr;
-   //if(!state.recipes[0].name) {
+    // let arr;
+    //if(!state.recipes[0].name) {
 
     console.log(recipe)
 
-     console.log(state.recipes[0] === null)
-   //}
-   console.log([...state.recipes])
+    console.log(state.recipes[0] === null)
+    //}
+    console.log([...state.recipes])
 
 
-   // let arr = state.recipes[0] === null? [recipe] : [...state.recipes, recipe]
-    setState({...state, recipes: [...state.recipes, recipe] })
+    // let arr = state.recipes[0] === null? [recipe] : [...state.recipes, recipe]
+    recipe.date = state.date;
+    setState({ ...state, recipes: [...state.recipes, recipe] })
   }
 
   const handleClickOpen = () => {
@@ -226,7 +221,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
               <div>
                 <ListItem>
                   <span className={classes.daysSelect}>
-                    <StaticDatePicker hasDbClicked={setRecipesOpen} />
+                    <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setState({ ...state, date: d })} />
                     <span style={{ display: "flex" }}>
                       <CategorySelect label={'Vælg ret'} />
                       <IconButton>
@@ -251,20 +246,24 @@ export default function FullScreenDialog({ onReceiptSave }) {
                   value={state.importUrl}
                 />
                 <List>
-                  <div>Mandag: boller i karry: <span><SmallNumberPicker /></span></div>
 
-                  <ListItem >
-                    Ingrediens
-                </ListItem>
-                  <ListItem >
-                    Ingrediens
-                </ListItem>
-                  <ListItem >
-                    Ingrediens
-                </ListItem>
-                  <ListItem >
-                    Ingrediens
-                </ListItem>
+                  {
+                    state.recipes.map((recipe) =>
+                      <div key={recipe._id}>
+                        <h3>Mandag d. 12 okt</h3>
+                        <span style={{ display: "flex" }}>
+
+                          <img className={classes.recipeFoodPlanImage} src={recipe.image} />
+                          <span>
+                            <strong>{recipe.name}:</strong>
+                          </span>
+
+                          <SmallNumberPicker />
+                        </span>
+                      </div>
+                    )
+                  }
+
                 </List>
               </Paper>
 
@@ -275,39 +274,23 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
             <Paper className={classes.paper} elevation={3} >
               <h2>Indkøbsliste</h2>
-              <List>
-                <div>Grøntsager og frugt</div>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
+              <ul>
+                {
+                  state.recipes
+                    .flatMap(recipe => recipe.ingredients)
+                    .map((ingredient, index )=> 
+                      <li key={index} contentEditable onChange={event => alert(event.target.value)}
+                      onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
 
-              </List>
+                      >
+                       {ingredient.name}
+                    </li>
+                    )
+                }
 
-              <List>
-                <div>Grøntsager og frugt</div>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
-                <ListItem >
-                  Ingrediens
-                </ListItem>
+              </ul>
 
-              </List>
+
             </Paper>
           </Grid>
 

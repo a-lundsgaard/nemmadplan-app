@@ -40,7 +40,7 @@ const defaultMaterialTheme = createMuiTheme({
 });
 
 
-function StaticDatePicker( {hasDbClicked}) {
+function StaticDatePicker( {hasDbClicked, pickedDate}) {
   const [date, setDate] = useState(new Date());
 
   // For opening receipts
@@ -62,16 +62,18 @@ function StaticDatePicker( {hasDbClicked}) {
     } 
 
     setDate(d);
-    setDbClick(true)
+    pickedDate(d);
+
+    setDbClick(true);
 
     setTimeout(() => {
       setDbClick(false)
     }, 300)
   }
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     console.log(date);
-  },[date])
+  },[date])*/
 
   // prettier-ignore
   return (
