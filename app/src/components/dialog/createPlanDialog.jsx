@@ -26,10 +26,10 @@ import Paper from '@material-ui/core/Paper';
 import HTTP from '../../HTTP/http';
 import RecipeDialog from './recipeDialog'
 
-
-
 import SaveIcon from '@material-ui/icons/Save';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import ShoppingList from 'Components/shoppingList/src/components/App.js'
+
 import recipes from '../../HTTP/queries/recipes';
 import { tr } from 'date-fns/esm/locale';
 import { set } from 'lodash';
@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
 
   paper: {
     padding: "15px 40px 0 40px"
+  },
+
+  
+  shoppingList: {
+    padding: "15px 40px 0 40px",
+    width: 400
   },
 
   mainGrid: {
@@ -72,6 +78,8 @@ const useStyles = makeStyles((theme) => ({
 
   textAreaGrid: {
     marginTop: 20,
+    width: 'fit-content'
+   // minWidth: 400
   },
 
   recipeFoodPlanImage: {
@@ -157,11 +165,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
     // let arr;
     //if(!state.recipes[0].name) {
 
-    console.log(recipe)
-
-    console.log(state.recipes[0] === null)
     //}
-    console.log([...state.recipes])
 
 
     // let arr = state.recipes[0] === null? [recipe] : [...state.recipes, recipe]
@@ -176,7 +180,8 @@ export default function FullScreenDialog({ onReceiptSave }) {
   const handleClose = () => {
     // Clearing states and messages
     setState({
-      numPicker: 1
+      recipes: [],
+      date: new Date()
     })
     setMessage({})
     setOpen(false);
@@ -237,61 +242,44 @@ export default function FullScreenDialog({ onReceiptSave }) {
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
-            <Grid item >
-              <Paper className={classes.paper} elevation={3} >
-                <TextField name="importUrl" id="standard-basic" label="Navn på madplan*"
-                  error={inputError.importUrl}
-                  onChange={onInputchange}
-                  className={classes.importUrlInput}
-                  value={state.importUrl}
-                />
-                <List>
+            <Paper className={classes.paper} elevation={3} >
+              <TextField name="importUrl" id="standard-basic" label="Navn på madplan*"
+                error={inputError.importUrl}
+                onChange={onInputchange}
+                className={classes.importUrlInput}
+                value={state.importUrl}
+              />
+              <List>
 
-                  {
-                    state.recipes.map((recipe) =>
-                      <div key={recipe._id}>
-                        <h3>Mandag d. 12 okt</h3>
-                        <span style={{ display: "flex" }}>
+                {
+                  state.recipes.map((recipe) =>
+                    <div key={recipe._id}>
+                      <h3>Mandag d. 12 okt</h3>
+                      <span style={{ display: "flex" }}>
 
-                          <img className={classes.recipeFoodPlanImage} src={recipe.image} />
-                          <span>
-                            <strong>{recipe.name}:</strong>
-                          </span>
-
-                          <SmallNumberPicker />
+                        <img className={classes.recipeFoodPlanImage} src={recipe.image} />
+                        <span>
+                          <strong>{recipe.name}:</strong>
                         </span>
-                      </div>
-                    )
-                  }
 
-                </List>
-              </Paper>
+                        <SmallNumberPicker />
+                      </span>
+                    </div>
+                  )
+                }
 
-            </Grid>
+              </List>
+            </Paper>
+
           </Grid>
+
+
+
 
           <Grid item className={classes.textAreaGrid}>
 
-            <Paper className={classes.paper} elevation={3} >
-              <h2>Indkøbsliste</h2>
-              <ul>
-                {
-                  state.recipes
-                    .flatMap(recipe => recipe.ingredients)
-                    .map((ingredient, index )=> 
-                      <li key={index} contentEditable onChange={event => alert(event.target.value)}
-                      onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
+              <ShoppingList ingredientArray={state.recipes.flatMap(recipe => recipe.ingredients)}/>
 
-                      >
-                       {ingredient.name}
-                    </li>
-                    )
-                }
-
-              </ul>
-
-
-            </Paper>
           </Grid>
 
 
