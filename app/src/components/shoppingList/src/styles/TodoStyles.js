@@ -5,8 +5,10 @@ export default makeStyles({
     width: 'auto',
     height: '2.5rem',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    //alignItems: 'left',
+    justifyContent: 'flex-start', // aligns items left when sales tooltip is enabled
+    //justifyContent: 'space-between', // aligns items left when sales tooltip is enabled
+
     paddingLeft: '0.5rem',
     //paddingRight: '20px',
     color: '#34495e',
@@ -15,12 +17,12 @@ export default makeStyles({
     //overflowX: 'hidden',
     //display: 'inline-block',
     //wordWrap: 'normal',
-    whiteSpace: 'nowrap', /*writes ingredient on one*/
+    whiteSpace: 'nowrap', /*writes ingredient on one line*/
     transition: 'all 0.3s ease',
     '&:hover': {
       background: 'rgba(0, 0, 0, 0.03)',
       cursor: 'pointer',
-      paddingRight: '20px',
+     // paddingRight: '20px',
      // marginRight: 50
 
     },
@@ -29,17 +31,19 @@ export default makeStyles({
     }
   },
   icons: {
-    width: '40px',
+    width: '100%', // right aligns icons 
     display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+   // alignItems: 'right',
+    justifyContent: 'flex-end', // right aligns icons
     marginRight: '1rem',
     float: 'right',
     transition: 'all 0.3s',
     opacity: '0',
-    marginLeft: 20,
-    marginRight: 30,
+    margin: '5px 10px 0 10px',
+   // marginLeft: 20,
+   // marginTop: '4px',
+   // marginRight: 30,
     //display: 'flex'
-    //paddingRight: 40
+    paddingRight: 15
   }
 });
