@@ -33,6 +33,7 @@ import ShoppingList from 'Components/shoppingList/src/components/App.js'
 import recipes from '../../HTTP/queries/recipes';
 import { tr } from 'date-fns/esm/locale';
 import { set } from 'lodash';
+import { closestIndexTo } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "15px 40px 0 40px"
   },
 
-  
+
   shoppingList: {
     padding: "15px 40px 0 40px",
     width: 400
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   textAreaGrid: {
     marginTop: 20,
     width: 'fit-content'
-   // minWidth: 400
+    // minWidth: 400
   },
 
   recipeFoodPlanImage: {
@@ -87,9 +88,6 @@ const useStyles = makeStyles((theme) => ({
     height: 'auto',
     marginRight: 8
   },
-
-
-
 
   numPicker: {
     marginTop: 1
@@ -104,8 +102,6 @@ const useStyles = makeStyles((theme) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-
 
 
 export default function FullScreenDialog({ onReceiptSave }) {
@@ -134,12 +130,6 @@ export default function FullScreenDialog({ onReceiptSave }) {
   });
 
 
-
-  useEffect(() => {
-    // console.log('Recipe Dialog changed: ' + recipesOpen)
-  }, [recipesOpen]);
-
-
   const onInputchange = (event) => {
     // sets state from by deriving the name of the input field when user entering input
     setState({
@@ -159,16 +149,6 @@ export default function FullScreenDialog({ onReceiptSave }) {
   }
 
   const handleSetNewRecipe = (recipe) => {
-    //if(!state.recipes) state.recipes = [recipe];
-    // console.log('Found old array: ' + JSON.stringify(oldRecipeArray))
-    //const newRecipeArray = oldRecipeArray[1] ? [recipe] : [...state.recipes, recipe]
-    // let arr;
-    //if(!state.recipes[0].name) {
-
-    //}
-
-
-    // let arr = state.recipes[0] === null? [recipe] : [...state.recipes, recipe]
     recipe.date = state.date;
     setState({ ...state, recipes: [...state.recipes, recipe] })
   }
@@ -179,6 +159,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
   const handleClose = () => {
     // Clearing states and messages
+
     setState({
       recipes: [],
       date: new Date()
@@ -188,9 +169,9 @@ export default function FullScreenDialog({ onReceiptSave }) {
   };
 
 
-
   const handleSaveReceipt = () => {
     console.log('Saved')
+    console.log(state.recipes.flatMap(recipe => recipe.ingredients))
     console.log(state)
   }
 
@@ -235,8 +216,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
                     </span>
                   </span>
                 </ListItem> )
-
-          </div>
+              </div>
             </List>
 
           </Grid>
@@ -252,8 +232,8 @@ export default function FullScreenDialog({ onReceiptSave }) {
               <List>
 
                 {
-                  state.recipes.map((recipe) =>
-                    <div key={recipe._id}>
+                  state.recipes.map((recipe, index) =>
+                    <div key={index}>
                       <h3>Mandag d. 12 okt</h3>
                       <span style={{ display: "flex" }}>
 
@@ -274,14 +254,9 @@ export default function FullScreenDialog({ onReceiptSave }) {
           </Grid>
 
 
-
-
           <Grid item className={classes.textAreaGrid}>
-
-              <ShoppingList ingredientArray={state.recipes.flatMap(recipe => recipe.ingredients)}/>
-
+            <ShoppingList ingredientArray={state?.recipes[state.recipes.length - 1]?.ingredients} />
           </Grid>
-
 
           {recipesOpen ? <RecipeDialog
             visible={recipesOpen}

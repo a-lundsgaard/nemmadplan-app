@@ -50,7 +50,6 @@ function StaticDatePicker( {hasDbClicked, pickedDate}) {
   const handleClick = (d) => {
 
     console.log(dbClick)
-
     if (dbClick) {
    //   let d = new Date();
       let nextDate = new Date(date);

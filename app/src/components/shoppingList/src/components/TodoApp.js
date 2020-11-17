@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useEffect, useReducer} from 'react';
 import { TodosProvider } from '../contexts/todos.context';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
-
 function TodoApp({ingredientArray}) {
+
   return (
-    <TodosProvider>
-      <TodoForm ingredientArray={ingredientArray} />
-      <TodoList />
+    <TodosProvider ingredientArray={ingredientArray}>
+      <TodoForm/>
+      <TodoList/>
     </TodosProvider>
   );
 }

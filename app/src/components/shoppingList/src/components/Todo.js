@@ -16,10 +16,6 @@ import CircularLoader from 'Components/loaders/circular/circularLoader'
 import Button from '@material-ui/core/Button';
 
 
-//import CircularPr
-
-
-
 function Todo({ id, task, completed }) {
 
   const classes = useStyles();
@@ -32,23 +28,72 @@ function Todo({ id, task, completed }) {
   })
 
 
-  const getSales = async (ingredient) => {
-    const query = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date', { products: [ingredient] });
-    const results = await HTTP.post(query)
-    return results.data.getSales
+  const getSales = async (ingredientString, isCancelled) => {
+
+    let removeCommaWords = ingredientString.split(' ');
+    removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
+ 
+    if (!removeCommaWords) return [];
+    const possibleIngredients = removeCommaWords.join(' ').match(/[a-zA-Z\u00C0-\u00ff]{3,20}|æg/gi);
+    if (!possibleIngredients) return [];
+    var controller = new AbortController();
+    var signal = controller.signal
+
+    /*function getBestIngredient() {
+      let i = possibleIngredients.length;
+      let arr = ['tern', 'saltlage']
+      while (i--) {
+        if (arr.includes(possibleIngredients[i])) {
+        //  if(possibleIngredients[i].includes(''))
+          possibleIngredients.splice(i, 1);
+        }
+      }
+    }*/
+    const query = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date',
+      {
+        products: [possibleIngredients.pop()]
+      });
+    const data = await HTTP.post(query, signal);
+    const results = data.data.getSales
+
+    if(isCancelled) {
+      console.warn('I WAS CANCELLED')
+      controller.abort();
+      return;
+     }
+    return results
   }
 
+  
+
+  // loads sales when an item is added to the list 
   useEffect(() => {
-    setState({...state, isLoading: true})
-    getSales(task)
+    //var controller = new AbortController();
+  //  var signal = controller.signal
+    let isCancelled = false;
+    if(!isCancelled) {
+      setState({ ...state, isLoading: true });
+    } 
+
+    getSales(task, isCancelled)
       .then(results => {
-        setState({
-          ...state,
-          isLoading: false,
-          sales: results || []
-        })
+        if (!isCancelled) {
+          setState({
+            ...state,
+            isLoading: false,
+            sales: results || []
+          })
+        }
+      }).catch(function(e) {
+        console.log('Sales fetching cancelled!!!!')
+       // reports.textContent = 'Download error: ' + e.message;
       })
+
+      return () => {
+        isCancelled = true;
+      };
   }, [task])
+
 
 
   if (isEditing) {
@@ -56,16 +101,15 @@ function Todo({ id, task, completed }) {
       <li
         className={classes.Todo}
         style={{ overflowY: 'hidden' }}
-        onClick={() => {toggle();}}
-        onBlur={() =>{toggle();} }
-       // onFocus={()=>setState({...state, isLoading: true})}
+        onClick={() => { toggle(); }}
+        onBlur={() => { toggle(); }}
+      // onFocus={()=>setState({...state, isLoading: true})}
       //  onSubmit={alert('hi')}
       >
         <EditTodoForm id={id} task={task} toggleEditForm={toggle} />
       </li>
     );
   }
-
 
 
   return (

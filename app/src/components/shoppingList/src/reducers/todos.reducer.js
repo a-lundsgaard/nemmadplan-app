@@ -1,6 +1,8 @@
 //import uuid from 'uuid/v4';
 //import { uuidv4 } from 'uuid';
 import uuidv4 from "uuid/dist/v4";
+import { useReducer } from "react";
+
 
 import {
   ADD_TODO,
@@ -10,7 +12,7 @@ import {
   ADD_INGREDIENT_ARRAY
 } from '../constants/actions';
 
-const reducer = (state, action) => {
+const reducer= (state, action) => {
   switch (action.type) {
     case ADD_TODO:
       return [{ id: uuidv4(), task: action.task, completed: false }, ...state];
@@ -25,10 +27,12 @@ const reducer = (state, action) => {
         todo.id === action.id ? { ...todo, task: action.task } : todo
       );
     case ADD_INGREDIENT_ARRAY: 
-        return [...action.task.map(ingr => ({id: uuidv4(), task: ingr.name, completed: false }) ), ...state]
+        console.log('THE REDUCER WAS CALLED')
+        return [...action.task.map((ingr, index) => ({id: uuidv4(), task: ingr.name, completed: false }) ), ...state]
     default:
       return state;
   }
 };
+
 
 export default reducer;

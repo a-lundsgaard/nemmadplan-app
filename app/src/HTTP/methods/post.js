@@ -1,7 +1,8 @@
 
 
-export default async function post(requestBody) {
+export default async function post(requestBody, signal) {
     const response = await fetch(this.testUrl, {
+        signal: signal,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -16,7 +17,7 @@ export default async function post(requestBody) {
     const jsonData = await response.json();
 
     if (response.ok) {
-        console.log(jsonData);
+      //  console.log(jsonData);
         return jsonData;
     } else {
         console.log(jsonData)

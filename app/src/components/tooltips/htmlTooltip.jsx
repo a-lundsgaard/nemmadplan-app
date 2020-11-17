@@ -44,7 +44,7 @@ export default function CustomizedTooltips({ sales }) {
                     //variant="outlined"
                     color="primary"
                 >
-                    <i>{sales.length} tilbud</i>
+                    <i>{sales.length < 10 ? sales.length + ' ' : sales.length} tilbud</i>
                 </Button>
 
             </HtmlTooltip> : <div
