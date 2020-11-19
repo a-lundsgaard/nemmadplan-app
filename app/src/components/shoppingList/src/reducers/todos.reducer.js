@@ -15,7 +15,7 @@ import {
 const reducer= (state, action) => {
   switch (action.type) {
     case ADD_TODO:
-      return [{ id: uuidv4(), task: action.task, completed: false }, ...state];
+      return [{ id: uuidv4(), task: action.task, completed: false, initiator: 'USER' }, ...state];
     case REMOVE_TODO:
       return state.filter(todo => todo.id !== action.id);
     case TOGGLE_TODO:
@@ -28,7 +28,7 @@ const reducer= (state, action) => {
       );
     case ADD_INGREDIENT_ARRAY: 
         console.log('THE REDUCER WAS CALLED')
-        return [...action.task.map((ingr, index) => ({id: uuidv4(), task: ingr.name, completed: false }) ), ...state]
+        return [...state, ...action.task.map((ingr, index) => ({id: uuidv4(), task: ingr.name, completed: false }) )]
     default:
       return state;
   }

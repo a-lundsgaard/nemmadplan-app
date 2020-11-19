@@ -8,15 +8,13 @@ import { REMOVE_TODO, TOGGLE_TODO } from '../constants/actions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-import IconButton from '@material-ui/core/IconButton';
 
-import SalesTooltip from 'Components/toolTips/htmlTooltip'
+import SalesTooltip from 'Components/toolTips/salesTooltip/htmlTooltip'
 import HTTP from '../../../../HTTP/http'
-import CircularLoader from 'Components/loaders/circular/circularLoader'
 import Button from '@material-ui/core/Button';
 
 
-function Todo({ id, task, completed }) {
+function Todo({ id, task, completed, initiator }) {
 
   const classes = useStyles();
   const dispatch = useContext(DispatchContext);
@@ -28,52 +26,44 @@ function Todo({ id, task, completed }) {
   })
 
 
-  const getSales = async (ingredientString, isCancelled) => {
+  // running sales crawler 
+  const getSales = async (ingredientString) => {
 
     let removeCommaWords = ingredientString.split(' ');
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
- 
+
     if (!removeCommaWords) return [];
     const possibleIngredients = removeCommaWords.join(' ').match(/[a-zA-Z\u00C0-\u00ff]{3,20}|æg/gi);
     if (!possibleIngredients) return [];
-    var controller = new AbortController();
-    var signal = controller.signal
+    
+    // If the user adds an item, the crawler searchs for the whole string
+    const searchString = initiator ? ingredientString : possibleIngredients.pop();
 
-    /*function getBestIngredient() {
-      let i = possibleIngredients.length;
-      let arr = ['tern', 'saltlage']
-      while (i--) {
-        if (arr.includes(possibleIngredients[i])) {
-        //  if(possibleIngredients[i].includes(''))
-          possibleIngredients.splice(i, 1);
-        }
+    console.log(searchString);
+
+    const query = JSON.stringify({
+      products: [searchString],
+      chains: {
+        wanted: false,
+        chainNames: []
       }
-    }*/
-    const query = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date',
-      {
-        products: [possibleIngredients.pop()]
-      });
-    const data = await HTTP.post(query, signal);
-    const results = data.data.getSales
+    })
 
-    if(isCancelled) {
-      console.warn('I WAS CANCELLED')
-      controller.abort();
-      return;
-     }
-    return results
+    const results = await HTTP.post(query, "http://localhost:8090/sales");
+    // sorts the sales  by cheapest first
+    const sortedByCheapest = results.sort((a, b) => a.price < b.price ? -1 : (a.price > b.price ? 1 : 0));
+    return sortedByCheapest
   }
 
-  
+
 
   // loads sales when an item is added to the list 
   useEffect(() => {
-    //var controller = new AbortController();
-  //  var signal = controller.signal
+
     let isCancelled = false;
-    if(!isCancelled) {
+    if (!isCancelled) {
       setState({ ...state, isLoading: true });
-    } 
+    }
 
     getSales(task, isCancelled)
       .then(results => {
@@ -84,14 +74,13 @@ function Todo({ id, task, completed }) {
             sales: results || []
           })
         }
-      }).catch(function(e) {
-        console.log('Sales fetching cancelled!!!!')
-       // reports.textContent = 'Download error: ' + e.message;
+      }).catch(function (e) {
+        console.error(e)
       })
 
-      return () => {
-        isCancelled = true;
-      };
+    return () => {
+      isCancelled = true; // cleanup function, prevents setting state after component unmounts
+    };
   }, [task])
 
 
@@ -103,8 +92,6 @@ function Todo({ id, task, completed }) {
         style={{ overflowY: 'hidden' }}
         onClick={() => { toggle(); }}
         onBlur={() => { toggle(); }}
-      // onFocus={()=>setState({...state, isLoading: true})}
-      //  onSubmit={alert('hi')}
       >
         <EditTodoForm id={id} task={task} toggleEditForm={toggle} />
       </li>

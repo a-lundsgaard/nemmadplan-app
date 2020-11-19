@@ -9,8 +9,10 @@ const ContextMenu = require("secure-electron-context-menu").default;
 let store = new Store();
 
 //tester
-let server = require('../server/server');
-server();
+const shoppingServer = require('../server/server');
+const salesServer = require('../server/salesServer/salesServer');
+shoppingServer();
+salesServer();
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
