@@ -6,9 +6,9 @@ import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
 
 const defaultItems = [
-  { id: '0', task: 'apple', completed: false },
-  { id: '1', task: 'Item2', completed: false },
-  { id: '2', task: 'Item3', completed: false }
+  { id: '1', task: 'rugbrød', completed: false },
+  { id: '2', task: 'mælk', completed: false },
+  { id: '3', task: 'æbler', completed: false }
 ];
 
 export const TodosContext = createContext();

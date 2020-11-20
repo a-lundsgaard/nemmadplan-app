@@ -12,7 +12,8 @@ import post from './methods/post';
  class HTTP {
     constructor() {
         this.testUrl = 'http://localhost:8080/graphql'
-        this.prodUrl = 'https://nmserver.herokuapp.com/graphql'
+        this.prodUrl = 'https://nmserver.herokuapp.com/graphql',
+        this.salesUrl = 'http://localhost:8090/sales';
         this.post = post.bind(this);
 
         this.sales = {

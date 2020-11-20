@@ -1,7 +1,13 @@
 
 
 export default async function post(requestBody, extraOrdinaryUrl) {
-  const url = extraOrdinaryUrl ? extraOrdinaryUrl : this.testUrl;
+
+  const urlObj = {
+    'sales': this.salesUrl
+  }
+
+  const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.testUrl;
+  
   const body = extraOrdinaryUrl ? 
   requestBody : 
   JSON.stringify({
@@ -9,6 +15,7 @@ export default async function post(requestBody, extraOrdinaryUrl) {
     variables: requestBody.variables,
   });
 
+  //console.log
   
   const response = await fetch(url, {
    // signal: signal,
@@ -23,11 +30,12 @@ export default async function post(requestBody, extraOrdinaryUrl) {
   const jsonData = await response.json();
 
   if (response.ok) {
-    //  console.log(jsonData);
+      console.log(jsonData);
     return jsonData;
   } else {
     console.log(jsonData)
     let err = jsonData.errors.reduce((a, n) => a + ' ' + n.message, '');
+    console.error(jsonData)
     throw new Error(err)
   }
 }

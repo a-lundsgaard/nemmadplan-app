@@ -8,11 +8,6 @@ const ContextMenu = require("secure-electron-context-menu").default;
 // Create the electron store to be made available in the renderer process
 let store = new Store();
 
-//tester
-const shoppingServer = require('../server/server');
-const salesServer = require('../server/salesServer/salesServer');
-shoppingServer();
-salesServer();
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
@@ -21,3 +16,5 @@ contextBridge.exposeInMainWorld("api", {
   store: store.preloadBindings(ipcRenderer, fs),
   contextMenu: ContextMenu.preloadBindings(ipcRenderer)
 });
+
+//salesServer().then(console.log);

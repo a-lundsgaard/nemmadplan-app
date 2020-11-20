@@ -12,6 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import SalesTooltip from 'Components/toolTips/salesTooltip/htmlTooltip'
 import HTTP from '../../../../HTTP/http'
 import Button from '@material-ui/core/Button';
+import { th } from 'date-fns/locale';
 
 
 function Todo({ id, task, completed, initiator }) {
@@ -29,13 +30,22 @@ function Todo({ id, task, completed, initiator }) {
   // running sales crawler 
   const getSales = async (ingredientString) => {
 
+    console.log('GET SALES CALLED !!!!! 0')
+
     let removeCommaWords = ingredientString.split(' ');
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
 
-    if (!removeCommaWords) return [];
+    if (!removeCommaWords) {
+      console.log('NO REMOVECOMMAS, RETURNNING')
+      return [];
+    }
     const possibleIngredients = removeCommaWords.join(' ').match(/[a-zA-Z\u00C0-\u00ff]{3,20}|æg/gi);
-    if (!possibleIngredients) return [];
-    
+    if (!possibleIngredients) {
+      console.log('NO POSSIBLE INGREDIENTS, RETURNNING')
+      return [];
+    }
+
+
     // If the user adds an item, the crawler searchs for the whole string
     const searchString = initiator ? ingredientString : possibleIngredients.pop();
 
@@ -49,7 +59,8 @@ function Todo({ id, task, completed, initiator }) {
       }
     })
 
-    const results = await HTTP.post(query, "http://localhost:8090/sales");
+    const results = await HTTP.post(query, "sales");
+
     // sorts the sales  by cheapest first
     const sortedByCheapest = results.sort((a, b) => a.price < b.price ? -1 : (a.price > b.price ? 1 : 0));
     return sortedByCheapest
@@ -65,7 +76,7 @@ function Todo({ id, task, completed, initiator }) {
       setState({ ...state, isLoading: true });
     }
 
-    getSales(task, isCancelled)
+    getSales(task)
       .then(results => {
         if (!isCancelled) {
           setState({

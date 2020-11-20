@@ -2,13 +2,13 @@ const { default: fetch } = require('node-fetch');
 const express = require('express');
 const app = express();
 const salesRoute = require('./routes/sales');
-const PORT = 8090;
+// const PORT = 8090;
 const bodyParser = require('body-parser');
 
-
-async function salesServer() {
+async function spinUpServerOn(PORT, signal) {
 
     app.use(bodyParser.json());
+
 
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,26 +22,29 @@ async function salesServer() {
 
 
     app.get('/', function (req, res) {
-        res.send("Local sales server is running...");
+        
+        res.send(`Local sales server is running on port ${app.l} and signal ${signal}...`);
     });
+
 
     app.use('/sales', salesRoute);
 
 
     try {
-        await fetch(`http://localhost:${PORT}/sales`);
+        await fetch(`http://localhost:${PORT}/`);
 
     } catch (error) {
-        console.error(`Could not fetch from local server running on ${PORT}, starting new server and displays error:`)
-        console.error(error)
-        let localServer = app.listen(PORT, async function () {
-            console.log('Express server listening on port ' + localServer.address().port);
-
+        console.log(`Could not fetch from local server running on ${PORT}, starting new server and displays error:`)
+     //   console.error(error)
+        let localServer = app.listen(PORT, function () {
+            console.log('EXPRESS SERVER IS LISTENING ON PORT ' + localServer.address().port);
         })
 
     }
-
 }
 
+//spinUpServerOn(8090, 'hej fra mig')
 
-module.exports = salesServer;
+
+
+module.exports = spinUpServerOn;

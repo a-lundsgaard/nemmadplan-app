@@ -39,7 +39,7 @@ async function runSalesCrawler (pageFunction, preferences) {
       console.log('Waiting for selector: "' + waitFor + '"...');
 
       try {
-        await page.waitForSelector(waitFor, {timeout: 10000});
+        await page.waitForSelector(waitFor, {timeout: 5000});
       }
       catch (e) {
         console.log(results)
@@ -55,7 +55,7 @@ async function runSalesCrawler (pageFunction, preferences) {
 
 
     await browser.close();
-    console.log('Finishing webscraper...');
+    console.log('Finishing webscraper... ' + page.url);
 
    /* if (chains) {
       console.log(chains)
