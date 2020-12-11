@@ -9,7 +9,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 
-import SalesTooltip from 'Components/toolTips/salesTooltip/htmlTooltip'
+//import SalesTooltip from 'Components/toolTips/salesTooltip/htmlTooltip';
+
+import SalesTooltip from './salesTooltip/htmlTooltip';
+
 import HTTP from '../../../../HTTP/http'
 import Button from '@material-ui/core/Button';
 import { th } from 'date-fns/locale';
@@ -30,13 +33,11 @@ function Todo({ id, task, completed, initiator }) {
   // running sales crawler 
   const getSales = async (ingredientString) => {
 
-    console.log('GET SALES CALLED !!!!! 0')
 
     let removeCommaWords = ingredientString.split(' ');
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
 
     if (!removeCommaWords) {
-      console.log('NO REMOVECOMMAS, RETURNNING')
       return [];
     }
     const possibleIngredients = removeCommaWords.join(' ').match(/[a-zA-Z\u00C0-\u00ff]{3,20}|æg/gi);
@@ -47,8 +48,7 @@ function Todo({ id, task, completed, initiator }) {
 
 
     // If the user adds an item, the crawler searchs for the whole string
-    const searchString = initiator ? ingredientString : possibleIngredients.pop();
-
+    const searchString = initiator === 'USER' ? ingredientString : possibleIngredients.pop();
     console.log(searchString);
 
     const query = JSON.stringify({
@@ -71,26 +71,26 @@ function Todo({ id, task, completed, initiator }) {
   // loads sales when an item is added to the list 
   useEffect(() => {
 
-    let isCancelled = false;
-    if (!isCancelled) {
+    let mounted = true;
+    if (mounted && initiator !== 'REPLACEMENT_FROM_SALES') {
+
       setState({ ...state, isLoading: true });
+      getSales(task)
+        .then(results => {
+          if (mounted) {
+            setState({
+              ...state,
+              isLoading: false,
+              sales: results || []
+            })
+          }
+        }).catch(function (e) {
+          console.error(e)
+        })
     }
 
-    getSales(task)
-      .then(results => {
-        if (!isCancelled) {
-          setState({
-            ...state,
-            isLoading: false,
-            sales: results || []
-          })
-        }
-      }).catch(function (e) {
-        console.error(e)
-      })
-
     return () => {
-      isCancelled = true; // cleanup function, prevents setting state after component unmounts
+      mounted = false; // cleanup function, prevents setting state after component unmounts
     };
   }, [task])
 
@@ -115,12 +115,13 @@ function Todo({ id, task, completed, initiator }) {
       className={classes.Todo}
     >
       <span>
-        {state.isLoading ? <Button
-          //variant="outlined"
-          color="secondary"
-        >
-          <i>Henter tilbud...</i>
-        </Button> : <SalesTooltip sales={state.sales} />}
+        {state.isLoading ?
+          <Button
+            //variant="outlined"
+            color="secondary"
+          >
+            <i>Henter tilbud...</i>
+          </Button> : <SalesTooltip sales={state.sales} id={id} />}
       </span>
 
 
@@ -135,7 +136,6 @@ function Todo({ id, task, completed, initiator }) {
         }}
       >
         {task}
-
       </span>
 
 

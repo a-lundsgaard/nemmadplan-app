@@ -79,7 +79,8 @@ const useStyles = makeStyles((theme) => ({
 
   textAreaGrid: {
     marginTop: 20,
-    width: 'fit-content'
+    width: 'fit-content',
+    marginLeft: "20px",
     // minWidth: 400
   },
 
@@ -113,11 +114,13 @@ export default function FullScreenDialog({ onReceiptSave }) {
   // state for input fields
   const [state, setState] = useState({
     recipes: [],
-    date: new Date()
+  //  date: new Date()
   });
 
   // displaying server messages
   const [message, setMessage] = useState({});
+
+  const [date, setDate] = useState(new Date());
 
   // for circular loader when scraping receipt
   const [isLoading, setLoading] = useState(false);
@@ -142,14 +145,14 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
   const onNumPickerChange = (value) => {
     //setPersons(value)
-    setState({
+    setState({ // individual state must be used here
       ...state,
       numPicker: value
     });
   }
 
   const handleSetNewRecipe = (recipe) => {
-    recipe.date = state.date;
+    recipe.date = date;
     setState({ ...state, recipes: [...state.recipes, recipe] })
   }
 
@@ -207,7 +210,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
               <div>
                 <ListItem>
                   <span className={classes.daysSelect}>
-                    <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setState({ ...state, date: d })} />
+                    <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} />
                     <span style={{ display: "flex" }}>
                       <CategorySelect label={'Vælg ret'} />
                       <IconButton>

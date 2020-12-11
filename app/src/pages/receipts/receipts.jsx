@@ -6,11 +6,6 @@ import ReceiptCard from 'Components/card/receiptCard';
 import listenToSearchInput from 'Redux/helpers/subscribe'
 import HTTP from '../../HTTP/http'
 
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import IconButton from '@material-ui/core/IconButton';
-
-import PlusButton from 'Components/buttons/plusButton/plusButton'
-
 import FullScreenDialog from 'Components/dialog/fullScreenDialog';
 
 import ReceiptSceletonLoader from 'Components/loaders/receiptSceletonLoader'

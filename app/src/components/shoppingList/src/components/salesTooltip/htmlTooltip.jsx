@@ -3,6 +3,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import SalesList from './salesList';
 
 
 
@@ -10,10 +11,13 @@ const HtmlTooltip = withStyles((theme) => ({
     tooltip: {
         //display: 'flex',
         // backgroundColor: '#f5f5f9',
+        zIndex: '1',
         backgroundColor: '#f5f5f9',
 
         color: 'rgba(0, 0, 0, 0.87)',
-        maxWidth: 220,
+        //  maxWidth: 300,
+        minWidth: 300,
+
         fontSize: theme.typography.pxToRem(12),
         border: '1px solid #dadde9',
     },
@@ -22,24 +26,20 @@ const HtmlTooltip = withStyles((theme) => ({
 
 
 
-export default function CustomizedTooltips({ sales }) {
+export default function CustomizedTooltips({ sales, id }) {
+
+    const [open, setOpen] = React.useState(false);
+
 
     return (
-        <div>
+        <div style={{ zIndex: '-1' }}>
             { sales.length ?
                 <HtmlTooltip
                     interactive
                     placement="left"
                     title={
-                        <ul style={{ overflow: 'scroll', maxHeight: 500 }}>
-                            {
-                                sales.map(item => (<div key={Math.random()}>
-                                    <li color="inherit">{item.price}kr, {item.quantity} {item.unit}, {item.title}, {item.chain}<img style={{ maxHeight: 100 }} src={item.img} /></li>
-
-                                </div>))
-                            }
-                        </ul>
-                    }
+                        <SalesList sales={sales} id={id}
+                        />}
                 >
                     <Button
                         //variant="outlined"
@@ -47,8 +47,9 @@ export default function CustomizedTooltips({ sales }) {
                     >
                         <i>{sales.length < 10 ? sales.length + ' ' : sales.length} tilbud</i>
                     </Button>
+                </HtmlTooltip> :
 
-                </HtmlTooltip> : <div
+                <div
                     //variant="outlined"
                     color="standard"
                 >

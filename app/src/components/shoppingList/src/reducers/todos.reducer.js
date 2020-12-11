@@ -23,12 +23,13 @@ const reducer= (state, action) => {
         todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
     case EDIT_TODO:
+      //const initiator = action.initiator === 'REPLACEMENT_FROM_SALES' ? action.initiator : null;
       return state.map(todo =>
-        todo.id === action.id ? { ...todo, task: action.task } : todo
+        todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator } : todo
       );
     case ADD_INGREDIENT_ARRAY: 
         console.log('THE REDUCER WAS CALLED')
-        return [...state, ...action.task.map((ingr, index) => ({id: uuidv4(), task: ingr.name, completed: false }) )]
+        return [...state, ...action.task.map((ingr, index) => ({id: uuidv4(), task: `${ingr.quantity} ${ingr.unit} ${ingr.name}`, completed: false }) )]
     default:
       return state;
   }

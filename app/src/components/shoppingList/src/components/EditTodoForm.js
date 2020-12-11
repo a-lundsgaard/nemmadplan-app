@@ -20,7 +20,7 @@ function EditTodoForm({ id, task, toggleEditForm }) {
     <form
       onSubmit={e => {
         e.preventDefault();
-        dispatch({ type: EDIT_TODO, id, task: value });
+        dispatch({ type: EDIT_TODO, id, task: value, initiator: 'USER' });
         toggleEditForm();
         clearValue();
       }}
