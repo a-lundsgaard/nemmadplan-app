@@ -14,10 +14,11 @@ router.post('/', async (req, res) => {
 
         console.log('Endpoint hit');
         const results = await salesCrawler(tilbudsugen, req.body);
-        return res.send(results);
+        return res.json(results);
       //  res.send('Endpoint hit');
     } catch (error) {
-        throw console.error(error);
+      return res.json({message: e})
+        
     }
 });
 

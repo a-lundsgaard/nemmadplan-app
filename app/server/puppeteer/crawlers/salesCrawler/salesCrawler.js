@@ -3,7 +3,7 @@ const path = require('path')
 
 
 
-async function runSalesCrawler (pageFunction, preferences) {
+async function runSalesCrawler(pageFunction, preferences) {
 
 
   let { products, chains } = preferences;
@@ -12,7 +12,7 @@ async function runSalesCrawler (pageFunction, preferences) {
   products = typeof products === 'string' ? JSON.parse(products) : products;
   chains = typeof chains === 'string' ? JSON.parse(chains) : chains;
 
-  const urls = products.map(name => 'https://www.tilbudsugen.dk/tilbud/' + name )
+  const urls = products.map(name => 'https://www.tilbudsugen.dk/tilbud/' + name)
 
   console.log('Starting crawler...');
   try {
@@ -29,17 +29,17 @@ async function runSalesCrawler (pageFunction, preferences) {
 
     for (let url of urls) {
       console.log('Entering url: ' + url);
-      await page.goto(url, {timeout: 30000});
+      await page.goto(url, { timeout: 30000 });
       console.log('Injecting scripts...');
-     // await page.addScriptTag({path: jQueryPath})
-    //  await page.addScriptTag({path: customLibraryPath});
-    await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.2.1.min.js'})
+      // await page.addScriptTag({path: jQueryPath})
+      //  await page.addScriptTag({path: customLibraryPath});
+      await page.addScriptTag({ url: 'https://code.jquery.com/jquery-3.2.1.min.js' })
 
       const waitFor = '.mx-0';
       console.log('Waiting for selector: "' + waitFor + '"...');
 
       try {
-        await page.waitForSelector(waitFor, {timeout: 5000});
+        await page.waitForSelector(waitFor, { timeout: 8000 });
       }
       catch (e) {
         console.log(results)
@@ -49,19 +49,25 @@ async function runSalesCrawler (pageFunction, preferences) {
 
       // runs custom javascript as if we were in the console
       console.log('Running page function...')
-      const scrapedData = await page.evaluate(pageFunction);
-      results.push(...scrapedData);
+      let scrapedData;
+      try {
+        scrapedData = await page.evaluate(pageFunction);
+        results.push(...scrapedData);
+      } catch (e) {
+        await browser.close();
+        return results
+      }
     }
 
 
     await browser.close();
     console.log('Finishing webscraper... ' + page.url);
 
-   /* if (chains) {
-      console.log(chains)
-      if(chains.wanted) results = results.filter(item => chains.chainNames.includes(item.chain.toLowerCase()) )
-      if(!chains.wanted) results = results.filter(item => !chains.chainNames.includes(item.chain.toLowerCase()) )
-    }*/
+    /* if (chains) {
+       console.log(chains)
+       if(chains.wanted) results = results.filter(item => chains.chainNames.includes(item.chain.toLowerCase()) )
+       if(!chains.wanted) results = results.filter(item => !chains.chainNames.includes(item.chain.toLowerCase()) )
+     }*/
 
     console.log(results)
     console.log(`Found ${results.length} results`);

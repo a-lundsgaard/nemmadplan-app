@@ -75,6 +75,7 @@ function Todo({ id, task, completed, initiator }) {
     if (mounted && initiator !== 'REPLACEMENT_FROM_SALES') {
 
       setState({ ...state, isLoading: true });
+
       getSales(task)
         .then(results => {
           if (mounted) {
@@ -85,9 +86,16 @@ function Todo({ id, task, completed, initiator }) {
             })
           }
         }).catch(function (e) {
+          setState({...state, isLoading: false, sales: []})
           console.error(e)
         })
+
+ /*        setTimeout(()=> {
+         // setState({...state, isLoading: false})
+        }, 20000) */
     }
+
+
 
     return () => {
       mounted = false; // cleanup function, prevents setting state after component unmounts

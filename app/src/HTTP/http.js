@@ -11,10 +11,11 @@ import post from './methods/post';
 // HTTP toolbox for CRUD operations and creating queries
  class HTTP {
     constructor() {
+        this.post = post.bind(this);
         this.testUrl = 'http://localhost:8080/graphql'
         this.prodUrl = 'https://nmserver.herokuapp.com/graphql',
         this.salesUrl = 'http://localhost:8090/sales';
-        this.post = post.bind(this);
+        this.shoppingUrl = 'http://localhost:3001/shopping';
 
         this.sales = {
             getSales: salesQueries.getSales

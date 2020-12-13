@@ -18,22 +18,15 @@ import SnackBar from "Components/snackbar/snackbar";
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import CategorySelect from 'Components/select/categorySelect.jsx'
 import SmallNumberPicker from 'Components/pickers/number/smallNumPicker/smallNumPicker.jsx'
 import StaticDatePicker from 'Components/pickers/date/staticDatePicker.jsx'
 import Paper from '@material-ui/core/Paper';
 
 import HTTP from '../../HTTP/http';
 import RecipeDialog from './recipeDialog'
-
-import SaveIcon from '@material-ui/icons/Save';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ShoppingList from 'Components/shoppingList/src/components/App.js'
 
-import recipes from '../../HTTP/queries/recipes';
-import { tr } from 'date-fns/esm/locale';
-import { set } from 'lodash';
-import { closestIndexTo } from 'date-fns';
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -201,7 +194,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={10}
+          spacing={6}
           className={classes.mainGrid}
         >
 
@@ -211,14 +204,10 @@ export default function FullScreenDialog({ onReceiptSave }) {
                 <ListItem>
                   <span className={classes.daysSelect}>
                     <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} />
-                    <span style={{ display: "flex" }}>
-                      <CategorySelect label={'Vælg ret'} />
-                      <IconButton>
-                        <AddCircleOutlineIcon fontSize="large" />
-                      </IconButton>
+                    <span style={{ display: "flex" }}>       
                     </span>
                   </span>
-                </ListItem> )
+                </ListItem>
               </div>
             </List>
 

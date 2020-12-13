@@ -3,7 +3,8 @@
 export default async function post(requestBody, extraOrdinaryUrl) {
 
   const urlObj = {
-    'sales': this.salesUrl
+    'sales': this.salesUrl,
+    'shopping': this.shoppingUrl
   }
 
   const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.testUrl;
@@ -30,7 +31,7 @@ export default async function post(requestBody, extraOrdinaryUrl) {
   const jsonData = await response.json();
 
   if (response.ok) {
-      console.log(jsonData);
+     // console.log(jsonData);
     return jsonData;
   } else {
     console.log(jsonData)

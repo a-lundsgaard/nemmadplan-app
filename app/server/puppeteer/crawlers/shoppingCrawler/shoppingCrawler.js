@@ -1,13 +1,15 @@
 const { default: fetch } = require('node-fetch');
 const puppeteer = require('puppeteer');
-const nemlig = require('../pageFunctions/nemlig.com');
-const rema1000 = require('../pageFunctions/rema1000');
+const nemlig = require('./pageFunctions/nemlig.com');
+const rema1000 = require('./pageFunctions/rema1000');
 
 
 
 async function runShoppingListCrawler (url, pageFunction, preferences) {
 
     console.log('Starting crawler...');
+    console.log(preferences);
+
     try {
       console.log('Launching pupeteer...')
       const browser = await puppeteer.launch({
@@ -86,7 +88,7 @@ const preferences = {
   }
 };
 
-runShoppingListCrawler("https://www.nemlig.com/", nemlig, preferences).then(res => res).catch(console.error);
+//runShoppingListCrawler("https://www.nemlig.com/", nemlig, preferences).then(res => res).catch(console.error);
 //runShoppingListCrawler("https://shop.rema1000.dk/", rema1000, preferences).then(res => res).catch(console.error);
-
+module.exports = runShoppingListCrawler;
 

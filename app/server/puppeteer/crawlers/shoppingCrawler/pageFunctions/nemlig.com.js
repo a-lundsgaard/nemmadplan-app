@@ -89,6 +89,7 @@ module.exports = async function nemlig(preferences) {
     });
 
     let addItems = new Promise((resolve, reject) => {
+        
         items.forEach(async (item)=>{
             const body = {productId: item.Id, quantity: 1};
             try {

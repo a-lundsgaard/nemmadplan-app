@@ -58,7 +58,7 @@ async function spinUpLoadBalancerAndServers(loadBalancerPort, ...serverPorts) {
 
 }
 
-//spinUpLoadBalancerAndServers(8060, 8070, 8090, 8010)
+//spinUpLoadBalancerAndServers(8090, 8070, 8060, 8010)
 
 
 module.exports = spinUpLoadBalancerAndServers;

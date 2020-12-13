@@ -22,14 +22,18 @@ const isDev = process.env.NODE_ENV === "development";
 const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`;
 
-const { promisify } = require('util'); // tillader os at bruge async/await
-const exec = promisify(require("child_process").exec); // Node-funktion der tager en shell command og returnerer et promise
-
 // Used for shutting down all node servers e.g. sales server
 const triggerCommand = require('./helpers/triggerCommand')
 
 const salesServer = require('../server/salesServer/salesServer');
+//const loadBalancer = require('../server/salesServer/load-balancer/load-balancer');
+
+const shoppingServer = require('../server/shoppingServer/server');
+
+//loadBalancer();
+
 // starting server for getting sales
+shoppingServer();
 salesServer();
 
 
