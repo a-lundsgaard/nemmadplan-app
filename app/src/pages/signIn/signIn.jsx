@@ -12,13 +12,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-import Auth from '../../auth/auth';
-import SnackBar from "Components/snackbar/snackbar";
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
+
+import Auth from '../../components/auth/auth';
+import SnackBar from "../../components/shared/snackbar/snackbar";
+
 import { useHistory } from "react-router-dom";
-import ROUTES from "Constants/routes";
+import ROUTES from "../../constants/routes";
 import http from '../../HTTP/http';
 
 

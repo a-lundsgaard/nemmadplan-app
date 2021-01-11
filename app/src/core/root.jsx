@@ -1,7 +1,8 @@
 import React from "react";
 import { ConnectedRouter } from "connected-react-router";
 import { Provider, connect } from "react-redux";
-import Routes from "Core/routes";
+import Routes from "./routes";
+
 import "./root.css";
 
 class Root extends React.Component {

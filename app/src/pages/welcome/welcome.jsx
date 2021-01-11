@@ -3,12 +3,10 @@ import ROUTES from "Constants/routes";
 import { Link } from "react-router-dom";
 import "./welcome.css";
 
-import Drawer from "Components/drawer/drawer"
-
-import RightDrawer from "Components/drawer/rightDrawer"
+//import Drawer from "Components/drawer/drawer"
 
 
-import AppBar from "Components/appbar/appbar"
+//import AppBar from "Components/appbar/appbar"
 
 
 import Button from '@material-ui/core/Button';

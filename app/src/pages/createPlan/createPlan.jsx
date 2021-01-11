@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
-
-import CreatePlanDialog from 'Components/dialog/createPlanDialog'
+import CreatePlanDialog from '../../components/componentPages/createPlan/index/createPlanDialog';
 
 
 const useStyles = makeStyles((theme) => ({

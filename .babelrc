@@ -5,6 +5,7 @@
             {
                 "cwd": "babelrc",                
                 "alias": {
+                    "HTTP": "./app/src/http",
                     "Constants": "./app/src/constants",
                     "Components": "./app/src/components",
                     "Core": "./app/src/core",
@@ -17,7 +18,7 @@
         [
             "@babel/plugin-proposal-class-properties",
             {
-              "loose": true // for using some experimental js syntaxes
+              "loose": true // for using some experimental js syntaxes eg async await
             }
           ]
     ],

@@ -7,16 +7,14 @@ import Localization from "Pages/localization/localization";
 import UndoRedo from "Pages/undoredo/undoredo";
 import ContextMenu from "Pages/contextmenu/contextmenu";
 
-import SignIn from "Pages/signIn/signIn";
-import SignUp from "Pages/signUp/signUp";
-import ProtectedRoute from "Components/protectedRoute/protectedRoute"
-import Receipts from "Pages/receipts/receipts";
-import CreatePlan from "Pages/createPlan/createPlan";
 
-//import Drawer from "Components/drawer/drawer"
-import MiniDrawer from "Components/drawer/miniDrawer"
+import SignIn from "../pages/signIn/signIn";
+import SignUp from "../pages/signUp/signUp";
+import ProtectedRoute from "../components/auth/protectedRoute/protectedRoute"
+import Receipts from "../pages/recipies/recipies";
+import CreatePlan from "../pages/createPlan/createPlan.jsx";
 
-//import Auth from "../auth/auth"
+import MiniDrawer from "../components/shared/drawer/miniDrawer"
 
 import HTTP from '../HTTP/http';
 
@@ -62,8 +60,6 @@ function Routes() {
     },[state])
 
    // <Route exact path="/" render={() => <Redirect to="/login" />} />        <Route exact path="/" component={SignIn}/>
-
-
 
 
     const LoginContainer = () => (
