@@ -1,10 +1,12 @@
 const { default: fetch } = require('node-fetch');
 const bodyParser = require('body-parser');
 
-const pageFunction = require('../puppeteer/crawlers/shoppingCrawler/pageFunctions');
+const pageFunction = require('../puppeteer/crawlers/shoppingCrawler/pageFunctions/index');
 const shoppingCrawler = require('../puppeteer/crawlers/shoppingCrawler/shoppingCrawler')
 
 async function app() {
+
+  console.log('hej')
 
   const express = require('express');
   const app = express();
@@ -21,7 +23,7 @@ async function app() {
   });
 
   app.get('/', function (req, res) {
-    res.send("Local server is running...");
+    res.send("Local shopping server is running...");
   });
 
   app.post('/shopping', async function (req, res) {
@@ -32,10 +34,12 @@ async function app() {
 
     const foundChain = pageFunction[Object.keys(pageFunction).find(key => chain.includes(key))];
     const results = await shoppingCrawler(foundChain.url, foundChain.pageFunction, req.body);
+    //console.log(results)
     return res.json(results);
   })
 
   try {
+
     await fetch('http://localhost:3001/');
 
   } catch (error) {
@@ -46,7 +50,8 @@ async function app() {
     })
 
   }
-
 }
 
-module.exports = app;
+app().then(res => console.log(res))
+
+//module.exports = app;

@@ -13,7 +13,6 @@ function App({ ingredientArray }) {
 
   return (
 
-    <Paper className={classes.paper} elevation={3}>
       <div className={classes.App}>
         <header className={classes.header}>
           <h1>Indkøb</h1>
@@ -21,7 +20,6 @@ function App({ ingredientArray }) {
 
         <TodoApp ingredientArray={ingredientArray} />
       </div>
-    </Paper>
   );
 }
 

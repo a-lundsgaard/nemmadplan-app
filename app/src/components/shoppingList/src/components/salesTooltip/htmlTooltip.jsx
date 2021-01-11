@@ -32,7 +32,9 @@ export default function CustomizedTooltips({ sales, id }) {
 
 
     return (
-        <div style={{ zIndex: '-1' }}>
+        <div style={{ zIndex: '-1' }}
+        onClick={(e)=> e.stopPropagation()}
+        >
             { sales.length ?
                 <HtmlTooltip
                     interactive

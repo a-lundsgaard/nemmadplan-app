@@ -7,15 +7,11 @@ import { REMOVE_TODO, TOGGLE_TODO } from '../constants/actions';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-
-
-//import SalesTooltip from 'Components/toolTips/salesTooltip/htmlTooltip';
-
 import SalesTooltip from './salesTooltip/htmlTooltip';
 
 import HTTP from '../../../../HTTP/http'
 import Button from '@material-ui/core/Button';
-import { th } from 'date-fns/locale';
+//import { th } from 'date-fns/locale';
 
 
 function Todo({ id, task, completed, initiator }) {
@@ -34,7 +30,7 @@ function Todo({ id, task, completed, initiator }) {
   const getSales = async (ingredientString) => {
 
 
-    let removeCommaWords = ingredientString.split(' ');
+    let removeCommaWords = ingredientString.replace(/\d+\sstk/g, '').trimLeft().trimRight().split(' ');
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
 
     if (!removeCommaWords) {
@@ -121,6 +117,8 @@ function Todo({ id, task, completed, initiator }) {
   return (
     <li
       className={classes.Todo}
+      onClick={() => dispatch({ type: TOGGLE_TODO, id })} // adding a line through, marking as completed
+
     >
       <span>
         {state.isLoading ?
@@ -134,11 +132,15 @@ function Todo({ id, task, completed, initiator }) {
 
 
       <span
-        onClick={() => toggle()}
+        onClick={(e) => {
+          e.stopPropagation(); // stopping element from getting a line through
+          toggle(); 
+        }}
         style={{
           marginLeft: 20,
           textDecoration: completed ? 'line-through' : '',
           color: completed ? '#bdc3c7' : '#34495e',
+          cursor: 'text'
           //display: 'flex',
           // justifyContent: 'flex-start'
         }}

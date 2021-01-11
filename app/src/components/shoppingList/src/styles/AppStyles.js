@@ -4,6 +4,8 @@ import sizes from '../helpers/sizes';
 export default makeStyles({
   App: {
     width: '100%',
+    margin: "30px 0px 0 10px",
+
  /*   margin: '0 auto',
     [sizes.down('md')]: {
       width: 'auto'
@@ -26,7 +28,7 @@ export default makeStyles({
     textAlign: 'left',
     '& h1': {
       color: '#2c3e50',
-      margin: '5vh 0 10px 0',
+      margin: '0 0 10px 0',
       fontSize: '1.5rem',
       fontWeight: '300',
       '& span': {

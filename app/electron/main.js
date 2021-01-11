@@ -28,12 +28,12 @@ const triggerCommand = require('./helpers/triggerCommand')
 const salesServer = require('../server/salesServer/salesServer');
 //const loadBalancer = require('../server/salesServer/load-balancer/load-balancer');
 
-const shoppingServer = require('../server/shoppingServer/server');
+//const shoppingServer = require('../server/shoppingServer/server');
 
 //loadBalancer();
 
 // starting server for getting sales
-shoppingServer();
+//shoppingServer();
 salesServer();
 
 

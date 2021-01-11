@@ -26,6 +26,7 @@ import HTTP from '../../HTTP/http';
 import RecipeDialog from './recipeDialog'
 import ShoppingList from 'Components/shoppingList/src/components/App.js'
 
+import ShoppingListContainer from 'Components/shoppingListContainer/container'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   mainGrid: {
-    marginTop: -5
+    marginTop: 0,
+    overflowX: 'hidden'
   },
 
   importButton: {
@@ -172,7 +174,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
   }
 
   return (
-    <div>
+    <div style={{position: 'relative'}}>
       <span onClick={handleClickOpen}><PlusButton /></span>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
@@ -194,7 +196,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={6}
+          spacing={12}
           className={classes.mainGrid}
         >
 
@@ -246,9 +248,6 @@ export default function FullScreenDialog({ onReceiptSave }) {
           </Grid>
 
 
-          <Grid item className={classes.textAreaGrid}>
-            <ShoppingList ingredientArray={state?.recipes[state.recipes.length - 1]?.ingredients} />
-          </Grid>
 
           {recipesOpen ? <RecipeDialog
             visible={recipesOpen}
@@ -260,11 +259,11 @@ export default function FullScreenDialog({ onReceiptSave }) {
         </Grid>
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
+        <ShoppingListContainer> 
+            <ShoppingList ingredientArray={state?.recipes[state.recipes.length - 1]?.ingredients} />
+        </ShoppingListContainer>
+
       </Dialog>
-
-
-
-
 
     </div>
   );

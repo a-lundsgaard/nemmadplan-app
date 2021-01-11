@@ -63,7 +63,7 @@ module.exports = async function nemlig(preferences) {
                             //.includes(obj.name.toLowerCase())
                 })
                 
-                return cheap1 || sortedArray[0] || obj.name
+                return cheap1 || arr ||sortedArray[0] || obj.name
                 
             }
 

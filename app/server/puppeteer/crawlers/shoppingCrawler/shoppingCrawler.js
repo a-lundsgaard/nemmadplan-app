@@ -3,6 +3,14 @@ const puppeteer = require('puppeteer');
 const nemlig = require('./pageFunctions/nemlig.com');
 const rema1000 = require('./pageFunctions/rema1000');
 
+const k = require('./scripts/rema/algorithms')
+
+const path = require('path');
+//const libPath = path.resolve('puppeteer/crawlers/algorithms')
+
+//const libPath  = 'crawlers\\algorithms.js';
+
+const libPath  = path.join(__dirname, './scripts/rema/algorithms.js')
 
 
 async function runShoppingListCrawler (url, pageFunction, preferences) {
@@ -32,6 +40,11 @@ async function runShoppingListCrawler (url, pageFunction, preferences) {
 
       console.log('Entering url: ' + url);
       await page.goto(url, {timeout: 30000});
+
+      console.log(path.resolve('../algorithms.js'));
+
+      console.log('Injecting scripts...')
+      await page.addScriptTag({path: libPath});
 
       // runs custom javascript as if we were in the console
       console.log('Running page function...')

@@ -2,8 +2,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles({
   TodoForm: {
-   // width: 'fit-content',
-    marginBottom: '1rem'
+   // width: 'fit-content'
+    marginBottom: '1rem',
+    //position: 'fixed',
+
   },
   input: {
     width: '80%',

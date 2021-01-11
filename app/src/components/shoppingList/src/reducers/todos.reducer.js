@@ -9,10 +9,12 @@ import {
   REMOVE_TODO,
   TOGGLE_TODO,
   EDIT_TODO,
-  ADD_INGREDIENT_ARRAY
+  ADD_INGREDIENT_ARRAY,
+  COMPLETE_TODO,
+  UNCOMPLETE_TODO
 } from '../constants/actions';
 
-const reducer= (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case ADD_TODO:
       return [{ id: uuidv4(), task: action.task, completed: false, initiator: 'USER' }, ...state];
@@ -22,14 +24,26 @@ const reducer= (state, action) => {
       return state.map(todo =>
         todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
+
+    case COMPLETE_TODO:
+      return state.map(todo =>
+        todo.id === action.id ? { ...todo, completed: true } : todo
+      );
+
+    case UNCOMPLETE_TODO:
+      console.log('THE REDUCER WAS CALLED')
+
+      return state.map(todo =>
+        ({ ...todo, completed: false })
+      );
     case EDIT_TODO:
       //const initiator = action.initiator === 'REPLACEMENT_FROM_SALES' ? action.initiator : null;
       return state.map(todo =>
         todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator } : todo
       );
-    case ADD_INGREDIENT_ARRAY: 
-        console.log('THE REDUCER WAS CALLED')
-        return [...state, ...action.task.map((ingr, index) => ({id: uuidv4(), task: `${ingr.quantity} ${ingr.unit} ${ingr.name}`, completed: false }) )]
+    case ADD_INGREDIENT_ARRAY:
+      console.log('THE REDUCER WAS CALLED')
+      return [...state, ...action.task.map((ingr, index) => ({ id: uuidv4(), task: `${ingr.quantity || ''} ${ingr.unit || ''} ${ingr.name}`, completed: false }))]
     default:
       return state;
   }
