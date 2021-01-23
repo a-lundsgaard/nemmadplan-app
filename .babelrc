@@ -5,6 +5,8 @@
             {
                 "cwd": "babelrc",                
                 "alias": {
+                   // "Images": "./app/src/components/componentPages/createPlan/shoppingList",
+
                     "HTTP": "./app/src/http",
                     "Constants": "./app/src/constants",
                     "Components": "./app/src/components",

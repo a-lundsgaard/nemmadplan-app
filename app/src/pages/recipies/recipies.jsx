@@ -8,7 +8,7 @@ import HTTP from '../../HTTP/http';
 
 import ReceiptCard from '../../components/shared/card/recipeCard';
 
-import FullScreenDialog from '../../components/componentPages/createRecipe/createRecipeDialog.jsx';
+import FullScreenDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
 import ReceiptSceletonLoader from '../../components/shared/loaders/receiptSceletonLoader';
 
 

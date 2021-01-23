@@ -35,6 +35,7 @@ function Todo({ id, task, completed, initiator }) {
 
 
     let removeCommaWords = ingredientString.replace(/\d+\sstk/g, '').trimLeft().trimRight().split(' ');
+
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
 
     if (!removeCommaWords) {
@@ -67,7 +68,6 @@ function Todo({ id, task, completed, initiator }) {
   }
 
 
-
   // loads sales when an item is added to the list 
   useEffect(() => {
 
@@ -97,14 +97,13 @@ function Todo({ id, task, completed, initiator }) {
         }, 20000) */
     }
 
-
-
     return () => {
       mounted = false; // cleanup function, prevents setting state after component unmounts
     };
   }, [task])
 
 
+  // dette er en test
 
   if (isEditing) {
     return (

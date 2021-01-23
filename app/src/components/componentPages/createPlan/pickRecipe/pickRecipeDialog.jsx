@@ -11,8 +11,8 @@ import Slide from '@material-ui/core/Slide';
 
 //import Recipes from 'Pages/receipts/receipts.jsx';
 
-import Recipes from '../../../pages/recipies/recipies.jsx';
-import SearchBar from '../../shared/searchBar/searchBar1'
+import Recipes from '../../../../pages/recipies/recipies.jsx';
+import SearchBar from '../../../shared/searchBar/searchBar1'
 
 
 

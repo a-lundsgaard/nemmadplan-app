@@ -21,10 +21,11 @@ import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/sma
 //import StaticDatePicker from '../../pickers/date/staticDatePicker.jsx'
 
 import StaticDatePicker from '../datePicker/staticDatePicker'
-
-import RecipeDialog from '../../createRecipe/pickRecipeDialog.jsx'
+import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
 import ShoppingList from '../shoppingList/src/components/App.js'
 import ShoppingListContainer from '../shoppingListContainer/container';
+import Divider from '@material-ui/core/Divider';
+
 
 
 
@@ -46,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
 
   mainGrid: {
     marginTop: 0,
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    zIndex: 0
   },
 
   importButton: {
@@ -108,7 +110,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
   // state for input fields
   const [state, setState] = useState({
     recipes: [],
-  //  date: new Date()
+    //  date: new Date()
   });
 
   // displaying server messages
@@ -173,7 +175,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
   }
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <span onClick={handleClickOpen}><PlusButton /></span>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
@@ -190,12 +192,20 @@ export default function FullScreenDialog({ onReceiptSave }) {
           </Toolbar>
         </AppBar>
 
+
+        <TextField label="Navn på madplan" style={{
+          margin: '15px 0 30px 40px',
+          maxWidth: 300
+        }} />
+        <Divider />
+
+
         <Grid
           container
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={12}
+          //spacing={10}
           className={classes.mainGrid}
         >
 
@@ -205,7 +215,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
                 <ListItem>
                   <span className={classes.daysSelect}>
                     <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} />
-                    <span style={{ display: "flex" }}>       
+                    <span style={{ display: "flex" }}>
                     </span>
                   </span>
                 </ListItem>
@@ -258,10 +268,9 @@ export default function FullScreenDialog({ onReceiptSave }) {
         </Grid>
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
-        <ShoppingListContainer> 
-            <ShoppingList ingredientArray={state?.recipes[state.recipes.length - 1]?.ingredients} />
+        <ShoppingListContainer>
+          <ShoppingList ingredientArray={state?.recipes[state.recipes.length - 1]?.ingredients} />
         </ShoppingListContainer>
-
       </Dialog>
 
     </div>

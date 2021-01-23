@@ -15,12 +15,12 @@ import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import PlusButton from '../../shared/buttons/plusButton/plusButton'
-import SnackBar from "../../shared/snackbar/snackbar.jsx";
-import NumberPicker from '../../shared/pickers/number/numberPicker1/numberPicker.jsx'
-import ImageUploader from './upload/uploadImage.jsx'
-import CircularLoader from '../../shared/loaders/circular/circularLoader.jsx'
-import HTTP from '../../../HTTP/http';
+import PlusButton from '../../../shared/buttons/plusButton/plusButton'
+import SnackBar from "../../../shared/snackbar/snackbar.jsx";
+import NumberPicker from '../../../shared/pickers/number/numberPicker1/numberPicker.jsx'
+import ImageUploader from '../upload/uploadImage.jsx'
+import CircularLoader from '../../../shared/loaders/circular/circularLoader.jsx'
+import HTTP from '../../../../HTTP/http';
 
 
 const useStyles = makeStyles((theme) => ({
