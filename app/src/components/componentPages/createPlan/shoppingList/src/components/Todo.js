@@ -3,7 +3,7 @@ import { DispatchContext } from '../contexts/todos.context';
 import EditTodoForm from './EditTodoForm';
 import useToggleState from '../hooks/useToggleState';
 import useStyles from '../styles/TodoStyles.js';
-import { REMOVE_TODO, TOGGLE_TODO } from '../constants/actions';
+import { REMOVE_TODO, TOGGLE_TODO, EDIT_TODO } from '../constants/actions';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -15,10 +15,6 @@ import Button from '@material-ui/core/Button';
 
 
 function Todo({ id, task, completed, initiator }) {
-
-  const storeSaleToRedux = sale => {
-    window.store.dispatch({type: 'SALES', data: sale})
-  }
 
   const classes = useStyles();
   const dispatch = useContext(DispatchContext);
@@ -85,8 +81,11 @@ function Todo({ id, task, completed, initiator }) {
               sales: results || []
             })
 
-            storeSaleToRedux(results[0] || [])
+            // adding img to to do for using in the container sidebar (side bar showing first sale of every product)
+            // redux dispatcher can be found in contexts folder
+            dispatch({ type: EDIT_TODO, id, task: task, img: results[0]?.img || null });
           }
+          
         }).catch(function (e) {
           setState({...state, isLoading: false, sales: []})
           console.error(e)

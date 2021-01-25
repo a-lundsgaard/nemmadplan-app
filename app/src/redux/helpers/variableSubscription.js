@@ -11,6 +11,8 @@ export default function (cb, storeProperty) {
         let store = window.store
         let previousValue = currentValue
         currentValue = select(store.getState())
+        //cb(currentValue); // for useState
+
 
         if (previousValue !== currentValue) {
             cb(currentValue); // for useState

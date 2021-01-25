@@ -15,7 +15,7 @@ function App({ ingredientArray }) {
 
       <div className={classes.App}>
         <header className={classes.header}>
-          <h1>Indkøb</h1>
+          <h1>Min liste</h1>
         </header>
         <TodoApp ingredientArray={ingredientArray} />
       </div>

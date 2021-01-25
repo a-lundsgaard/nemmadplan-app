@@ -23,7 +23,7 @@ import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/sma
 import StaticDatePicker from '../datePicker/staticDatePicker'
 import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
 import ShoppingList from '../shoppingList/src/components/App.js'
-import ShoppingListContainer from '../shoppingListContainer/container';
+import ShoppingListContainer from '../shoppingListContainer/index/container';
 import Divider from '@material-ui/core/Divider';
 
 

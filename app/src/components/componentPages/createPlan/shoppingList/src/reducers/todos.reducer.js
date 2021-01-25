@@ -39,7 +39,7 @@ const reducer = (state, action) => {
     case EDIT_TODO:
       //const initiator = action.initiator === 'REPLACEMENT_FROM_SALES' ? action.initiator : null;
       return state.map(todo =>
-        todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator } : todo
+        todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator, img: action.img } : todo
       );
     case ADD_INGREDIENT_ARRAY:
       console.log('THE REDUCER WAS CALLED')

@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import todosReducer from '../reducers/todos.reducer';
 
-import { ADD_INGREDIENT_ARRAY } from '../constants/actions';
+import { ADD_INGREDIENT_ARRAY, EDIT_TODO } from '../constants/actions';
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
 
@@ -11,19 +11,37 @@ const defaultItems = [
   { id: '3', task: 'æbler', completed: false }
 ];
 
+const storeTodosToRedux = sale => {
+  window.store.dispatch({type: 'SALES', data: sale})
+}
+
 export const TodosContext = createContext();
 export const DispatchContext = createContext();
+
 
 export function TodosProvider(props) {
 
   const [todos, dispatch] = useReducer(todosReducer, defaultItems)
 
+  // For storing shopping list state in localstorage
  /* const [todos, dispatch] = useLocalStorageReducer(
     'shoppingList',
     todosReducer,
     defaultItems
   )*/
 
+  useEffect(() => {
+    if (!todos.length) {
+     // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar
+     storeTodosToRedux(defaultItems)
+    } else {
+      storeTodosToRedux(todos)
+
+    }
+  }, [todos])
+
+
+  // For adding ingredients to shoppinglist when adding dish to meal plan programatically 
   useEffect(() => {
     if (props.ingredientArray) {
       dispatch({ type: ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
