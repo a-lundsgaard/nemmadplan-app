@@ -193,12 +193,6 @@ export default function FullScreenDialog({ onReceiptSave }) {
         </AppBar>
 
 
-        <TextField label="Navn på madplan" style={{
-          margin: '15px 0 30px 40px',
-          maxWidth: 300
-        }} />
-        <Divider />
-
 
         <Grid
           container
@@ -209,16 +203,22 @@ export default function FullScreenDialog({ onReceiptSave }) {
           className={classes.mainGrid}
         >
 
-          <Grid item >
+          <Grid style={{
+            //borderRight: '1px solid grey'
+          }} item >
             <List>
               <div>
                 <ListItem>
                   <span className={classes.daysSelect}>
                     <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} />
-                    <span style={{ display: "flex" }}>
-                    </span>
-                  </span>
+                  </span>       
                 </ListItem>
+                <TextField label="Navn på madplan" style={{
+          margin: '0px 0 30px 40px',
+          maxWidth: 300
+        }} />
+                
+
               </div>
             </List>
 

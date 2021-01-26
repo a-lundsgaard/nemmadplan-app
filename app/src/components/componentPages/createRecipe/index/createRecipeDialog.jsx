@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
 
   importButton: {
     marginLeft: 20
-  },  
-  
+  },
+
   urlField: {
     marginBottom: 20
   },
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
   prepareTextField: {
     minWidth: 400,
-    
+
   },
 
   numPicker: {
@@ -89,7 +89,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function FullScreenDialog({onReceiptSave}) {
+export default function FullScreenDialog({ onReceiptSave }) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false); // set false when not testing
@@ -98,7 +98,7 @@ export default function FullScreenDialog({onReceiptSave}) {
   const [state, setState] = useState({
     //image: 'https://aosa.org/wp-content/uploads/2019/04/image-placeholder-350x350.png',
     numPicker: 1
-  }); 
+  });
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -111,13 +111,13 @@ export default function FullScreenDialog({onReceiptSave}) {
     importUrl: false,
     title: false,
     ingredients: false
-  }); 
+  });
 
 
 
- /* useEffect(()=> {
-    setState({...state, importUrl: 'tester'})
-  }, [])*/
+  /* useEffect(()=> {
+     setState({...state, importUrl: 'tester'})
+   }, [])*/
 
 
 
@@ -128,12 +128,12 @@ export default function FullScreenDialog({onReceiptSave}) {
       [event.target.name]: event.target.value
     });
     // removes error when text field is edited
-    setInputError({...inputError, [event.target.name]: false});
+    setInputError({ ...inputError, [event.target.name]: false });
   }
 
   const onNumPickerChange = (value) => {
     //setPersons(value)
-   setState({
+    setState({
       ...state,
       numPicker: value
     });
@@ -157,12 +157,12 @@ export default function FullScreenDialog({onReceiptSave}) {
 
   const handleImportUrl = () => {
 
-    if(isLoading) return; // stops user from sending requests when already loading to get one
+    if (isLoading) return; // stops user from sending requests when already loading to get one
 
-    if(!state.importUrl) {
-      setInputError({...inputError, importUrl: true})
+    if (!state.importUrl) {
+      setInputError({ ...inputError, importUrl: true })
       return;
-    } 
+    }
 
     setLoading(true)
 
@@ -172,39 +172,39 @@ export default function FullScreenDialog({onReceiptSave}) {
 
 
     HTTP.post(requestBody)
-    .then(res => {
-      setLoading(false)
-      setMessage({msg: `Opskrift blev hentet`, type: 'success', key: Math.random()})
-      const { data: { scrapeReceipt: {_id, name, text, persons, source, image, ingredients }} } = res;
+      .then(res => {
+        setLoading(false)
+        setMessage({ msg: `Opskrift blev hentet`, type: 'success', key: Math.random() })
+        const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;
 
-      let formattedAttachments = '';
-      ingredients.map(ingredient => {
-        formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();      
-      });
+        let formattedAttachments = '';
+        ingredients.map(ingredient => {
+          formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();
+        });
 
-      setState({
-        ...state,
-        numPicker: persons,
-        title: name,
-        receipt: text,
-        image: image,
-        source: source,
-        ingredients: formattedAttachments
+        setState({
+          ...state,
+          numPicker: persons,
+          title: name,
+          receipt: text,
+          image: image,
+          source: source,
+          ingredients: formattedAttachments
+        })
+
+        // Removing alle red borders from input fields, when these are filled out automatically by scraper
+        let obj;
+        Object.keys(inputError).forEach(key => obj = { ...obj, [key]: false })
+        setInputError(obj)
+
       })
-
-      // Removing alle red borders from input fields, when these are filled out automatically by scraper
-      let obj;
-      Object.keys(inputError).forEach(key => obj = {...obj, [key] : false })
-      setInputError(obj)
-
-    })
-    .catch(error => {
-    //  console.log(error)
-      setMessage({msg: error.message, type: 'error', key: Math.random()}) 
-      setLoading(false)
-    })
+      .catch(error => {
+        //  console.log(error)
+        setMessage({ msg: error.message, type: 'error', key: Math.random() })
+        setLoading(false)
+      })
   }
-  
+
 
   const handleSaveReceipt = () => {
 
@@ -214,74 +214,74 @@ export default function FullScreenDialog({onReceiptSave}) {
 
     let errorState = inputError, stopScript = false;
     Object.keys(inputError)
-    .forEach((key)=> {
-      if(key === 'importUrl') return;
-      if(!state[key]) {
-        errorState = {...errorState, [key]: true}
-         stopScript = true;
+      .forEach((key) => {
+        if (key === 'importUrl') return;
+        if (!state[key]) {
+          errorState = { ...errorState, [key]: true }
+          stopScript = true;
         }
-    })
+      })
     setInputError(errorState);
-    if(stopScript) return;
+    if (stopScript) return;
 
 
     // Script to transform ingredients into array with name, unit and quantity
     // Creating array from ingredient input field 
-    const ingrArray = state.ingredients.split('\n').filter(line => line !=="");
+    const ingrArray = state.ingredients.split('\n').filter(line => line !== "");
     console.log(ingrArray)
 
     // returns array of ingredient objects from input field
     const transformedIngredients = ingrArray
-      .map( (str, i)=> {
+      .map((str, i) => {
         let strArr = str.trimEnd().split(' ');
         let quantity = strArr.find(el => Number(el)) || null;
         let unit = strArr.find(el => el.includes('*')) || null;
 
         // removes quantity and unit from array and leaves name
-        [quantity, unit].forEach((item)=>{
+        [quantity, unit].forEach((item) => {
           const index = strArr.indexOf(item);
-          if(index != -1 ) {
+          if (index != -1) {
             //console.log('Splicing element: ' + strArr[index])
             strArr.splice(index, 1);
-          } 
+          }
         })
 
-        return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity)}
+        return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity) }
       })
 
-      console.log(transformedIngredients);
+    console.log(transformedIngredients);
 
-      const token = localStorage.getItem('token');
-      const {title, type, numPicker, source, receipt, image} = state;
+    const token = localStorage.getItem('token');
+    const { title, type, numPicker, source, receipt, image } = state;
 
-      const query = HTTP.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', {
-        token: token,
-        name: title,
-        type: 'veg',
-        persons: numPicker,
-        source: source,
-        text: receipt, // text is required, but should probably not be
-        image: image,
-        ingredients: transformedIngredients
-      })
-  
+    const query = HTTP.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', {
+      token: token,
+      name: title,
+      type: 'veg',
+      persons: numPicker,
+      source: source,
+      text: receipt, // text is required, but should probably not be
+      image: image,
+      ingredients: transformedIngredients
+    })
 
 
-      HTTP.post(query)
+
+    HTTP.post(query)
       .then(res => {
-        setMessage({msg: `${state.title} er gemt`, type: 'success', key: Math.random()})
+        setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() })
         onReceiptSave(Date.now())
       })
       .catch(error => {
         console.log(error)
-        setMessage({msg: error.message, type: 'error', key: Math.random()}) 
+        setMessage({ msg: error.message, type: 'error', key: Math.random() })
       })
-    
+
   }
 
   return (
     <div>
-      <span onClick={handleClickOpen}><PlusButton/></span>
+      <span onClick={handleClickOpen}><PlusButton /></span>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -299,21 +299,21 @@ export default function FullScreenDialog({onReceiptSave}) {
 
         <List>
           <ListItem className={classes.urlField}>
-          <TextField name="importUrl" id="standard-basic" label="Web-adresse*" 
-            error={inputError.importUrl}
-            onChange={onInputchange}
-            className={classes.importUrlInput}
-            value={state.importUrl}
-          />
+            <TextField name="importUrl" id="standard-basic" label="Web-adresse*"
+              error={inputError.importUrl}
+              onChange={onInputchange}
+              className={classes.importUrlInput}
+              value={state.importUrl}
+            />
             <Button className={classes.importButton} variant="contained" onClick={handleImportUrl}>
-                Importér opskrift
+              Importér opskrift
             </Button>
-            <span className={classes.importButton}>{ isLoading ? <CircularLoader/> : null}</span>
-              
-          </ListItem>
-          </List>
+            <span className={classes.importButton}>{isLoading ? <CircularLoader /> : null}</span>
 
-          <Divider/>
+          </ListItem>
+        </List>
+
+        <Divider />
 
 
         <Grid
@@ -326,90 +326,89 @@ export default function FullScreenDialog({onReceiptSave}) {
         >
 
           <Grid item >
-          <List>
-          <div>
+            <List>
+              <div>
 
-          <ListItem className={classes.numPicker}>
-                <NumberPicker 
-                  name="numPicker" 
-                  onChange={(value) => onNumPickerChange(value)}
-                  value={state.numPicker}
-                />
-            </ListItem>
-            
-            <ListItem>
-              <TextField name="title" id="standard-basic" label="Titel*" 
-              error={inputError.title}
+                <ListItem className={classes.numPicker}>
+                  <NumberPicker
+                    name="numPicker"
+                    onChange={(value) => onNumPickerChange(value)}
+                    value={state.numPicker}
+                  />
+                </ListItem>
+
+                <ListItem>
+                  <TextField name="title" id="standard-basic" label="Titel*"
+                    error={inputError.title}
+                    onChange={onInputchange}
+                    value={state.title}
+                    InputLabelProps={{ shrink: state.title ? true : false }}
+                  />
+                </ListItem>
+
+                <ListItem>
+                  <TextField name="source" id="standard-basic" label="Kilde"
+                    onChange={onInputchange}
+                    value={state.source}
+                    InputLabelProps={{ shrink: state.source ? true : false }}
+                  />
+                </ListItem>
+
+
+              </div>
+            </List>
+
+          </Grid>
+
+          <Grid item className={classes.textAreaGrid}>
+            <TextField
+              name="ingredients"
+              className={classes.ingredientTextField}
+              label="Ingredienser*"
+              multiline
+              rows={20}
+              rowsMax={99}
+              variant="outlined"
+              size="medium"
+              error={inputError.ingredients}
               onChange={onInputchange}
-              value={state.title}
-              InputLabelProps={{ shrink: state.title ? true : false }}
-              />
-            </ListItem>
+              helperText='Indtast * ved angivelse af enheder, f.eks. stk*'
+              value={state.ingredients}
+              InputLabelProps={{ shrink: state.ingredients ? true : false }}
 
-            <ListItem>
-              <TextField name="source" id="standard-basic" label="Kilde" 
-                onChange={onInputchange}
-                value={state.source}
-                InputLabelProps={{ shrink: state.source ? true : false }}
-
-              />
-            </ListItem>
-           
-
-          </div>
-          </List>
-
-          </Grid>
-
-          <Grid item className={classes.textAreaGrid}>
-          <TextField
-                name="ingredients"
-                className={classes.ingredientTextField}
-                label="Ingredienser*"
-                multiline
-                rows={20}
-                rowsMax={99}
-                variant="outlined" 
-                size="medium"
-                error={inputError.ingredients}
-                onChange={onInputchange}
-                helperText= 'Indtast * ved angivelse af enheder, f.eks. stk*'
-                value={state.ingredients}
-                InputLabelProps={{ shrink: state.ingredients ? true : false }}
-
-              />
+            />
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
 
-          <TextField
-                name="receipt"
-                className={classes.prepareTextField}
-                label="Tilberedning"
-                multiline
-                rows={20}
-                rowsMax={99}
-                variant="outlined" 
-                size="medium"
-                onChange={onInputchange}
-                value={state.receipt}
-                InputLabelProps={{ shrink: state.receipt ? true : false }}
+            <TextField
+              name="receipt"
+              className={classes.prepareTextField}
+              label="Tilberedning"
+              multiline
+              rows={20}
+              rowsMax={99}
+              variant="outlined"
+              size="medium"
+              onChange={onInputchange}
+              value={state.receipt}
+              InputLabelProps={{ shrink: state.receipt ? true : false }}
 
-              />
+            />
           </Grid>
 
           <Grid item className={classes.textAreaGrid}>
-            <ImageUploader name="receipt" src={state.image}/>
+            <ImageUploader name="receipt" src={state.image} />
             <TextField name="image" id="standard-basic" label="Billede"
-                className={classes.imageInputField}
-                onChange={onInputchange}
-                value={state.image}
-                InputLabelProps={{ shrink: state.image ? true : false }}
-                />
+              className={classes.imageInputField}
+              onChange={onInputchange}
+              value={state.image}
+              InputLabelProps={{ shrink: state.image ? true : false }}
+            />
           </Grid>
 
         </Grid>
-        { message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg}/> : null}
+        {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
       </Dialog>
     </div>

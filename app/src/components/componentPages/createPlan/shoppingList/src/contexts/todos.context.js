@@ -31,13 +31,12 @@ export function TodosProvider(props) {
   )*/
 
   useEffect(() => {
-    if (!todos.length) {
+   // if (!todos.length) {
      // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar
-     storeTodosToRedux(defaultItems)
-    } else {
+    // storeTodosToRedux(defaultItems)
+ //   } else {
       storeTodosToRedux(todos)
-
-    }
+   // }
   }, [todos])
 
 

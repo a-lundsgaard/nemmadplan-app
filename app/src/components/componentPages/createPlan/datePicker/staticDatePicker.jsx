@@ -41,8 +41,8 @@ const defaultMaterialTheme = createMuiTheme({
 
 
 function StaticDatePicker( {hasDbClicked, pickedDate}) {
-  const [date, setDate] = useState(new Date());
 
+  const [date, setDate] = useState(new Date());
   // For opening receipts
   const [dbClick, setDbClick] = useState(false);
 
@@ -62,17 +62,27 @@ function StaticDatePicker( {hasDbClicked, pickedDate}) {
 
     setDate(d);
     pickedDate(d);
-
     setDbClick(true);
 
-    setTimeout(() => {
+    setTimeout(() => { // checking for double click
       setDbClick(false)
     }, 300)
   }
 
-  /*useEffect(()=>{
+  useEffect(()=>{
     console.log(date);
-  },[date])*/
+
+    // paint days with selected food red 
+    // mui datepickers doesnt support state yet, so it has to be done ugly and manually
+    document.querySelectorAll('.MuiPickersDay-day').forEach(el => {
+      console.log(el.classList.contains('MuiPickersDay-daySelected'))
+
+      if( el.classList.contains('MuiPickersDay-daySelected') ) {
+        el.style.background = 'red'
+      }
+  })
+
+  },[date])
 
   // prettier-ignore
   return (

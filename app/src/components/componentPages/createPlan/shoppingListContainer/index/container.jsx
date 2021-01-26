@@ -5,9 +5,13 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import listenToSales from 'Redux/helpers/variableSubscription'
-import shoppingListIcon from './shopping-list-icon-14.jpg'
-
 import shoppingListIconSelfMade from './shopping-list-icon.png'
+
+import Divider from '@material-ui/core/Divider';
+
+import ListIconAndItemCounter from '../components/listIconAndItemCounter/listIconAndItemCounter';
+import SalesList from '../components/itemList/salesList';
+
 
 
 
@@ -38,8 +42,7 @@ export default function bar(props) {
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-
-    const [sales, setSales] = useState(window.store.getState().sales); // getting search bar input
+    const [sales, setSales] = useState([1, 2, 3]); // 3 items in the array is equivalent to the amount of default items
 
 
 
@@ -65,76 +68,23 @@ export default function bar(props) {
             <div
                 style={{
                     background: 'white',
-                    //borderRight: '2px solid #f0f0f5',
+                    borderRight: '2px solid #f0f0f5',
                     width: 100
                     //marginRight: 500
                 }}
+                 >
 
-            >
-                <div
-                    onClick={() => setOpen(!open)}
-                    //color={'primary'}
-                    style={{
-                        height: 50,
-                        width: 50,
-                        // fontSize: 90,
-                        cursor: 'pointer',
-                        //transition: '0.5s',
-                        //transform: open && "rotate(180deg)",
-                        background: `url(${shoppingListIconSelfMade})`,
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat",
-                        margin: '10px 0 0 28px',
-                        //borderBottom: '1px solid #ccc'
-                        //paddingRight: '20px'
+                <ListIconAndItemCounter
+                 open={open} 
+                 sales={sales} 
+                 onClick={() => setOpen(!open)}
+                 />
 
-                    }}
-                >
-                    <span
-                        style={{
-                       /*      height: '10px',
-                            width: '10px', */
-                            marginLeft: 25,
-                            padding: sales.length < 10 ? '7px 10px 7px 10px' : '7px 7px 7px 7px',
-                            background: '#3f51bf',
-                            color: 'white',
-                            borderRadius: '50%'
-                        }}
-                    >
-                        {sales.length}
-                    </span>
-                </div>
-
-                <div style={{
-                    margin: '5px 0 30px 10px', 
-                    fontSize: 14,                                         
-                    opacity: open ? 0 : 0.8,
-                    transition: "opacity 0.8s ease-in-out",
-                    }}>Indkøbsliste</div>
-
-                {
-                    <div style={{
-                        listStyle: 'none'
-
-                    }}>{
-                            sales.map((sale, index) => { 
-                                return <div style={{
-                                    margin: '8px'
-                                }} key={index}>
-                                    <img style={{
-                                        maxHeight: 80,
-                                        maxWidth: 80,
-                                        //opacity: 0.4,
-
-                                        opacity: open ? 0 : 0.4,
-                                        transition: "opacity 0.8s ease-in-out",
-                                        //webkitTransition: "opacity 0.4s ease-in-out"
-                                    }} src={sale.img} />
-                                </div>
-                            }
-                            )}
-                    </div>
-                }
+                <SalesList 
+                sales={sales} 
+                open={open} 
+                />
+                
             </div>
 
             <div style={{ width: 700, overflow: 'hidden' }}>
