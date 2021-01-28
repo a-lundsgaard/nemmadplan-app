@@ -109,7 +109,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
   // state for input fields
   const [state, setState] = useState({
-    recipes: [],
+    recipies: [],
     //  date: new Date()
   });
 
@@ -149,7 +149,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
   const handleSetNewRecipe = (recipe) => {
     recipe.date = date;
-    setState({ ...state, recipes: [...state.recipes, recipe] })
+    setState({ ...state, recipies: [...state.recipies, recipe] })
   }
 
   const handleClickOpen = () => {
@@ -160,7 +160,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
     // Clearing states and messages
 
     setState({
-      recipes: [],
+      recipies: [],
       date: new Date()
     })
     setMessage({})
@@ -170,7 +170,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
   const handleSaveReceipt = () => {
     console.log('Saved')
-    console.log(state.recipes.flatMap(recipe => recipe.ingredients))
+    console.log(state.recipies.flatMap(recipe => recipe.ingredients))
     console.log(state)
   }
 
@@ -210,14 +210,13 @@ export default function FullScreenDialog({ onReceiptSave }) {
               <div>
                 <ListItem>
                   <span className={classes.daysSelect}>
-                    <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} />
-                  </span>       
+                    <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies} />
+                  </span>
                 </ListItem>
                 <TextField label="Navn på madplan" style={{
-          margin: '0px 0 30px 40px',
-          maxWidth: 300
-        }} />
-                
+                  margin: '0px 0 30px 40px',
+                  maxWidth: 300
+                }} />
 
               </div>
             </List>
@@ -235,7 +234,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
               <List>
 
                 {
-                  state.recipes.map((recipe, index) =>
+                  state.recipies.map((recipe, index) =>
                     <div key={index}>
                       <h3>Mandag d. 12 okt</h3>
                       <span style={{ display: "flex" }}>
@@ -269,7 +268,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
         <ShoppingListContainer>
-          <ShoppingList ingredientArray={state?.recipes[state.recipes.length - 1]?.ingredients} />
+          <ShoppingList ingredientArray={state?.recipies[state.recipies.length - 1]?.ingredients} />
         </ShoppingListContainer>
       </Dialog>
 

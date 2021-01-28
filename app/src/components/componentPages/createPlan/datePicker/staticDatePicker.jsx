@@ -18,6 +18,22 @@ class LocalizedUtils extends DateFnsUtils {
   }
 }
 
+const months = {
+  'januar': 0,
+  'februar': 1,
+  'marts': 2,
+  'april': 3,
+  'maj': 4,
+  'juni': 5,
+  'juli': 6,
+  'august': 7,
+  'september': 8,
+  'oktober': 9,
+  'november': 10,
+  'december': 11
+}
+
+
 
 //import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 //import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -40,7 +56,82 @@ const defaultMaterialTheme = createMuiTheme({
 });
 
 
-function StaticDatePicker( {hasDbClicked, pickedDate}) {
+
+const paintDays2 = (meals) => {
+  const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
+  const monthAndYearArray = document.querySelector('.makeStyles-daysSelect-24 p').innerText.split(' ');
+
+  //const currentSelectedDate = parseInt(document.querySelector('.MuiPickersDay-daySelected').innerText);
+  const month = months[monthAndYearArray[0]];
+  const year = parseInt(monthAndYearArray[1]);
+
+  meals.forEach((meal => {
+    const mealDate = new Date(meal.date);
+    const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
+
+    calendarDays.forEach(el => {
+      const dateString = `${el?.innerText} ${month} ${year}`;
+
+      if (mealDateString === dateString) {
+        el.style.background = '#90c200';
+       // el.style.color ='white'
+      } 
+
+  /*     if (mealDateString !== dateString) {
+        el.style.background = '';
+       // el.style.color ='white'
+      }  */
+
+    })
+  }))
+}
+
+
+
+const paintDays = (meals) => {
+  const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
+  const monthAndYearArray = document.querySelector('.makeStyles-daysSelect-24 p').innerText.split(' ');
+
+  //const currentSelectedDate = parseInt(document.querySelector('.MuiPickersDay-daySelected').innerText);
+  const month = months[monthAndYearArray[0]];
+  const year = parseInt(monthAndYearArray[1]);
+
+  calendarDays.forEach((el => {
+    const dateString = `${el?.innerText} ${month} ${year}`;
+
+    meals.forEach(meal => {
+      const mealDate = new Date(meal.date);
+      const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
+
+      if (mealDateString === dateString) {
+        el.style.background = '#90c200';
+       // el.style.color ='white'
+      } 
+
+/*   if (mealDateString !== dateString) {
+        el.style.background = '';
+       // el.style.color ='white'
+      }  */
+
+    })
+
+    
+  }))
+}
+
+const colorDaysWithASelectedMeal = (meals, fromMonthChange) => {
+  if(fromMonthChange) { 
+    setTimeout(() => paintDays(meals), 50) 
+  } else {
+    paintDays(meals);
+  }
+  return null;
+
+}
+
+
+
+function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
 
   const [date, setDate] = useState(new Date());
   // For opening receipts
@@ -51,14 +142,14 @@ function StaticDatePicker( {hasDbClicked, pickedDate}) {
 
     console.log(dbClick)
     if (dbClick) {
-   //   let d = new Date();
+      //   let d = new Date();
       let nextDate = new Date(date);
       nextDate.setHours(+24);
       hasDbClicked(true)
-     // setDate(new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate()))
-     // alert('You double clicked');
+      // setDate(new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate()))
+      // alert('You double clicked');
       return
-    } 
+    }
 
     setDate(d);
     pickedDate(d);
@@ -69,20 +160,34 @@ function StaticDatePicker( {hasDbClicked, pickedDate}) {
     }, 300)
   }
 
-  useEffect(()=>{
-    console.log(date);
+  /*   useEffect(() => {
+      console.log(date);
+  
+      // paint days with selected food red 
+      // mui datepickers doesnt support state yet, so it has to be done ugly and manually
+      document.querySelectorAll('.MuiPickersDay-day').forEach(el => {
+        console.log(el.classList.contains('MuiPickersDay-daySelected'))
+  
+        if (el.classList.contains('MuiPickersDay-daySelected')) {
+          el.style.background = 'red'
+        }
+      })
+  
+    }, [date]) */
 
-    // paint days with selected food red 
-    // mui datepickers doesnt support state yet, so it has to be done ugly and manually
-    document.querySelectorAll('.MuiPickersDay-day').forEach(el => {
-      console.log(el.classList.contains('MuiPickersDay-daySelected'))
 
-      if( el.classList.contains('MuiPickersDay-daySelected') ) {
-        el.style.background = 'red'
-      }
-  })
+  useEffect(() => {
 
-  },[date])
+    if (selectedMeals.length) {
+      console.log(selectedMeals);
+
+      // paint days with selected food red 
+      // mui datepickers doesnt support state yet, so it has to be done ugly and manually
+      colorDaysWithASelectedMeal(selectedMeals);
+    }
+
+
+  }, [selectedMeals])
 
   // prettier-ignore
   return (
@@ -98,8 +203,9 @@ function StaticDatePicker( {hasDbClicked, pickedDate}) {
             openTo="date"
             value={date}
             onChange={date => handleClick(date)}
-            // onAccept= {()=> alert('changed')}
-            onOpen={() => alert('changed')}
+            onMonthChange={() => { return colorDaysWithASelectedMeal(selectedMeals, true) }}
+          //onAccept= {()=> alert('changed')}
+          //onOpen={() => alert('changed')}
 
           />
         </Paper>

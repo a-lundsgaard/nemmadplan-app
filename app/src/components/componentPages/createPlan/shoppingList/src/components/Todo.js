@@ -48,16 +48,24 @@ function Todo({ id, task, completed, initiator }) {
     const searchString = initiator === 'USER' ? ingredientString : possibleIngredients.pop();
     console.log(searchString);
 
-    const query = JSON.stringify({
+
+    // for local server 
+    // should make another server on heroku to handle just sales
+     const query = JSON.stringify({
       products: [searchString],
       chains: {
         wanted: false,
         chainNames: []
       }
     })
+    const results = await HTTP.post(query, "sales"); 
 
-    const results = await HTTP.post(query, "sales");
 
+  /*   const query2 = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date', {products: [searchString]})
+    const results2 = await HTTP.post(query2);
+    const results = results2.data.getSales; */
+
+    //alert(JSON.stringify(results2))
     // sorts the sales  by cheapest first
     const sortedByCheapest = results.sort((a, b) => a.price < b.price ? -1 : (a.price > b.price ? 1 : 0));
     return sortedByCheapest
