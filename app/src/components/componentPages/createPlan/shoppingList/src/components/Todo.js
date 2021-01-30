@@ -51,19 +51,20 @@ function Todo({ id, task, completed, initiator }) {
 
     // for local server 
     // should make another server on heroku to handle just sales
-     const query = JSON.stringify({
+    const query = JSON.stringify({
       products: [searchString],
       chains: {
         wanted: false,
         chainNames: []
       }
     })
-    const results = await HTTP.post(query, "sales"); 
+    const results = await HTTP.post(query, "sales");
+    console.log(results)
 
 
-  /*   const query2 = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date', {products: [searchString]})
-    const results2 = await HTTP.post(query2);
-    const results = results2.data.getSales; */
+    /*   const query2 = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date', {products: [searchString]})
+      const results2 = await HTTP.post(query2);
+      const results = results2.data.getSales; */
 
     //alert(JSON.stringify(results2))
     // sorts the sales  by cheapest first
@@ -76,7 +77,9 @@ function Todo({ id, task, completed, initiator }) {
   useEffect(() => {
 
     let mounted = true;
-    if (mounted && initiator !== 'REPLACEMENT_FROM_SALES') {
+    // replacement from sales = when you click "erstat" on the html sales tool tip
+    // Make sales a btn instead, so the user have to click to get a sale
+    if (mounted && initiator !== 'REPLACEMENT_FROM_SALES' && initiator == 'USER' ) {
 
       setState({ ...state, isLoading: true });
 
@@ -93,15 +96,15 @@ function Todo({ id, task, completed, initiator }) {
             // redux dispatcher can be found in contexts folder
             dispatch({ type: EDIT_TODO, id, task: task, img: results[0]?.img || null });
           }
-          
+
         }).catch(function (e) {
-          setState({...state, isLoading: false, sales: []})
+          setState({ ...state, isLoading: false, sales: [] })
           console.error(e)
         })
 
- /*        setTimeout(()=> {
-         // setState({...state, isLoading: false})
-        }, 20000) */
+      /*        setTimeout(()=> {
+              // setState({...state, isLoading: false})
+             }, 20000) */
     }
 
     return () => {
@@ -146,7 +149,7 @@ function Todo({ id, task, completed, initiator }) {
       <span
         onClick={(e) => {
           e.stopPropagation(); // stopping element from getting a line through
-          toggle(); 
+          toggle();
         }}
         style={{
           marginLeft: 20,

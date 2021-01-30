@@ -69,20 +69,21 @@ const paintDays2 = (meals) => {
     const mealDate = new Date(meal.date);
     const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
 
-    calendarDays.forEach(el => {
-      const dateString = `${el?.innerText} ${month} ${year}`;
+    for (const day of calendarDays) {
+
+      const dateString = `${day?.innerText} ${month} ${year}`;
 
       if (mealDateString === dateString) {
         el.style.background = '#90c200';
-       // el.style.color ='white'
-      } 
+        break;
+        // el.style.color ='white'
+      } else {
+        el.style.color = ''
 
-  /*     if (mealDateString !== dateString) {
-        el.style.background = '';
-       // el.style.color ='white'
-      }  */
+      }
 
-    })
+    }
+
   }))
 }
 
@@ -105,23 +106,23 @@ const paintDays = (meals) => {
 
       if (mealDateString === dateString) {
         el.style.background = '#90c200';
-       // el.style.color ='white'
-      } 
+        // el.style.color ='white'
+      }
 
-/*   if (mealDateString !== dateString) {
-        el.style.background = '';
-       // el.style.color ='white'
-      }  */
+      /*   if (mealDateString !== dateString) {
+              el.style.background = '';
+             // el.style.color ='white'
+            }  */
 
     })
 
-    
+
   }))
 }
 
 const colorDaysWithASelectedMeal = (meals, fromMonthChange) => {
-  if(fromMonthChange) { 
-    setTimeout(() => paintDays(meals), 50) 
+  if (fromMonthChange) {
+    setTimeout(() => paintDays(meals), 50)
   } else {
     paintDays(meals);
   }

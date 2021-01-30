@@ -21,6 +21,7 @@ export default async function post(requestBody, extraOrdinaryUrl) {
   const response = await fetch(url, {
    // signal: signal,
     method: 'POST',
+    //mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + requestBody?.variables?.token
@@ -30,7 +31,7 @@ export default async function post(requestBody, extraOrdinaryUrl) {
 
   const jsonData = await response.json();
 
-  if (response.ok) {
+  if (response.ok && response.status === 200) {
      // console.log(jsonData);
     return jsonData;
   } else {

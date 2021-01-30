@@ -6,9 +6,9 @@ import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
 
 const defaultItems = [
-  { id: '1', task: 'rugbrød', completed: false },
-  { id: '2', task: 'mælk', completed: false },
-  { id: '3', task: 'æbler', completed: false }
+  { id: '1', task: 'rugbrød', completed: false, initiator: 'USER' },
+  { id: '2', task: 'mælk', completed: false, initiator: 'USER' },
+  { id: '3', task: 'æbler', completed: false, initiator: 'USER' }
 ];
 
 const storeTodosToRedux = sale => {
