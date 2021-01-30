@@ -14,7 +14,7 @@ export default function salesList({ sales, open }) {
     return (
         <div style={style}>{
                 sales.map((sale, index) => {
-                    return <SaleItem sale={sale} key={index} />
+                    return sale.img && <SaleItem sale={sale} key={index} />
                 })
             }
         </div>

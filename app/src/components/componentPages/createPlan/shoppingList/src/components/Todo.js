@@ -22,8 +22,12 @@ function Todo({ id, task, completed, initiator }) {
 
   const [state, setState] = useState({
     sales: [],
-    isLoading: true
+    isLoading: false
   })
+
+  // for showing btn "Hent tilbud" at the start. Increases by one when trying to re fetch sales in order for useEffect to use it
+  const [shouldGetSale, setShouldGetSale] = useState(0); 
+
 
 
   // running sales crawler 
@@ -31,7 +35,6 @@ function Todo({ id, task, completed, initiator }) {
 
 
     let removeCommaWords = ingredientString.replace(/\d+\sstk/g, '').trimLeft().trimRight().split(' ');
-
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
 
     if (!removeCommaWords) {
@@ -77,40 +80,43 @@ function Todo({ id, task, completed, initiator }) {
   useEffect(() => {
 
     let mounted = true;
-    // replacement from sales = when you click "erstat" on the html sales tool tip
-    // Make sales a btn instead, so the user have to click to get a sale
-    if (mounted && initiator !== 'REPLACEMENT_FROM_SALES' && initiator == 'USER' ) {
 
-      setState({ ...state, isLoading: true });
+    if (shouldGetSale) {
 
-      getSales(task)
-        .then(results => {
-          if (mounted) {
-            setState({
-              ...state,
-              isLoading: false,
-              sales: results || []
-            })
+      // replacement from sales = when you click "erstat" on the html sales tool tip
+      // Make sales a btn instead, so the user have to click to get a sale
+      if (mounted && initiator !== 'REPLACEMENT_FROM_SALES' ) {
 
-            // adding img to to do for using in the container sidebar (side bar showing first sale of every product)
-            // redux dispatcher can be found in contexts folder
-            dispatch({ type: EDIT_TODO, id, task: task, img: results[0]?.img || null });
-          }
+        setState({ ...state, isLoading: true });
 
-        }).catch(function (e) {
-          setState({ ...state, isLoading: false, sales: [] })
-          console.error(e)
-        })
+        getSales(task)
+          .then(results => {
+            if (mounted) {
+              setState({
+                ...state,
+                isLoading: false,
+                sales: results || []
+              })
 
-      /*        setTimeout(()=> {
-              // setState({...state, isLoading: false})
-             }, 20000) */
+              // adding img to to do for using in the container sidebar (side bar showing first sale of every product)
+              // redux dispatcher can be found in contexts folder
+              dispatch({ type: EDIT_TODO, id, task: task, img: results[0]?.img || null });
+            }
+
+          }).catch(function (e) {
+            setState({ ...state, isLoading: false, sales: [] })
+            console.error(e)
+          })
+
+      }
     }
 
     return () => {
       mounted = false; // cleanup function, prevents setting state after component unmounts
     };
-  }, [task])
+    //}, [task])
+  }, [shouldGetSale])
+
 
 
   // dette er en test
@@ -132,30 +138,46 @@ function Todo({ id, task, completed, initiator }) {
   return (
     <li
       className={classes.Todo}
-      onClick={() => dispatch({ type: TOGGLE_TODO, id })} // adding a line through, marking as completed
+      onClick={(e) => {
+        e.stopPropagation(); // stopping element from getting a line through
+        toggle();
+      }}
 
     >
       <span>
-        {state.isLoading ?
+        {!shouldGetSale &&
+          <Button
+            //variant="outlined"
+            color="green"
+            onClick={(e) => { e.stopPropagation(); setShouldGetSale(true); }}
+          >
+            Hent tilbud
+          </Button>}
+
+        {state.isLoading &&
           <Button
             //variant="outlined"
             color="secondary"
+            onClick={(e) => { e.stopPropagation(); }}
+
           >
             <i>Henter tilbud...</i>
-          </Button> : <SalesTooltip sales={state.sales} id={id} />}
+          </Button>}
+
+        {shouldGetSale && !state.isLoading ? <SalesTooltip sales={state.sales} id={id} onClick={()=>setShouldGetSale(shouldGetSale+1)}/> : null} 
       </span>
 
 
       <span
-        onClick={(e) => {
-          e.stopPropagation(); // stopping element from getting a line through
-          toggle();
-        }}
+
+
+        onClick={(e) => { e.stopPropagation(); dispatch({ type: TOGGLE_TODO, id }) }} // adding a line through, marking as completed
+
         style={{
           marginLeft: 20,
           textDecoration: completed ? 'line-through' : '',
           color: completed ? '#bdc3c7' : '#34495e',
-          cursor: 'text'
+          cursor: 'pointer'
           //display: 'flex',
           // justifyContent: 'flex-start'
         }}

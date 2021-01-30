@@ -13,6 +13,6 @@ export default function item({ sale }) {
                 maxHeight: 80,
                 maxWidth: 80,
             }} src={sale.img} />
-        </div>
+        </div> 
     )
 }

@@ -26,7 +26,7 @@ const HtmlTooltip = withStyles((theme) => ({
 
 
 
-export default function CustomizedTooltips({ sales, id }) {
+export default function CustomizedTooltips({ sales, id, onClick }) {
 
     const [open, setOpen] = React.useState(false);
 
@@ -55,7 +55,9 @@ export default function CustomizedTooltips({ sales, id }) {
                     //variant="outlined"
                     color="standard"
                 >
-                    <i>Ingen tilbud</i>
+                    <i
+                        onClick={onClick}
+                    >Ingen tilbud</i>
                 </div>}
         </div>
     );
