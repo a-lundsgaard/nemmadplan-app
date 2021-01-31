@@ -18,7 +18,7 @@ function Todo({ id, task, completed, initiator }) {
 
   const classes = useStyles();
   const dispatch = useContext(DispatchContext);
-  const [isEditing, toggle] = useToggleState(false);
+  const [isEditing, toggleEditing] = useToggleState(false);
 
   const [state, setState] = useState({
     sales: [],
@@ -119,6 +119,15 @@ function Todo({ id, task, completed, initiator }) {
 
 
 
+  useEffect(() => {
+    if (initiator === 'USER' ) {
+      setShouldGetSale(shouldGetSale+1)
+    }
+    //}, [task])
+  }, [task])
+
+
+
   // dette er en test
 
   if (isEditing) {
@@ -126,10 +135,10 @@ function Todo({ id, task, completed, initiator }) {
       <li
         className={classes.Todo}
         style={{ overflowY: 'hidden' }}
-        onClick={() => { toggle(); }}
-        onBlur={() => { toggle(); }}
+        onClick={(e) => { toggleEditing(); }}
+        onBlur={() => {  toggleEditing(); }}
       >
-        <EditTodoForm id={id} task={task} toggleEditForm={toggle} />
+        <EditTodoForm id={id} task={task} toggleEditForm={toggleEditing} />
       </li>
     );
   }
@@ -139,16 +148,17 @@ function Todo({ id, task, completed, initiator }) {
     <li
       className={classes.Todo}
       onClick={(e) => {
-        e.stopPropagation(); // stopping element from getting a line through
-        toggle();
+        //e.stopPropagation(); // stopping element from getting a line through
+        toggleEditing();
       }}
 
     >
-      <span>
+      <span className={classes.salesButtons}>
         {!shouldGetSale &&
           <Button
             //variant="outlined"
-            color="green"
+            //color="primary"
+            //size={'small'}
             onClick={(e) => { e.stopPropagation(); setShouldGetSale(true); }}
           >
             Hent tilbud
@@ -157,6 +167,7 @@ function Todo({ id, task, completed, initiator }) {
         {state.isLoading &&
           <Button
             //variant="outlined"
+            fullWidth={false}
             color="secondary"
             onClick={(e) => { e.stopPropagation(); }}
 
@@ -174,10 +185,12 @@ function Todo({ id, task, completed, initiator }) {
         onClick={(e) => { e.stopPropagation(); dispatch({ type: TOGGLE_TODO, id }) }} // adding a line through, marking as completed
 
         style={{
-          marginLeft: 20,
+          //width: '100%', // to left align items
+          //marginLeft: 20,
           textDecoration: completed ? 'line-through' : '',
           color: completed ? '#bdc3c7' : '#34495e',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          overflow: 'hidden'
           //display: 'flex',
           // justifyContent: 'flex-start'
         }}
@@ -201,7 +214,7 @@ function Todo({ id, task, completed, initiator }) {
           className="fas fa-pen"
           onClick={e => {
             e.stopPropagation();
-            toggle();
+            toggleEditing();
           }}
         />
       </div>

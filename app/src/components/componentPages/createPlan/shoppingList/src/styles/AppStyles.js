@@ -34,18 +34,18 @@ export default makeStyles({
       '& span': {
         fontWeight: '700'
       },
-      [sizes.down('xs')]: {
+/*       [sizes.down('xs')]: {
         fontSize: '4.5rem'
-      }
+      } */
     },
-    '& h2': {
+/*     '& h2': {
       color: '#9aa1a5',
       fontSize: '1rem',
       fontWeight: '300',
       [sizes.down('xs')]: {
         fontSize: '0.6rem'
       }
-    }
+    } */
   },
   link: {
     display: 'flex',

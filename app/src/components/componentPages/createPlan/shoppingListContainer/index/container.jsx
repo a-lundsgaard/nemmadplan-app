@@ -17,10 +17,11 @@ import SalesList from '../components/itemList/salesList';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 800,
+        width: '100%',
         height: 'calc(100% - 65px)',
         background: 'white',
-        right: -700,
+        right: 'calc(95px - 100%)', // 100px is the width of the sidebar
+       // right: 'calc(100% - 100px)',
         bottom: 0,
         position: 'fixed',
         transition: '0.5s',
@@ -61,7 +62,10 @@ export default function bar(props) {
         <div
             className={classes.root}
             style={{
+                //right: 
                 right: open && 0,
+                width: open && '50%',
+
                 display: 'flex'
             }}
         >
@@ -87,7 +91,7 @@ export default function bar(props) {
                 
             </div>
 
-            <div style={{ width: 700, overflow: 'hidden' }}>
+            <div style={{ width: '100%' }}>
                 {props.children}
             </div>
 

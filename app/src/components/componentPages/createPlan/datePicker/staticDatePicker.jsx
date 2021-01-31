@@ -57,41 +57,18 @@ const defaultMaterialTheme = createMuiTheme({
 
 
 
-const paintDays2 = (meals) => {
-  const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
-  const monthAndYearArray = document.querySelector('.makeStyles-daysSelect-24 p').innerText.split(' ');
-
-  //const currentSelectedDate = parseInt(document.querySelector('.MuiPickersDay-daySelected').innerText);
-  const month = months[monthAndYearArray[0]];
-  const year = parseInt(monthAndYearArray[1]);
-
-  meals.forEach((meal => {
-    const mealDate = new Date(meal.date);
-    const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
-
-    for (const day of calendarDays) {
-
-      const dateString = `${day?.innerText} ${month} ${year}`;
-
-      if (mealDateString === dateString) {
-        el.style.background = '#90c200';
-        break;
-        // el.style.color ='white'
-      } else {
-        el.style.color = ''
-
-      }
-
-    }
-
-  }))
-}
-
-
-
 const paintDays = (meals) => {
   const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
-  const monthAndYearArray = document.querySelector('.makeStyles-daysSelect-24 p').innerText.split(' ');
+  let monthAndYearArray;
+  
+  try {
+    monthAndYearArray = document.querySelector('.MuiTypography-root.MuiTypography-body1.MuiTypography-alignCenter').innerText.split(' ');
+
+  } catch (error) {
+    console.log('Kunne ikke læse måned og år for kalender, overvej at bruge anden selector')
+    console.log(error)
+    monthAndYearArray = ['januar', '2020']
+  }
 
   //const currentSelectedDate = parseInt(document.querySelector('.MuiPickersDay-daySelected').innerText);
   const month = months[monthAndYearArray[0]];

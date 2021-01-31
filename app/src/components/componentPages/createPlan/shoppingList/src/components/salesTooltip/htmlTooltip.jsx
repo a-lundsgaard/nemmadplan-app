@@ -13,8 +13,11 @@ const HtmlTooltip = withStyles((theme) => ({
         // backgroundColor: '#f5f5f9',
         zIndex: '1',
         backgroundColor: '#f5f5f9',
+        //backgroundColor: 'white',
 
         color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: "0px 0px 10px 1px #aaaaaa",
+
         //  maxWidth: 300,
         minWidth: 300,
 
@@ -33,32 +36,31 @@ export default function CustomizedTooltips({ sales, id, onClick }) {
 
     return (
         <div style={{ zIndex: '-1' }}
-        onClick={(e)=> e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
         >
             { sales.length ?
                 <HtmlTooltip
                     interactive
-                    placement="left"
-                    title={
-                        <SalesList sales={sales} id={id}
-                        />}
+                    //placement="left"
+                    arrow={true}
+                    title={<SalesList sales={sales} id={id}/>}
                 >
                     <Button
                         //variant="outlined"
                         color="primary"
+                        //style={{color: 'green'}} // same green as datepicker
+
                     >
                         <i>{sales.length < 10 ? sales.length + ' ' : sales.length} tilbud</i>
                     </Button>
                 </HtmlTooltip> :
 
-                <div
-                    //variant="outlined"
-                    color="standard"
-                >
-                    <i
+             
+                    <Button
+                        style={{color: '#69696969', textDecoration: 'line-through'}}
                         onClick={onClick}
-                    >Ingen tilbud</i>
-                </div>}
+                    ><i>Ingen tilbud</i></Button>
+                }
         </div>
     );
 }
