@@ -117,10 +117,12 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
     // sending recipe to recipe component
     clikedDish(recipe); 
     // waiting a bit before removing dialog when add recipe btn is clicked
-    setTimeout(
+/*     setTimeout(
       () => dialogOpen(false), 
-      200
-    );
+      50
+    ); */
+
+    dialogOpen(false)
 
   }
 

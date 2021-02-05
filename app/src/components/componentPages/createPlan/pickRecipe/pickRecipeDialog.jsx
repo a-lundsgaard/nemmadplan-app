@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
   importButton: {
     marginLeft: 20
-  },  
-  
+  },
+
   urlField: {
     marginBottom: 20
   },
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
   prepareTextField: {
     minWidth: 400,
-    
+
   },
 
   numPicker: {
@@ -77,13 +77,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction="right" ref={ref} {...props} />;
 });
 
 
 
 
-export default function FullScreenDialog({visible, setVisible, chosenRecipe, ...props}) {
+export default function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(visible); // set false when not testing
@@ -101,48 +101,48 @@ export default function FullScreenDialog({visible, setVisible, chosenRecipe, ...
 
   const handleClose = () => {
     // Clearing states and messages
-  /*  setState({
-      numPicker: 1
-    })*/
+    /*  setState({
+        numPicker: 1
+      })*/
     setMessage({})
     setVisible(false)
     setOpen(false);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setOpen(visible)
-}, [visible])
+  }, [visible])
 
 
-/*  useEffect(()=>{
-      console.log(props.closeDialog)
-}, [props.closeDialog])*/
+  /*  useEffect(()=>{
+        console.log(props.closeDialog)
+  }, [props.closeDialog])*/
 
 
 
   return (
-    <div style={{zIndex: 999}}>
+    <div style={{ zIndex: 999 }}>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
-       <Typography variant="h6" className={classes.title}>
-           Vælg opskrift
+            <Typography variant="h6" className={classes.title}>
+              Vælg opskrift
             </Typography>
-            <SearchBar/>
-     
+            <SearchBar />
+
           </Toolbar>
         </AppBar>
-        <div style={{marginTop: 70}}>
-            <Recipes 
-            onClick={recipe => chosenRecipe(recipe)} 
+        <div style={{ marginTop: 70 }}>
+          <Recipes
+            onClick={recipe => chosenRecipe(recipe)}
             visitFromCreatePlan={true}
-            dialogOpen={bool => setVisible(bool) }
-            />
+            dialogOpen={bool => setVisible(bool)}
+          />
         </div>
-       </Dialog>
+      </Dialog>
     </div>
   );
 }

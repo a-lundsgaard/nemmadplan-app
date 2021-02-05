@@ -257,11 +257,11 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
 
 
-          {recipesOpen ? <RecipeDialog
+          <RecipeDialog
             visible={recipesOpen}
             setVisible={setRecipesOpen}
             chosenRecipe={handleSetNewRecipe}
-          /> : null}
+          />
 
 
         </Grid>
