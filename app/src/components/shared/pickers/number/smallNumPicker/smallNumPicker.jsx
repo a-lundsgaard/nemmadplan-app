@@ -39,7 +39,7 @@ export default function smallNumPicker({ countValue, unit, quantity, onUnitOrCou
 
     // OBS SKAL LAVES NÅR DER VÆLGES COUNT BLIVER DETTE LIGE NU IKKE SAT PÅ TO DO'EN
   useEffect(() => {
-    if (count < 10) setLocalUnit('stk'); else setLocalUnit('gram');
+    if (count < 10) setLocalUnit('stk'); else setLocalUnit(unit ||'gram');
     //if(!countValue) handleAccept() // makes sure that the count is changed when onblur funtion fires
   }, [count])
 

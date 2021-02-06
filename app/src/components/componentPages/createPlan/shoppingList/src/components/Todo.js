@@ -16,11 +16,14 @@ import SalesTooltip from './salesTooltip/htmlTooltip';
 import HTTP from 'HTTP/http'
 import Button from '@material-ui/core/Button';
 
-import SmallNumberPicker from '../../../../../shared/pickers/number/smallNumPicker/smallNumPicker';
+//import SmallNumberPicker from '../../../../../shared/pickers/number/smallNumPicker/smallNumPicker';
+
+import SmallNumberPicker from './smallNumPicker/smallNumPicker';
+
 //import { th } from 'date-fns/locale';
 
 
-function Todo({...props }) {
+function Todo(props) {
 
   const classes = useStyles();
   const dispatch = useContext(DispatchContext);
@@ -30,6 +33,10 @@ function Todo({...props }) {
     sales: [],
     isLoading: false
   })
+
+  //console.log('Found q for ' + task + ' q is ' + props.quantity)
+
+  console.log(props)
 
   // for showing btn "Hent tilbud" at the start. Increases by one when trying to re fetch sales in order for useEffect to use it
   const [shouldGetSale, setShouldGetSale] = useState(0);
@@ -45,7 +52,7 @@ function Todo({...props }) {
     if (!removeCommaWords) {
       return [];
     }
-    const possibleIngredients = removeCommaWords.join(' ').match(/[a-zA-Z\u00C0-\u00ff]{3,20}|æg/gi);
+    const possibleIngredients = removeCommaWords.join(' ').match(/[a-zA-Z\u00C0-\u00ff]{2,20}|æg/gi);
     if (!possibleIngredients) {
       console.log('NO POSSIBLE INGREDIENTS, RETURNNING')
       return [];
@@ -185,7 +192,7 @@ function Todo({...props }) {
         {shouldGetSale && !state.isLoading ? <SalesTooltip sales={state.sales} id={props.id} onClick={() => setShouldGetSale(shouldGetSale + 1)} /> : null}
       </span>
 
-      <SmallNumberPicker unit={props.unit} quantity={props.quantity} onUnitOrCountChange={obj => { console.log(obj); return dispatch({ type: EDIT_TODO,...props, unit: obj.unit, quantity: obj.count })} } />
+      <SmallNumberPicker unit={props.unit} quantity={props.quantity} parentProps={props} />
 
       <span
         onClick={(e) => { e.stopPropagation(); dispatch({ type: TOGGLE_TODO, id: props.id }) }} // adding a line through, marking as completed
