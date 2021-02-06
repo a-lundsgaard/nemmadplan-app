@@ -35,7 +35,10 @@ async function runSalesCrawler(pageFunction, preferences) {
       //  await page.addScriptTag({path: customLibraryPath});
       await page.addScriptTag({ url: 'https://code.jquery.com/jquery-3.2.1.min.js' })
 
-      const waitFor = '.mx-0';
+      //const waitFor = '.mx-0';
+
+      const waitFor = '.row.product_thumb.search_result_list.align-items-center';
+
       console.log('Waiting for selector: "' + waitFor + '"...');
 
       try {

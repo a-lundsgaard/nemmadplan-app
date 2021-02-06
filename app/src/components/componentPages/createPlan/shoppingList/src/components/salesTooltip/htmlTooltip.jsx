@@ -42,7 +42,7 @@ export default function CustomizedTooltips({ sales, id, onClick }) {
                 <HtmlTooltip
                     interactive
                     //placement="left"
-                    arrow={true}
+                    //arrow={true}
                     title={<SalesList sales={sales} id={id}/>}
                 >
                     <Button
@@ -59,7 +59,7 @@ export default function CustomizedTooltips({ sales, id, onClick }) {
                     <Button
                         style={{color: '#69696969', textDecoration: 'line-through'}}
                         onClick={onClick}
-                    ><i>Ingen tilbud</i></Button>
+                    ><i>0 tilbud</i></Button>
                 }
         </div>
     );

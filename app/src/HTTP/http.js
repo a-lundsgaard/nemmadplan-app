@@ -14,9 +14,9 @@ import post from './methods/post';
     constructor() {
         this.post = post.bind(this);
         this.testUrl = 'http://localhost:8080/graphql'
-        this.prodUrl = 'https://nmserver.herokuapp.com/graphql',
-        //this.salesUrl = 'http://localhost:8090/sales';
-        this.salesUrl = 'https://sales-api-nm.herokuapp.com/sales';
+        //this.prodUrl = 'https://nmserver.herokuapp.com/graphql',
+        this.salesUrl = 'http://localhost:8090/sales';
+        //this.salesUrl = 'https://sales-api-nm.herokuapp.com/sales';
         this.shoppingUrl = 'http://localhost:3001/shopping';
 
         this.sales = {

@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles({
   Todo: {
     width: 'auto',
-    height: '2.5rem',
+    //height: '2.5rem',
     display: 'flex',
+    padding: '5px 0 5px 0',
     //alignItems: 'left',
     justifyContent: 'flex-start', // aligns items left when sales tooltip is enabled
     //justifyContent: 'space-between', // aligns items left when sales tooltip is enabled
@@ -13,7 +14,10 @@ export default makeStyles({
     //paddingRight: '20px',
     color: '#34495e',
     fontSize: '1rem',
-    lineHeight: '2.5rem',
+    //margin: '3px 0 0 0',
+    //borderTop: '1px solid #69696938',
+    borderBottom: '1px solid #69696938',
+    //lineHeight: '2.5rem',
     //overflow: 'hidden',
     //display: 'inline-block',
     //wordWrap: 'normal',
@@ -32,7 +36,7 @@ export default makeStyles({
   },
 
   salesButtons: {
-    width: '150px', // right aligns icons, when btn text is changing from "hent tilbud" to "henter tilbud"
+    width: '90px', // right aligns icons, when btn text is changing from "hent tilbud" to "henter tilbud"
     whiteSpace: 'nowrap'  // makes sure the text in the btn never line breakes
   },
 
@@ -41,7 +45,7 @@ export default makeStyles({
     //display: 'inline-flex',
    // alignItems: 'right',
     //justifyContent: 'flex-end', // right aligns icons
-    //marginRight: '1rem',
+    //marginRight: '1rem',  
     //float: 'right',
     transition: 'all 0.3s',
     opacity: '0',

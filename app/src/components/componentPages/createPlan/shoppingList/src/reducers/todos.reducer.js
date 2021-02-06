@@ -38,12 +38,19 @@ const reducer = (state, action) => {
       );
     case EDIT_TODO:
       //const initiator = action.initiator === 'REPLACEMENT_FROM_SALES' ? action.initiator : null;
+      console.log('Edit reducer got called')
       return state.map(todo =>
-        todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator, img: action.img } : todo
+        todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator, img: action.img, unit: action.unit, quantity: action.quantity } : todo
       );
     case ADD_INGREDIENT_ARRAY:
       console.log('THE REDUCER WAS CALLED')
-      return [...state, ...action.task.map((ingr, index) => ({ id: uuidv4(), task: `${ingr.quantity || ''} ${ingr.unit || ''} ${ingr.name}`, completed: false }))]
+      return [...state, ...action.task.map((ingr, index) => ({
+         id: uuidv4(),
+         task: `${ingr.name}`, 
+         unit: ingr.unit && ingr.unit.replace('*', ''),
+         quantity: ingr.quantity,
+         completed: false
+        }))]
     default:
       return state;
   }

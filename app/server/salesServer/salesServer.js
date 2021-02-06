@@ -43,5 +43,6 @@ async function salesServer() {
 
 }
 
+salesServer();
 
-module.exports = salesServer;
+//module.exports = salesServer;

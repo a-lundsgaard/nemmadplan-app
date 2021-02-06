@@ -7,14 +7,20 @@ import { REMOVE_TODO, TOGGLE_TODO, EDIT_TODO } from '../constants/actions';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 import SalesTooltip from './salesTooltip/htmlTooltip';
 
 import HTTP from 'HTTP/http'
 import Button from '@material-ui/core/Button';
+
+import SmallNumberPicker from '../../../../../shared/pickers/number/smallNumPicker/smallNumPicker';
 //import { th } from 'date-fns/locale';
 
 
-function Todo({ id, task, completed, initiator }) {
+function Todo({...props }) {
 
   const classes = useStyles();
   const dispatch = useContext(DispatchContext);
@@ -26,13 +32,12 @@ function Todo({ id, task, completed, initiator }) {
   })
 
   // for showing btn "Hent tilbud" at the start. Increases by one when trying to re fetch sales in order for useEffect to use it
-  const [shouldGetSale, setShouldGetSale] = useState(0); 
+  const [shouldGetSale, setShouldGetSale] = useState(0);
 
 
 
   // running sales crawler 
   const getSales = async (ingredientString) => {
-
 
     let removeCommaWords = ingredientString.replace(/\d+\sstk/g, '').trimLeft().trimRight().split(' ');
     removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el)
@@ -48,7 +53,7 @@ function Todo({ id, task, completed, initiator }) {
 
 
     // If the user adds an item, the crawler searchs for the whole string
-    const searchString = initiator === 'USER' ? ingredientString : possibleIngredients.pop();
+    const searchString = props.initiator === 'USER' ? ingredientString : possibleIngredients.pop();
     console.log(searchString);
 
 
@@ -85,11 +90,11 @@ function Todo({ id, task, completed, initiator }) {
 
       // replacement from sales = when you click "erstat" on the html sales tool tip
       // Make sales a btn instead, so the user have to click to get a sale
-      if (mounted && initiator !== 'REPLACEMENT_FROM_SALES' ) {
+      if (mounted && props.initiator !== 'REPLACEMENT_FROM_SALES') {
 
         setState({ ...state, isLoading: true });
 
-        getSales(task)
+        getSales(props.task)
           .then(results => {
             if (mounted) {
               setState({
@@ -100,7 +105,7 @@ function Todo({ id, task, completed, initiator }) {
 
               // adding img to to do for using in the container sidebar (side bar showing first sale of every product)
               // redux dispatcher can be found in contexts folder
-              dispatch({ type: EDIT_TODO, id, task: task, img: results[0]?.img || null });
+              dispatch({ type: EDIT_TODO, id: props.id, task: props.task, img: results[0]?.img || null });
             }
 
           }).catch(function (e) {
@@ -120,11 +125,13 @@ function Todo({ id, task, completed, initiator }) {
 
 
   useEffect(() => {
-    if (initiator === 'USER' ) {
-      setShouldGetSale(shouldGetSale+1)
+    if (props.initiator === 'USER') {
+      setShouldGetSale(shouldGetSale + 1)
     }
+
+    //props.unit = 'stk'
     //}, [task])
-  }, [task])
+  }, [props.task])
 
 
 
@@ -136,9 +143,9 @@ function Todo({ id, task, completed, initiator }) {
         className={classes.Todo}
         style={{ overflowY: 'hidden' }}
         onClick={(e) => { toggleEditing(); }}
-        onBlur={() => {  toggleEditing(); }}
+        onBlur={() => { toggleEditing(); }}
       >
-        <EditTodoForm id={id} task={task} toggleEditForm={toggleEditing} />
+        <EditTodoForm id={props.id} task={props.task} toggleEditForm={toggleEditing} restOfTask={props} />
       </li>
     );
   }
@@ -161,7 +168,7 @@ function Todo({ id, task, completed, initiator }) {
             //size={'small'}
             onClick={(e) => { e.stopPropagation(); setShouldGetSale(true); }}
           >
-            Hent tilbud
+            <TrendingDownIcon />
           </Button>}
 
         {state.isLoading &&
@@ -172,30 +179,29 @@ function Todo({ id, task, completed, initiator }) {
             onClick={(e) => { e.stopPropagation(); }}
 
           >
-            <i>Henter tilbud...</i>
+            <span><CircularProgress size={20} /></span>
           </Button>}
 
-        {shouldGetSale && !state.isLoading ? <SalesTooltip sales={state.sales} id={id} onClick={()=>setShouldGetSale(shouldGetSale+1)}/> : null} 
+        {shouldGetSale && !state.isLoading ? <SalesTooltip sales={state.sales} id={props.id} onClick={() => setShouldGetSale(shouldGetSale + 1)} /> : null}
       </span>
 
+      <SmallNumberPicker unit={props.unit} quantity={props.quantity} onUnitOrCountChange={obj => { console.log(obj); return dispatch({ type: EDIT_TODO,...props, unit: obj.unit, quantity: obj.count })} } />
 
       <span
-
-
-        onClick={(e) => { e.stopPropagation(); dispatch({ type: TOGGLE_TODO, id }) }} // adding a line through, marking as completed
-
+        onClick={(e) => { e.stopPropagation(); dispatch({ type: TOGGLE_TODO, id: props.id }) }} // adding a line through, marking as completed
         style={{
           //width: '100%', // to left align items
           //marginLeft: 20,
-          textDecoration: completed ? 'line-through' : '',
-          color: completed ? '#bdc3c7' : '#34495e',
+          textDecoration: props.completed ? 'line-through' : '',
+          color: props.completed ? '#bdc3c7' : '#34495e',
           cursor: 'pointer',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          margin: '7px 0 0 18px'
           //display: 'flex',
           // justifyContent: 'flex-start'
         }}
       >
-        {task}
+        {props.task}
       </span>
 
 
@@ -206,7 +212,7 @@ function Todo({ id, task, completed, initiator }) {
           className="fas fa-trash"
           onClick={e => {
             e.stopPropagation();
-            dispatch({ type: REMOVE_TODO, id });
+            dispatch({ type: REMOVE_TODO, id: props.id });
           }}
         />
         <EditIcon

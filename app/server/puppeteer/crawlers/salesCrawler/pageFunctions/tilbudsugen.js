@@ -3,7 +3,11 @@ function tilbudsavisen() {
 
     const results = [];
   
-    const itemDivs = $('.mx-0')
+    //const itemDivs = $('.mx-0')
+
+    const itemDivs = $('.row.product_thumb.search_result_list.align-items-center');
+
+    //"row product_thumb search_result_list align-items-center"
   
     itemDivs.each(function (index){
   
