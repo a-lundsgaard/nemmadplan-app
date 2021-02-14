@@ -1,7 +1,7 @@
 const { default: fetch } = require('node-fetch');
 const puppeteer = require('puppeteer');
 const nemlig = require('./pageFunctions/nemlig.com');
-const rema1000 = require('./pageFunctions/rema1000');
+const rema1000 = require('./pageFunctions/rema1000.js');
 
 const k = require('./scripts/rema/algorithms')
 
@@ -41,8 +41,6 @@ async function runShoppingListCrawler (url, pageFunction, preferences) {
       console.log('Entering url: ' + url);
       await page.goto(url, {timeout: 30000});
 
-      console.log(path.resolve('../algorithms.js'));
-
       console.log('Injecting scripts...')
       await page.addScriptTag({path: libPath});
 
@@ -57,7 +55,7 @@ async function runShoppingListCrawler (url, pageFunction, preferences) {
 
   } catch (e) {
     console.log(e)
-    throw e
+    //throw e
   }
 }
 

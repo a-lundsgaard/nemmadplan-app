@@ -1,26 +1,77 @@
-//const productLookup = require('./algo.js')
+interface Todo {
+    task: string,
+    quantity: number,
+    initiator: string,
+    unit: string,
+    img: string
+}
+
+
+type algorithmOptions = 'billigste';
+
+interface Preferences {
+    products: Todo[],
+    chain: string,
+    profile: {
+        algorithm: algorithmOptions,
+        price: number,
+        organic: string | '',
+        form: string | '',
+        brand: {
+            brands: string[],
+            wanted: boolean;
+            
+        }
+    }
+}
+
+interface LocalStorageObject { 
+    name: "Min liste", 
+    primary: true, 
+    items: any[], 
+    generics: any[] 
+}
+
+
+const functionsUsed = {
+    root: { getHits:  getHits },
+    sortHits: { 
+        'billigste': getCheapest 
+    }
+}
+
+ const productLookup = {
+    'tomat': {
+        keywords: ['hakk', 'rød', 'grøn', 'soltørr']
+    },
+
+    'kød': {
+        keywords: ['hakk']
+    }
+} 
 
 
 
+module.exports = async function rema1000(preferences: Preferences) {
 
-module.exports = async function rema1000(preferences) {
     document.write(`Vent et øjeblik...`);
+
+    const { root: { getHits } } = functionsUsed;
 
     try {
 
-        const { products, profile: { price, algorithm } } = preferences;
-
+        const { products, profile: { price } } = preferences;
+        //let algorithm: str
+        let { profile: { algorithm } } = preferences;
         // All algorithms available for shop.rema100.dk. 
         // The key must match the algorithm property from preferences, as it is used for object lookup further down 
-        const algoObject = {
-            'billigste': getCheapest,
-        }
+
 
         let count = 1
         const lsKey = 'guest';
-        const lsObject = { name: "Min liste", primary: true, items: [], generics: [] }
-        const productsAddedToCart = [];
-        const productsNotAddedToCart = [];
+        const lsObject: LocalStorageObject = { name: "Min liste", primary: true, items: [], generics: [] }
+        const productsAddedToCart: any[] = [];
+        const productsNotAddedToCart: any[] = [];
 
         const addedItems = new Promise(async (resolve, reject) => {
 
@@ -32,24 +83,22 @@ module.exports = async function rema1000(preferences) {
 
                 let amount = 1;
 
-                if(amountMatch) {
-                    if(Number.isInteger(parseFloat(amountMatch[1]))) {
+                if (amountMatch) {
+                    if (Number.isInteger(parseFloat(amountMatch[1]))) {
                         amount = parseInt(amountMatch[1])
                     }
                 }
 
-               // const amount = amountMatch ?  ? amountMatch[1] : 1 : 1;
+                // const amount = amountMatch ?  ? amountMatch[1] : 1 : 1;
 
                 const productToSearchForAlternative = productName
-                .replace(/\s?\d.*\*\s?/, '') // replacing amouunt and unit e.g. "1.5 spsk*"
-                .replace(/(\d)+\s(stk)/g, '').trimEnd(); // removing e.g. "1 stk" from productname
-                
+                    .replace(/\s?\d.*\*\s?/, '') // replacing amouunt and unit e.g. "1.5 spsk*"
+                    .replace(/(\d)+\s(stk)/g, '').trimEnd(); // removing e.g. "1 stk" from productname
+
                 let productToSearchFor = productToSearchForAlternative; // removing e.g. "1 stk" from productname
                 // locally scoped variables, only for current iteration
                 let foundProducts = [];
                 let notFoundProducts = [];
-
-                console.log(productLookup)
 
 
                 // if product name is too complex
@@ -57,8 +106,8 @@ module.exports = async function rema1000(preferences) {
                 if (initiator !== 'USER') {
 
                     const items = productToSearchFor
-                    .replace(/\s*\(.*?\)\s*/g, '') // removing any parenthesis
-                    .split(' ').reverse(); // setting la    st word first as it is often the essence of the product
+                        .replace(/\s*\(.*?\)\s*/g, '') // removing any parenthesis
+                        .split(' ').reverse(); // setting la    st word first as it is often the essence of the product
 
                     if (items[0].match(/\d/)) {
                         items.shift();
@@ -67,14 +116,17 @@ module.exports = async function rema1000(preferences) {
 
                     // if statement for adding e.g. 'hakket' to 'oksekød'. So 'oksekød' turns into 'hakket oksekød' if 'hakket' is contained in the title
                     if (items[1]) {
-                        const prod = Object.keys(productLookup).find(key => productToSearchFor.includes(key));
+                
+                        type Keys = Array<keyof typeof productLookup>
+                        const prod = (Object.keys(productLookup) as Keys).find(key => productToSearchFor.includes(key));
+
                         if (prod) {
-                            const keyword = productLookup[prod].keywords.find(keyword => productName.includes(keyword))
+                            const keyword = productLookup[prod].keywords.find( (keyword: string)=> productName.includes(keyword))
                             if (keyword) productToSearchFor = items[1] + ' ' + productToSearchFor;
                             console.log('found new search string: ' + productToSearchFor);
                         }
                     }
- 
+
                 }
                 // Opens information stream. This is what the user sees when the bot is shopping 
                 document.open()
@@ -86,11 +138,11 @@ module.exports = async function rema1000(preferences) {
                     // automatically sorts irrelevant products out
                     console.warn('SEARCHING FOR : ' + productToSearchFor)
                     foundProducts = await getHits(productToSearchFor);
-                    if(!foundProducts.length) {
+                    if (!foundProducts.length) {
                         console.warn('SEARCHING AGAIN WITH NEW STRING : ' + productToSearchFor)
 
                         foundProducts = await getHits(productToSearchForAlternative);
-                    } 
+                    }
                     // console.log(foundProducts)
                 } catch (error) {
                     reject(error)
@@ -111,7 +163,7 @@ module.exports = async function rema1000(preferences) {
 
                 productsAddedToCart.push(product);
                 // shopping algorithms goes here
-                const desiredProduct = algoObject[algorithm](foundProducts)[0];
+                const desiredProduct = functionsUsed.sortHits[algorithm](foundProducts)[0];
                 console.log('Found hits')
                 //  console.log(foundProducts)
 
@@ -133,7 +185,7 @@ module.exports = async function rema1000(preferences) {
                 if (count === products.length) {
                     localStorage.setItem(lsKey, JSON.stringify(lsObject))
                     //alert('added all items')
-                    console.log('Added ' + lsObject.items.length + ' to basket');                    
+                    console.log('Added ' + lsObject.items.length + ' to basket');
                     location.reload();
                     resolve(lsObject.items)
                     return;
@@ -164,8 +216,12 @@ module.exports = async function rema1000(preferences) {
 
 
 
+
+
+
+
 // function to get all hits from a search word, this function runs every time
-async function getHits(productName) {
+async function getHits(productName: string) {
 
     /*   const { task: productName, initiator } = product;
       let productToSearchFor = productName.replace(/\s?\d.*\*\s?/, '').replace(/(\d)+\s(stk)/g, '').trimEnd(); // removing e.g. "1 stk" from productname
@@ -180,9 +236,11 @@ async function getHits(productName) {
       const jsonData = await res.json();
       const firstElements = jsonData.hits.slice(0, 10);
   
-      const testIfRelevantProduct = (attribute) => new RegExp(`\\b${productName}\\b`).exec(attribute.toLowerCase());
+      const testIfRelevantProduct = (attribute: string) => new RegExp(`\\b${productName}\\b`).exec(attribute.toLowerCase());
       // const testIfRelevantProduct = (product) => product.toLowerCase().includes(item);
-      const filteredResults = firstElements.filter(hit => {
+      const filteredResults = firstElements.filter((
+          hit: {name: string, declaration: string}
+          ) => {
           if (testIfRelevantProduct(hit.name) || testIfRelevantProduct(hit.declaration) ) {
               return true
           } else {
@@ -198,9 +256,13 @@ async function getHits(productName) {
   
   
   // algorithm to shop items based on the cheapest price per unit
-  function getCheapest(hits) {
+  function getCheapest(hits: any[]) {
+
       // function turn the string containing pricer per unit to a number for sorting
-      const findNumbers = (str) => parseFloat(str.match(/\d+\.?\d*/g)[0]);
+      const findNumbers = (str: string) => {
+          const pricePerUnitMatch = str.match(/\d+\.?\d*/g);
+          return pricePerUnitMatch ? parseFloat(pricePerUnitMatch[0]) : 50
+      }
   
       const getRealPricePerUnit = hits.map(item => {
           // destructuring the object

@@ -6,7 +6,7 @@ const shoppingCrawler = require('../puppeteer/crawlers/shoppingCrawler/shoppingC
 
 async function app() {
 
-  console.log('hej')
+  console.log('Starting server...')
 
   const express = require('express');
   const app = express();
@@ -32,6 +32,7 @@ async function app() {
 
     console.log(req.body);
 
+    // To decide which web page to shop at
     const foundChain = pageFunction[Object.keys(pageFunction).find(key => chain.includes(key))];
     const results = await shoppingCrawler(foundChain.url, foundChain.pageFunction, req.body);
     //console.log(results)
