@@ -4,7 +4,7 @@ module.exports = {
         url: "https://www.nemlig.com"
     },
     rema:{
-        pageFunction: require('./rema1000.js'),
+        pageFunction: require('./rema1000-ts.js'),
         url: "https://shop.rema1000.dk"
     } 
 }

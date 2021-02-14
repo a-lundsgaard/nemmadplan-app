@@ -1,8 +1,8 @@
 const { default: fetch } = require('node-fetch');
 const bodyParser = require('body-parser');
 
-const pageFunction = require('../puppeteer/crawlers/shoppingCrawler/pageFunctions/index');
-const shoppingCrawler = require('../puppeteer/crawlers/shoppingCrawler/shoppingCrawler')
+const pageFunction = require('../crawlers/shoppingCrawler/pageFunctions/index');
+const shoppingCrawler = require('../crawlers/shoppingCrawler/shoppingCrawler')
 
 async function app() {
 

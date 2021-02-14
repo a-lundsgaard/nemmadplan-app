@@ -1,3 +1,9 @@
+
+// functions and variables from injected scripts 
+/* declare const getHits: (searchWord: string)=> any[];
+declare const getCheapest: (hits: any[])=> any;
+declare const productLookup: ProductLookup; */
+
 interface Todo {
     task: string,
     quantity: number,
@@ -33,40 +39,25 @@ interface LocalStorageObject {
 }
 
 
-const functionsUsed = {
-    root: { getHits:  getHits },
-    sortHits: { 
-        'billigste': getCheapest 
-    }
-}
-
- const productLookup = {
-    'tomat': {
-        keywords: ['hakk', 'rød', 'grøn', 'soltørr']
-    },
-
-    'kød': {
-        keywords: ['hakk']
-    }
-} 
-
-
-
 module.exports = async function rema1000(preferences: Preferences) {
 
     document.write(`Vent et øjeblik...`);
 
-    const { root: { getHits } } = functionsUsed;
+    const functionsUsed = {
+        root: { getHits:  getHits },
+        sortHits: { 
+            'billigste': getCheapest 
+        }
+    }
+
+  //  const { root: { getHits } } = functionsUsed;
 
     try {
 
-        const { products, profile: { price } } = preferences;
-        //let algorithm: str
-        let { profile: { algorithm } } = preferences;
+        const { products, profile: { price, algorithm } } = preferences;
+
         // All algorithms available for shop.rema100.dk. 
         // The key must match the algorithm property from preferences, as it is used for object lookup further down 
-
-
         let count = 1
         const lsKey = 'guest';
         const lsObject: LocalStorageObject = { name: "Min liste", primary: true, items: [], generics: [] }
@@ -118,7 +109,7 @@ module.exports = async function rema1000(preferences: Preferences) {
                     if (items[1]) {
                 
                         type Keys = Array<keyof typeof productLookup>
-                        const prod = (Object.keys(productLookup) as Keys).find(key => productToSearchFor.includes(key));
+                        const prod = (Object.keys(productLookup) as Keys).find((key) => productToSearchFor.includes(key));
 
                         if (prod) {
                             const keyword = productLookup[prod].keywords.find( (keyword: string)=> productName.includes(keyword))
@@ -190,7 +181,6 @@ module.exports = async function rema1000(preferences: Preferences) {
                     resolve(lsObject.items)
                     return;
                 };
-
                 count++;
             }
         })
@@ -211,69 +201,3 @@ module.exports = async function rema1000(preferences: Preferences) {
     }
 
 }
-
-
-
-
-
-
-
-
-
-// function to get all hits from a search word, this function runs every time
-async function getHits(productName: string) {
-
-    /*   const { task: productName, initiator } = product;
-      let productToSearchFor = productName.replace(/\s?\d.*\*\s?/, '').replace(/(\d)+\s(stk)/g, '').trimEnd(); // removing e.g. "1 stk" from productname
-   */
-   
-      console.log('searching for item from string: ' + productName);
-      const res = await fetch("https://3i8g24dm3n-dsn.algolia.net/1/indexes/aws-prod-products/query?x-algolia-agent=Algolia%20for%20vanilla%20JavaScript%203.21.1&x-algolia-application-id=3I8G24DM3N&x-algolia-api-key=f692051765ea56d2c8a55537448fa3a2", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ "params": "query=" + productName })
-      });
-      const jsonData = await res.json();
-      const firstElements = jsonData.hits.slice(0, 10);
-  
-      const testIfRelevantProduct = (attribute: string) => new RegExp(`\\b${productName}\\b`).exec(attribute.toLowerCase());
-      // const testIfRelevantProduct = (product) => product.toLowerCase().includes(item);
-      const filteredResults = firstElements.filter((
-          hit: {name: string, declaration: string}
-          ) => {
-          if (testIfRelevantProduct(hit.name) || testIfRelevantProduct(hit.declaration) ) {
-              return true
-          } else {
-              return false;
-          }
-      })
-      console.error('Found results')
-      console.log(filteredResults)
-      return filteredResults.length === 0 ? firstElements : filteredResults;
-  }
-  
-  
-  
-  
-  // algorithm to shop items based on the cheapest price per unit
-  function getCheapest(hits: any[]) {
-
-      // function turn the string containing pricer per unit to a number for sorting
-      const findNumbers = (str: string) => {
-          const pricePerUnitMatch = str.match(/\d+\.?\d*/g);
-          return pricePerUnitMatch ? parseFloat(pricePerUnitMatch[0]) : 50
-      }
-  
-      const getRealPricePerUnit = hits.map(item => {
-          // destructuring the object
-          const { pricing, pricing: { price_per_unit } } = item;
-          // the price_per_kilogram property is often showing the incorrect number, using the price per unit fixes the problem
-          return { ...item, pricing: { ...pricing, price_per_unit: findNumbers(price_per_unit) } }
-      })
-  
-      // using sorting function to get cheapest product
-      const sortedArray = getRealPricePerUnit.sort((a, b) => a.pricing.price_per_unit < b.pricing.price_per_unit ? -1 :
-          (a.pricing.price_per_unit > b.pricing.price_per_unit ? 1 : 0));
-  
-      return sortedArray;
-  }
