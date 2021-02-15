@@ -24,11 +24,13 @@ export default function smallNumPicker({unit, quantity, parentProps }) {
     if (count < 1.000001) return false;
     setCount(prevCount => prevCount - 1)
     //onChange(count)
+    //handleAccept()
   }
 
   const incrementCount = (e) => {
     //alert(typeof count)
-    setCount(prevCount => prevCount + 1)
+    setCount(prevCount => prevCount + 1);
+   // handleAccept()
   }
 
   const handleChange = (e) => {
@@ -49,7 +51,7 @@ export default function smallNumPicker({unit, quantity, parentProps }) {
         setLocalUnit(originalUnit);
       }
     }
-    //handleAccept()
+    handleAccept()
   }, [count])
 
 

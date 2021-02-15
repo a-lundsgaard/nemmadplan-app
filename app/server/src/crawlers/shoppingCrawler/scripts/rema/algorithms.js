@@ -7,6 +7,7 @@ const productLookup = {
         keywords: ['hakk']
     }
 };
+const commonUnitsArray = ['stk', 'gram', 'liter', 'ltr', 'pakke', 'pk', 'dåse', 'ds', 'gr'];
 async function getHits(productName) {
     console.log('searching for item from string: ' + productName);
     const res = await fetch("https://3i8g24dm3n-dsn.algolia.net/1/indexes/aws-prod-products/query?x-algolia-agent=Algolia%20for%20vanilla%20JavaScript%203.21.1&x-algolia-application-id=3I8G24DM3N&x-algolia-api-key=f692051765ea56d2c8a55537448fa3a2", {

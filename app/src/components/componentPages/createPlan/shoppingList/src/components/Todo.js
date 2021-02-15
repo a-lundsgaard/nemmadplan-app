@@ -3,7 +3,7 @@ import { DispatchContext } from '../contexts/todos.context';
 import EditTodoForm from './EditTodoForm';
 import useToggleState from '../hooks/useToggleState';
 import useStyles from '../styles/TodoStyles.js';
-import { REMOVE_TODO, TOGGLE_TODO, EDIT_TODO } from '../constants/actions';
+import { REMOVE_TODO, TOGGLE_TODO, EDIT_TODO, ADD_SALES_TO_TODO } from '../constants/actions';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -112,7 +112,7 @@ function Todo(props) {
 
               // adding img to to do for using in the container sidebar (side bar showing first sale of every product)
               // redux dispatcher can be found in contexts folder
-              dispatch({ type: EDIT_TODO, id: props.id, task: props.task, img: results[0]?.img || null });
+              dispatch({ type: ADD_SALES_TO_TODO, ...props, img: results[0]?.img || null });
             }
 
           }).catch(function (e) {
@@ -161,10 +161,10 @@ function Todo(props) {
   return (
     <li
       className={classes.Todo}
-      onClick={(e) => {
+/*       onClick={(e) => {
         //e.stopPropagation(); // stopping element from getting a line through
         toggleEditing();
-      }}
+      }} */
 
     >
       <span className={classes.salesButtons}>

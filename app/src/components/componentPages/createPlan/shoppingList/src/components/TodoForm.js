@@ -16,7 +16,7 @@ function TodoForm() {
     <form
       onSubmit={e => {
         e.preventDefault();
-        dispatch({ type: ADD_TODO, task: value });
+        dispatch({ type: ADD_TODO, task: value, quantity: 1 });
         clearValue();
       }}
       className={classes.TodoForm}

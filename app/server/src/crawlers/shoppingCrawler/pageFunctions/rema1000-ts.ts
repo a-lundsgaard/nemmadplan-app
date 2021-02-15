@@ -26,16 +26,15 @@ interface Preferences {
         brand: {
             brands: string[],
             wanted: boolean;
-            
         }
     }
 }
 
-interface LocalStorageObject { 
-    name: "Min liste", 
-    primary: true, 
-    items: any[], 
-    generics: any[] 
+interface LocalStorageObject {
+    name: "Min liste",
+    primary: true,
+    items: any[],
+    generics: any[]
 }
 
 
@@ -44,13 +43,13 @@ module.exports = async function rema1000(preferences: Preferences) {
     document.write(`Vent et øjeblik...`);
 
     const functionsUsed = {
-        root: { getHits:  getHits },
-        sortHits: { 
-            'billigste': getCheapest 
+        root: { getHits: getHits },
+        sortHits: {
+            'billigste': getCheapest
         }
     }
 
-  //  const { root: { getHits } } = functionsUsed;
+    //  const { root: { getHits } } = functionsUsed;
 
     try {
 
@@ -68,17 +67,7 @@ module.exports = async function rema1000(preferences: Preferences) {
 
             for (const product of products) {
 
-                const { task: productName, initiator } = product;
-                const amountMatch = productName.match(/(\d)+\s(stk)/) // e.g. "2 stk"
-
-
-                let amount = 1;
-
-                if (amountMatch) {
-                    if (Number.isInteger(parseFloat(amountMatch[1]))) {
-                        amount = parseInt(amountMatch[1])
-                    }
-                }
+                const { task: productName, initiator, quantity, unit } = product;
 
                 // const amount = amountMatch ?  ? amountMatch[1] : 1 : 1;
 
@@ -107,12 +96,12 @@ module.exports = async function rema1000(preferences: Preferences) {
 
                     // if statement for adding e.g. 'hakket' to 'oksekød'. So 'oksekød' turns into 'hakket oksekød' if 'hakket' is contained in the title
                     if (items[1]) {
-                
+
                         type Keys = Array<keyof typeof productLookup>
                         const prod = (Object.keys(productLookup) as Keys).find((key) => productToSearchFor.includes(key));
 
                         if (prod) {
-                            const keyword = productLookup[prod].keywords.find( (keyword: string)=> productName.includes(keyword))
+                            const keyword = productLookup[prod].keywords.find((keyword: string) => productName.includes(keyword))
                             if (keyword) productToSearchFor = items[1] + ' ' + productToSearchFor;
                             console.log('found new search string: ' + productToSearchFor);
                         }
@@ -151,19 +140,64 @@ module.exports = async function rema1000(preferences: Preferences) {
                     continue;
                 }
 
-
                 productsAddedToCart.push(product);
+
                 // shopping algorithms goes here
-                const desiredProduct = functionsUsed.sortHits[algorithm](foundProducts)[0];
+                const targetProduct = functionsUsed.sortHits[algorithm](foundProducts)[0];
                 console.log('Found hits')
                 //  console.log(foundProducts)
+                let targetProductQuantity = 1;
+                //let targetProductUnit: string | null;
+                let amount = 1;
+
+
+
+                if (targetProduct.underline) {
+
+                    const underline: string = targetProduct.underline.toLowerCase();
+                    const amountMatch = underline.match(/\d+/) // e.g. "2 stk"
+                    //const goodUnitsArray = ['stk', 'dåse', 'pk', 'pakke'];
+                    // finding the unit based on known units
+                    //targetProductUnit = commonUnitsArray.find((unit) => underline.includes(unit)) || null;
+
+                    // assigning the quantity of the product declaration as the amount of the productS
+                    if (amountMatch) {
+                        amount = +amountMatch[0];
+                        //alert(amount);
+                        // targetProductQuantity = +amountMatch[0];
+                    }
+
+                    if(!quantity) alert('no quantity');
+
+                    // Should probably check if same amount
+                    targetProductQuantity = Math.ceil(quantity || 1/ amount);
+                    
+
+                    // if same unit, and target amount is less than the quantity the user has specified
+                    //if (unit && targetProductUnit ? targetProductUnit.includes(unit) : null) {
+                        // if quantity exceeds 9 it is probably in gram
+          /*               if (quantity > 9) {
+                            // divides the user specified amount in the amount of the target product and rounds up to nearest integer
+                            targetProductQuantity = Math.ceil(quantity / amount);
+                        } */
+                    //}
+                }
+
+                /*           const amountMatch = productName.match(/(\d)+\s(stk)/) // e.g. "2 stk"
+                          
+                          if (amountMatch) {
+                              if (Number.isInteger(parseFloat(amountMatch[1]))) {
+                                  amount = parseInt(amountMatch[1])
+                              }
+                          } */
+
 
                 let lsItem = {
-                    amount: amount,
+                    amount: targetProductQuantity,
                     item_group_id: null,
                     store_id: 1,
-                    store_item: desiredProduct,
-                    store_item_id: desiredProduct.id
+                    store_item: targetProduct,
+                    store_item_id: targetProduct.id
                 }
 
                 lsObject.items.push(lsItem);

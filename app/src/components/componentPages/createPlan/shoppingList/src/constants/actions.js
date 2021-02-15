@@ -6,3 +6,7 @@ export const UNCOMPLETE_TODO = 'UNCOMPLETE_TODO';
 export const EDIT_TODO = 'EDIT_TODO';
 export const ADD_INGREDIENT_ARRAY = 'ADD_INGREDIENT_ARRAY';
 
+export const ADD_SALES_TO_TODO = 'ADD_SALES_TO_TODO';
+
+
+

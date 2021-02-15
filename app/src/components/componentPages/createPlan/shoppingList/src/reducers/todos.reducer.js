@@ -11,7 +11,8 @@ import {
   EDIT_TODO,
   ADD_INGREDIENT_ARRAY,
   COMPLETE_TODO,
-  UNCOMPLETE_TODO
+  UNCOMPLETE_TODO,
+  ADD_SALES_TO_TODO
 } from '../constants/actions';
 
 const reducer = (state, action) => {
@@ -81,6 +82,13 @@ const reducer = (state, action) => {
       return state.map(todo =>
         todo.id === action.id ? { ...todo, task: action.task, initiator: action.initiator, img: action.img, unit: action.unit, quantity: action.quantity } : todo
       );
+
+    case ADD_SALES_TO_TODO:
+      //const initiator = action.initiator === 'REPLACEMENT_FROM_SALES' ? action.initiator : null;
+      console.log('Edit reducer got called')
+      return state.map(todo =>
+        todo.id === action.id ? { ...todo, img: action.img } : todo
+      );
     case ADD_INGREDIENT_ARRAY:
       console.log('THE REDUCER WAS CALLED');
 
@@ -112,7 +120,7 @@ const reducer = (state, action) => {
       });
 
       // changes the object back to an array again and returns it
-      const newState = Object.keys(ingredientArrayAsObject).map(key => ingredientArrayAsObject[key]); 
+      const newState = Object.keys(ingredientArrayAsObject).map(key => ingredientArrayAsObject[key]);
       return newState;
 
 

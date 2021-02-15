@@ -9,6 +9,9 @@ const productLookup = {
 }
 
 
+const commonUnitsArray = ['stk', 'gram', 'liter', 'ltr', 'pakke', 'pk', 'dåse', 'ds', 'gr']
+
+
 // function to get all hits from a search word, this function runs every time
 async function getHits(productName: string) {
 

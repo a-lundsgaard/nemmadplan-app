@@ -16,14 +16,7 @@ module.exports = async function rema1000(preferences) {
         const productsNotAddedToCart = [];
         const addedItems = new Promise(async (resolve, reject) => {
             for (const product of products) {
-                const { task: productName, initiator } = product;
-                const amountMatch = productName.match(/(\d)+\s(stk)/);
-                let amount = 1;
-                if (amountMatch) {
-                    if (Number.isInteger(parseFloat(amountMatch[1]))) {
-                        amount = parseInt(amountMatch[1]);
-                    }
-                }
+                const { task: productName, initiator, quantity, unit } = product;
                 const productToSearchForAlternative = productName
                     .replace(/\s?\d.*\*\s?/, '')
                     .replace(/(\d)+\s(stk)/g, '').trimEnd();
@@ -69,14 +62,26 @@ module.exports = async function rema1000(preferences) {
                     continue;
                 }
                 productsAddedToCart.push(product);
-                const desiredProduct = functionsUsed.sortHits[algorithm](foundProducts)[0];
+                const targetProduct = functionsUsed.sortHits[algorithm](foundProducts)[0];
                 console.log('Found hits');
+                let targetProductQuantity = 1;
+                let amount = 1;
+                if (targetProduct.underline) {
+                    const underline = targetProduct.underline.toLowerCase();
+                    const amountMatch = underline.match(/\d+/);
+                    if (amountMatch) {
+                        amount = +amountMatch[0];
+                    }
+                    if (!quantity)
+                        alert('no quantity');
+                    targetProductQuantity = Math.ceil(quantity || 1 / amount);
+                }
                 let lsItem = {
-                    amount: amount,
+                    amount: targetProductQuantity,
                     item_group_id: null,
                     store_id: 1,
-                    store_item: desiredProduct,
-                    store_item_id: desiredProduct.id
+                    store_item: targetProduct,
+                    store_item_id: targetProduct.id
                 };
                 lsObject.items.push(lsItem);
                 console.log('Set the item : ' + productName);
