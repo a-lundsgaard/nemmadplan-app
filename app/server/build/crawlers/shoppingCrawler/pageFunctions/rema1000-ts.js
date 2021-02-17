@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 module.exports = async function rema1000(preferences) {
     document.write(`Vent et øjeblik...`);
     const functionsUsed = {

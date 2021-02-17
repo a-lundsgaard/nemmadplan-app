@@ -4,7 +4,9 @@
 declare const getCheapest: (hits: any[])=> any;
 declare const productLookup: ProductLookup; */
 
-interface Todo {
+import { Preferences } from '../types/sharedTypes'
+
+/* interface Todo {
     task: string,
     quantity: number,
     initiator: string,
@@ -28,7 +30,7 @@ interface Preferences {
             wanted: boolean;
         }
     }
-}
+} */
 
 interface LocalStorageObject {
     name: "Min liste",

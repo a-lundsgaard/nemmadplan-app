@@ -1,21 +1,23 @@
-module.exports = async function nemlig(preferences) {
+import { Preferences } from '../types/sharedTypes'
+
+module.exports = async function nemlig(preferences: Preferences) {
     document.write(`Vent et øjeblik...`);
 
-    const $ = (selector) =>  {
+/*     const $ = (selector) =>  {
         const nodeList = Array.from(document.querySelectorAll(selector));
         return nodeList.length === 1 ? nodeList[0] : nodeList;
-    };
+    }; */
 
     const { products, profile: {price} } = preferences;
 
-    const urls = products.map(name => ( {name: name, url: `https://www.nemlig.com/webapi/AAAAAAAA-/-/1/0/Search/Search?query=${name}&take=20&skip=0&recipeCount=2&`} ))
+    const urls = products.map(todo => ( {name: todo.task, url: `https://www.nemlig.com/webapi/AAAAAAAA-/-/1/0/Search/Search?query=${todo}&take=20&skip=0&recipeCount=2&`} ))
         
     //`https://www.nemlig.com/webapi/AAAAAAAA-EIvZlM1q/2020100805-60-600/1/0/Search/Search?query=${name}&take=20&skip=0&recipeCount=2&`
     //"https://www.nemlig.com/webapi/AAAAAAAA-cEoFe4Jr/2020100823-300-300/1/0/Search/Search?query=leverpostej&take=20&skip=0&recipeCount=2&"
 
     console.log(urls)
 
-    let items = [];
+    let items: any[] = [];
     let productsNotFound = [];
 
     for (let obj of urls) {
@@ -36,7 +38,7 @@ module.exports = async function nemlig(preferences) {
                 }                        
             })*/
 
-            function sortByCheapest(arr) {
+            function sortByCheapest(arr: any[]) {
 
                 const sortedArray = arr.sort((a, b) => a.UnitPriceCalc < b.UnitPriceCalc ? -1 : (a.UnitPriceCalc > b.UnitPriceCalc ? 1 : 0));
                 console.log(sortedArray[0])
@@ -59,7 +61,6 @@ module.exports = async function nemlig(preferences) {
                             .map(el => el.toLowerCase().replace(/-/g, ''))
                             .join()
                             .match(new RegExp(`${matchName}`))
-
                             //.includes(obj.name.toLowerCase())
                 })
                 

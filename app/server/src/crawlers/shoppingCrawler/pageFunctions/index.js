@@ -1,6 +1,6 @@
 module.exports = {
     nemlig:{
-        pageFunction: require('./nemlig.com'),
+        pageFunction: require('./nemlig.com-ts'),
         url: "https://www.nemlig.com"
     },
     rema:{

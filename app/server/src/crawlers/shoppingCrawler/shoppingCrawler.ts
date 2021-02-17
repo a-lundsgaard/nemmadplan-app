@@ -1,9 +1,11 @@
+import { Preferences } from "./types/sharedTypes";
+
 const { default: fetch } = require('node-fetch');
 const puppeteer = require('puppeteer');
-const nemlig = require('./pageFunctions/nemlig.com');
+const nemlig = require('./pageFunctions/nemlig.com-ts');
 const rema1000 = require('./pageFunctions/rema1000.js');
 
-const k = require('./scripts/rema/algorithms')
+//const k = require('./scripts/rema/algorithms')
 
 const path = require('path');
 //const libPath = path.resolve('puppeteer/crawlers/algorithms')
@@ -13,7 +15,7 @@ const path = require('path');
 const libPath  = path.join(__dirname, './scripts/rema/algorithms.js')
 
 
-async function runShoppingListCrawler (url, pageFunction, preferences) {
+async function runShoppingListCrawler (url: string, pageFunction: () => Array<Object>, preferences: Preferences) {
 
     console.log('Starting crawler...');
     console.log(preferences);
