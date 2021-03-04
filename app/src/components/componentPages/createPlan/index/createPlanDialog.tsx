@@ -141,66 +141,70 @@ export default function CreatePlanDialog({ onReceiptSave }) {
         </AppBar>
 
 
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-          //spacing={10}
-          className={classes.mainGrid}
-        >
 
-          <Grid style={{
-            margin: '0 20px 0 20px'
-          }} item >
-                  <span className={classes.daysSelect}>
-                    <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies} />
-                  </span>
-                <TextField label="Navn på madplan" style={{
-                  margin: '0px 0 30px 40px',
-                  maxWidth: 300
-                }} />
-          </Grid>
+        <div style={{ display: 'flex' }}>
+          <div style={{
+            margin: '0 20px 0 20px',
+            display: 'block'
+          }}  >
+            <span className={classes.daysSelect}>
+              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies} />
+            </span>
+            <TextField label="Navn på madplan" style={{
+              margin: '0px 0 30px 40px',
+              maxWidth: 300
+            }} />
+          </div>
 
 
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+            //spacing={10}
+            className={classes.mainGrid}
+          >
 
-          <Grid style={{
-            margin: '20px 0 0 0'
-          }} item>
+            <Grid style={{
+              margin: '20px 0 0 0'
+            }} item>
 
-            <Grid container spacing={4} >
+              <Grid container spacing={4} >
 
 
-              {state.recipies
-                .map((recipe: any, index) => (
-                  <Grid
-                    key={recipe._id}
-                    item>
-                    <RecipeCard
-                      recipe={recipe}
-                      clikedDish={id => id}
-                      visitFromCreatePlan={false}
-                      visitFromCreatePlanMealList={true}
-                      dialogOpen={bool => bool}
-                    />
-                  </Grid>
-                ))}
+                {state.recipies
+                  .map((recipe: any, index) => (
+                    <Grid
+                      key={recipe._id}
+                      item>
+                      <RecipeCard
+                        recipe={recipe}
+                        clikedDish={id => id}
+                        visitFromCreatePlan={false}
+                        visitFromCreatePlanMealList={true}
+                        dialogOpen={bool => bool}
+                      />
+                    </Grid>
+                  ))}
+
+              </Grid>
+
 
             </Grid>
 
 
+
+            <RecipeDialog
+              visible={recipesOpen}
+              setVisible={setRecipesOpen}
+              chosenRecipe={handleSetNewRecipe}
+            />
+
+
           </Grid>
 
-
-
-          <RecipeDialog
-            visible={recipesOpen}
-            setVisible={setRecipesOpen}
-            chosenRecipe={handleSetNewRecipe}
-          />
-
-
-        </Grid>
+        </div>
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
         <ShoppingListContainer>

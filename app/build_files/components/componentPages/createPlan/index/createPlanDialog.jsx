@@ -126,47 +126,51 @@ function CreatePlanDialog({ onReceiptSave }) {
         </AppBar_1.default>
 
 
-        <Grid_1.default container direction="row" justify="flex-start" alignItems="flex-start" 
-    //spacing={10}
-    className={classes.mainGrid}>
 
-          <Grid_1.default style={{
-        margin: '0 20px 0 20px'
-    }} item>
-                  <span className={classes.daysSelect}>
-                    <staticDatePicker_jsx_1.default hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies}/>
-                  </span>
-                <TextField_1.default label="Navn på madplan" style={{
+        <div style={{ display: 'flex' }}>
+          <div style={{
+        margin: '0 20px 0 20px',
+        display: 'block'
+    }}>
+            <span className={classes.daysSelect}>
+              <staticDatePicker_jsx_1.default hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies}/>
+            </span>
+            <TextField_1.default label="Navn på madplan" style={{
         margin: '0px 0 30px 40px',
         maxWidth: 300
     }}/>
-          </Grid_1.default>
+          </div>
 
 
+          <Grid_1.default container direction="row" justify="flex-start" alignItems="flex-start" 
+    //spacing={10}
+    className={classes.mainGrid}>
 
-          <Grid_1.default style={{
+            <Grid_1.default style={{
         margin: '20px 0 0 0'
     }} item>
 
-            <Grid_1.default container spacing={4}>
+              <Grid_1.default container spacing={4}>
 
 
-              {state.recipies
+                {state.recipies
         .map((recipe, index) => (<Grid_1.default key={recipe._id} item>
-                    <recipeCard_1.default recipe={recipe} clikedDish={id => id} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={bool => bool}/>
-                  </Grid_1.default>))}
+                      <recipeCard_1.default recipe={recipe} clikedDish={id => id} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={bool => bool}/>
+                    </Grid_1.default>))}
+
+              </Grid_1.default>
+
 
             </Grid_1.default>
 
 
+
+            <pickRecipeDialog_jsx_1.default visible={recipesOpen} setVisible={setRecipesOpen} chosenRecipe={handleSetNewRecipe}/>
+
+
           </Grid_1.default>
 
-
-
-          <pickRecipeDialog_jsx_1.default visible={recipesOpen} setVisible={setRecipesOpen} chosenRecipe={handleSetNewRecipe}/>
-
-
-        </Grid_1.default>
+        </div>
         {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 
         <container_1.default>

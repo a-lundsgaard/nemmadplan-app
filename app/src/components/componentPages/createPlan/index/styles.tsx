@@ -18,9 +18,10 @@ export default makeStyles((theme) => ({
     },
   
     mainGrid: {
-      marginTop: 20,
+      //marginTop: 20,
       overflowX: 'hidden',
-      zIndex: 0
+      zIndex: 0,
+      wrap: 'nowrap'
     },
   
     importButton: {

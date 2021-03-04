@@ -14,9 +14,10 @@ exports.default = styles_1.makeStyles((theme) => ({
         width: 400
     },
     mainGrid: {
-        marginTop: 20,
+        //marginTop: 20,
         overflowX: 'hidden',
-        zIndex: 0
+        zIndex: 0,
+        wrap: 'nowrap'
     },
     importButton: {
         marginLeft: 20
