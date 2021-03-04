@@ -114,12 +114,13 @@ interface Props {
   dialogOpen: (bool: boolean) => boolean;
   recipe: any,
   visitFromCreatePlan: boolean
-  visitFromCreatePlanMealList: boolean
+  visitFromCreatePlanMealList: boolean;
+  customDate: string
 
 }
 
 // test
-export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }: Props) {
+export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }: Props) {
 
 
 
@@ -175,7 +176,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
     <>
       <ScrollDialog boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool: boolean) => setScrollDialogOpen(bool)} key={1} />
 
-      <Card className={classes.card}>
+      <Card className={classes.card} >
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
@@ -184,7 +185,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
           }
           action={
             props.visitFromCreatePlanMealList ?
-              <IconButton aria-label="settings">
+              <IconButton aria-label="settings" onClick={() => clikedDish(recipe._id)}>
                 <ClearIcon />
               </IconButton> :
               <>
@@ -216,7 +217,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
           }
 
           title={recipe.name}
-          subheader={prettifyDate(recipe.createdAt)}
+          subheader={  prettifyDate( customDate ? customDate : recipe.createdAt)}
         />
 
 
@@ -237,7 +238,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
         <CardActions disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-            <IconButton aria-label="add to favorites"> <SwapVertIcon /></IconButton> :
+            <IconButton aria-label="add to favorites" > <SwapVertIcon onClick={()=> dialogOpen(true)} /></IconButton> :
             <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>}
 
           {props.visitFromCreatePlan ? <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>

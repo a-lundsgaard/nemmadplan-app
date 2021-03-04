@@ -173,7 +173,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
 
       <MuiPickersUtilsProvider utils={LocalizedUtils} locale={daLocale}>
 
-        <Paper elevation={2} style={{ overflow: "hidden", marginBottom: 45 }}>
+        <Paper elevation={20} variant='outlined' style={{ overflow: "hidden" }}>
           <DatePicker
             disablePast
             autoOk={false}

@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     },
   
     mainGrid: {
-      //marginTop: 20,
+      margin: '0 0 0 20px',
       overflowX: 'hidden',
       zIndex: 0,
       wrap: 'nowrap'

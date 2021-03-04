@@ -108,7 +108,7 @@ function prettifyDate(date) {
     return `${day}. ${month} ${year}`;
 }
 // test
-function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }) {
+function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
     const classes = useStyles();
     const [scrollDialogOpen, setScrollDialogOpen] = react_1.default.useState(false);
     const [anchorEl, setAnchorEl] = react_1.default.useState(null);
@@ -149,7 +149,7 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }) {
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R
         </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
-        <IconButton_1.default aria-label="settings">
+        <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe._id)}>
                 <Clear_1.default />
               </IconButton_1.default> :
         <>
@@ -169,7 +169,7 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }) {
                     <MenuItem_1.default onClick={handleClose}><DeleteForever_1.default /></MenuItem_1.default>
                   </react_router_dom_1.NavLink>
                 </Menu_1.default>
-              </>} title={recipe.name} subheader={prettifyDate(recipe.createdAt)}/>
+              </>} title={recipe.name} subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}/>
 
 
         <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
@@ -185,7 +185,7 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }) {
         <CardActions_1.default disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-        <IconButton_1.default aria-label="add to favorites"> <SwapVert_1.default /></IconButton_1.default> :
+        <IconButton_1.default aria-label="add to favorites"> <SwapVert_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default> :
         <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
           {props.visitFromCreatePlan ? <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>

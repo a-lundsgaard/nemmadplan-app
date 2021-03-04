@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+
 import SnackBar from "../../../shared/snackbar/snackbar.jsx";
 import PlusButton from '../../../shared/buttons/plusButton/plusButton.jsx'
 import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx';
@@ -27,7 +28,10 @@ import StaticDatePicker from '../datePicker/staticDatePicker.jsx'
 import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
 import ShoppingList from '../shoppingList/src/components/App.js'
 import ShoppingListContainer from '../shoppingListContainer/index/container';
-import Divider from '@material-ui/core/Divider';
+
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import styles from './styles.jsx';
 
@@ -76,6 +80,11 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     ingredients: false
   });
 
+  const handleDeleteRecipe = (idOfDeletedDish: string) => {
+    const newState = state.recipies.filter( (recipe: {_id: string} ) => recipe._id !== idOfDeletedDish);
+
+    setState({...state, recipies: newState})
+  }
 
   const onInputchange = (event) => {
     // sets state from by deriving the name of the input field when user entering input
@@ -96,8 +105,35 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   }
 
   const handleSetNewRecipe = (recipe) => {
+    alert(date)
     recipe.date = date;
-    setState({ ...state, recipies: [...state.recipies, recipe] })
+/*     const newRecipeArray = state.recipies.map((oldRecipe) => {
+      if(oldRecipe.date === recipe.date) {
+        return recipe;
+      }
+      return oldRecipe;
+    }); */
+
+/*     let newRecipeArray = state.recipies;
+    let index: number | undefined;
+    const duplicateDate = state.recipies.find((oldRecipe, i) => {
+      if(oldRecipe.date === recipe.date) {
+        newRecipeArray.splice(i, 1, recipe)
+        //newRecipeArray = [recipe]
+
+        index = i;
+        return true
+      }
+    })
+
+    if (duplicateDate) {
+      setState({ ...state, recipies: newRecipeArray })
+    } else { */
+      setState({ ...state, recipies: [...state.recipies, recipe] })
+    //}
+    //setState({ ...state, recipies: [...state.recipies, recipe] })
+
+
   }
 
   const handleClickOpen = () => {
@@ -142,20 +178,35 @@ export default function CreatePlanDialog({ onReceiptSave }) {
 
 
 
-        <div style={{ display: 'flex' }}>
+        <div style={{
+          display: 'flex',
+          height: '100%',
+          overflow: 'hidden'
+        }}
+        >
+
           <div style={{
-            margin: '0 20px 0 20px',
-            display: 'block'
+            padding: '0 30px 0 20px',
+            display: 'block',
+            bottom: '0px',
+            boxShadow: "0px 0px 7px 1px #aaaaaa94",
           }}  >
             <span className={classes.daysSelect}>
-              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies} />
+              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => {console.log(d); setDate(d) }} selectedMeals={state.recipies} />
             </span>
-            <TextField label="Navn på madplan" style={{
-              margin: '0px 0 30px 40px',
-              maxWidth: 300
-            }} />
-          </div>
 
+            <span style={{
+              display: 'flex'
+            }}>
+              <TextField label="Tilføj hurtig ret" style={{
+                margin: '10px 0 0px 10px',
+                maxWidth: 300
+              }} />
+              <IconButton size='medium' edge='start' aria-label="add" style={{ margin: '19px 0 0 0' }}>
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </span>
+          </div>
 
           <Grid
             container
@@ -166,28 +217,31 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             className={classes.mainGrid}
           >
 
+            {
+              state.recipies.length === 0 && <h1>Vælg retter ved at dobbeltklikke på en dato</h1>
+            }
+
             <Grid style={{
               margin: '20px 0 0 0'
             }} item>
 
-              <Grid container spacing={4} >
-
-
+              <Grid container spacing={3} >
                 {state.recipies
+                  .sort( (a: any,b: any) => a.date - b.date) // sorting by date
                   .map((recipe: any, index) => (
                     <Grid
                       key={recipe._id}
                       item>
                       <RecipeCard
                         recipe={recipe}
-                        clikedDish={id => id}
+                        clikedDish={handleDeleteRecipe}
                         visitFromCreatePlan={false}
                         visitFromCreatePlanMealList={true}
-                        dialogOpen={bool => bool}
+                        dialogOpen={setRecipesOpen}
+                        customDate={recipe.date.toISOString()}
                       />
                     </Grid>
                   ))}
-
               </Grid>
 
 

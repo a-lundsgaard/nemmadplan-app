@@ -41,6 +41,7 @@ const staticDatePicker_jsx_1 = __importDefault(require("../datePicker/staticDate
 const pickRecipeDialog_jsx_1 = __importDefault(require("../pickRecipe/pickRecipeDialog.jsx"));
 const App_js_1 = __importDefault(require("../shoppingList/src/components/App.js"));
 const container_1 = __importDefault(require("../shoppingListContainer/index/container"));
+const AddCircleOutline_1 = __importDefault(require("@material-ui/icons/AddCircleOutline"));
 const styles_jsx_1 = __importDefault(require("./styles.jsx"));
 //import { render } from 'react-dom'
 window.React = react_1.default;
@@ -71,6 +72,10 @@ function CreatePlanDialog({ onReceiptSave }) {
         title: false,
         ingredients: false
     });
+    const handleDeleteRecipe = (idOfDeletedDish) => {
+        const newState = state.recipies.filter((recipe) => recipe._id !== idOfDeletedDish);
+        setState({ ...state, recipies: newState });
+    };
     const onInputchange = (event) => {
         // sets state from by deriving the name of the input field when user entering input
         setState({
@@ -88,8 +93,32 @@ function CreatePlanDialog({ onReceiptSave }) {
         });
     };
     const handleSetNewRecipe = (recipe) => {
+        alert(date);
         recipe.date = date;
+        /*     const newRecipeArray = state.recipies.map((oldRecipe) => {
+              if(oldRecipe.date === recipe.date) {
+                return recipe;
+              }
+              return oldRecipe;
+            }); */
+        /*     let newRecipeArray = state.recipies;
+            let index: number | undefined;
+            const duplicateDate = state.recipies.find((oldRecipe, i) => {
+              if(oldRecipe.date === recipe.date) {
+                newRecipeArray.splice(i, 1, recipe)
+                //newRecipeArray = [recipe]
+        
+                index = i;
+                return true
+              }
+            })
+        
+            if (duplicateDate) {
+              setState({ ...state, recipies: newRecipeArray })
+            } else { */
         setState({ ...state, recipies: [...state.recipies, recipe] });
+        //}
+        //setState({ ...state, recipies: [...state.recipies, recipe] })
     };
     const handleClickOpen = () => {
         setOpen(true);
@@ -127,37 +156,51 @@ function CreatePlanDialog({ onReceiptSave }) {
 
 
 
-        <div style={{ display: 'flex' }}>
+        <div style={{
+        display: 'flex',
+        height: '100%',
+        overflow: 'hidden'
+    }}>
+
           <div style={{
-        margin: '0 20px 0 20px',
-        display: 'block'
+        padding: '0 30px 0 20px',
+        display: 'block',
+        bottom: '0px',
+        boxShadow: "0px 0px 7px 1px #aaaaaa94",
     }}>
             <span className={classes.daysSelect}>
-              <staticDatePicker_jsx_1.default hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies}/>
+              <staticDatePicker_jsx_1.default hasDbClicked={setRecipesOpen} pickedDate={d => { console.log(d); setDate(d); }} selectedMeals={state.recipies}/>
             </span>
-            <TextField_1.default label="Navn på madplan" style={{
-        margin: '0px 0 30px 40px',
+
+            <span style={{
+        display: 'flex'
+    }}>
+              <TextField_1.default label="Tilføj hurtig ret" style={{
+        margin: '10px 0 0px 10px',
         maxWidth: 300
     }}/>
+              <IconButton_1.default size='medium' edge='start' aria-label="add" style={{ margin: '19px 0 0 0' }}>
+                <AddCircleOutline_1.default />
+              </IconButton_1.default>
+            </span>
           </div>
-
 
           <Grid_1.default container direction="row" justify="flex-start" alignItems="flex-start" 
     //spacing={10}
     className={classes.mainGrid}>
 
+            {state.recipies.length === 0 && <h1>Vælg retter ved at dobbeltklikke på en dato</h1>}
+
             <Grid_1.default style={{
         margin: '20px 0 0 0'
     }} item>
 
-              <Grid_1.default container spacing={4}>
-
-
+              <Grid_1.default container spacing={3}>
                 {state.recipies
+        .sort((a, b) => a.date - b.date) // sorting by date
         .map((recipe, index) => (<Grid_1.default key={recipe._id} item>
-                      <recipeCard_1.default recipe={recipe} clikedDish={id => id} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={bool => bool}/>
+                      <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipe} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}/>
                     </Grid_1.default>))}
-
               </Grid_1.default>
 
 
