@@ -15,93 +15,41 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import SnackBar from "../../../shared/snackbar/snackbar";
-import PlusButton from '../../../shared/buttons/plusButton/plusButton'
-import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx'
+import SnackBar from "../../../shared/snackbar/snackbar.jsx";
+import PlusButton from '../../../shared/buttons/plusButton/plusButton.jsx'
+import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx';
+
+import RecipeCard from "../../../shared/card/recipeCard";
+
 //import StaticDatePicker from '../../pickers/date/staticDatePicker.jsx'
 
-import StaticDatePicker from '../datePicker/staticDatePicker'
+import StaticDatePicker from '../datePicker/staticDatePicker.jsx'
 import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
 import ShoppingList from '../shoppingList/src/components/App.js'
 import ShoppingListContainer from '../shoppingListContainer/index/container';
 import Divider from '@material-ui/core/Divider';
 
+import styles from './styles.jsx';
 
+import { TransitionProps } from '@material-ui/core/transitions';
+//import { render } from 'react-dom'
+window.React = React;
+// test
 
+const useStyles = styles;
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: 'relative',
-    background: '#c24e00' // dark orange
-  },
+/* const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+}); */
 
-  paper: {
-    padding: "15px 40px 0 40px"
-  },
-
-
-  shoppingList: {
-    padding: "15px 40px 0 40px",
-    width: 400
-  },
-
-  mainGrid: {
-    marginTop: 0,
-    overflowX: 'hidden',
-    zIndex: 0
-  },
-
-  importButton: {
-    marginLeft: 20
-  },
-
-  daysSelect: {
-    marginLeft: 20,
-  },
-
-
-  imageInputField: {
-    marginTop: 20,
-    maxWidth: 280,
-    width: "100%"
-  },
-
-
-  importUrlInput: {
-    maxWidth: 280,
-    marginBottom: 20,
-    width: "100%"
-  },
-
-  textAreaGrid: {
-    marginTop: 20,
-    width: 'fit-content',
-    marginLeft: "20px",
-    // minWidth: 400
-  },
-
-  recipeFoodPlanImage: {
-    maxWidth: 80,
-    height: 'auto',
-    marginRight: 8
-  },
-
-  numPicker: {
-    marginTop: 1
-  },
-
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
-
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>,
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
-export default function FullScreenDialog({ onReceiptSave }) {
+export default function CreatePlanDialog({ onReceiptSave }) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(true); // set false when not testing
@@ -193,7 +141,6 @@ export default function FullScreenDialog({ onReceiptSave }) {
         </AppBar>
 
 
-
         <Grid
           container
           direction="row"
@@ -204,54 +151,43 @@ export default function FullScreenDialog({ onReceiptSave }) {
         >
 
           <Grid style={{
-            //borderRight: '1px solid grey'
+            margin: '0 20px 0 20px'
           }} item >
-            <List>
-              <div>
-                <ListItem>
                   <span className={classes.daysSelect}>
                     <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => setDate(d)} selectedMeals={state.recipies} />
                   </span>
-                </ListItem>
                 <TextField label="Navn på madplan" style={{
                   margin: '0px 0 30px 40px',
                   maxWidth: 300
                 }} />
-
-              </div>
-            </List>
-
           </Grid>
 
-          <Grid item className={classes.textAreaGrid}>
-            <Paper className={classes.paper} elevation={3} >
-              <TextField name="importUrl" id="standard-basic" label="Navn på madplan*"
-                error={inputError.importUrl}
-                onChange={onInputchange}
-                className={classes.importUrlInput}
-                value={state.importUrl}
-              />
-              <List>
 
-                {
-                  state.recipies.map((recipe, index) =>
-                    <div key={index}>
-                      <h3>Mandag d. 12 okt</h3>
-                      <span style={{ display: "flex" }}>
 
-                        <img className={classes.recipeFoodPlanImage} src={recipe.image} />
-                        <span>
-                          <strong>{recipe.name}:</strong>
-                        </span>
+          <Grid style={{
+            margin: '20px 0 0 0'
+          }} item>
 
-                        <SmallNumberPicker />
-                      </span>
-                    </div>
-                  )
-                }
+            <Grid container spacing={4} >
 
-              </List>
-            </Paper>
+
+              {state.recipies
+                .map((recipe: any, index) => (
+                  <Grid
+                    key={recipe._id}
+                    item>
+                    <RecipeCard
+                      recipe={recipe}
+                      clikedDish={id => id}
+                      visitFromCreatePlan={false}
+                      visitFromCreatePlanMealList={true}
+                      dialogOpen={bool => bool}
+                    />
+                  </Grid>
+                ))}
+
+            </Grid>
+
 
           </Grid>
 

@@ -1,0 +1,9 @@
+{
+  "WELCOME": "/home",
+  "SIGNUP": "/signup",
+  "CREATEPLAN": "/createplan",
+  "MOTD": "/motd",
+  "LOCALIZATION": "/localization",
+  "UNDOREDO": "/undoredo",
+  "CONTEXTMENU": "/contextmenu"
+}

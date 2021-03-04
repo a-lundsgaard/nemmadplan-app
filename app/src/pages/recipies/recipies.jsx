@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import listenToSearchInput from 'Redux/helpers/subscribe'
 import HTTP from '../../HTTP/http';
 
-import ReceiptCard from '../../components/shared/card/recipeCard';
+import ReceiptCard from '../../components/shared/card/recipeCard.jsx';
 
 import FullScreenDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
 import ReceiptSceletonLoader from '../../components/shared/loaders/receiptSceletonLoader';
@@ -160,7 +160,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
                         dialogOpen={bool => dialogOpen(bool)}
                       />
                     </Grid>
-                  ))}
+                  ) )}
           </Grid>
 
         </Grid>

@@ -18,7 +18,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
 
-import ScrollDialog from '../dialog/scrollDialog';
+
+import ScrollDialog from '../dialog/scrollDialog.jsx';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { Link, NavLink, useHistory } from "react-router-dom";
@@ -27,8 +28,11 @@ import Divider from '@material-ui/core/Divider';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-
 import PostAddIcon from '@material-ui/icons/PostAdd';
+
+import ClearIcon from '@material-ui/icons/Clear';
+import SwapVertIcon from '@material-ui/icons/SwapVert';
+
 //import recipes from "../../HTTP/queries/recipes";
 
 
@@ -72,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function prettifyDate(date) {
+function prettifyDate(date: string) {
 
   const months = {
     1: 'januar',
@@ -91,16 +95,31 @@ function prettifyDate(date) {
 
   let dateArr = date.split('-')
   let year = dateArr[0]
-  let month = months[Number(dateArr[1])]
+
+  const monthNumber = Number(dateArr[1]) as keyof typeof months
+
+  let month = months[monthNumber]
   let day = dateArr[2]
-  day = day.match(/.+(?=T)/)[0]
+  const dayMatch = day.match(/.+(?=T)/);
+
+  if (dayMatch) {
+    day = dayMatch[0]
+  }
 
   return `${day}. ${month} ${year}`
 }
 
+interface Props {
+  clikedDish: (recipe: any) => any,
+  dialogOpen: (bool: boolean) => boolean;
+  recipe: any,
+  visitFromCreatePlan: boolean
+  visitFromCreatePlanMealList: boolean
 
+}
 
-export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }) {
+// test
+export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }: Props) {
 
 
 
@@ -112,15 +131,15 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
   const settingsOpen = Boolean(anchorEl);
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleAddReceipeToFoodPlan =() => {
+  const handleAddReceipeToFoodPlan = () => {
 
     // sending recipe to recipe component
-    clikedDish(recipe); 
+    clikedDish(recipe);
     // waiting a bit before removing dialog when add recipe btn is clicked
-/*     setTimeout(
-      () => dialogOpen(false), 
-      50
-    ); */
+    /*     setTimeout(
+          () => dialogOpen(false), 
+          50
+        ); */
 
     dialogOpen(false)
 
@@ -130,7 +149,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
     setExpanded(!expanded);
   };
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
 
   };
@@ -149,11 +168,12 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
     color: "inherit"
   }
 
-  //const {recipe} = recipe;
+  //const {recipe} = recipe;jjs
+  // test
 
   return (
     <>
-      <ScrollDialog boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={bool => setScrollDialogOpen(bool)} key={1} />
+      <ScrollDialog boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool: boolean) => setScrollDialogOpen(bool)} key={1} />
 
       <Card className={classes.card}>
         <CardHeader
@@ -163,34 +183,38 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
         </Avatar>
           }
           action={
-            <>
-              <IconButton aria-label="settings" onClick={handleMenu}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                open={settingsOpen}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}><EditIcon /></MenuItem>
-                <Divider />
-                <NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked') }}>
-                  <MenuItem onClick={handleClose}><DeleteForeverIcon /></MenuItem>
-                </NavLink>
-              </Menu>
-            </>
+            props.visitFromCreatePlanMealList ?
+              <IconButton aria-label="settings">
+                <ClearIcon />
+              </IconButton> :
+              <>
+                <IconButton aria-label="settings" onClick={handleMenu}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={settingsOpen}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}><EditIcon /></MenuItem>
+                  <Divider />
+                  <NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked') }}>
+                    <MenuItem onClick={handleClose}><DeleteForeverIcon /></MenuItem>
+                  </NavLink>
+                </Menu>
+              </>
           }
-          
+
           title={recipe.name}
           subheader={prettifyDate(recipe.createdAt)}
         />
@@ -212,15 +236,15 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
         </CardContent>
         <CardActions disableSpacing>
 
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
+          {props.visitFromCreatePlanMealList ?
+            <IconButton aria-label="add to favorites"> <SwapVertIcon /></IconButton> :
+            <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>}
 
           {props.visitFromCreatePlan ? <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
             <PostAddIcon />
           </IconButton> : null}
 
-          <IconButton  aria-label="share">
+          <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
 
@@ -241,7 +265,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, ...props }
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <i>Det skal du bruge:</i>
-            {recipe.ingredients.map((ingredient, index) =>
+            {recipe.ingredients.map((ingredient: { quantity: number, unit: string, name: string }, index: number) =>
               <p key={index}>
                 {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : ''} ${ingredient.name}`.trimLeft()}
               </p>

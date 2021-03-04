@@ -1,0 +1,28 @@
+.button {
+    background-color: #fed8b1; /* Green */
+    border: none;
+    color: white;
+    padding: 0 1.4rem 0 1.4rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 80px;
+    margin: 10px 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+  }
+
+/*For hover*/
+ .btn:hover {
+	 transform: translateY(-3px);
+	 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+/*For clicking the btn*/
+ .btn:active {
+	 transform: translateY(-1px);
+	 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
