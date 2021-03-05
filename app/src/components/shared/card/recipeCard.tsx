@@ -32,6 +32,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
+import { ProgressPlugin } from "webpack";
 
 //import recipes from "../../HTTP/queries/recipes";
 
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function prettifyDate(date: string) {
+/* function prettifyDate(date: string) {
 
   const months = {
     1: 'januar',
@@ -93,6 +94,17 @@ function prettifyDate(date: string) {
     12: 'december'
   }
 
+  if (!date) {
+    return;
+  }
+
+  if (props.visitFromCreatePlanMealList) {
+    alert(date)
+  }
+  //
+  console.log(date)
+
+
   let dateArr = date.split('-')
   let year = dateArr[0]
 
@@ -107,7 +119,7 @@ function prettifyDate(date: string) {
   }
 
   return `${day}. ${month} ${year}`
-}
+} */
 
 interface Props {
   clikedDish: (recipe: any) => any,
@@ -122,7 +134,48 @@ interface Props {
 // test
 export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }: Props) {
 
+  function prettifyDate(date: string) {
 
+    const months = {
+      1: 'januar',
+      2: 'februar',
+      3: 'marts',
+      4: 'april',
+      5: 'maj',
+      6: 'juni',
+      7: 'juli',
+      8: 'august',
+      9: 'september',
+      10: 'oktober',
+      11: 'november',
+      12: 'december'
+    }
+  
+    if (!date) {
+      return;
+    }
+  
+    if (props.visitFromCreatePlanMealList) {
+      console.log(date)
+    }
+    //
+  
+  
+    let dateArr = date.split('-')
+    let year = dateArr[0]
+  
+    const monthNumber = Number(dateArr[1]) as keyof typeof months
+  
+    let month = months[monthNumber]
+    let day = dateArr[2]
+    const dayMatch = day.match(/.+(?=T)/);
+  
+    if (dayMatch) {
+      day = dayMatch[0]
+    }
+  
+    return `${day}. ${month} ${year}`
+  }
 
   const classes = useStyles();
 
@@ -185,7 +238,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
           }
           action={
             props.visitFromCreatePlanMealList ?
-              <IconButton aria-label="settings" onClick={() => clikedDish(recipe._id)}>
+              <IconButton aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <ClearIcon />
               </IconButton> :
               <>
@@ -217,7 +270,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
           }
 
           title={recipe.name}
-          subheader={  prettifyDate( customDate ? customDate : recipe.createdAt)}
+          subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}
         />
 
 
@@ -238,7 +291,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
         <CardActions disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-            <IconButton aria-label="add to favorites" > <SwapVertIcon onClick={()=> dialogOpen(true)} /></IconButton> :
+            <IconButton aria-label="add to favorites" > <SwapVertIcon onClick={() => dialogOpen(true)} /></IconButton> :
             <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>}
 
           {props.visitFromCreatePlan ? <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>

@@ -77,21 +77,38 @@ const paintDays = (meals) => {
   calendarDays.forEach((el => {
     const dateString = `${el?.innerText} ${month} ${year}`;
 
-    meals.forEach(meal => {
+    for(const meal of meals) {
+
       const mealDate = new Date(meal.date);
       const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
 
       if (mealDateString === dateString) {
         el.style.background = '#90c200';
         // el.style.color ='white'
+        break;
+      } else {
+        el.style.background = '';
+
+      }
+      
+     /*  if (mealDateString !== dateString) {
+        el.style.background = '';
+        // el.style.color ='white'
+        
+      } */
+    }
+
+/*     meals.forEach(meal => {
+      const mealDate = new Date(meal.date);
+      const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
+
+      if (mealDateString === dateString) {
+        el.style.background = '#90c200';
+        // el.style.color ='white'
+        return
       }
 
-      /*   if (mealDateString !== dateString) {
-              el.style.background = '';
-             // el.style.color ='white'
-            }  */
-
-    })
+    }) */
 
 
   }))
@@ -158,6 +175,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
 
     if (selectedMeals.length) {
       console.log(selectedMeals);
+      alert('Meals changed')
 
       // paint days with selected food red 
       // mui datepickers doesnt support state yet, so it has to be done ugly and manually

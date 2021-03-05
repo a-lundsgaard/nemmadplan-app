@@ -81,34 +81,41 @@ const useStyles = styles_1.makeStyles((theme) => ({
         backgroundColor: colors_1.red[500],
     },
 }));
-function prettifyDate(date) {
-    const months = {
-        1: 'januar',
-        2: 'februar',
-        3: 'marts',
-        4: 'april',
-        5: 'maj',
-        6: 'juni',
-        7: 'juli',
-        8: 'august',
-        9: 'september',
-        10: 'oktober',
-        11: 'november',
-        12: 'december'
-    };
-    let dateArr = date.split('-');
-    let year = dateArr[0];
-    const monthNumber = Number(dateArr[1]);
-    let month = months[monthNumber];
-    let day = dateArr[2];
-    const dayMatch = day.match(/.+(?=T)/);
-    if (dayMatch) {
-        day = dayMatch[0];
-    }
-    return `${day}. ${month} ${year}`;
-}
 // test
 function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
+    function prettifyDate(date) {
+        const months = {
+            1: 'januar',
+            2: 'februar',
+            3: 'marts',
+            4: 'april',
+            5: 'maj',
+            6: 'juni',
+            7: 'juli',
+            8: 'august',
+            9: 'september',
+            10: 'oktober',
+            11: 'november',
+            12: 'december'
+        };
+        if (!date) {
+            return;
+        }
+        if (props.visitFromCreatePlanMealList) {
+            console.log(date);
+        }
+        //
+        let dateArr = date.split('-');
+        let year = dateArr[0];
+        const monthNumber = Number(dateArr[1]);
+        let month = months[monthNumber];
+        let day = dateArr[2];
+        const dayMatch = day.match(/.+(?=T)/);
+        if (dayMatch) {
+            day = dayMatch[0];
+        }
+        return `${day}. ${month} ${year}`;
+    }
     const classes = useStyles();
     const [scrollDialogOpen, setScrollDialogOpen] = react_1.default.useState(false);
     const [anchorEl, setAnchorEl] = react_1.default.useState(null);
@@ -149,7 +156,7 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R
         </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
-        <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe._id)}>
+        <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <Clear_1.default />
               </IconButton_1.default> :
         <>

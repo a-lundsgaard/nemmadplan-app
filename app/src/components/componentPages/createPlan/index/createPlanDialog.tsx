@@ -16,6 +16,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 
+import { v4 as uuid } from 'uuid';
+
+
 import SnackBar from "../../../shared/snackbar/snackbar.jsx";
 import PlusButton from '../../../shared/buttons/plusButton/plusButton.jsx'
 import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx';
@@ -81,7 +84,12 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   });
 
   const handleDeleteRecipe = (idOfDeletedDish: string) => {
-    const newState = state.recipies.filter( (recipe: {_id: string} ) => recipe._id !== idOfDeletedDish);
+    console.log(idOfDeletedDish)
+    let newState = state.recipies.filter( (recipe: {listId: string} ) => recipe.listId !== idOfDeletedDish);
+
+    if(newState.length === 0) {
+      alert('Setting new recipe array as []')
+    }
 
     setState({...state, recipies: newState})
   }
@@ -105,8 +113,9 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   }
 
   const handleSetNewRecipe = (recipe) => {
-    alert(date)
+    //alert(date)
     recipe.date = date;
+    recipe.listId = uuid();
 /*     const newRecipeArray = state.recipies.map((oldRecipe) => {
       if(oldRecipe.date === recipe.date) {
         return recipe;
@@ -114,23 +123,24 @@ export default function CreatePlanDialog({ onReceiptSave }) {
       return oldRecipe;
     }); */
 
-/*     let newRecipeArray = state.recipies;
-    let index: number | undefined;
+     let newRecipeArray = state.recipies;
+    //let index: number | undefined;
     const duplicateDate = state.recipies.find((oldRecipe, i) => {
       if(oldRecipe.date === recipe.date) {
         newRecipeArray.splice(i, 1, recipe)
         //newRecipeArray = [recipe]
 
-        index = i;
+       // index = i;
         return true
       }
     })
 
     if (duplicateDate) {
+      //alert('Duplicate!')
       setState({ ...state, recipies: newRecipeArray })
-    } else { */
+    } else { 
       setState({ ...state, recipies: [...state.recipies, recipe] })
-    //}
+    }
     //setState({ ...state, recipies: [...state.recipies, recipe] })
 
 
@@ -226,11 +236,11 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             }} item>
 
               <Grid container spacing={3} >
-                {state.recipies
+                { state.recipies && state.recipies
                   .sort( (a: any,b: any) => a.date - b.date) // sorting by date
                   .map((recipe: any, index) => (
                     <Grid
-                      key={recipe._id}
+                      key={index}
                       item>
                       <RecipeCard
                         recipe={recipe}

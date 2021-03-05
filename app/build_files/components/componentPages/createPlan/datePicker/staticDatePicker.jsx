@@ -80,18 +80,34 @@ const paintDays = (meals) => {
     const year = parseInt(monthAndYearArray[1]);
     calendarDays.forEach((el => {
         const dateString = `${el === null || el === void 0 ? void 0 : el.innerText} ${month} ${year}`;
-        meals.forEach(meal => {
+        for (const meal of meals) {
             const mealDate = new Date(meal.date);
             const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
             if (mealDateString === dateString) {
                 el.style.background = '#90c200';
                 // el.style.color ='white'
+                break;
             }
-            /*   if (mealDateString !== dateString) {
-                    el.style.background = '';
-                   // el.style.color ='white'
-                  }  */
-        });
+            else {
+                el.style.background = '';
+            }
+            /*  if (mealDateString !== dateString) {
+               el.style.background = '';
+               // el.style.color ='white'
+               
+             } */
+        }
+        /*     meals.forEach(meal => {
+              const mealDate = new Date(meal.date);
+              const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
+        
+              if (mealDateString === dateString) {
+                el.style.background = '#90c200';
+                // el.style.color ='white'
+                return
+              }
+        
+            }) */
     }));
 };
 const colorDaysWithASelectedMeal = (meals, fromMonthChange) => {
@@ -142,6 +158,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
     react_1.useEffect(() => {
         if (selectedMeals.length) {
             console.log(selectedMeals);
+            alert('Meals changed');
             // paint days with selected food red 
             // mui datepickers doesnt support state yet, so it has to be done ugly and manually
             colorDaysWithASelectedMeal(selectedMeals);

@@ -33,6 +33,7 @@ const Close_1 = __importDefault(require("@material-ui/icons/Close"));
 const Slide_1 = __importDefault(require("@material-ui/core/Slide"));
 const TextField_1 = __importDefault(require("@material-ui/core/TextField"));
 const Grid_1 = __importDefault(require("@material-ui/core/Grid"));
+const uuid_1 = require("uuid");
 const snackbar_jsx_1 = __importDefault(require("../../../shared/snackbar/snackbar.jsx"));
 const plusButton_jsx_1 = __importDefault(require("../../../shared/buttons/plusButton/plusButton.jsx"));
 const recipeCard_1 = __importDefault(require("../../../shared/card/recipeCard"));
@@ -73,7 +74,11 @@ function CreatePlanDialog({ onReceiptSave }) {
         ingredients: false
     });
     const handleDeleteRecipe = (idOfDeletedDish) => {
-        const newState = state.recipies.filter((recipe) => recipe._id !== idOfDeletedDish);
+        console.log(idOfDeletedDish);
+        let newState = state.recipies.filter((recipe) => recipe.listId !== idOfDeletedDish);
+        if (newState.length === 0) {
+            alert('Setting new recipe array as []');
+        }
         setState({ ...state, recipies: newState });
     };
     const onInputchange = (event) => {
@@ -93,31 +98,32 @@ function CreatePlanDialog({ onReceiptSave }) {
         });
     };
     const handleSetNewRecipe = (recipe) => {
-        alert(date);
+        //alert(date)
         recipe.date = date;
+        recipe.listId = uuid_1.v4();
         /*     const newRecipeArray = state.recipies.map((oldRecipe) => {
               if(oldRecipe.date === recipe.date) {
                 return recipe;
               }
               return oldRecipe;
             }); */
-        /*     let newRecipeArray = state.recipies;
-            let index: number | undefined;
-            const duplicateDate = state.recipies.find((oldRecipe, i) => {
-              if(oldRecipe.date === recipe.date) {
-                newRecipeArray.splice(i, 1, recipe)
+        let newRecipeArray = state.recipies;
+        //let index: number | undefined;
+        const duplicateDate = state.recipies.find((oldRecipe, i) => {
+            if (oldRecipe.date === recipe.date) {
+                newRecipeArray.splice(i, 1, recipe);
                 //newRecipeArray = [recipe]
-        
-                index = i;
-                return true
-              }
-            })
-        
-            if (duplicateDate) {
-              setState({ ...state, recipies: newRecipeArray })
-            } else { */
-        setState({ ...state, recipies: [...state.recipies, recipe] });
-        //}
+                // index = i;
+                return true;
+            }
+        });
+        if (duplicateDate) {
+            //alert('Duplicate!')
+            setState({ ...state, recipies: newRecipeArray });
+        }
+        else {
+            setState({ ...state, recipies: [...state.recipies, recipe] });
+        }
         //setState({ ...state, recipies: [...state.recipies, recipe] })
     };
     const handleClickOpen = () => {
@@ -196,9 +202,9 @@ function CreatePlanDialog({ onReceiptSave }) {
     }} item>
 
               <Grid_1.default container spacing={3}>
-                {state.recipies
+                {state.recipies && state.recipies
         .sort((a, b) => a.date - b.date) // sorting by date
-        .map((recipe, index) => (<Grid_1.default key={recipe._id} item>
+        .map((recipe, index) => (<Grid_1.default key={index} item>
                       <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipe} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}/>
                     </Grid_1.default>))}
               </Grid_1.default>
