@@ -8,7 +8,7 @@ import HTTP from '../../HTTP/http';
 
 import ReceiptCard from '../../components/shared/card/recipeCard.jsx';
 
-import FullScreenDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
+import CreateRecipeDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
 import ReceiptSceletonLoader from '../../components/shared/loaders/receiptSceletonLoader';
 
 
@@ -85,7 +85,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
     setIsLoading(true)
 
     const token = localStorage.getItem('token');
-    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity}', { token: token })
+    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token })
 
     HTTP.post(requestBody)
       .then(res => {
@@ -169,7 +169,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
       </Grid>
 
       <div className={classes.addReceiptButton}>
-        <FullScreenDialog onReceiptSave={(value) => setReceiptSaved(value)} />
+        <CreateRecipeDialog onReceiptSave={(value) => setReceiptSaved(value)} />
       </div>
 
     </Fragment>

@@ -41,6 +41,7 @@ import styles from './styles.jsx';
 import { TransitionProps } from '@material-ui/core/transitions';
 //import { render } from 'react-dom'
 window.React = React;
+
 // test
 
 const useStyles = styles;
@@ -85,15 +86,15 @@ export default function CreatePlanDialog({ onReceiptSave }) {
 
   const handleDeleteRecipe = (idOfDeletedDish: string) => {
     console.log(idOfDeletedDish)
-    let newState = state.recipies.filter( (recipe: {listId: string} ) => recipe.listId !== idOfDeletedDish);
+    let newState = state.recipies.filter((recipe: { listId: string }) => recipe.listId !== idOfDeletedDish);
 
-    if(newState.length === 0) {
-      alert('Setting new recipe array as []')
+    if (newState.length === 0) {
+      //alert('Setting new recipe array as []')
     }
 
-    setState({...state, recipies: newState})
+    setState({ ...state, recipies: newState })
   }
-
+/* 
   const onInputchange = (event) => {
     // sets state from by deriving the name of the input field when user entering input
     setState({
@@ -102,35 +103,28 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     });
     // removes error when text field is edited
     setInputError({ ...inputError, [event.target.name]: false });
-  }
+  } */
 
-  const onNumPickerChange = (value) => {
-    //setPersons(value)
-    setState({ // individual state must be used here
-      ...state,
-      numPicker: value
-    });
-  }
+  /*   const onNumPickerChange = (value) => {
+      //setPersons(value)
+      setState({ // individual state must be used here
+        ...state,
+        numPicker: value
+      });
+    } */
 
   const handleSetNewRecipe = (recipe) => {
     //alert(date)
+
+    console.log(recipe)
     recipe.date = date;
     recipe.listId = uuid();
-/*     const newRecipeArray = state.recipies.map((oldRecipe) => {
-      if(oldRecipe.date === recipe.date) {
-        return recipe;
-      }
-      return oldRecipe;
-    }); */
 
-     let newRecipeArray = state.recipies;
-    //let index: number | undefined;
+    const newRecipeArray = state.recipies;
     const duplicateDate = state.recipies.find((oldRecipe, i) => {
-      if(oldRecipe.date === recipe.date) {
+      if (oldRecipe.date === recipe.date) {
         newRecipeArray.splice(i, 1, recipe)
         //newRecipeArray = [recipe]
-
-       // index = i;
         return true
       }
     })
@@ -138,13 +132,31 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     if (duplicateDate) {
       //alert('Duplicate!')
       setState({ ...state, recipies: newRecipeArray })
-    } else { 
+    } else {
       setState({ ...state, recipies: [...state.recipies, recipe] })
     }
-    //setState({ ...state, recipies: [...state.recipies, recipe] })
-
-
   }
+
+
+  const handleRecipeCountChange = (originalPersonCountOnRecipe, newPersonCount, listId) => {
+    const newRecipeArray = state.recipies.map((recipe) => {
+      if(recipe.listId === listId) {
+        const newIngredientArrayWithUpdatedQuantity =
+        recipe.ingredients.map((ingredient) => {
+          const newCountCalculation = ingredient.quantity/originalPersonCountOnRecipe*newPersonCount;
+          const ingredientWithNewQuantity = {...ingredient, quantity: newCountCalculation }
+          return ingredientWithNewQuantity
+        })
+        recipe.ingredients = newIngredientArrayWithUpdatedQuantity;
+        return recipe
+      }
+      return recipe;
+    })
+
+    //alert('Persons changed')
+    setState({...state, recipies: newRecipeArray})
+  }
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -202,7 +214,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             boxShadow: "0px 0px 7px 1px #aaaaaa94",
           }}  >
             <span className={classes.daysSelect}>
-              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => {console.log(d); setDate(d) }} selectedMeals={state.recipies} />
+              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => { console.log(d); setDate(d) }} selectedMeals={state.recipies} />
             </span>
 
             <span style={{
@@ -236,8 +248,8 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             }} item>
 
               <Grid container spacing={3} >
-                { state.recipies && state.recipies
-                  .sort( (a: any,b: any) => a.date - b.date) // sorting by date
+                {state.recipies && state.recipies
+                  .sort((a: any, b: any) => a.date - b.date) // sorting by date
                   .map((recipe: any, index) => (
                     <Grid
                       key={index}
@@ -249,7 +261,9 @@ export default function CreatePlanDialog({ onReceiptSave }) {
                         visitFromCreatePlanMealList={true}
                         dialogOpen={setRecipesOpen}
                         customDate={recipe.date.toISOString()}
-                      />
+                      >
+                        <SmallNumberPicker unit={'personer'} quantity={recipe.persons} onCountChange={({count, listId})=> handleRecipeCountChange(recipe.persons, count, listId)}/>
+                      </RecipeCard>
                     </Grid>
                   ))}
               </Grid>

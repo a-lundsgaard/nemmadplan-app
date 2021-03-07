@@ -36,6 +36,7 @@ const Grid_1 = __importDefault(require("@material-ui/core/Grid"));
 const uuid_1 = require("uuid");
 const snackbar_jsx_1 = __importDefault(require("../../../shared/snackbar/snackbar.jsx"));
 const plusButton_jsx_1 = __importDefault(require("../../../shared/buttons/plusButton/plusButton.jsx"));
+const smallNumPicker_jsx_1 = __importDefault(require("../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx"));
 const recipeCard_1 = __importDefault(require("../../../shared/card/recipeCard"));
 //import StaticDatePicker from '../../pickers/date/staticDatePicker.jsx'
 const staticDatePicker_jsx_1 = __importDefault(require("../datePicker/staticDatePicker.jsx"));
@@ -77,43 +78,37 @@ function CreatePlanDialog({ onReceiptSave }) {
         console.log(idOfDeletedDish);
         let newState = state.recipies.filter((recipe) => recipe.listId !== idOfDeletedDish);
         if (newState.length === 0) {
-            alert('Setting new recipe array as []');
+            //alert('Setting new recipe array as []')
         }
         setState({ ...state, recipies: newState });
     };
-    const onInputchange = (event) => {
+    /*
+      const onInputchange = (event) => {
         // sets state from by deriving the name of the input field when user entering input
         setState({
-            ...state,
-            [event.target.name]: event.target.value
+          ...state,
+          [event.target.name]: event.target.value
         });
         // removes error when text field is edited
         setInputError({ ...inputError, [event.target.name]: false });
-    };
-    const onNumPickerChange = (value) => {
+      } */
+    /*   const onNumPickerChange = (value) => {
         //setPersons(value)
-        setState({
-            ...state,
-            numPicker: value
+        setState({ // individual state must be used here
+          ...state,
+          numPicker: value
         });
-    };
+      } */
     const handleSetNewRecipe = (recipe) => {
         //alert(date)
+        console.log(recipe);
         recipe.date = date;
         recipe.listId = uuid_1.v4();
-        /*     const newRecipeArray = state.recipies.map((oldRecipe) => {
-              if(oldRecipe.date === recipe.date) {
-                return recipe;
-              }
-              return oldRecipe;
-            }); */
-        let newRecipeArray = state.recipies;
-        //let index: number | undefined;
+        const newRecipeArray = state.recipies;
         const duplicateDate = state.recipies.find((oldRecipe, i) => {
             if (oldRecipe.date === recipe.date) {
                 newRecipeArray.splice(i, 1, recipe);
                 //newRecipeArray = [recipe]
-                // index = i;
                 return true;
             }
         });
@@ -124,7 +119,22 @@ function CreatePlanDialog({ onReceiptSave }) {
         else {
             setState({ ...state, recipies: [...state.recipies, recipe] });
         }
-        //setState({ ...state, recipies: [...state.recipies, recipe] })
+    };
+    const handleRecipeCountChange = (originalPersonCountOnRecipe, newPersonCount, listId) => {
+        const newRecipeArray = state.recipies.map((recipe) => {
+            if (recipe.listId === listId) {
+                const newIngredientArrayWithUpdatedQuantity = recipe.ingredients.map((ingredient) => {
+                    const newCountCalculation = ingredient.quantity / originalPersonCountOnRecipe * newPersonCount;
+                    const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation };
+                    return ingredientWithNewQuantity;
+                });
+                recipe.ingredients = newIngredientArrayWithUpdatedQuantity;
+                return recipe;
+            }
+            return recipe;
+        });
+        //alert('Persons changed')
+        setState({ ...state, recipies: newRecipeArray });
     };
     const handleClickOpen = () => {
         setOpen(true);
@@ -205,7 +215,9 @@ function CreatePlanDialog({ onReceiptSave }) {
                 {state.recipies && state.recipies
         .sort((a, b) => a.date - b.date) // sorting by date
         .map((recipe, index) => (<Grid_1.default key={index} item>
-                      <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipe} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}/>
+                      <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipe} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}>
+                        <smallNumPicker_jsx_1.default unit={'personer'} quantity={recipe.persons} onCountChange={({ count, listId }) => handleRecipeCountChange(recipe.persons, count, listId)}/>
+                      </recipeCard_1.default>
                     </Grid_1.default>))}
               </Grid_1.default>
 

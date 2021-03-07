@@ -45,7 +45,7 @@ export function TodosProvider(props) {
     if (props.ingredientArray) {
       dispatch({ type: ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
     }
-  }, [props.ingredientArray])
+  }, [props.ingredientArray?.length])
 
 
   return (

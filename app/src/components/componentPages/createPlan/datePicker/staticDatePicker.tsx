@@ -175,7 +175,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
 
     if (selectedMeals.length) {
       console.log(selectedMeals);
-      alert('Meals changed')
+     // alert('Meals changed')
 
       // paint days with selected food red 
       // mui datepickers doesnt support state yet, so it has to be done ugly and manually

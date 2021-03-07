@@ -158,7 +158,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
     react_1.useEffect(() => {
         if (selectedMeals.length) {
             console.log(selectedMeals);
-            alert('Meals changed');
+            // alert('Meals changed')
             // paint days with selected food red 
             // mui datepickers doesnt support state yet, so it has to be done ugly and manually
             colorDaysWithASelectedMeal(selectedMeals);

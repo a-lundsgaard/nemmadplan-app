@@ -192,16 +192,20 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
         <CardActions_1.default disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-        <IconButton_1.default aria-label="add to favorites"> <SwapVert_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default> :
+        <> {props.children}
+              <IconButton_1.default aria-label="add to favorites"> <SwapVert_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default>
+            </> :
         <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
-          {props.visitFromCreatePlan ? <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
+          {props.visitFromCreatePlan && <><IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
             <PostAdd_1.default />
-          </IconButton_1.default> : null}
-
-          <IconButton_1.default aria-label="share">
-            <Share_1.default />
           </IconButton_1.default>
+            <IconButton_1.default aria-label="share">
+              <Share_1.default />
+            </IconButton_1.default>
+          </>}
+
+
 
 
 

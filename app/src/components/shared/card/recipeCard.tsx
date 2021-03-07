@@ -32,7 +32,8 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
-import { ProgressPlugin } from "webpack";
+
+import SmallNumPicker from "../pickers/number/smallNumPicker/smallNumPicker.jsx";
 
 //import recipes from "../../HTTP/queries/recipes";
 
@@ -150,30 +151,30 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
       11: 'november',
       12: 'december'
     }
-  
+
     if (!date) {
       return;
     }
-  
+
     if (props.visitFromCreatePlanMealList) {
       console.log(date)
     }
     //
-  
-  
+
+
     let dateArr = date.split('-')
     let year = dateArr[0]
-  
+
     const monthNumber = Number(dateArr[1]) as keyof typeof months
-  
+
     let month = months[monthNumber]
     let day = dateArr[2]
     const dayMatch = day.match(/.+(?=T)/);
-  
+
     if (dayMatch) {
       day = dayMatch[0]
     }
-  
+
     return `${day}. ${month} ${year}`
   }
 
@@ -291,16 +292,21 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
         <CardActions disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-            <IconButton aria-label="add to favorites" > <SwapVertIcon onClick={() => dialogOpen(true)} /></IconButton> :
-            <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>}
+            <> {props.children}
+              <IconButton aria-label="add to favorites" > <SwapVertIcon onClick={() => dialogOpen(true)} /></IconButton>
+            </> :
+            <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>
+          }
 
-          {props.visitFromCreatePlan ? <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
+          {props.visitFromCreatePlan && <><IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
             <PostAddIcon />
-          </IconButton> : null}
-
-          <IconButton aria-label="share">
-            <ShareIcon />
           </IconButton>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+          </>}
+
+
 
 
 

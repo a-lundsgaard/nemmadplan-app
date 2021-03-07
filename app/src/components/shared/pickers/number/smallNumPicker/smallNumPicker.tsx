@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import './style.css'
-import styles from './styles.js';
+import styles from './styles';
+import PersonIcon from '@material-ui/icons/Person';
 
-
-export default function smallNumPicker({ countValue, unit, quantity, onUnitOrCountChange }) {
+export default function smallNumPicker({ countValue, unit, quantity, onCountChange, listId }) {
   const classes = styles();
   // const [number, setNubmer] = useState(1);
 
@@ -31,23 +31,30 @@ export default function smallNumPicker({ countValue, unit, quantity, onUnitOrCou
     console.log('Changed')
   }
 
-  const handleAccept = () =>
+/*   const handleAccept = () =>
     onUnitOrCountChange({
       unit: localUnit,
       count: count
-    })
+    }) */
 
-    // OBS SKAL LAVES NÅR DER VÆLGES COUNT BLIVER DETTE LIGE NU IKKE SAT PÅ TO DO'EN
-  useEffect(() => {
-    if (count < 10) setLocalUnit('stk'); else setLocalUnit(unit ||'gram');
-    //if(!countValue) handleAccept() // makes sure that the count is changed when onblur funtion fires
-  }, [count])
 
   useEffect(() => {
     if (countValue) {
       setCount(countValue);
     }
   }, [countValue])
+
+
+  useEffect(() => {
+
+    if(onCountChange) {
+      onCountChange({
+        count,
+        listId
+      })
+    }
+
+  }, [count])
 
 
 
@@ -65,9 +72,9 @@ export default function smallNumPicker({ countValue, unit, quantity, onUnitOrCou
         }}>
           <input
             className={classes.numberInput}
-            onBlur={handleAccept}
+            //onBlur={handleAccept}
             onChange={handleChange} type="number" name="productQty" value={count} min="1" max="10000" />
-          <span>{localUnit}</span>
+          <span>{<PersonIcon/>}</span>
         </span>
         <div
           className={classes.triangleDown}
