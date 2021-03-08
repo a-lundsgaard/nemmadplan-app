@@ -24,7 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TodosProvider = exports.DispatchContext = exports.TodosContext = void 0;
 const react_1 = __importStar(require("react"));
-const todos_reducer_1 = __importDefault(require("../reducers/todos.reducer"));
+const todos_reducer_jsx_1 = __importDefault(require("../reducers/todos.reducer.jsx"));
 const actions_1 = require("../constants/actions");
 const defaultItems = [
     { id: '1', task: 'rugbrød', completed: false, initiator: 'USER', unit: 'stk', quantity: 1 },
@@ -37,13 +37,14 @@ const storeTodosToRedux = sale => {
 exports.TodosContext = react_1.createContext();
 exports.DispatchContext = react_1.createContext();
 function TodosProvider(props) {
-    const [todos, dispatch] = react_1.useReducer(todos_reducer_1.default, defaultItems);
+    const [todos, dispatch] = react_1.useReducer(todos_reducer_jsx_1.default, defaultItems);
     // For storing shopping list state in localstorage
     /* const [todos, dispatch] = useLocalStorageReducer(
        'shoppingList',
        todosReducer,
        defaultItems
      )*/
+    // test
     react_1.useEffect(() => {
         // if (!todos.length) {
         // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar

@@ -3,7 +3,7 @@ import './style.css'; // for removing default chrome styles on input elements
 import styles from './styles.js';
 
 import { EDIT_TODO } from '../../constants/actions';
-import { DispatchContext } from '../../contexts/todos.context';
+import { DispatchContext } from '../../contexts/todos.context.jsx';
 
 
 

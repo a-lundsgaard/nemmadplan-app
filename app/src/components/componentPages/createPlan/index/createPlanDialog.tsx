@@ -29,7 +29,7 @@ import RecipeCard from "../../../shared/card/recipeCard";
 
 import StaticDatePicker from '../datePicker/staticDatePicker.jsx'
 import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
-import ShoppingList from '../shoppingList/src/components/App.js'
+import ShoppingList from '../shoppingList/src/components/App'
 import ShoppingListContainer from '../shoppingListContainer/index/container';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';

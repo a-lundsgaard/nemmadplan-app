@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import todosReducer from '../reducers/todos.reducer';
+import todosReducer from '../reducers/todos.reducer.jsx';
 
 import { ADD_INGREDIENT_ARRAY, EDIT_TODO } from '../constants/actions';
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
@@ -29,7 +29,7 @@ export function TodosProvider(props) {
     todosReducer,
     defaultItems
   )*/
-
+  // test
   useEffect(() => {
    // if (!todos.length) {
      // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar

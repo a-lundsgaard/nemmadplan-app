@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer } from 'react';
-import { TodosProvider } from '../contexts/todos.context';
-import TodoForm from './TodoForm';
-import TodoList from './TodoList';
+import { TodosProvider } from '../contexts/todos.context.jsx';
+import TodoForm from './TodoForm.jsx';
+import TodoList from './TodoList.jsx';
 
-import Stepper from './stepper/linearStepper';
-import Accordion from '../components/shoppingListContainer/shoppingAccordion'
+import Stepper from './stepper/linearStepper.jsx';
+import Accordion from './shoppingListContainer/shoppingAccordion.jsx'
 
 
 function TodoApp({ ingredientArray }) {

@@ -41,7 +41,7 @@ const recipeCard_1 = __importDefault(require("../../../shared/card/recipeCard"))
 //import StaticDatePicker from '../../pickers/date/staticDatePicker.jsx'
 const staticDatePicker_jsx_1 = __importDefault(require("../datePicker/staticDatePicker.jsx"));
 const pickRecipeDialog_jsx_1 = __importDefault(require("../pickRecipe/pickRecipeDialog.jsx"));
-const App_js_1 = __importDefault(require("../shoppingList/src/components/App.js"));
+const App_1 = __importDefault(require("../shoppingList/src/components/App"));
 const container_1 = __importDefault(require("../shoppingListContainer/index/container"));
 const AddCircleOutline_1 = __importDefault(require("@material-ui/icons/AddCircleOutline"));
 const styles_jsx_1 = __importDefault(require("./styles.jsx"));
@@ -235,7 +235,7 @@ function CreatePlanDialog({ onReceiptSave }) {
         {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 
         <container_1.default>
-          <App_js_1.default ingredientArray={(_a = state === null || state === void 0 ? void 0 : state.recipies[state.recipies.length - 1]) === null || _a === void 0 ? void 0 : _a.ingredients}/>
+          <App_1.default ingredientArray={(_a = state === null || state === void 0 ? void 0 : state.recipies[state.recipies.length - 1]) === null || _a === void 0 ? void 0 : _a.ingredients}/>
         </container_1.default>
       </Dialog_1.default>
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { DispatchContext } from '../contexts/todos.context';
-import useInputState from '../hooks/useInputState';
+import { DispatchContext } from '../contexts/todos.context.jsx';
+import useInputState from '../hooks/useInputState.jsx';
 import useStyles from '../styles/TodoFormStyles';
 import { ADD_TODO, ADD_INGREDIENT_ARRAY } from '../constants/actions';
 import TextField from '@material-ui/core/TextField';

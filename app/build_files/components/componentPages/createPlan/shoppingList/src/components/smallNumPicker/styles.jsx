@@ -1,24 +1,18 @@
-import { makeStyles } from '@material-ui/core/styles';
-
-const arrowMarginLeft = 5;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const styles_1 = require("@material-ui/core/styles");
+const arrowMarginLeft = 15;
 const arrowColor = '#55555573';
-const arrowBorder = '6px'
-
-
-export default makeStyles((theme) => ({
-
-
+exports.default = styles_1.makeStyles((theme) => ({
     triangleDown: {
         width: 0,
         height: 0,
-        borderLeft: `6px solid transparent`,
+        borderLeft: "6px solid transparent",
         borderRight: "6px solid transparent",
         borderTop: `9px solid ${arrowColor}`,
         cursor: "pointer",
         marginLeft: arrowMarginLeft
-
     },
-
     triangleUp: {
         width: 0,
         height: 0,
@@ -28,23 +22,17 @@ export default makeStyles((theme) => ({
         cursor: "pointer",
         marginLeft: arrowMarginLeft
     },
-
     containerNum: {
         display: "block",
-        //width: '40px'
-        //marginRight: 5
-        //width: 20
     },
-
     innerContainer: {
         //marginLeft: '5px',
         fontSize: '80%',
     },
-
     numberInput: {
         //padding: "0 0 0 3px",
         //fontSize: "90%",
-        width: "20px",
+        width: "40px",
         webkitAppearance: "none",
         outline: 'none',
         border: 'none',
@@ -52,7 +40,4 @@ export default makeStyles((theme) => ({
         position: 'relative',
         textAlign: 'center'
     },
-
-}))
-
-
+}));

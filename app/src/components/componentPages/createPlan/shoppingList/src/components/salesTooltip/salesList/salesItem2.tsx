@@ -2,12 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import Button from '@material-ui/core/Button';
 //import { DispatchContext } from '../contexts/todos.context';
 
-import { DispatchContext } from '../../../contexts/todos.context';
+import { DispatchContext } from '../../../contexts/todos.context.jsx';
 import { EDIT_TODO } from '../../../constants/actions';
 import ImageModal from '../modal';
-
-
-
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,8 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+// test 2
+export default function SalesItem({ item, id }) {
 
-export default function salesItem({ item, id }) {
+    const hej = 1;
+
 
     const classes = useStyles();
     const dispatch = useContext(DispatchContext);

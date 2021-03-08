@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import TodoApp from './TodoApp';
+import TodoApp from './TodoApp.jsx';
 import useStyles from '../styles/AppStyles';
 import Paper from '@material-ui/core/Paper';
 //import Stepper from 'Components/stepper/linearStepper'

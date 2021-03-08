@@ -23,7 +23,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import HTTP from '../../../../../../../HTTP/http';
 
 
-import { TodosContext, DispatchContext } from '../../contexts/todos.context';
+import { TodosContext, DispatchContext } from '../../contexts/todos.context.jsx';
 
 
 const useStyles = makeStyles((theme) => ({

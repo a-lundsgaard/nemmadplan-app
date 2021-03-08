@@ -1,7 +1,7 @@
 import zIndex from '@material-ui/core/styles/zIndex';
 import React, { useContext, useEffect, useState } from 'react';
-import { TodosContext, DispatchContext } from '../contexts/todos.context';
-import Todo from './Todo';
+import { TodosContext, DispatchContext } from '../contexts/todos.context.jsx';
+import Todo from './Todo.jsx';
 
 
 

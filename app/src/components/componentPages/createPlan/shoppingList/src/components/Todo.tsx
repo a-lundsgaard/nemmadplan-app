@@ -1,8 +1,8 @@
 import React, { useContext, memo, useEffect, useState } from 'react';
-import { DispatchContext } from '../contexts/todos.context';
-import EditTodoForm from './EditTodoForm';
-import useToggleState from '../hooks/useToggleState';
-import useStyles from '../styles/TodoStyles.js';
+import { DispatchContext } from '../contexts/todos.context.jsx';
+import EditTodoForm from './EditTodoForm.jsx';
+import useToggleState from '../hooks/useToggleState.jsx';
+import useStyles from '../styles/TodoStyles';
 import { REMOVE_TODO, TOGGLE_TODO, EDIT_TODO, ADD_SALES_TO_TODO } from '../constants/actions';
 
 import DeleteIcon from '@material-ui/icons/Delete';
