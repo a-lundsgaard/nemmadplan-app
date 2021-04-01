@@ -65,11 +65,10 @@ const reducer = (state, action) => {
             console.log('THE REDUCER WAS CALLED');
             // the array of new objects added from a meal
             const newIngredientArrayToAdd = action.task.map((ingr, index) => ({
-                id: v4_1.default(),
+                ...ingr,
                 task: `${ingr.name}`,
                 unit: ingr.unit && ingr.unit.replace('*', ''),
-                quantity: ingr.quantity,
-                completed: false
+                completed: false,
             }));
             // makes an object from the state to make duplicate lookups
             const ingredientArrayAsObject = state.reduce((a, n) => {
@@ -98,8 +97,24 @@ const reducer = (state, action) => {
                 quantity: ingr.quantity,
                 completed: false
               }))] */
+        case actions_1.UPDATE_AMOUNT_OF_INGREDIENTS:
+            return updateAmountOfProvidedIngredients(action.task, state);
         default:
             return state;
     }
 };
 exports.default = reducer;
+function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
+    //alert(JSON.stringify(stateArray))
+    console.log('Reducer initital state : ', stateArray);
+    const newArr = stateArray.map((oldIngredient) => {
+        for (const newIngredient of ingredientArray) {
+            if (newIngredient.id === oldIngredient.id) {
+                return { ...oldIngredient, quantity: newIngredient.quantity };
+            }
+        }
+        return oldIngredient;
+    });
+    console.log(newArr);
+    return newArr;
+}

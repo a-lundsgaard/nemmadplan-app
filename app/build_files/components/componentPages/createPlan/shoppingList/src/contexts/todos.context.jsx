@@ -59,6 +59,12 @@ function TodosProvider(props) {
             dispatch({ type: actions_1.ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
         }
     }, [props.ingredientArray]);
+    react_1.useEffect(() => {
+        if (props.updateAmountOnIngredients.length) {
+            //alert('Trying to update amount')
+            dispatch({ type: actions_1.UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
+        }
+    }, [props.updateAmountOnIngredients]);
     return (<exports.TodosContext.Provider value={todos}>
       <exports.DispatchContext.Provider value={dispatch}>
         {props.children}

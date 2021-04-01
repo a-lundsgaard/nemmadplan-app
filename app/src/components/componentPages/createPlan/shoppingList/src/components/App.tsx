@@ -8,7 +8,7 @@ import Stepper from './stepper/linearStepper';
 
 
 
-function App({ ingredientArray }) {
+function App({ ingredientArray, updateAmountOnIngredients }) {
   const classes = useStyles();
 
   return (
@@ -17,7 +17,7 @@ function App({ ingredientArray }) {
         <header className={classes.header}>
           <h1>Min liste</h1>
         </header>
-        <TodoApp ingredientArray={ingredientArray} />
+        <TodoApp ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients} />
       </div>
   );
 }

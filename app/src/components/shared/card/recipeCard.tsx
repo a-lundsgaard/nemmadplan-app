@@ -32,6 +32,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
+import CachedIcon from '@material-ui/icons/Cached';
 
 import SmallNumPicker from "../pickers/number/smallNumPicker/smallNumPicker.jsx";
 
@@ -293,7 +294,7 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
 
           {props.visitFromCreatePlanMealList ?
             <> {props.children}
-              <IconButton aria-label="add to favorites" > <SwapVertIcon onClick={() => dialogOpen(true)} /></IconButton>
+              <IconButton aria-label="add to favorites" > <CachedIcon onClick={() => dialogOpen(true)} /></IconButton>
             </> :
             <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>
           }
@@ -305,9 +306,6 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
               <ShareIcon />
             </IconButton>
           </>}
-
-
-
 
 
 

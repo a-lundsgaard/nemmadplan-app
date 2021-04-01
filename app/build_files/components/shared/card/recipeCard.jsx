@@ -48,7 +48,7 @@ const Edit_1 = __importDefault(require("@material-ui/icons/Edit"));
 const DeleteForever_1 = __importDefault(require("@material-ui/icons/DeleteForever"));
 const PostAdd_1 = __importDefault(require("@material-ui/icons/PostAdd"));
 const Clear_1 = __importDefault(require("@material-ui/icons/Clear"));
-const SwapVert_1 = __importDefault(require("@material-ui/icons/SwapVert"));
+const Cached_1 = __importDefault(require("@material-ui/icons/Cached"));
 //import recipes from "../../HTTP/queries/recipes";
 const useStyles = styles_1.makeStyles((theme) => ({
     card: {
@@ -193,7 +193,7 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
 
           {props.visitFromCreatePlanMealList ?
         <> {props.children}
-              <IconButton_1.default aria-label="add to favorites"> <SwapVert_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default>
+              <IconButton_1.default aria-label="add to favorites"> <Cached_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default>
             </> :
         <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
@@ -204,9 +204,6 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
               <Share_1.default />
             </IconButton_1.default>
           </>}
-
-
-
 
 
 

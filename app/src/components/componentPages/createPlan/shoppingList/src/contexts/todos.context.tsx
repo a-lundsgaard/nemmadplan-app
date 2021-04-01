@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import todosReducer from '../reducers/todos.reducer.jsx';
 
-import { ADD_INGREDIENT_ARRAY, EDIT_TODO } from '../constants/actions';
+import { ADD_INGREDIENT_ARRAY, EDIT_TODO, UPDATE_AMOUNT_OF_INGREDIENTS } from '../constants/actions';
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
 
@@ -46,6 +46,14 @@ export function TodosProvider(props) {
       dispatch({ type: ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
     }
   }, [props.ingredientArray])
+
+
+  useEffect(() => {
+    if (props.updateAmountOnIngredients.length) {
+      //alert('Trying to update amount')
+      dispatch({ type: UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
+    }
+  }, [props.updateAmountOnIngredients])
 
 
   return (

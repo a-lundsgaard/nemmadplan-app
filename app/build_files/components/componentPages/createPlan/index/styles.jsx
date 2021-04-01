@@ -19,6 +19,9 @@ exports.default = styles_1.makeStyles((theme) => ({
         zIndex: 0,
         wrap: 'nowrap'
     },
+    recipeCardGrid: {
+        margin: '20px 0 0 5px'
+    },
     importButton: {
         marginLeft: 20
     },

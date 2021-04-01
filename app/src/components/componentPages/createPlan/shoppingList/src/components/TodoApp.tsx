@@ -7,10 +7,10 @@ import Stepper from './stepper/linearStepper.jsx';
 import Accordion from './shoppingListContainer/shoppingAccordion.jsx'
 
 
-function TodoApp({ ingredientArray }) {
+function TodoApp({ ingredientArray, updateAmountOnIngredients }) {
 
   return (
-    <TodosProvider ingredientArray={ingredientArray}>
+    <TodosProvider ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients}>
 
       <div style={{
         width: '80%',

@@ -12,7 +12,8 @@ import {
   ADD_INGREDIENT_ARRAY,
   COMPLETE_TODO,
   UNCOMPLETE_TODO,
-  ADD_SALES_TO_TODO
+  ADD_SALES_TO_TODO,
+  UPDATE_AMOUNT_OF_INGREDIENTS
 } from '../constants/actions';
 
 const reducer = (state, action) => {
@@ -56,8 +57,6 @@ const reducer = (state, action) => {
         return [{ id: uuidv4(), task: action.task, quantity: action.quantity || 1, completed: false, initiator: 'USER' }, ...state];
       }
 
-
-
     case REMOVE_TODO:
       return state.filter(todo => todo.id !== action.id);
     case TOGGLE_TODO:
@@ -89,16 +88,18 @@ const reducer = (state, action) => {
       return state.map(todo =>
         todo.id === action.id ? { ...todo, img: action.img } : todo
       );
+
+
+
     case ADD_INGREDIENT_ARRAY:
       console.log('THE REDUCER WAS CALLED');
 
       // the array of new objects added from a meal
       const newIngredientArrayToAdd = action.task.map((ingr, index) => ({
-        id: uuidv4(),
+        ...ingr, // id, quantity etc.
         task: `${ingr.name}`,
         unit: ingr.unit && ingr.unit.replace('*', ''),
-        quantity: ingr.quantity,
-        completed: false
+        completed: false,
       }))
 
       // makes an object from the state to make duplicate lookups
@@ -132,6 +133,8 @@ const reducer = (state, action) => {
             completed: false
           }))] */
 
+    case UPDATE_AMOUNT_OF_INGREDIENTS:
+      return updateAmountOfProvidedIngredients(action.task, state);
 
     default:
       return state;
@@ -140,3 +143,23 @@ const reducer = (state, action) => {
 
 
 export default reducer;
+
+
+
+function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
+
+  //alert(JSON.stringify(stateArray))
+  console.log('Reducer initital state : ', stateArray)
+  const newArr = stateArray.map((oldIngredient) => {
+    for (const newIngredient of ingredientArray) {
+      if (newIngredient.id === oldIngredient.id) {
+        return { ...oldIngredient, quantity: newIngredient.quantity }
+      }
+    }
+    return oldIngredient;
+  });
+
+  console.log(newArr);
+  return newArr;
+  
+}

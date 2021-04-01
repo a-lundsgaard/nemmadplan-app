@@ -69,6 +69,9 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     //  date: new Date()
   });
 
+  const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = useState([]);
+
+
   // displaying server messages
   const [message, setMessage] = useState({});
 
@@ -91,47 +94,38 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     if (newState.length === 0) {
       //alert('Setting new recipe array as []')
     }
-
     setState({ ...state, recipies: newState })
   }
-/* 
-  const onInputchange = (event) => {
-    // sets state from by deriving the name of the input field when user entering input
-    setState({
-      ...state,
-      [event.target.name]: event.target.value
-    });
-    // removes error when text field is edited
-    setInputError({ ...inputError, [event.target.name]: false });
-  } */
 
-  /*   const onNumPickerChange = (value) => {
-      //setPersons(value)
-      setState({ // individual state must be used here
-        ...state,
-        numPicker: value
-      });
-    } */
-
+  // adding new recipe to plan - rename function
   const handleSetNewRecipe = (recipe) => {
     //alert(date)
 
     console.log(recipe)
     recipe.date = date;
     recipe.listId = uuid();
+    recipe.ingredients = addIdToEachIngredient(recipe.ingredients)
 
-    const newRecipeArray = state.recipies;
+    function addIdToEachIngredient(ingredientArray: any) {
+      return ingredientArray.map((ingredient) => {
+        return { ...ingredient, id: uuid() }
+      })
+    }
+
+    const newRecipeArrayWithSwappedDish = state.recipies;
     const duplicateDate = state.recipies.find((oldRecipe, i) => {
       if (oldRecipe.date === recipe.date) {
-        newRecipeArray.splice(i, 1, recipe)
+        newRecipeArrayWithSwappedDish.splice(i, 1, recipe)
         //newRecipeArray = [recipe]
         return true
       }
     })
 
+    console.log('Result from ingredient id', recipe)
+
     if (duplicateDate) {
       //alert('Duplicate!')
-      setState({ ...state, recipies: newRecipeArray })
+      setState({ ...state, recipies: newRecipeArrayWithSwappedDish })
     } else {
       setState({ ...state, recipies: [...state.recipies, recipe] })
     }
@@ -139,22 +133,46 @@ export default function CreatePlanDialog({ onReceiptSave }) {
 
 
   const handleRecipeCountChange = (originalPersonCountOnRecipe, newPersonCount, listId) => {
-    const newRecipeArray = state.recipies.map((recipe) => {
-      if(recipe.listId === listId) {
-        const newIngredientArrayWithUpdatedQuantity =
-        recipe.ingredients.map((ingredient) => {
-          const newCountCalculation = ingredient.quantity/originalPersonCountOnRecipe*newPersonCount;
-          const ingredientWithNewQuantity = {...ingredient, quantity: newCountCalculation }
-          return ingredientWithNewQuantity
+
+    /*     const newRecipeArray = state.recipies.map((recipe) => {
+          if (recipe.listId === listId) {
+            const newIngredientArrayWithUpdatedQuantity =
+              recipe.ingredients.map((ingredient) => {
+                const newCountCalculation = ingredient.quantity / originalPersonCountOnRecipe * newPersonCount;
+                const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation }
+                return ingredientWithNewQuantity
+              })
+            recipe.ingredients = newIngredientArrayWithUpdatedQuantity;
+            return recipe
+          }
+          return recipe;
         })
-        recipe.ingredients = newIngredientArrayWithUpdatedQuantity;
-        return recipe
+     */
+
+      //alert('Updated')
+
+    const ingredientItemsThatHaveChangedAmount = [];
+
+    console.log(listId);
+
+    state.recipies.forEach((recipe) => {
+      if (recipe.listId === listId) {
+        //alert('Found recipe')
+        recipe.ingredients.forEach((ingredient) => {
+          //if (originalPersonCountOnRecipe !== newPersonCount) {
+            const newCountCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
+            const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation }
+            ingredientItemsThatHaveChangedAmount.push(ingredientWithNewQuantity)
+          //}
+        })
       }
-      return recipe;
     })
 
-    //alert('Persons changed')
-    setState({...state, recipies: newRecipeArray})
+    //ingredientItemsThatHaveChangedAmount.push(1)
+
+    //alert(JSON.stringify(ingredientsWithUpdatedAmounts))
+    // setState({ ...state, recipies: newRecipeArray })
+    setIngredientsWithUpdatedAmounts(ingredientItemsThatHaveChangedAmount)
   }
 
 
@@ -243,9 +261,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
               state.recipies.length === 0 && <h1>Vælg retter ved at dobbeltklikke på en dato</h1>
             }
 
-            <Grid style={{
-              margin: '20px 0 0 0'
-            }} item>
+            <Grid className={classes.recipeCardGrid} item>
 
               <Grid container spacing={3} >
                 {state.recipies && state.recipies
@@ -262,7 +278,8 @@ export default function CreatePlanDialog({ onReceiptSave }) {
                         dialogOpen={setRecipesOpen}
                         customDate={recipe.date.toISOString()}
                       >
-                        <SmallNumberPicker unit={'personer'} quantity={recipe.persons} onCountChange={({count, listId})=> handleRecipeCountChange(recipe.persons, count, listId)}/>
+                        <SmallNumberPicker unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipeCountChange(recipe.persons, count, listId)} />
+
                       </RecipeCard>
                     </Grid>
                   ))}
@@ -271,14 +288,11 @@ export default function CreatePlanDialog({ onReceiptSave }) {
 
             </Grid>
 
-
-
             <RecipeDialog
               visible={recipesOpen}
               setVisible={setRecipesOpen}
               chosenRecipe={handleSetNewRecipe}
             />
-
 
           </Grid>
 
@@ -286,7 +300,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
         <ShoppingListContainer>
-          <ShoppingList ingredientArray={state?.recipies[state.recipies.length - 1]?.ingredients} />
+          <ShoppingList ingredientArray={state?.recipies[state.recipies.length - 1]?.ingredients} updateAmountOnIngredients={ingredientsWithUpdatedAmounts} />
         </ShoppingListContainer>
       </Dialog>
 
