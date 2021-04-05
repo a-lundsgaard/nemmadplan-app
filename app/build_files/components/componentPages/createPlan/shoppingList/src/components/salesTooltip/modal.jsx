@@ -47,7 +47,9 @@ function TransitionsModal({ imageSource }) {
       }, [boolean]) */
     return (<div>
             <img className={classes.img} src={imageSource} onClick={handleOpen}/>
-            <Modal_1.default aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" className={classes.modal} open={open} onClose={handleClose} onMouseOut={handleClose} closeAfterTransition BackdropComponent={Backdrop_1.default} BackdropProps={{
+            <Modal_1.default aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" className={classes.modal} open={open} onClose={handleClose} onBlur={handleClose} 
+    //onMouseOut={handleClose}
+    closeAfterTransition BackdropComponent={Backdrop_1.default} BackdropProps={{
         timeout: 500,
     }}>
                 <Fade_1.default in={open}>

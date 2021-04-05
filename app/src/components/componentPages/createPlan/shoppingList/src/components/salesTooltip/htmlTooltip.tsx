@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -28,7 +28,6 @@ const HtmlTooltip = withStyles((theme) => ({
 
 
 
-
 export default function CustomizedTooltips({ sales, id, onClick }) {
 
     const [open, setOpen] = React.useState(false);
@@ -37,30 +36,32 @@ export default function CustomizedTooltips({ sales, id, onClick }) {
     return (
         <div style={{ zIndex: '-1' }}
             onClick={(e) => e.stopPropagation()}
+            onMouseLeave={()=> setOpen(false)} // no propagation when using leave instead of onmouseout
         >
             { sales.length ?
                 <HtmlTooltip
                     interactive
+                    //disableHoverListener={true}
                     //placement="left"
                     //arrow={true}
-                    title={<SalesList sales={sales} id={id}/>}
+                    title={<SalesList sales={sales} id={id} />}
+                    open={open}
+                    onClick={()=> setOpen(true)}
+                    //enterDelay={200}
+                    //onMouseEnter={()=> { setTimeout(()=> setOpen(true), 200) }}                     
                 >
                     <Button
-                        //variant="outlined"
                         color="primary"
-                        //style={{color: 'green'}} // same green as datepicker
-
                     >
                         <i>{sales.length < 10 ? sales.length + ' ' : sales.length} tilbud</i>
                     </Button>
-                </HtmlTooltip> :
-
-             
-                    <Button
-                        style={{color: '#69696969', textDecoration: 'line-through'}}
-                        onClick={onClick}
-                    ><i>0 tilbud</i></Button>
-                }
+                </HtmlTooltip> 
+                :
+                <Button
+                    style={{ color: '#69696969', textDecoration: 'line-through' }}
+                    onClick={onClick}
+                ><i>0 tilbud</i></Button>
+            }
         </div>
     );
 }

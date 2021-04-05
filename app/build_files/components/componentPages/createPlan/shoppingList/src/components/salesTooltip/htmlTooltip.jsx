@@ -25,19 +25,20 @@ const HtmlTooltip = styles_1.withStyles((theme) => ({
 }))(Tooltip_1.default);
 function CustomizedTooltips({ sales, id, onClick }) {
     const [open, setOpen] = react_1.default.useState(false);
-    return (<div style={{ zIndex: '-1' }} onClick={(e) => e.stopPropagation()}>
+    return (<div style={{ zIndex: '-1' }} onClick={(e) => e.stopPropagation()} onMouseLeave={() => setOpen(false)} // no propagation when using leave instead of onmouseout
+    >
             {sales.length ?
         <HtmlTooltip interactive 
+        //disableHoverListener={true}
         //placement="left"
         //arrow={true}
-        title={<salesList3_1.default sales={sales} id={id}/>}>
-                    <Button_1.default 
-        //variant="outlined"
-        color="primary">
+        title={<salesList3_1.default sales={sales} id={id}/>} open={open} onClick={() => setOpen(true)}>
+                    <Button_1.default color="primary">
                         <i>{sales.length < 10 ? sales.length + ' ' : sales.length} tilbud</i>
                     </Button_1.default>
-                </HtmlTooltip> :
-        <Button_1.default style={{ color: '#69696969', textDecoration: 'line-through' }} onClick={onClick}><i>0 tilbud</i></Button_1.default>}
+                </HtmlTooltip>
+        :
+            <Button_1.default style={{ color: '#69696969', textDecoration: 'line-through' }} onClick={onClick}><i>0 tilbud</i></Button_1.default>}
         </div>);
 }
 exports.default = CustomizedTooltips;

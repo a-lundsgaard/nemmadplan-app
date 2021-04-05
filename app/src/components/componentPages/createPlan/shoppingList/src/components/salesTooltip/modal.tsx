@@ -58,7 +58,8 @@ export default function TransitionsModal({ imageSource }) {
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
-                onMouseOut={handleClose}
+                onBlur={handleClose}
+                //onMouseOut={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{

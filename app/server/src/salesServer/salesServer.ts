@@ -5,7 +5,6 @@ const salesRoute = require('./routes/sales');
 const PORT = 8090;
 const bodyParser = require('body-parser');
 
-
 async function salesServer() {
 
     app.use(bodyParser.json());

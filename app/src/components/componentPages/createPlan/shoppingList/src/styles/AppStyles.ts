@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import sizes from '../helpers/sizes';
 
 export default makeStyles({
   App: {

@@ -113,38 +113,18 @@ function CreatePlanDialog({ onReceiptSave }) {
         }
     };
     const handleRecipeCountChange = (originalPersonCountOnRecipe, newPersonCount, listId) => {
-        /*     const newRecipeArray = state.recipies.map((recipe) => {
-              if (recipe.listId === listId) {
-                const newIngredientArrayWithUpdatedQuantity =
-                  recipe.ingredients.map((ingredient) => {
-                    const newCountCalculation = ingredient.quantity / originalPersonCountOnRecipe * newPersonCount;
-                    const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation }
-                    return ingredientWithNewQuantity
-                  })
-                recipe.ingredients = newIngredientArrayWithUpdatedQuantity;
-                return recipe
-              }
-              return recipe;
-            })
-         */
-        //alert('Updated')
         const ingredientItemsThatHaveChangedAmount = [];
         console.log(listId);
         state.recipies.forEach((recipe) => {
             if (recipe.listId === listId) {
                 //alert('Found recipe')
                 recipe.ingredients.forEach((ingredient) => {
-                    //if (originalPersonCountOnRecipe !== newPersonCount) {
                     const newCountCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
                     const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation };
                     ingredientItemsThatHaveChangedAmount.push(ingredientWithNewQuantity);
-                    //}
                 });
             }
         });
-        //ingredientItemsThatHaveChangedAmount.push(1)
-        //alert(JSON.stringify(ingredientsWithUpdatedAmounts))
-        // setState({ ...state, recipies: newRecipeArray })
         setIngredientsWithUpdatedAmounts(ingredientItemsThatHaveChangedAmount);
     };
     const handleClickOpen = () => {

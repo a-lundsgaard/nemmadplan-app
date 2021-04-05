@@ -49,9 +49,12 @@ export default makeStyles({
     //float: 'right',
     transition: 'all 0.3s',
     opacity: '0',
-    margin: '5px 10px 0 0',
-    position: 'absolute',
-    right: '40px'
+    margin: '5px 10px 0',
+    marginLeft: 'auto',
+    whiteSpace: 'nowrap'  // makes sure the icon btn's never line breakes
+
+    //position: 'relative',
+    //right: '5px'
    // marginLeft: 20,
    // marginTop: '4px',
    // marginRight: 30,

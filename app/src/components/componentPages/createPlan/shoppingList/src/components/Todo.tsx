@@ -149,7 +149,7 @@ function Todo(props) {
       <li
         className={classes.Todo}
         style={{ overflowY: 'hidden' }}
-        onClick={(e) => { toggleEditing(); }}
+        //onClick={(e) => { toggleEditing(); }}
         onBlur={() => { toggleEditing(); }}
       >
         <EditTodoForm id={props.id} task={props.task} toggleEditForm={toggleEditing} restOfTask={props} />
@@ -178,16 +178,7 @@ function Todo(props) {
             <TrendingDownIcon />
           </Button>}
 
-        {state.isLoading &&
-          <Button
-            //variant="outlined"
-            fullWidth={false}
-            color="secondary"
-            onClick={(e) => { e.stopPropagation(); }}
-
-          >
-            <span><CircularProgress size={20} /></span>
-          </Button>}
+        {state.isLoading &&   <CircularProgress style={{margin: '8px 0 0 23px'}} size={20} /> }
 
         {shouldGetSale && !state.isLoading ? <SalesTooltip sales={state.sales} id={props.id} onClick={() => setShouldGetSale(shouldGetSale + 1)} /> : null}
       </span>

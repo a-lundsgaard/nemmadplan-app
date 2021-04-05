@@ -125,7 +125,9 @@ function Todo(props) {
     }, [props.task]);
     // dette er en test
     if (isEditing) {
-        return (<li className={classes.Todo} style={{ overflowY: 'hidden' }} onClick={(e) => { toggleEditing(); }} onBlur={() => { toggleEditing(); }}>
+        return (<li className={classes.Todo} style={{ overflowY: 'hidden' }} 
+        //onClick={(e) => { toggleEditing(); }}
+        onBlur={() => { toggleEditing(); }}>
         <EditTodoForm_jsx_1.default id={props.id} task={props.task} toggleEditForm={toggleEditing} restOfTask={props}/>
       </li>);
     }
@@ -140,12 +142,7 @@ function Todo(props) {
             <TrendingDown_1.default />
           </Button_1.default>}
 
-        {state.isLoading &&
-        <Button_1.default 
-        //variant="outlined"
-        fullWidth={false} color="secondary" onClick={(e) => { e.stopPropagation(); }}>
-            <span><CircularProgress_1.default size={20}/></span>
-          </Button_1.default>}
+        {state.isLoading && <CircularProgress_1.default style={{ margin: '8px 0 0 23px' }} size={20}/>}
 
         {shouldGetSale && !state.isLoading ? <htmlTooltip_1.default sales={state.sales} id={props.id} onClick={() => setShouldGetSale(shouldGetSale + 1)}/> : null}
       </span>
