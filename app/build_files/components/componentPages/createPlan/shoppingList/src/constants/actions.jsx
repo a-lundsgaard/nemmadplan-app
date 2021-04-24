@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.REMOVE_INGREDIENTS_FROM_DISH = exports.UPDATE_AMOUNT_OF_INGREDIENTS = exports.ADD_SALES_TO_TODO = exports.ADD_INGREDIENT_ARRAY = exports.EDIT_TODO = exports.UNCOMPLETE_TODO = exports.COMPLETE_TODO = exports.TOGGLE_TODO = exports.REMOVE_TODO = exports.ADD_TODO = void 0;
+exports.DELETE_INGREDIENTS = exports.UPDATE_AMOUNT_OF_INGREDIENTS = exports.ADD_SALES_TO_TODO = exports.ADD_INGREDIENT_ARRAY = exports.EDIT_TODO = exports.UNCOMPLETE_TODO = exports.COMPLETE_TODO = exports.TOGGLE_TODO = exports.REMOVE_TODO = exports.ADD_TODO = void 0;
 exports.ADD_TODO = 'ADD_TODO';
 exports.REMOVE_TODO = 'REMOVE_TODO';
 exports.TOGGLE_TODO = 'TOGGLE_TODO';
@@ -10,7 +10,7 @@ exports.EDIT_TODO = 'EDIT_TODO';
 exports.ADD_INGREDIENT_ARRAY = 'ADD_INGREDIENT_ARRAY';
 exports.ADD_SALES_TO_TODO = 'ADD_SALES_TO_TODO';
 exports.UPDATE_AMOUNT_OF_INGREDIENTS = 'ALTER_AMOUNT_OF_INGREDIENT';
-exports.REMOVE_INGREDIENTS_FROM_DISH = 'REMOVE_INGREDIENTS_FROM_DISH';
+exports.DELETE_INGREDIENTS = 'REMOVE_INGREDIENTS_FROM_DISH';
 /*  export enum Actions {
     ADD_TODO,
     REMOVE_TODO,

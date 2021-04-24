@@ -9,8 +9,8 @@ const TodoForm_jsx_1 = __importDefault(require("./TodoForm.jsx"));
 const TodoList_jsx_1 = __importDefault(require("./TodoList.jsx"));
 const linearStepper_jsx_1 = __importDefault(require("./stepper/linearStepper.jsx"));
 const shoppingAccordion_jsx_1 = __importDefault(require("./shoppingListContainer/shoppingAccordion.jsx"));
-function TodoApp({ ingredientArray, updateAmountOnIngredients }) {
-    return (<todos_context_jsx_1.TodosProvider ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients}>
+function TodoApp({ ingredientArray, updateAmountOnIngredients, ingredientsToDelete }) {
+    return (<todos_context_jsx_1.TodosProvider ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients} ingredientsToDelete={ingredientsToDelete}>
 
       <div style={{
         width: '80%',

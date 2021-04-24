@@ -44,14 +44,9 @@ function TodosProvider(props) {
        todosReducer,
        defaultItems
      )*/
-    // test
     react_1.useEffect(() => {
-        // if (!todos.length) {
         // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar
-        // storeTodosToRedux(defaultItems)
-        //   } else {
         storeTodosToRedux(todos);
-        // }
     }, [todos]);
     // For adding ingredients to shoppinglist when adding dish to meal plan programatically 
     react_1.useEffect(() => {
@@ -62,9 +57,17 @@ function TodosProvider(props) {
     react_1.useEffect(() => {
         if (props.updateAmountOnIngredients.length) {
             //alert('Trying to update amount')
+            //console.log('Found ingredients to change:  ', props.updateAmountOnIngredients)
             dispatch({ type: actions_1.UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
         }
     }, [props.updateAmountOnIngredients]);
+    react_1.useEffect(() => {
+        if (props.ingredientsToDelete.length) {
+            //alert('Trying to update amount')
+            dispatch({ type: actions_1.DELETE_INGREDIENTS, task: props.ingredientsToDelete });
+            console.log('Found ingredients to delete:  ', props.ingredientsToDelete);
+        }
+    }, [props.ingredientsToDelete]);
     return (<exports.TodosContext.Provider value={todos}>
       <exports.DispatchContext.Provider value={dispatch}>
         {props.children}

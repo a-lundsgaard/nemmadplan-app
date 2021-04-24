@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
 const TodoApp_jsx_1 = __importDefault(require("./TodoApp.jsx"));
 const AppStyles_1 = __importDefault(require("../styles/AppStyles"));
-function App({ ingredientArray, updateAmountOnIngredients }) {
+function App({ ingredientArray, updateAmountOnIngredients, ingredientsToDelete }) {
     const classes = AppStyles_1.default();
     return (<div className={classes.App}>
         <header className={classes.header}>
           <h1>Min liste</h1>
         </header>
-        <TodoApp_jsx_1.default ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients}/>
+        <TodoApp_jsx_1.default ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients} ingredientsToDelete={ingredientsToDelete}/>
       </div>);
 }
 exports.default = App;

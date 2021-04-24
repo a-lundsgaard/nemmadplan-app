@@ -13,7 +13,8 @@ import {
   COMPLETE_TODO,
   UNCOMPLETE_TODO,
   ADD_SALES_TO_TODO,
-  UPDATE_AMOUNT_OF_INGREDIENTS
+  UPDATE_AMOUNT_OF_INGREDIENTS,
+  DELETE_INGREDIENTS
 } from '../constants/actions';
 
 const reducer = (state, action) => {
@@ -124,17 +125,13 @@ const reducer = (state, action) => {
       const newState = Object.keys(ingredientArrayAsObject).map(key => ingredientArrayAsObject[key]);
       return newState;
 
-
-    /*       return [...state, ...action.task.map((ingr, index) => ({
-            id: uuidv4(),
-            task: `${ingr.name}`,
-            unit: ingr.unit && ingr.unit.replace('*', ''),
-            quantity: ingr.quantity,
-            completed: false
-          }))] */
-
     case UPDATE_AMOUNT_OF_INGREDIENTS:
       return updateAmountOfProvidedIngredients(action.task, state);
+
+    case DELETE_INGREDIENTS:
+      console.log('Delete reducer was called')
+      return deleteIngredients(action.task, state);
+
 
     default:
       return state;
@@ -146,10 +143,26 @@ export default reducer;
 
 
 
-function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
+function deleteIngredients(ingredientArray, stateArray) {
+  console.log('Items to delete', ingredientArray);
+  console.log('Items to delete2', stateArray);
 
-  //alert(JSON.stringify(stateArray))
-  console.log('Reducer initital state : ', stateArray)
+  const deletedIngredientsFilteredOut = stateArray.filter((oldIngredient) => {
+    console.log('Item to delete old', oldIngredient.task);
+    const foundIngredientToDelete = ingredientArray.find(ingredient => ingredient.id === oldIngredient.id);
+    if (foundIngredientToDelete) {
+      return false;
+    } else {
+      return true;
+    }
+  });
+
+  return deletedIngredientsFilteredOut;
+}
+
+
+
+function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
   const newArr = stateArray.map((oldIngredient) => {
     for (const newIngredient of ingredientArray) {
       if (newIngredient.id === oldIngredient.id) {
@@ -158,8 +171,5 @@ function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
     }
     return oldIngredient;
   });
-
-  console.log(newArr);
   return newArr;
-  
 }

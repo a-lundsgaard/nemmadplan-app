@@ -90,23 +90,32 @@ const reducer = (state, action) => {
             // changes the object back to an array again and returns it
             const newState = Object.keys(ingredientArrayAsObject).map(key => ingredientArrayAsObject[key]);
             return newState;
-        /*       return [...state, ...action.task.map((ingr, index) => ({
-                id: uuidv4(),
-                task: `${ingr.name}`,
-                unit: ingr.unit && ingr.unit.replace('*', ''),
-                quantity: ingr.quantity,
-                completed: false
-              }))] */
         case actions_1.UPDATE_AMOUNT_OF_INGREDIENTS:
             return updateAmountOfProvidedIngredients(action.task, state);
+        case actions_1.DELETE_INGREDIENTS:
+            console.log('Delete reducer was called');
+            return deleteIngredients(action.task, state);
         default:
             return state;
     }
 };
 exports.default = reducer;
+function deleteIngredients(ingredientArray, stateArray) {
+    console.log('Items to delete', ingredientArray);
+    console.log('Items to delete2', stateArray);
+    const deletedIngredientsFilteredOut = stateArray.filter((oldIngredient) => {
+        console.log('Item to delete old', oldIngredient.task);
+        const foundIngredientToDelete = ingredientArray.find(ingredient => ingredient.id === oldIngredient.id);
+        if (foundIngredientToDelete) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+    return deletedIngredientsFilteredOut;
+}
 function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
-    //alert(JSON.stringify(stateArray))
-    console.log('Reducer initital state : ', stateArray);
     const newArr = stateArray.map((oldIngredient) => {
         for (const newIngredient of ingredientArray) {
             if (newIngredient.id === oldIngredient.id) {
@@ -115,6 +124,5 @@ function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
         }
         return oldIngredient;
     });
-    console.log(newArr);
     return newArr;
 }

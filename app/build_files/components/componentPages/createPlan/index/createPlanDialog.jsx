@@ -45,13 +45,9 @@ const App_1 = __importDefault(require("../shoppingList/src/components/App"));
 const container_1 = __importDefault(require("../shoppingListContainer/index/container"));
 const AddCircleOutline_1 = __importDefault(require("@material-ui/icons/AddCircleOutline"));
 const styles_jsx_1 = __importDefault(require("./styles.jsx"));
-//import { render } from 'react-dom'
+// defining react as global
 window.React = react_1.default;
-// test
 const useStyles = styles_jsx_1.default;
-/* const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-}); */
 const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
@@ -65,26 +61,27 @@ function CreatePlanDialog({ onReceiptSave }) {
         recipies: [],
     });
     const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = react_1.useState([]);
+    const [ingredientsToDelete, setIngredientsToDelete] = react_1.useState([]);
     // displaying server messages
     const [message, setMessage] = react_1.useState({});
     const [date, setDate] = react_1.useState(new Date());
-    // for circular loader when scraping receipt
-    const [isLoading, setLoading] = react_1.useState(false);
     const [inputError, setInputError] = react_1.useState({
         importUrl: false,
         title: false,
         ingredients: false
     });
-    const handleDeleteRecipe = (idOfDeletedDish) => {
+    function handleDeleteRecipeFromPlan(idOfDeletedDish) {
         console.log(idOfDeletedDish);
-        let newState = state.recipies.filter((recipe) => recipe.listId !== idOfDeletedDish);
-        if (newState.length === 0) {
-            //alert('Setting new recipe array as []')
-        }
+        const newState = state.recipies.filter((recipe) => {
+            if (recipe.listId == idOfDeletedDish) {
+                setIngredientsToDelete(recipe.ingredients);
+            }
+            return recipe.listId !== idOfDeletedDish;
+        });
         setState({ ...state, recipies: newState });
-    };
+    }
     // adding new recipe to plan - rename function
-    const handleSetNewRecipe = (recipe) => {
+    function handleAddNewRecipeToPlan(recipe) {
         //alert(date)
         console.log(recipe);
         recipe.date = date;
@@ -99,6 +96,7 @@ function CreatePlanDialog({ onReceiptSave }) {
         const duplicateDate = state.recipies.find((oldRecipe, i) => {
             if (oldRecipe.date === recipe.date) {
                 newRecipeArrayWithSwappedDish.splice(i, 1, recipe);
+                //setIngredientsToDelete(newRecipeArrayWithSwappedDish[i].ingredients)
                 //newRecipeArray = [recipe]
                 return true;
             }
@@ -111,10 +109,10 @@ function CreatePlanDialog({ onReceiptSave }) {
         else {
             setState({ ...state, recipies: [...state.recipies, recipe] });
         }
-    };
-    const handleRecipeCountChange = (originalPersonCountOnRecipe, newPersonCount, listId) => {
+    }
+    function handleRecipePersonCountChange(originalPersonCountOnRecipe, newPersonCount, listId) {
         const ingredientItemsThatHaveChangedAmount = [];
-        console.log(listId);
+        // updating amount on ingredient
         state.recipies.forEach((recipe) => {
             if (recipe.listId === listId) {
                 //alert('Found recipe')
@@ -126,12 +124,11 @@ function CreatePlanDialog({ onReceiptSave }) {
             }
         });
         setIngredientsWithUpdatedAmounts(ingredientItemsThatHaveChangedAmount);
-    };
+    }
     const handleClickOpen = () => {
         setOpen(true);
     };
-    const handleClose = () => {
-        // Clearing states and messages
+    const handleCloseAndClearState = () => {
         setState({
             recipies: [],
             date: new Date()
@@ -146,10 +143,10 @@ function CreatePlanDialog({ onReceiptSave }) {
     };
     return (<div style={{ position: 'relative' }}>
       <span onClick={handleClickOpen}><plusButton_jsx_1.default /></span>
-      <Dialog_1.default fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog_1.default fullScreen open={open} onClose={handleCloseAndClearState} TransitionComponent={Transition}>
         <AppBar_1.default className={classes.appBar}>
           <Toolbar_1.default>
-            <IconButton_1.default edge="start" color="inherit" onClick={handleClose} aria-label="close">
+            <IconButton_1.default edge="start" color="inherit" onClick={handleCloseAndClearState} aria-label="close">
               <Close_1.default />
             </IconButton_1.default>
             <Typography_1.default variant="h6" className={classes.title}>
@@ -204,8 +201,8 @@ function CreatePlanDialog({ onReceiptSave }) {
                 {state.recipies && state.recipies
         .sort((a, b) => a.date - b.date) // sorting by date
         .map((recipe, index) => (<Grid_1.default key={index} item>
-                      <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipe} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}>
-                        <smallNumPicker_jsx_1.default unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipeCountChange(recipe.persons, count, listId)}/>
+                      <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipeFromPlan} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}>
+                        <smallNumPicker_jsx_1.default unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipePersonCountChange(recipe.persons, count, listId)}/>
 
                       </recipeCard_1.default>
                     </Grid_1.default>))}
@@ -214,7 +211,7 @@ function CreatePlanDialog({ onReceiptSave }) {
 
             </Grid_1.default>
 
-            <pickRecipeDialog_jsx_1.default visible={recipesOpen} setVisible={setRecipesOpen} chosenRecipe={handleSetNewRecipe}/>
+            <pickRecipeDialog_jsx_1.default visible={recipesOpen} setVisible={setRecipesOpen} chosenRecipe={handleAddNewRecipeToPlan}/>
 
           </Grid_1.default>
 
@@ -222,7 +219,7 @@ function CreatePlanDialog({ onReceiptSave }) {
         {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 
         <container_1.default>
-          <App_1.default ingredientArray={(_a = state === null || state === void 0 ? void 0 : state.recipies[state.recipies.length - 1]) === null || _a === void 0 ? void 0 : _a.ingredients} updateAmountOnIngredients={ingredientsWithUpdatedAmounts}/>
+          <App_1.default ingredientArray={(_a = state === null || state === void 0 ? void 0 : state.recipies[state.recipies.length - 1]) === null || _a === void 0 ? void 0 : _a.ingredients} updateAmountOnIngredients={ingredientsWithUpdatedAmounts} ingredientsToDelete={ingredientsToDelete}/>
         </container_1.default>
       </Dialog_1.default>
 
