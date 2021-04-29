@@ -121,7 +121,7 @@ function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
           </Toolbar_1.default>
         </AppBar_1.default>
         <div style={{ marginTop: 70 }}>
-          <recipies_jsx_1.default onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={true} dialogOpen={bool => setVisible(bool)}/>
+          <recipies_jsx_1.default recipies={props.recipies} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={true} dialogOpen={bool => setVisible(bool)}/>
         </div>
       </Dialog_1.default>
     </div>);

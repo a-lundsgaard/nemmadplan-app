@@ -27,9 +27,14 @@ const todos_context_jsx_1 = require("../contexts/todos.context.jsx");
 const Todo_jsx_1 = __importDefault(require("./Todo.jsx"));
 function TodoList() {
     const todos = react_1.useContext(todos_context_jsx_1.TodosContext);
-    console.log(todos);
     return (<ul style={{ paddingLeft: 10, width: "95%", overflowY: 'scroll', maxHeight: 'calc(75vh - 50px - 50px)' }}>
-      {todos.map((todo, index) => (<Todo_jsx_1.default key={todo.id} {...todo}/>))}
+      {
+    /*     todos.map((todo, index) => (
+          <Todo key={index+300} {...todo} />
+        )) */
+    todos.map((todo, index) => {
+        return <Todo_jsx_1.default key={todo.id} {...todo}/>;
+    })}
     </ul>);
 }
 exports.default = TodoList;

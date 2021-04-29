@@ -47,7 +47,8 @@ function Todo(props) {
         isLoading: false
     });
     //console.log('Found q for ' + task + ' q is ' + props.quantity)
-    console.log(props);
+    //onsole.log(props)
+    console.log('Fand unitprops. ' + props.unit, 'til : ' + props.task);
     // for showing btn "Hent tilbud" at the start. Increases by one when trying to re fetch sales in order for useEffect to use it
     const [shouldGetSale, setShouldGetSale] = react_1.useState(0);
     // running sales crawler 

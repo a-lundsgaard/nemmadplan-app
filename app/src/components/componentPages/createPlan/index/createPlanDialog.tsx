@@ -21,9 +21,6 @@ import PlusButton from '../../../shared/buttons/plusButton/plusButton.jsx'
 import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx';
 
 import RecipeCard from "../../../shared/card/recipeCard";
-
-//import StaticDatePicker from '../../pickers/date/staticDatePicker.jsx'
-
 import StaticDatePicker from '../datePicker/staticDatePicker.jsx'
 import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
 import ShoppingList from '../shoppingList/src/components/App'
@@ -61,6 +58,8 @@ export default function CreatePlanDialog({ onReceiptSave }) {
 
   const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = useState([]);
   const [ingredientsToDelete, setIngredientsToDelete] = useState([]);
+  const [ingredientsToAdd, setIngredientsToAdd] = useState([]);
+
   // displaying server messages
   const [message, setMessage] = useState({});
   const [date, setDate] = useState(new Date());
@@ -76,24 +75,25 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   function handleDeleteRecipeFromPlan(idOfDeletedDish: string) {
     console.log(idOfDeletedDish);
 
-    const newState = state.recipies.filter((recipe: { listId: string }) => { 
-       if(recipe.listId == idOfDeletedDish) {
+    const newState = state.recipies.filter((recipe: { listId: string }) => {
+      if (recipe.listId == idOfDeletedDish) {
         setIngredientsToDelete(recipe.ingredients);
-      } 
-      return recipe.listId !== idOfDeletedDish 
+      }
+      return recipe.listId !== idOfDeletedDish
     });
-    setState({ ...state, recipies: newState });    
+    setState({ ...state, recipies: newState });
   }
 
-  
+
 
   // adding new recipe to plan - rename function
-  function handleAddNewRecipeToPlan(recipe) {
+  function handleAddNewRecipeToPlan(newRecipe) {
     //alert(date)
-    console.log(recipe)
-    recipe.date = date;
-    recipe.listId = uuid();
-    recipe.ingredients = addIdToEachIngredient(recipe.ingredients)
+
+    console.log(newRecipe)
+    newRecipe.date = date;
+    newRecipe.listId = uuid();
+    newRecipe.ingredients = addIdToEachIngredient(newRecipe.ingredients)
 
     function addIdToEachIngredient(ingredientArray: any) {
       return ingredientArray.map((ingredient) => {
@@ -101,25 +101,50 @@ export default function CreatePlanDialog({ onReceiptSave }) {
       })
     }
 
-    const newRecipeArrayWithSwappedDish = state.recipies;
+    let newRecipeArrayWithSwappedDish = state.recipies.slice();
 
-    const duplicateDate = state.recipies.find((oldRecipe, i) => {
-      if (oldRecipe.date === recipe.date) {
-        newRecipeArrayWithSwappedDish.splice(i, 1, recipe)
-        //setIngredientsToDelete(newRecipeArrayWithSwappedDish[i].ingredients)
-        //newRecipeArray = [recipe]
-        return true
+    // for swapping
+    for (const [i, oldRecipe] of state.recipies.entries()) {
+      if (oldRecipe.date === newRecipe.date) {
+        if (oldRecipe._id !== newRecipe._id) {
+          setIngredientsToDelete(newRecipeArrayWithSwappedDish[i].ingredients);
+          newRecipeArrayWithSwappedDish.splice(i, 1, newRecipe);
+
+          //newRecipeArrayWithSwappedDish.slice().sort((a: any, b: any) => a.date - b.date) // sorting by date
+          setIngredientsToAdd(newRecipe.ingredients)
+          setState({ ...state, recipies: newRecipeArrayWithSwappedDish });
+
+          return;
+        } else {
+          return;
+        }
       }
-    })
-
-    console.log('Result from ingredient id', recipe)
-
-    if (duplicateDate) {
-      //alert('Duplicate!')
-      setState({ ...state, recipies: newRecipeArrayWithSwappedDish })
-    } else {
-      setState({ ...state, recipies: [...state.recipies, recipe] })
     }
+
+    //const n = state.recipies;
+
+    function sort(arr) {
+      return arr.slice().sort((a: any, b: any) => a.date - b.date);
+    }
+
+    //const sortedByDate = sort([...newRecipeArrayWithSwappedDish, newRecipe]);
+
+    //const sortedByDate  = [...newRecipeArrayWithSwappedDish, newRecipe].sort((a: any, b: any) => a.date - b.date);
+
+    setIngredientsToAdd(newRecipe.ingredients)
+    setState({ ...state, recipies: [...state.recipies, newRecipe] })
+
+
+    console.log('Result from ingredient id', newRecipe)
+    /* 
+        if (duplicateDate) {
+          //alert('Duplicate!')
+          setState({ ...state, recipies: newRecipeArrayWithSwappedDish })
+        } else {
+          setState({ ...state, recipies: [...state.recipies, newRecipe] })
+        } */
+
+
   }
 
 
@@ -127,11 +152,15 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     const ingredientItemsThatHaveChangedAmount = [];
     // updating amount on ingredient
     state.recipies.forEach((recipe) => {
+
       if (recipe.listId === listId) {
         //alert('Found recipe')
         recipe.ingredients.forEach((ingredient) => {
-          const newCountCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
-          const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation }
+          const newQuantityCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
+          const difference = newQuantityCalculation - ingredient.quantity;
+
+
+          const ingredientWithNewQuantity = { ...ingredient, quantity: newQuantityCalculation }
           ingredientItemsThatHaveChangedAmount.push(ingredientWithNewQuantity)
         })
       }
@@ -228,31 +257,33 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             <Grid className={classes.recipeCardGrid} item>
 
               <Grid container spacing={3} >
-                {state.recipies && state.recipies
-                  .sort((a: any, b: any) => a.date - b.date) // sorting by date
-                  .map((recipe: any, index) => (
-                    <Grid
-                      key={index}
-                      item>
-                      <RecipeCard
-                        recipe={recipe}
-                        clikedDish={handleDeleteRecipeFromPlan}
-                        visitFromCreatePlan={false}
-                        visitFromCreatePlanMealList={true}
-                        dialogOpen={setRecipesOpen}
-                        customDate={recipe.date.toISOString()}
-                      >
-                        <SmallNumberPicker unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipePersonCountChange(recipe.persons, count, listId)} />
-
-                      </RecipeCard>
-                    </Grid>
-                  ))}
+                {
+                  state.recipies && state.recipies.slice()
+                    //state.recipies
+                    .sort((a: any, b: any) => a.date - b.date) // sorting by date
+                    .map((recipe: any) => (
+                      <Grid
+                        key={recipe.listId} // do not use index as we are changing the order of the recipies
+                        item>
+                        <RecipeCard
+                          recipe={recipe}
+                          clikedDish={handleDeleteRecipeFromPlan}
+                          visitFromCreatePlan={false}
+                          visitFromCreatePlanMealList={true}
+                          dialogOpen={setRecipesOpen}
+                          customDate={recipe.date.toISOString()}
+                        >
+                          <SmallNumberPicker unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipePersonCountChange(recipe.persons, count, listId)} />
+                        </RecipeCard>
+                      </Grid>
+                    ))}
               </Grid>
 
 
             </Grid>
 
             <RecipeDialog
+              recipies={state.recipies}
               visible={recipesOpen}
               setVisible={setRecipesOpen}
               chosenRecipe={handleAddNewRecipeToPlan}
@@ -264,10 +295,12 @@ export default function CreatePlanDialog({ onReceiptSave }) {
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
         <ShoppingListContainer>
-          <ShoppingList ingredientArray={state?.recipies[state.recipies.length - 1]?.ingredients} updateAmountOnIngredients={ingredientsWithUpdatedAmounts} ingredientsToDelete={ingredientsToDelete} />
+          <ShoppingList ingredientArray={ingredientsToAdd} updateAmountOnIngredients={ingredientsWithUpdatedAmounts} ingredientsToDelete={ingredientsToDelete} />
         </ShoppingListContainer>
       </Dialog>
 
     </div>
   );
 }
+
+//state?.recipies[state.recipies.length - 1]?.ingredients

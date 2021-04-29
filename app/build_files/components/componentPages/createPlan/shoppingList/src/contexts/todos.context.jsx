@@ -50,7 +50,7 @@ function TodosProvider(props) {
     }, [todos]);
     // For adding ingredients to shoppinglist when adding dish to meal plan programatically 
     react_1.useEffect(() => {
-        if (props.ingredientArray) {
+        if (props.ingredientArray.length) {
             dispatch({ type: actions_1.ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
         }
     }, [props.ingredientArray]);

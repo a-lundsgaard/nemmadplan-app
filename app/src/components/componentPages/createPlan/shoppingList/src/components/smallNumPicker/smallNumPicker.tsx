@@ -87,7 +87,7 @@ export default function smallNumPicker({unit, quantity, parentProps }) {
           <input
             className={classes.numberInput}
             onBlur={handleAccept}
-            onChange={handleChange} type="number" name="productQty" value={count} min="1" max="10000" />
+            onChange={handleChange} type="number" name="productQty" value={Math.round(count*100)/100} min="1" max="10000" />
           <span>{localUnit}</span>
         </span>
         <div

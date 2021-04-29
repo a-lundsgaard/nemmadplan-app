@@ -85,7 +85,7 @@ function smallNumPicker({ unit, quantity, parentProps }) {
         <span style={{
         display: 'flex' // for aligning count and unit element
     }}>
-          <input className={classes.numberInput} onBlur={handleAccept} onChange={handleChange} type="number" name="productQty" value={count} min="1" max="10000"/>
+          <input className={classes.numberInput} onBlur={handleAccept} onChange={handleChange} type="number" name="productQty" value={Math.round(count * 100) / 100} min="1" max="10000"/>
           <span>{localUnit}</span>
         </span>
         <div className={classes.triangleDown} onClick={decrementCount}/>

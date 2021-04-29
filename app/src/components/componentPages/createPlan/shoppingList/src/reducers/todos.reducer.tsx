@@ -17,6 +17,7 @@ import {
   DELETE_INGREDIENTS
 } from '../constants/actions';
 
+
 const reducer = (state, action) => {
   switch (action.type) {
     case ADD_TODO:
@@ -55,7 +56,7 @@ const reducer = (state, action) => {
         return state;
         //return state
       } else {
-        return [{ id: uuidv4(), task: action.task, quantity: action.quantity || 1, completed: false, initiator: 'USER' }, ...state];
+        return [{ id: uuidv4(), task: action.task, quantity: action.quantity || 1, unit: 'stk', completed: false, initiator: 'USER' }, ...state];
       }
 
     case REMOVE_TODO:
@@ -95,6 +96,8 @@ const reducer = (state, action) => {
     case ADD_INGREDIENT_ARRAY:
       console.log('THE REDUCER WAS CALLED');
 
+      //return handleDuplicatesAndAddIngredients2(action.task, state);
+
       // the array of new objects added from a meal
       const newIngredientArrayToAdd = action.task.map((ingr, index) => ({
         ...ingr, // id, quantity etc.
@@ -103,19 +106,27 @@ const reducer = (state, action) => {
         completed: false,
       }))
 
+      //return [...state, ...newIngredientArrayToAdd ]
+
       // makes an object from the state to make duplicate lookups
       const ingredientArrayAsObject = state.reduce((a, n) => {
         a[n.task] = n
         return a;
-      }, {})
+      }, {});
+
 
       // make duplicate lookups in the master object and adds quantity to duplicate item object, or adds the item to the master object if no duplicate
       newIngredientArrayToAdd.forEach((newIngredient) => {
         const foundDuplicate = ingredientArrayAsObject[newIngredient.task];
         const q2 = newIngredient.quantity || 1;
+
         if (foundDuplicate) {
+          console.log('Duplicate: ', foundDuplicate)
           const q1 = foundDuplicate.quantity || 1; // if no quantity assigns one as quantity, so the quantity also increases when a duplicate is found
           ingredientArrayAsObject[newIngredient.task] = { ...foundDuplicate, quantity: q1 + q2 }
+
+          console.log('New object: ', ingredientArrayAsObject[newIngredient.task])
+
         } else {
           ingredientArrayAsObject[newIngredient.task] = newIngredient;
         }
@@ -123,15 +134,17 @@ const reducer = (state, action) => {
 
       // changes the object back to an array again and returns it
       const newState = Object.keys(ingredientArrayAsObject).map(key => ingredientArrayAsObject[key]);
+
       return newState;
 
+
+
     case UPDATE_AMOUNT_OF_INGREDIENTS:
-      return updateAmountOfProvidedIngredients(action.task, state);
+      return updateAmountOfProvidedIngredients3(action.task, state);
 
     case DELETE_INGREDIENTS:
-      console.log('Delete reducer was called')
+      //console.log('Delete reducer was called')
       return deleteIngredients(action.task, state);
-
 
     default:
       return state;
@@ -143,29 +156,43 @@ export default reducer;
 
 
 
-function deleteIngredients(ingredientArray, stateArray) {
-  console.log('Items to delete', ingredientArray);
-  console.log('Items to delete2', stateArray);
 
-  const deletedIngredientsFilteredOut = stateArray.filter((oldIngredient) => {
+
+function deleteIngredients(ingredientArrayToDelete, stateArray) {
+  /*   console.log('Items to delete', ingredientArrayToDelete);
+    console.log('Items to delete2', stateArray); */
+
+  const deletedIngredientsFilteredOut = [];
+
+  stateArray.forEach((oldIngredient) => {
     console.log('Item to delete old', oldIngredient.task);
-    const foundIngredientToDelete = ingredientArray.find(ingredient => ingredient.id === oldIngredient.id);
-    if (foundIngredientToDelete) {
-      return false;
+
+    const ingredientToDelete = ingredientArrayToDelete.find(ingredient => ingredient.name === oldIngredient.name);
+    if (ingredientToDelete) {
+      const quantity = oldIngredient.quantity - ingredientToDelete.quantity;
+
+      if (quantity <= 0 || !oldIngredient.quantity || !ingredientToDelete.quantity) {
+        return;
+      }
+      deletedIngredientsFilteredOut.push({ ...oldIngredient, quantity: quantity });
     } else {
-      return true;
+      deletedIngredientsFilteredOut.push(oldIngredient);
     }
+
   });
 
+  //console.log('Fandt filter: ', deletedIngredientsFilteredOut)
   return deletedIngredientsFilteredOut;
 }
 
 
 
-function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
+function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
+  console.error('REDUCER CALLED')
+  //alert('reducer called')
   const newArr = stateArray.map((oldIngredient) => {
     for (const newIngredient of ingredientArray) {
-      if (newIngredient.id === oldIngredient.id) {
+      if (oldIngredient.id === newIngredient.id) {
         return { ...oldIngredient, quantity: newIngredient.quantity }
       }
     }
@@ -173,3 +200,4 @@ function updateAmountOfProvidedIngredients(ingredientArray, stateArray) {
   });
   return newArr;
 }
+

@@ -67,6 +67,7 @@ const defaultMaterialTheme = core_1.createMuiTheme({
 const paintDays = (meals) => {
     const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
     let monthAndYearArray;
+    //alert('Paint meals called, got length: ' + meals.length )
     try {
         monthAndYearArray = document.querySelector('.MuiTypography-root.MuiTypography-body1.MuiTypography-alignCenter').innerText.split(' ');
     }
@@ -79,35 +80,21 @@ const paintDays = (meals) => {
     const month = months[monthAndYearArray[0]];
     const year = parseInt(monthAndYearArray[1]);
     calendarDays.forEach((el => {
+        if (meals.length < 1) {
+            el.style.background = '';
+        }
         const dateString = `${el === null || el === void 0 ? void 0 : el.innerText} ${month} ${year}`;
         for (const meal of meals) {
             const mealDate = new Date(meal.date);
             const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
             if (mealDateString === dateString) {
                 el.style.background = '#90c200';
-                // el.style.color ='white'
                 break;
             }
             else {
                 el.style.background = '';
             }
-            /*  if (mealDateString !== dateString) {
-               el.style.background = '';
-               // el.style.color ='white'
-               
-             } */
         }
-        /*     meals.forEach(meal => {
-              const mealDate = new Date(meal.date);
-              const mealDateString = `${mealDate.getDate()} ${mealDate.getMonth()} ${mealDate.getFullYear()}`;
-        
-              if (mealDateString === dateString) {
-                el.style.background = '#90c200';
-                // el.style.color ='white'
-                return
-              }
-        
-            }) */
     }));
 };
 const colorDaysWithASelectedMeal = (meals, fromMonthChange) => {
@@ -141,28 +128,10 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
             setDbClick(false);
         }, 300);
     };
-    /*   useEffect(() => {
-        console.log(date);
-    
-        // paint days with selected food red
-        // mui datepickers doesnt support state yet, so it has to be done ugly and manually
-        document.querySelectorAll('.MuiPickersDay-day').forEach(el => {
-          console.log(el.classList.contains('MuiPickersDay-daySelected'))
-    
-          if (el.classList.contains('MuiPickersDay-daySelected')) {
-            el.style.background = 'red'
-          }
-        })
-    
-      }, [date]) */
     react_1.useEffect(() => {
-        if (selectedMeals.length) {
-            console.log(selectedMeals);
-            // alert('Meals changed')
-            // paint days with selected food red 
-            // mui datepickers doesnt support state yet, so it has to be done ugly and manually
-            colorDaysWithASelectedMeal(selectedMeals);
-        }
+        // paint days with selected food red 
+        // mui datepickers doesnt support state yet, so it has to be done ugly and manually
+        colorDaysWithASelectedMeal(selectedMeals);
     }, [selectedMeals]);
     // prettier-ignore
     return (<styles_1.ThemeProvider theme={defaultMaterialTheme}>

@@ -8,13 +8,17 @@ import Todo from './Todo.jsx';
 function TodoList() {
 
   const todos = useContext(TodosContext);
-  console.log(todos)
 
   return (
-    <ul style={{ paddingLeft: 10, width: "95%", overflowY: 'scroll', maxHeight: 'calc(75vh - 50px - 50px)'}}>
-      {todos.map((todo, index )=> (
-        <Todo key={todo.id} {...todo} />
-      ))}
+    <ul style={{ paddingLeft: 10, width: "95%", overflowY: 'scroll', maxHeight: 'calc(75vh - 50px - 50px)' }}>
+      {
+    /*     todos.map((todo, index) => (
+          <Todo key={index+300} {...todo} />
+        )) */
+        todos.map((todo, index) => {          
+          return <Todo key={todo.id} {...todo} />
+        })
+      }
     </ul>
   );
 }

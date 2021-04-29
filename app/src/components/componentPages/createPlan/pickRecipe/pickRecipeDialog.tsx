@@ -137,6 +137,7 @@ export default function FullScreenDialog({ visible, setVisible, chosenRecipe, ..
         </AppBar>
         <div style={{ marginTop: 70 }}>
           <Recipes
+            recipies={props.recipies}
             onClick={recipe => chosenRecipe(recipe)}
             visitFromCreatePlan={true}
             dialogOpen={bool => setVisible(bool)}

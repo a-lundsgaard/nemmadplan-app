@@ -50,6 +50,7 @@ const PostAdd_1 = __importDefault(require("@material-ui/icons/PostAdd"));
 const Clear_1 = __importDefault(require("@material-ui/icons/Clear"));
 const Cached_1 = __importDefault(require("@material-ui/icons/Cached"));
 //import recipes from "../../HTTP/queries/recipes";
+const PlaylistAddCheck_1 = __importDefault(require("@material-ui/icons/PlaylistAddCheck"));
 const useStyles = styles_1.makeStyles((theme) => ({
     card: {
         maxWidth: 245,
@@ -192,14 +193,16 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
         <CardActions_1.default disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-        <> {props.children}
-              <IconButton_1.default aria-label="add to favorites"> <Cached_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default>
+        <>
+              {props.children /*person picker*/}
+               <IconButton_1.default aria-label="swap dish"> <Cached_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default> 
             </> :
         <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
-          {props.visitFromCreatePlan && <><IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
-            <PostAdd_1.default />
-          </IconButton_1.default>
+          {props.visitFromCreatePlan && <>
+            {props.recipeOnPlan ? <IconButton_1.default disabled={true} aria-label="add dish to plan"><PlaylistAddCheck_1.default /></IconButton_1.default> : <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
+               <PostAdd_1.default /> 
+          </IconButton_1.default>}
             <IconButton_1.default aria-label="share">
               <Share_1.default />
             </IconButton_1.default>

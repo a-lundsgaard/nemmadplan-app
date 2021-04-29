@@ -38,7 +38,6 @@ const snackbar_jsx_1 = __importDefault(require("../../../shared/snackbar/snackba
 const plusButton_jsx_1 = __importDefault(require("../../../shared/buttons/plusButton/plusButton.jsx"));
 const smallNumPicker_jsx_1 = __importDefault(require("../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx"));
 const recipeCard_1 = __importDefault(require("../../../shared/card/recipeCard"));
-//import StaticDatePicker from '../../pickers/date/staticDatePicker.jsx'
 const staticDatePicker_jsx_1 = __importDefault(require("../datePicker/staticDatePicker.jsx"));
 const pickRecipeDialog_jsx_1 = __importDefault(require("../pickRecipe/pickRecipeDialog.jsx"));
 const App_1 = __importDefault(require("../shoppingList/src/components/App"));
@@ -52,7 +51,6 @@ const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
 function CreatePlanDialog({ onReceiptSave }) {
-    var _a;
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(true); // set false when not testing
     const [recipesOpen, setRecipesOpen] = react_1.useState(false); // set false when not testing
@@ -62,6 +60,7 @@ function CreatePlanDialog({ onReceiptSave }) {
     });
     const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = react_1.useState([]);
     const [ingredientsToDelete, setIngredientsToDelete] = react_1.useState([]);
+    const [ingredientsToAdd, setIngredientsToAdd] = react_1.useState([]);
     // displaying server messages
     const [message, setMessage] = react_1.useState({});
     const [date, setDate] = react_1.useState(new Date());
@@ -81,34 +80,50 @@ function CreatePlanDialog({ onReceiptSave }) {
         setState({ ...state, recipies: newState });
     }
     // adding new recipe to plan - rename function
-    function handleAddNewRecipeToPlan(recipe) {
+    function handleAddNewRecipeToPlan(newRecipe) {
         //alert(date)
-        console.log(recipe);
-        recipe.date = date;
-        recipe.listId = uuid_1.v4();
-        recipe.ingredients = addIdToEachIngredient(recipe.ingredients);
+        console.log(newRecipe);
+        newRecipe.date = date;
+        newRecipe.listId = uuid_1.v4();
+        newRecipe.ingredients = addIdToEachIngredient(newRecipe.ingredients);
         function addIdToEachIngredient(ingredientArray) {
             return ingredientArray.map((ingredient) => {
                 return { ...ingredient, id: uuid_1.v4() };
             });
         }
-        const newRecipeArrayWithSwappedDish = state.recipies;
-        const duplicateDate = state.recipies.find((oldRecipe, i) => {
-            if (oldRecipe.date === recipe.date) {
-                newRecipeArrayWithSwappedDish.splice(i, 1, recipe);
-                //setIngredientsToDelete(newRecipeArrayWithSwappedDish[i].ingredients)
-                //newRecipeArray = [recipe]
-                return true;
+        let newRecipeArrayWithSwappedDish = state.recipies.slice();
+        // for swapping
+        for (const [i, oldRecipe] of state.recipies.entries()) {
+            if (oldRecipe.date === newRecipe.date) {
+                if (oldRecipe._id !== newRecipe._id) {
+                    setIngredientsToDelete(newRecipeArrayWithSwappedDish[i].ingredients);
+                    newRecipeArrayWithSwappedDish.splice(i, 1, newRecipe);
+                    //newRecipeArrayWithSwappedDish.slice().sort((a: any, b: any) => a.date - b.date) // sorting by date
+                    setIngredientsToAdd(newRecipe.ingredients);
+                    setState({ ...state, recipies: newRecipeArrayWithSwappedDish });
+                    return;
+                }
+                else {
+                    return;
+                }
             }
-        });
-        console.log('Result from ingredient id', recipe);
-        if (duplicateDate) {
-            //alert('Duplicate!')
-            setState({ ...state, recipies: newRecipeArrayWithSwappedDish });
         }
-        else {
-            setState({ ...state, recipies: [...state.recipies, recipe] });
+        //const n = state.recipies;
+        function sort(arr) {
+            return arr.slice().sort((a, b) => a.date - b.date);
         }
+        //const sortedByDate = sort([...newRecipeArrayWithSwappedDish, newRecipe]);
+        //const sortedByDate  = [...newRecipeArrayWithSwappedDish, newRecipe].sort((a: any, b: any) => a.date - b.date);
+        setIngredientsToAdd(newRecipe.ingredients);
+        setState({ ...state, recipies: [...state.recipies, newRecipe] });
+        console.log('Result from ingredient id', newRecipe);
+        /*
+            if (duplicateDate) {
+              //alert('Duplicate!')
+              setState({ ...state, recipies: newRecipeArrayWithSwappedDish })
+            } else {
+              setState({ ...state, recipies: [...state.recipies, newRecipe] })
+            } */
     }
     function handleRecipePersonCountChange(originalPersonCountOnRecipe, newPersonCount, listId) {
         const ingredientItemsThatHaveChangedAmount = [];
@@ -117,8 +132,9 @@ function CreatePlanDialog({ onReceiptSave }) {
             if (recipe.listId === listId) {
                 //alert('Found recipe')
                 recipe.ingredients.forEach((ingredient) => {
-                    const newCountCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
-                    const ingredientWithNewQuantity = { ...ingredient, quantity: newCountCalculation };
+                    const newQuantityCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
+                    const difference = newQuantityCalculation - ingredient.quantity;
+                    const ingredientWithNewQuantity = { ...ingredient, quantity: newQuantityCalculation };
                     ingredientItemsThatHaveChangedAmount.push(ingredientWithNewQuantity);
                 });
             }
@@ -198,20 +214,21 @@ function CreatePlanDialog({ onReceiptSave }) {
             <Grid_1.default className={classes.recipeCardGrid} item>
 
               <Grid_1.default container spacing={3}>
-                {state.recipies && state.recipies
+                {state.recipies && state.recipies.slice()
+        //state.recipies
         .sort((a, b) => a.date - b.date) // sorting by date
-        .map((recipe, index) => (<Grid_1.default key={index} item>
-                      <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipeFromPlan} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}>
-                        <smallNumPicker_jsx_1.default unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipePersonCountChange(recipe.persons, count, listId)}/>
-
-                      </recipeCard_1.default>
-                    </Grid_1.default>))}
+        .map((recipe) => (<Grid_1.default key={recipe.listId} // do not use index as we are changing the order of the recipies
+     item>
+                        <recipeCard_1.default recipe={recipe} clikedDish={handleDeleteRecipeFromPlan} visitFromCreatePlan={false} visitFromCreatePlanMealList={true} dialogOpen={setRecipesOpen} customDate={recipe.date.toISOString()}>
+                          <smallNumPicker_jsx_1.default unit={'personer'} quantity={recipe.persons} listId={recipe.listId} onCountChange={({ count, listId }) => handleRecipePersonCountChange(recipe.persons, count, listId)}/>
+                        </recipeCard_1.default>
+                      </Grid_1.default>))}
               </Grid_1.default>
 
 
             </Grid_1.default>
 
-            <pickRecipeDialog_jsx_1.default visible={recipesOpen} setVisible={setRecipesOpen} chosenRecipe={handleAddNewRecipeToPlan}/>
+            <pickRecipeDialog_jsx_1.default recipies={state.recipies} visible={recipesOpen} setVisible={setRecipesOpen} chosenRecipe={handleAddNewRecipeToPlan}/>
 
           </Grid_1.default>
 
@@ -219,10 +236,11 @@ function CreatePlanDialog({ onReceiptSave }) {
         {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 
         <container_1.default>
-          <App_1.default ingredientArray={(_a = state === null || state === void 0 ? void 0 : state.recipies[state.recipies.length - 1]) === null || _a === void 0 ? void 0 : _a.ingredients} updateAmountOnIngredients={ingredientsWithUpdatedAmounts} ingredientsToDelete={ingredientsToDelete}/>
+          <App_1.default ingredientArray={ingredientsToAdd} updateAmountOnIngredients={ingredientsWithUpdatedAmounts} ingredientsToDelete={ingredientsToDelete}/>
         </container_1.default>
       </Dialog_1.default>
 
     </div>);
 }
 exports.default = CreatePlanDialog;
+//state?.recipies[state.recipies.length - 1]?.ingredients

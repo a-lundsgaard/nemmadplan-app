@@ -38,6 +38,7 @@ const useStyles = styles_1.makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
+    // jkkj
     card: {
         maxWidth: 245,
     },
@@ -76,6 +77,7 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const [receipts, setReceipts] = react_1.useState([]);
     const [isReceiptSaved, setReceiptSaved] = react_1.useState(''); // letting us know when a receipt is saved to rerender dishes
     const [isLoading, setIsLoading] = react_1.useState(false); // letting us know when a receipt is saved to rerender dishes
+    const [clickedDishId, setClickedDishId] = react_1.useState('');
     const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
     function getReceitps() {
         setIsLoading(true);
@@ -91,8 +93,12 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     }
     const handleRecipeCardClick = (id) => {
         //console.log('ID of clicked dish: ' + id)
+        setClickedDishId(id);
         onClick(id);
     };
+    function recipeOnPlan(id) {
+        return props.recipies.find((recipe) => recipe._id === id);
+    }
     react_1.useEffect(() => {
         subscribe_1.default(setSearch); // sets up redux listener on the search input
     }, []);
@@ -115,6 +121,7 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     };*/
     return (<react_1.Fragment>
 
+
       <Grid_1.default container className={classes.root} justify="center">
         <Grid_1.default item xs={10}>
 
@@ -124,10 +131,14 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             .map((receipt, index) => (<Grid_1.default key={index} item>
                       <receiptSceletonLoader_1.default />
                     </Grid_1.default>))
-        : receipts
-            .map((receipt, index) => (<Grid_1.default key={receipt._id} item>
-                      <recipeCard_jsx_1.default recipe={receipt} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)}/>
-                    </Grid_1.default>))}
+        : receipts.map((receipt, index) => (<Grid_1.default 
+        //className={classes.shake}
+        key={receipt._id} item>
+
+
+                    <recipeCard_jsx_1.default recipeOnPlan={recipeOnPlan(receipt._id)} recipe={receipt} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)}/>
+
+                  </Grid_1.default>))}
           </Grid_1.default>
 
         </Grid_1.default>
@@ -142,3 +153,18 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     </react_1.Fragment>);
 }
 exports.default = SpacingGrid;
+/*
+      <Shake
+        h={5}
+        v={5}
+        r={3}
+        dur={300}
+        int={10}
+        max={100}
+        fixed={true}
+        fixedStop={false}
+        freez={false}>
+        <h1>&lt;Shake /&gt;</h1>
+      </Shake>
+
+*/ 
