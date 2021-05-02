@@ -122,7 +122,6 @@ function deleteIngredients(ingredientArrayToDelete, stateArray) {
             deletedIngredientsFilteredOut.push(oldIngredient);
         }
     });
-    //console.log('Fandt filter: ', deletedIngredientsFilteredOut)
     return deletedIngredientsFilteredOut;
 }
 function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
@@ -131,6 +130,7 @@ function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
     const newArr = stateArray.map((oldIngredient) => {
         for (const newIngredient of ingredientArray) {
             if (oldIngredient.id === newIngredient.id) {
+                console.log('Fandt duplicate ingrediens der skal opdateres: ' + oldIngredient.name);
                 return { ...oldIngredient, quantity: newIngredient.quantity };
             }
         }
@@ -138,3 +138,9 @@ function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
     });
     return newArr;
 }
+/*
+
+1. const difference = nye ingrediensmængde - gamle ingrediensmængde
+2. Differencen bruger vi til at
+
+*/ 

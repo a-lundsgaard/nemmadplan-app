@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   clikedDish: (recipe: any) => any,
   dialogOpen: (bool: boolean) => boolean;
+  swappedRecipe: (recipe: any) => any,
   recipe: any,
   visitFromCreatePlan: boolean
   visitFromCreatePlanMealList: boolean;
@@ -93,7 +94,7 @@ interface Props {
 }
 
 // test
-export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }: Props) {
+export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }: Props) {
 
   function prettifyDate(date: string) {
 
@@ -155,8 +156,15 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
           () => dialogOpen(false), 
           50
         ); */
-
     dialogOpen(false)
+
+  }
+
+  const handleSwapRecipeInFoodPlan = () => {
+    // sending recipe to recipe component
+    dialogOpen(true)
+
+    swappedRecipe(recipe);
 
   }
 
@@ -254,13 +262,15 @@ export default function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate
           {props.visitFromCreatePlanMealList ?
             <>
               {props.children /*person picker*/}
-               <IconButton aria-label="swap dish" > <CachedIcon onClick={() => dialogOpen(true)} /></IconButton> 
+               <IconButton aria-label="swap dish" > <CachedIcon onClick={() => handleSwapRecipeInFoodPlan()} /></IconButton> 
             </> :
             <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>
           }
 
           {props.visitFromCreatePlan && <>
-            {props.recipeOnPlan ?  <IconButton disabled={true} aria-label="add dish to plan"><PlaylistAddCheckIcon/></IconButton> : <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
+            {props.recipeOnPlan ?  
+            <IconButton disabled={true} aria-label="dish already added to plan"><PlaylistAddCheckIcon/></IconButton> : 
+            <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
                <PostAddIcon /> 
           </IconButton> 
           

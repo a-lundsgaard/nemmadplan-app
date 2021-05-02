@@ -83,7 +83,7 @@ const useStyles = styles_1.makeStyles((theme) => ({
     },
 }));
 // test
-function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
+function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }) {
     function prettifyDate(date) {
         const months = {
             1: 'januar',
@@ -131,6 +131,11 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
               50
             ); */
         dialogOpen(false);
+    };
+    const handleSwapRecipeInFoodPlan = () => {
+        // sending recipe to recipe component
+        dialogOpen(true);
+        swappedRecipe(recipe);
     };
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -195,12 +200,14 @@ function ReceiptCard({ clikedDish, dialogOpen, recipe, customDate, ...props }) {
           {props.visitFromCreatePlanMealList ?
         <>
               {props.children /*person picker*/}
-               <IconButton_1.default aria-label="swap dish"> <Cached_1.default onClick={() => dialogOpen(true)}/></IconButton_1.default> 
+               <IconButton_1.default aria-label="swap dish"> <Cached_1.default onClick={() => handleSwapRecipeInFoodPlan()}/></IconButton_1.default> 
             </> :
         <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
           {props.visitFromCreatePlan && <>
-            {props.recipeOnPlan ? <IconButton_1.default disabled={true} aria-label="add dish to plan"><PlaylistAddCheck_1.default /></IconButton_1.default> : <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
+            {props.recipeOnPlan ?
+        <IconButton_1.default disabled={true} aria-label="dish already added to plan"><PlaylistAddCheck_1.default /></IconButton_1.default> :
+        <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
                <PostAdd_1.default /> 
           </IconButton_1.default>}
             <IconButton_1.default aria-label="share">

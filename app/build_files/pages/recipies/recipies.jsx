@@ -153,18 +153,3 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     </react_1.Fragment>);
 }
 exports.default = SpacingGrid;
-/*
-      <Shake
-        h={5}
-        v={5}
-        r={3}
-        dur={300}
-        int={10}
-        max={100}
-        fixed={true}
-        fixedStop={false}
-        freez={false}>
-        <h1>&lt;Shake /&gt;</h1>
-      </Shake>
-
-*/ 

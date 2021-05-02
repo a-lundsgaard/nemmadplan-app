@@ -33,7 +33,7 @@ function TodoList() {
           <Todo key={index+300} {...todo} />
         )) */
     todos.map((todo, index) => {
-        return <Todo_jsx_1.default key={todo.id} {...todo}/>;
+        return <Todo_jsx_1.default key={todo.task} {...todo}/>;
     })}
     </ul>);
 }

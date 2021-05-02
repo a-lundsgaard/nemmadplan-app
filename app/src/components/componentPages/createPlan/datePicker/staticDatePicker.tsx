@@ -111,7 +111,14 @@ const colorDaysWithASelectedMeal = (meals, fromMonthChange) => {
 
 function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
 
-  const [date, setDate] = useState(new Date());
+
+function dateWithoutTime(date) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+  const [date, setDate] = useState(dateWithoutTime(new Date()));
   // For opening receipts
   const [dbClick, setDbClick] = useState(false);
 
@@ -129,8 +136,10 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
       return
     }
 
-    setDate(d);
-    pickedDate(d);
+    const withOutTime = dateWithoutTime(d)
+
+    setDate(withOutTime);
+    pickedDate(withOutTime);
     setDbClick(true);
 
     setTimeout(() => { // checking for double click
