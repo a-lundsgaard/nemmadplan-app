@@ -11,61 +11,7 @@ import ReceiptCard from '../../components/shared/card/recipeCard.jsx';
 import CreateRecipeDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
 import ReceiptSceletonLoader from '../../components/shared/loaders/receiptSceletonLoader';
 
-
-
-const useStyles = makeStyles((theme) => ({
-
-  fragment: {
-    overflowX: "hidden",
-    //boxSizing: "border-box"
-  },
-
-  root: {
-    flexGrow: 1,
-    //overflowX: "hidden"
-    // marginLeft: -3,
-  },
-  // jkkj
-  card: {
-    maxWidth: 245,
-    //  height: 200,
-    // width: 200,
-  },
-
-  /* Placing add button at bottom center */
-  addReceiptButton: {
-    position: 'fixed',
-    bottom: 0,
-    left: "50%",
-    marginLeft: -50
-  },
-
-  control: {
-    //padding: theme.spacing(2),
-
-  },
-
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-
-
-
-}));
+import useStyles from './styles';
 
 
 
@@ -106,7 +52,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
   }
 
   function recipeOnPlan(id) {
-    return props.recipies.find((recipe) => recipe._id === id )
+    return props.recipies ? props.recipies.find((recipe) => recipe._id === id ) : false;
   }
 
 
@@ -143,7 +89,6 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
   return (
     <Fragment>
 
-
       <Grid container className={classes.root} justify="center" >
         <Grid item xs={10}>
 
@@ -158,10 +103,8 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
                 : receipts.map((receipt, index) => (
 
                   <Grid
-                    //className={classes.shake}
                     key={receipt._id}
                     item>
-
 
                     <ReceiptCard
                       recipeOnPlan={recipeOnPlan(receipt._id)}
@@ -177,8 +120,6 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
           </Grid>
 
         </Grid>
-
-
       </Grid>
 
       <div className={classes.addReceiptButton}>
