@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   mainGrid: {
-    marginTop: -20
+    marginTop: -20,
+    //overflow: 'hidden'
   },
 
   importButton: {
@@ -282,7 +283,10 @@ export default function FullScreenDialog({ onReceiptSave }) {
   return (
     <div>
       <span onClick={handleClickOpen}><PlusButton /></span>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+
+      <Dialog style={{
+        overflowY: 'visible'
+      }} fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -319,9 +323,10 @@ export default function FullScreenDialog({ onReceiptSave }) {
         <Grid
           container
           direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
+          //justify="flex-start"
+          //alignItems="flex-start"
           spacing={8}
+          xs={12}
           className={classes.mainGrid}
         >
 
