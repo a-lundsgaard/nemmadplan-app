@@ -28,31 +28,20 @@ const styles_1 = __importDefault(require("./styles"));
 const Person_1 = __importDefault(require("@material-ui/icons/Person"));
 function smallNumPicker({ countValue, unit, quantity, onCountChange, listId }) {
     const classes = styles_1.default();
-    // const [number, setNubmer] = useState(1);
     const [count, setCount] = react_1.useState(quantity || 1);
     const [localUnit, setLocalUnit] = react_1.useState(unit || 'stk');
     const decrementCount = (e) => {
         if (count < 2)
             return false;
         setCount(prevCount => prevCount - 1);
-        //onChange(count)
     };
     const incrementCount = (e) => {
         setCount(prevCount => prevCount + 1);
-        // onCha
     };
     const handleChange = (e) => {
-        // console.log(e.target.value)
         setCount(e.target.value);
-        /*     const changeUnit = e.target.value > 10 ? 'gram' : unit || 'stk';
-            setLocalUnit(changeUnit) */
         console.log('Changed');
     };
-    /*   const handleAccept = () =>
-        onUnitOrCountChange({
-          unit: localUnit,
-          count: count
-        }) */
     react_1.useEffect(() => {
         if (countValue) {
             setCount(countValue);
@@ -70,11 +59,9 @@ function smallNumPicker({ countValue, unit, quantity, onCountChange, listId }) {
       <div className={classes.innerContainer}>
         <div className={classes.triangleUp} onClick={incrementCount}/>
         <span style={{
-        display: 'flex'
-    }}>
-          <input className={classes.numberInput} 
-    //onBlur={handleAccept}
-    onChange={handleChange} type="number" name="productQty" value={count} min="1" max="10000"/>
+            display: 'flex'
+        }}>
+          <input className={classes.numberInput} onChange={handleChange} type="number" name="productQty" value={count} min="1" max="10000"/>
           <span>{<Person_1.default />}</span>
         </span>
         <div className={classes.triangleDown} onClick={decrementCount}/>

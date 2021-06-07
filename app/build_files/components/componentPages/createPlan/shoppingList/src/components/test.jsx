@@ -19,7 +19,6 @@ function matchBest(array) {
 function matchBest(array) {
     console.log(array);
     console.log(array.length);
-    //let last = array.pop();
     console.log(array);
     let i = array.length;
     while (i--) {
@@ -29,7 +28,3 @@ function matchBest(array) {
     }
 }
 console.log(str.match(/[a-zA-Z\u00C0-\u00ff]{4,20}/g));
-/*const ingredientSplit = str.split(' ');
-const simpleIngredient = matchBest2(ingredientSplit);
-
-console.log('FOUND SIMPLE INGREDIENT: ' + simpleIngredient);*/

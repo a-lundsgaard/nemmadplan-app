@@ -35,9 +35,7 @@ const CircularProgress_1 = __importDefault(require("@material-ui/core/CircularPr
 const htmlTooltip_1 = __importDefault(require("./salesTooltip/htmlTooltip"));
 const http_1 = __importDefault(require("HTTP/http"));
 const Button_1 = __importDefault(require("@material-ui/core/Button"));
-//import SmallNumberPicker from '../../../../../shared/pickers/number/smallNumPicker/smallNumPicker';
 const smallNumPicker_1 = __importDefault(require("./smallNumPicker/smallNumPicker"));
-//import { th } from 'date-fns/locale';
 function Todo(props) {
     const classes = TodoStyles_1.default();
     const dispatch = react_1.useContext(todos_context_jsx_1.DispatchContext);
@@ -46,12 +44,8 @@ function Todo(props) {
         sales: [],
         isLoading: false
     });
-    //console.log('Found q for ' + task + ' q is ' + props.quantity)
-    //onsole.log(props)
     console.log('Fand unitprops. ' + props.unit, 'til : ' + props.task);
-    // for showing btn "Hent tilbud" at the start. Increases by one when trying to re fetch sales in order for useEffect to use it
     const [shouldGetSale, setShouldGetSale] = react_1.useState(0);
-    // running sales crawler 
     const getSales = async (ingredientString) => {
         let removeCommaWords = ingredientString.replace(/\d+\sstk/g, '').trimLeft().trimRight().split(' ');
         removeCommaWords = removeCommaWords.map(el => el.match(/\d|\(|\)/) ? '' : el);
@@ -63,11 +57,8 @@ function Todo(props) {
             console.log('NO POSSIBLE INGREDIENTS, RETURNNING');
             return [];
         }
-        // If the user adds an item, the crawler searchs for the whole string
         const searchString = props.initiator === 'USER' ? ingredientString : possibleIngredients.pop();
         console.log(searchString);
-        // for local server 
-        // should make another server on heroku to handle just sales
         const query = JSON.stringify({
             products: [searchString],
             chains: {
@@ -77,20 +68,12 @@ function Todo(props) {
         });
         const results = await http_1.default.post(query, "sales");
         console.log(results);
-        /*   const query2 = HTTP.sales.getSales('title price unit quantity pricePrKg chain img date', {products: [searchString]})
-          const results2 = await HTTP.post(query2);
-          const results = results2.data.getSales; */
-        //alert(JSON.stringify(results2))
-        // sorts the sales  by cheapest first
         const sortedByCheapest = results.sort((a, b) => a.price < b.price ? -1 : (a.price > b.price ? 1 : 0));
         return sortedByCheapest;
     };
-    // loads sales when an item is added to the list 
     react_1.useEffect(() => {
         let mounted = true;
         if (shouldGetSale) {
-            // replacement from sales = when you click "erstat" on the html sales tool tip
-            // Make sales a btn instead, so the user have to click to get a sale
             if (mounted && props.initiator !== 'REPLACEMENT_FROM_SALES') {
                 setState({ ...state, isLoading: true });
                 getSales(props.task)
@@ -102,8 +85,6 @@ function Todo(props) {
                             isLoading: false,
                             sales: results || []
                         });
-                        // adding img to to do for using in the container sidebar (side bar showing first sale of every product)
-                        // redux dispatcher can be found in contexts folder
                         dispatch({ type: actions_1.ADD_SALES_TO_TODO, ...props, img: ((_a = results[0]) === null || _a === void 0 ? void 0 : _a.img) || null });
                     }
                 }).catch(function (e) {
@@ -113,33 +94,23 @@ function Todo(props) {
             }
         }
         return () => {
-            mounted = false; // cleanup function, prevents setting state after component unmounts
+            mounted = false;
         };
-        //}, [task])
     }, [shouldGetSale]);
     react_1.useEffect(() => {
         if (props.initiator === 'USER') {
             setShouldGetSale(shouldGetSale + 1);
         }
-        //props.unit = 'stk'
-        //}, [task])
     }, [props.task]);
-    // dette er en test
     if (isEditing) {
-        return (<li className={classes.Todo} style={{ overflowY: 'hidden' }} 
-        //onClick={(e) => { toggleEditing(); }}
-        onBlur={() => { toggleEditing(); }}>
+        return (<li className={classes.Todo} style={{ overflowY: 'hidden' }} onBlur={() => { toggleEditing(); }}>
         <EditTodoForm_jsx_1.default id={props.id} task={props.task} toggleEditForm={toggleEditing} restOfTask={props}/>
       </li>);
     }
     return (<li className={classes.Todo}>
       <span className={classes.salesButtons}>
         {!shouldGetSale &&
-        <Button_1.default 
-        //variant="outlined"
-        //color="primary"
-        //size={'small'}
-        onClick={(e) => { e.stopPropagation(); setShouldGetSale(true); }}>
+            <Button_1.default onClick={(e) => { e.stopPropagation(); setShouldGetSale(true); }}>
             <TrendingDown_1.default />
           </Button_1.default>}
 
@@ -150,18 +121,13 @@ function Todo(props) {
 
       <smallNumPicker_1.default unit={props.unit} quantity={props.quantity} parentProps={props}/>
 
-      <span onClick={(e) => { e.stopPropagation(); dispatch({ type: actions_1.TOGGLE_TODO, id: props.id }); }} // adding a line through, marking as completed
-     style={{
-        //width: '100%', // to left align items
-        //marginLeft: 20,
-        textDecoration: props.completed ? 'line-through' : '',
-        color: props.completed ? '#bdc3c7' : '#34495e',
-        cursor: 'pointer',
-        overflow: 'hidden',
-        margin: '7px 0 0 18px'
-        //display: 'flex',
-        // justifyContent: 'flex-start'
-    }}>
+      <span onClick={(e) => { e.stopPropagation(); dispatch({ type: actions_1.TOGGLE_TODO, id: props.id }); }} style={{
+            textDecoration: props.completed ? 'line-through' : '',
+            color: props.completed ? '#bdc3c7' : '#34495e',
+            cursor: 'pointer',
+            overflow: 'hidden',
+            margin: '7px 0 0 18px'
+        }}>
         {props.task}
       </span>
 
@@ -169,13 +135,13 @@ function Todo(props) {
 
       <div className={classes.icons}>
         <Delete_1.default style={{ color: '#c0392b' }} className="fas fa-trash" onClick={e => {
-        e.stopPropagation();
-        dispatch({ type: actions_1.REMOVE_TODO, id: props.id });
-    }}/>
+            e.stopPropagation();
+            dispatch({ type: actions_1.REMOVE_TODO, id: props.id });
+        }}/>
         <Edit_1.default style={{ color: '#58b2dc' }} className="fas fa-pen" onClick={e => {
-        e.stopPropagation();
-        toggleEditing();
-    }}/>
+            e.stopPropagation();
+            toggleEditing();
+        }}/>
       </div>
 
     </li>);

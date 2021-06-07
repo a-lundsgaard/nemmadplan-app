@@ -1,35 +1,60 @@
 
 import { makeStyles } from "@material-ui/core/styles";
+import { red } from '@material-ui/core/colors';
 
 
 
-const useStyles = makeStyles({
 
-    shake: {
-        animation: "shake 0.82s cubic-bezier(.36,.07,.19,.97) both",
-        transform: "translate3d(0, 0, 0)",
-        backfaceVisibility: "hidden",
-        perspective: "1000px",
-    },
+export default makeStyles((theme) => ({
+
+  fragment: {
+    overflowX: "hidden",
+    //boxSizing: "border-box"
+  },
+
+  root: {
+    flexGrow: 1,
+    //overflowX: "hidden"
+    // marginLeft: -3,
+  },
+  // jkkj
+  card: {
+    maxWidth: 245,
+    //  height: 200,
+    // width: 200,
+  },
+
+  /* Placing add button at bottom center */
+  addReceiptButton: {
+    position: 'fixed',
+    bottom: 0,
+    left: "50%",
+    marginLeft: -50
+  },
+
+  control: {
+    //padding: theme.spacing(2),
+
+  },
+
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
 
 
-    "@keyframes shake": {
-      "10%, 90%": {
-        opacity: 0,
-        transform: "translate3d(-1px, 0, 0)"
-      },
-      "20%, 80%": {
-        opacity: 1,
-        transform: "translate3d(2px, 0, 0)"
-      },
-      "30%, 50%, 70%": {
-        opacity: 1,
-        transform: "translate3d(2px, 0, 0)"
-      },
-      "40%, 60%": {
-        opacity: 1,
-        transform: "translate3d(4px, 0, 0)"
-      }
 
-    }
-  });
+}));

@@ -38,17 +38,9 @@ exports.TodosContext = react_1.createContext();
 exports.DispatchContext = react_1.createContext();
 function TodosProvider(props) {
     const [todos, dispatch] = react_1.useReducer(todos_reducer_jsx_1.default, defaultItems);
-    // For storing shopping list state in localstorage
-    /* const [todos, dispatch] = useLocalStorageReducer(
-       'shoppingList',
-       todosReducer,
-       defaultItems
-     )*/
     react_1.useEffect(() => {
-        // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar
         storeTodosToRedux(todos);
     }, [todos]);
-    // For adding ingredients to shoppinglist when adding dish to meal plan programatically 
     react_1.useEffect(() => {
         if (props.ingredientArray.length) {
             dispatch({ type: actions_1.ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
@@ -56,14 +48,11 @@ function TodosProvider(props) {
     }, [props.ingredientArray]);
     react_1.useEffect(() => {
         if (props.updateAmountOnIngredients.length) {
-            //alert('Trying to update amount')
-            //console.log('Found ingredients to change:  ', props.updateAmountOnIngredients)
             dispatch({ type: actions_1.UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
         }
     }, [props.updateAmountOnIngredients]);
     react_1.useEffect(() => {
         if (props.ingredientsToDelete.length) {
-            //alert('Trying to update amount')
             dispatch({ type: actions_1.DELETE_INGREDIENTS, task: props.ingredientsToDelete });
             console.log('Found ingredients to delete:  ', props.ingredientsToDelete);
         }

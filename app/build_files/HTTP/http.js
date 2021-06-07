@@ -7,15 +7,12 @@ const user_1 = __importDefault(require("./queries/user"));
 const recipes_1 = __importDefault(require("./queries/recipes"));
 const sales_1 = __importDefault(require("./queries/sales"));
 const post_1 = __importDefault(require("./methods/post"));
-// https://sales-api-nm.herokuapp.com/
-// HTTP toolbox for CRUD operations and creating queries
 class HTTP {
     constructor() {
         this.post = post_1.default.bind(this);
         this.testUrl = 'http://localhost:8080/graphql';
         this.prodUrl = 'https://nmserver.herokuapp.com/graphql',
             this.salesUrl = 'http://localhost:8090/sales';
-        //this.salesUrl = 'https://sales-api-nm.herokuapp.com/sales';
         this.shoppingUrl = 'http://localhost:3001/shopping';
         this.sales = {
             getSales: sales_1.default.getSales

@@ -13,9 +13,9 @@ function TodoApp({ ingredientArray, updateAmountOnIngredients, ingredientsToDele
     return (<todos_context_jsx_1.TodosProvider ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients} ingredientsToDelete={ingredientsToDelete}>
 
       <div style={{
-        width: '80%',
-        margin: '15px 0 30px 0'
-    }}>
+            width: '80%',
+            margin: '15px 0 30px 0'
+        }}>
         <shoppingAccordion_jsx_1.default>
           <linearStepper_jsx_1.default />
         </shoppingAccordion_jsx_1.default>

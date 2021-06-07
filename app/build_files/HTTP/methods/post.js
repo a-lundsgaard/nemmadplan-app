@@ -13,11 +13,8 @@ async function post(requestBody, extraOrdinaryUrl) {
             query: requestBody.query,
             variables: requestBody.variables,
         });
-    //console.log
     const response = await fetch(url, {
-        // signal: signal,
         method: 'POST',
-        //mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + ((_a = requestBody === null || requestBody === void 0 ? void 0 : requestBody.variables) === null || _a === void 0 ? void 0 : _a.token)
@@ -26,7 +23,6 @@ async function post(requestBody, extraOrdinaryUrl) {
     });
     const jsonData = await response.json();
     if (response.ok && response.status === 200) {
-        // console.log(jsonData);
         return jsonData;
     }
     else {

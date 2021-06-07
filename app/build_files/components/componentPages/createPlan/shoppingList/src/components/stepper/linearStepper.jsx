@@ -31,14 +31,11 @@ const Button_1 = __importDefault(require("@material-ui/core/Button"));
 const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const CircularProgress_1 = __importDefault(require("@material-ui/core/CircularProgress"));
 const actions_1 = require("../../constants/actions");
-//import OpenSelect from 'Components/select/controlledOpenSelect.jsx'
-//import OpenSelect from '../../../../shared/select/controlledOpenSelect'
 const controlledOpenSelect_1 = __importDefault(require("../../../../../../shared/select/controlledOpenSelect"));
 const Chip_1 = __importDefault(require("@material-ui/core/Chip"));
 const ShoppingCart_1 = __importDefault(require("@material-ui/icons/ShoppingCart"));
 const StoreMallDirectory_1 = __importDefault(require("@material-ui/icons/StoreMallDirectory"));
 const lab_1 = require("@material-ui/lab");
-//import HTTP from '../../../../../HTTP/http'
 const http_1 = __importDefault(require("../../../../../../../HTTP/http"));
 const todos_context_jsx_1 = require("../../contexts/todos.context.jsx");
 const useStyles = styles_1.makeStyles((theme) => ({
@@ -99,12 +96,8 @@ function HorizontalLabelPositionBelowStepper() {
                 return <controlledOpenSelect_1.default label={'Algoritme'} optionList={shoppingObj.algorithms[state.chain]} chosen={el => setState({ ...state, 'algorithm': el })} value={state.algorithm}/>;
             case 2:
                 return <p>
-                    <Chip_1.default label={state.chain} icon={<StoreMallDirectory_1.default />} 
-                // onDelete={data.label === 'React' ? undefined : handleDelete(data)}
-                className={classes.chip}/>
-                    <Chip_1.default icon={<ShoppingCart_1.default />} label={state.algorithm} 
-                // onDelete={data.label === 'React' ? undefined : handleDelete(data)}
-                className={classes.chip}/>
+                    <Chip_1.default label={state.chain} icon={<StoreMallDirectory_1.default />} className={classes.chip}/>
+                    <Chip_1.default icon={<ShoppingCart_1.default />} label={state.algorithm} className={classes.chip}/>
                 </p>;
             default:
                 return 'Unknown stepIndex';
@@ -114,7 +107,6 @@ function HorizontalLabelPositionBelowStepper() {
         const query = {
             products: todos,
             chain: state.chain,
-            // products: ['vand'],
             profile: {
                 algorithm: state.algorithm,
                 price: 1,
@@ -131,17 +123,14 @@ function HorizontalLabelPositionBelowStepper() {
     };
     const handleNext = async () => {
         console.log(todos);
-        // if no chain / website is selected
         if (!state.chain) {
             console.log(activeStep);
             return false;
         }
-        // if no algoritithm is selected
         if (activeStep && !state.algorithm) {
             console.log(activeStep);
             return false;
         }
-        // if step is 3, send request to shopping server
         if (activeStep === 2) {
             if (isLoading)
                 return false;
@@ -160,9 +149,6 @@ function HorizontalLabelPositionBelowStepper() {
                 const { id } = item;
                 dispatch({ type: actions_1.COMPLETE_TODO, id });
             });
-            //.then((r)=> alert(JSON.stringify(r)))
-            // alert('Køber ind')
-            //return false;
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         console.log('found state');
@@ -196,7 +182,7 @@ function HorizontalLabelPositionBelowStepper() {
                                 <Button_1.default variant="contained" color="primary" onClick={handleNext}>
                                 
                                 {isLoading ? <CircularProgress_1.default color='secondary' style={{ margin: '0px 20px 0 20px' }} size={25} thickness={5}/> :
-        activeStep === steps.length - 1 ? 'Køb ind' : 'Næste'}
+                activeStep === steps.length - 1 ? 'Køb ind' : 'Næste'}
 
                                 </Button_1.default>
 

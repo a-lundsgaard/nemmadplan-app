@@ -27,12 +27,9 @@ exports.default = styles_1.makeStyles((theme) => ({
         display: "block",
     },
     innerContainer: {
-        //marginLeft: '5px',
         fontSize: '80%',
     },
     numberInput: {
-        //padding: "0 0 0 3px",
-        //fontSize: "90%",
         width: "20px",
         webkitAppearance: "none",
         outline: 'none',

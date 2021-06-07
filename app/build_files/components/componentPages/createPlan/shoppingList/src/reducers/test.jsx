@@ -1,9 +1,4 @@
 "use strict";
-/* const obj = { name: 'salt', data: {unit: 'stk', quantity: 2} }
-
-const obj2 = { name: 'peber', data: {unit: 'stk', quantity: 2} }
-
-const obj3 = { name: 'blommer', data: {unit: 'gram', quantity: 500} } */
 const obj = { name: 'salt', unit: 'stk', quantity: 2 };
 const obj2 = { name: 'peber', unit: 'stk', quantity: 2 };
 const obj3 = { name: 'blommer', unit: 'gram', quantity: 500 };
@@ -17,10 +12,6 @@ const ingredientArrayMasterObject = taskArray.reduce((a, n) => {
     return a;
 }, {});
 console.log(ingredientArrayMasterObject);
-/* const findIndexToChange = (keyToFind, masterObj, arr, objToInsert) =>  {
-    const index = Object.keys(masterObj).indexOf(keyToFind);
-    return arr.splice(index, 1, objToInsert)
-} */
 newTaskArrayToAdd.forEach((newIngredient) => {
     let foundDuplicate = ingredientArrayMasterObject[newIngredient.name];
     if (foundDuplicate) {

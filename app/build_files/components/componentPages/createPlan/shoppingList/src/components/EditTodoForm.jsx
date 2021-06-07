@@ -34,15 +34,12 @@ function EditTodoForm({ id, task, toggleEditForm, restOfTask: restOfProperties }
     const dispatch = react_1.useContext(todos_context_jsx_1.DispatchContext);
     const [value, handleChange, clearValue] = useInputState_jsx_1.default(task);
     const [isEditing, toggle] = useToggleState_jsx_1.default(false);
-    /*   useEffect(()=> {
-        console.log(restOfTask)
-      }, [restOfTask]) */
     return (<form onSubmit={e => {
-        e.preventDefault();
-        dispatch({ type: actions_1.EDIT_TODO, ...restOfProperties, id, task: value, initiator: 'USER' });
-        toggleEditForm();
-        clearValue();
-    }} className={classes.EditTodoForm}>
+            e.preventDefault();
+            dispatch({ type: actions_1.EDIT_TODO, ...restOfProperties, id, task: value, initiator: 'USER' });
+            toggleEditForm();
+            clearValue();
+        }} className={classes.EditTodoForm}>
       <TextField_1.default variant={'standard'} autoFocus value={value} onChange={handleChange} onClick={e => e.stopPropagation()} className={classes.input}/>
     </form>);
 }

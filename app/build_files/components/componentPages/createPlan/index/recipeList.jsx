@@ -9,11 +9,11 @@ function RecipeList(props) {
     const sortedArray = props.recipies.sort((a, b) => a.date - b.date);
     return (<Grid_1.default container spacing={3}>
       {sortedArray.map((recipe) => {
-        <Grid_1.default key={index} item>
+            <Grid_1.default key={index} item>
 
 
           </Grid_1.default>;
-    })}
+        })}
     </Grid_1.default>);
 }
 exports.default = RecipeList;

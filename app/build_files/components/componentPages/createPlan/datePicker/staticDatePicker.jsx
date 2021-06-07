@@ -49,11 +49,7 @@ const months = {
     'november': 10,
     'december': 11
 };
-//import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-//import getMuiTheme from 'material-ui/styles/getMuiTheme';
 const defaultMaterialTheme = core_1.createMuiTheme({
-    //   selectColor: 'red',
-    //  spacing: 2,
     overrides: {
         MuiPickersToolbar: {
             toolbar: {
@@ -62,12 +58,10 @@ const defaultMaterialTheme = core_1.createMuiTheme({
             }
         }
     }
-    // background: 'red',
 });
 const paintDays = (meals) => {
     const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
     let monthAndYearArray;
-    //alert('Paint meals called, got length: ' + meals.length )
     try {
         monthAndYearArray = document.querySelector('.MuiTypography-root.MuiTypography-body1.MuiTypography-alignCenter').innerText.split(' ');
     }
@@ -76,7 +70,6 @@ const paintDays = (meals) => {
         console.log(error);
         monthAndYearArray = ['januar', '2020'];
     }
-    //const currentSelectedDate = parseInt(document.querySelector('.MuiPickersDay-daySelected').innerText);
     const month = months[monthAndYearArray[0]];
     const year = parseInt(monthAndYearArray[1]);
     calendarDays.forEach((el => {
@@ -113,17 +106,13 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
         return d;
     }
     const [date, setDate] = react_1.useState(dateWithoutTime(new Date()));
-    // For opening receipts
     const [dbClick, setDbClick] = react_1.useState(false);
     const handleClick = (d) => {
         console.log(dbClick);
         if (dbClick) {
-            //   let d = new Date();
             let nextDate = new Date(date);
             nextDate.setHours(+24);
             hasDbClicked(true);
-            // setDate(new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate()))
-            // alert('You double clicked');
             return;
         }
         const withOutTime = dateWithoutTime(d);
@@ -135,11 +124,8 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
         }, 300);
     };
     react_1.useEffect(() => {
-        // paint days with selected food red 
-        // mui datepickers doesnt support state yet, so it has to be done ugly and manually
         colorDaysWithASelectedMeal(selectedMeals);
     }, [selectedMeals]);
-    // prettier-ignore
     return (<styles_1.ThemeProvider theme={defaultMaterialTheme}>
 
       <pickers_1.MuiPickersUtilsProvider utils={LocalizedUtils} locale={da_1.default}>

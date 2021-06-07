@@ -1,29 +1,39 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const styles_1 = require("@material-ui/core/styles");
-const useStyles = styles_1.makeStyles({
-    shake: {
-        animation: "shake 0.82s cubic-bezier(.36,.07,.19,.97) both",
-        transform: "translate3d(0, 0, 0)",
-        backfaceVisibility: "hidden",
-        perspective: "1000px",
+const colors_1 = require("@material-ui/core/colors");
+exports.default = styles_1.makeStyles((theme) => ({
+    fragment: {
+        overflowX: "hidden",
     },
-    "@keyframes shake": {
-        "10%, 90%": {
-            opacity: 0,
-            transform: "translate3d(-1px, 0, 0)"
-        },
-        "20%, 80%": {
-            opacity: 1,
-            transform: "translate3d(2px, 0, 0)"
-        },
-        "30%, 50%, 70%": {
-            opacity: 1,
-            transform: "translate3d(2px, 0, 0)"
-        },
-        "40%, 60%": {
-            opacity: 1,
-            transform: "translate3d(4px, 0, 0)"
-        }
-    }
-});
+    root: {
+        flexGrow: 1,
+    },
+    card: {
+        maxWidth: 245,
+    },
+    addReceiptButton: {
+        position: 'fixed',
+        bottom: 0,
+        left: "50%",
+        marginLeft: -50
+    },
+    control: {},
+    media: {
+        height: 0,
+        paddingTop: '56.25%',
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: colors_1.red[500],
+    },
+}));

@@ -12,9 +12,6 @@ function useLocalStorageReducer(key, reducer, defaultValue) {
         }
         return value;
     });
-    /* useEffect(() => {
-       window.localStorage.setItem(key, JSON.stringify(state));
-     }, [key, state]);*/
     console.log(state);
     return [state, dispatch];
 }

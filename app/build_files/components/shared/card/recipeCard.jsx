@@ -49,14 +49,11 @@ const DeleteForever_1 = __importDefault(require("@material-ui/icons/DeleteForeve
 const PostAdd_1 = __importDefault(require("@material-ui/icons/PostAdd"));
 const Clear_1 = __importDefault(require("@material-ui/icons/Clear"));
 const Cached_1 = __importDefault(require("@material-ui/icons/Cached"));
-//import recipes from "../../HTTP/queries/recipes";
 const PlaylistAddCheck_1 = __importDefault(require("@material-ui/icons/PlaylistAddCheck"));
 const useStyles = styles_1.makeStyles((theme) => ({
     card: {
         maxWidth: 245,
         minWidth: 245
-        //  height: 200,
-        //  width: 245,
     },
     span: {
         cursor: 'pointer'
@@ -82,7 +79,6 @@ const useStyles = styles_1.makeStyles((theme) => ({
         backgroundColor: colors_1.red[500],
     },
 }));
-// test
 function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }) {
     function prettifyDate(date) {
         const months = {
@@ -105,7 +101,6 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
         if (props.visitFromCreatePlanMealList) {
             console.log(date);
         }
-        //
         let dateArr = date.split('-');
         let year = dateArr[0];
         const monthNumber = Number(dateArr[1]);
@@ -123,17 +118,10 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
     const settingsOpen = Boolean(anchorEl);
     const [expanded, setExpanded] = react_1.default.useState(false);
     const handleAddReceipeToFoodPlan = () => {
-        // sending recipe to recipe component
         clikedDish(recipe);
-        // waiting a bit before removing dialog when add recipe btn is clicked
-        /*     setTimeout(
-              () => dialogOpen(false),
-              50
-            ); */
         dialogOpen(false);
     };
     const handleSwapRecipeInFoodPlan = () => {
-        // sending recipe to recipe component
         dialogOpen(true);
         swappedRecipe(recipe);
     };
@@ -153,8 +141,6 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
         textDecoration: "none",
         color: "inherit"
     };
-    //const {recipe} = recipe;jjs
-    // test
     return (<>
       <scrollDialog_jsx_1.default boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool) => setScrollDialogOpen(bool)} key={1}/>
 
@@ -162,20 +148,20 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R
         </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
-        <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
+            <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <Clear_1.default />
               </IconButton_1.default> :
-        <>
+            <>
                 <IconButton_1.default aria-label="settings" onClick={handleMenu}>
                   <MoreVert_1.default />
                 </IconButton_1.default>
                 <Menu_1.default id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
-            vertical: "top",
-            horizontal: "right"
-        }} keepMounted transformOrigin={{
-            vertical: "top",
-            horizontal: "right"
-        }} open={settingsOpen} onClose={handleClose}>
+                    vertical: "top",
+                    horizontal: "right"
+                }} keepMounted transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                }} open={settingsOpen} onClose={handleClose}>
                   <MenuItem_1.default onClick={handleClose}><Edit_1.default /></MenuItem_1.default>
                   <Divider_1.default />
                   <react_router_dom_1.NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked'); }}>
@@ -198,16 +184,16 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
         <CardActions_1.default disableSpacing>
 
           {props.visitFromCreatePlanMealList ?
-        <>
-              {props.children /*person picker*/}
+            <>
+              {props.children}
                <IconButton_1.default aria-label="swap dish"> <Cached_1.default onClick={() => handleSwapRecipeInFoodPlan()}/></IconButton_1.default> 
             </> :
-        <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
+            <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
           {props.visitFromCreatePlan && <>
             {props.recipeOnPlan ?
-        <IconButton_1.default disabled={true} aria-label="dish already added to plan"><PlaylistAddCheck_1.default /></IconButton_1.default> :
-        <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
+                <IconButton_1.default disabled={true} aria-label="dish already added to plan"><PlaylistAddCheck_1.default /></IconButton_1.default> :
+                <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
                <PostAdd_1.default /> 
           </IconButton_1.default>}
             <IconButton_1.default aria-label="share">
@@ -218,8 +204,8 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
 
 
           <IconButton_1.default className={clsx_1.default(classes.expand, {
-        [classes.expandOpen]: expanded,
-    })} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+            [classes.expandOpen]: expanded,
+        })} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
             <ExpandMore_1.default />
           </IconButton_1.default>
         </CardActions_1.default>

@@ -24,7 +24,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 const Button_1 = __importDefault(require("@material-ui/core/Button"));
-//import { DispatchContext } from '../contexts/todos.context';
 const todos_context_jsx_1 = require("../../../contexts/todos.context.jsx");
 const actions_1 = require("../../../constants/actions");
 const modal_1 = __importDefault(require("../modal"));
@@ -45,7 +44,6 @@ const useStyles = styles_1.makeStyles((theme) => ({
         margin: '10px 0 10px 0'
     }
 }));
-// test 2
 function SalesItem({ item, id }) {
     const hej = 1;
     const classes = useStyles();

@@ -33,10 +33,10 @@ function TodoForm() {
     const dispatch = react_1.useContext(todos_context_jsx_1.DispatchContext);
     const [value, handleChange, clearValue] = useInputState_jsx_1.default('');
     return (<form onSubmit={e => {
-        e.preventDefault();
-        dispatch({ type: actions_1.ADD_TODO, task: value, quantity: 1 });
-        clearValue();
-    }} className={classes.TodoForm}>
+            e.preventDefault();
+            dispatch({ type: actions_1.ADD_TODO, task: value, quantity: 1 });
+            clearValue();
+        }} className={classes.TodoForm}>
       <TextField_1.default placeholder="Tilføj varer..." value={value} onChange={handleChange} className={classes.input}/>
     </form>);
 }

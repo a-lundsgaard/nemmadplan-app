@@ -31,7 +31,6 @@ const IconButton_1 = __importDefault(require("@material-ui/core/IconButton"));
 const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const Close_1 = __importDefault(require("@material-ui/icons/Close"));
 const Slide_1 = __importDefault(require("@material-ui/core/Slide"));
-//import Recipes from 'Pages/receipts/receipts.jsx';
 const recipies_jsx_1 = __importDefault(require("../../../../pages/recipies/recipies.jsx"));
 const searchBar1_1 = __importDefault(require("../../../shared/searchBar/searchBar1"));
 const useStyles = styles_1.makeStyles((theme) => ({
@@ -83,19 +82,13 @@ const Transition = react_1.default.forwardRef(function Transition(props, ref) {
 });
 function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
     const classes = useStyles();
-    const [open, setOpen] = react_1.useState(visible); // set false when not testing
-    // displaying server messages
+    const [open, setOpen] = react_1.useState(visible);
     const [message, setMessage] = react_1.useState({});
-    // for circular loader when scraping receipt
     const [isLoading, setLoading] = react_1.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
-        // Clearing states and messages
-        /*  setState({
-            numPicker: 1
-          })*/
         setMessage({});
         setVisible(false);
         setOpen(false);
@@ -103,9 +96,6 @@ function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
     react_1.useEffect(() => {
         setOpen(visible);
     }, [visible]);
-    /*  useEffect(()=>{
-          console.log(props.closeDialog)
-    }, [props.closeDialog])*/
     return (<div style={{ zIndex: 999 }}>
       <Dialog_1.default fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar_1.default className={classes.appBar}>

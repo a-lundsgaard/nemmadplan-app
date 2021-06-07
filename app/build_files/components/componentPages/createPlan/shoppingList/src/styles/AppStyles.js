@@ -13,8 +13,6 @@ exports.default = styles_1.makeStyles({
         overflowX: 'hidden'
     },
     header: {
-        // background: 'white',
-        //   position: 'fixed',
         textAlign: 'left',
         '& h1': {
             color: '#2c3e50',

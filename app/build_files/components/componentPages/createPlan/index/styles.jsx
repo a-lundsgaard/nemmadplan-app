@@ -4,7 +4,7 @@ const styles_1 = require("@material-ui/core/styles");
 exports.default = styles_1.makeStyles((theme) => ({
     appBar: {
         position: 'relative',
-        background: '#c24e00' // dark orange // sj
+        background: '#c24e00'
     },
     paper: {
         padding: "15px 40px 0 40px"

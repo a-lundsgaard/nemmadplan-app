@@ -23,13 +23,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
-require("./style.css"); // for removing default chrome styles on input elements 
+require("./style.css");
 const styles_js_1 = __importDefault(require("./styles.js"));
 const actions_1 = require("../../constants/actions");
 const todos_context_jsx_1 = require("../../contexts/todos.context.jsx");
 function smallNumPicker({ unit, quantity, parentProps }) {
     const classes = styles_js_1.default();
-    // const [number, setNubmer] = useState(1);
     const [count, setCount] = react_1.useState(parseFloat(quantity) || 1);
     const [localUnit, setLocalUnit] = react_1.useState(unit || 'stk');
     const [originalUnit, setOriginalUnit] = react_1.useState(unit || 'stk');
@@ -39,20 +38,14 @@ function smallNumPicker({ unit, quantity, parentProps }) {
         if (count < 1.000001)
             return false;
         setCount(prevCount => prevCount - 1);
-        //onChange(count)
-        //handleAccept()
     };
     const incrementCount = (e) => {
-        //alert(typeof count)
         setCount(prevCount => prevCount + 1);
-        // handleAccept()
     };
     const handleChange = (e) => {
-        // console.log(e.target.value)
         setCount(parseFloat(e.target.value));
         console.log('Changed');
     };
-    // changes the unit based on the count number. E.g. you cant have 100 stk, the unit is changed to gram
     react_1.useEffect(() => {
         if (count < 10 && originalUnit === 'stk') {
             setLocalUnit(originalUnit);
@@ -67,13 +60,11 @@ function smallNumPicker({ unit, quantity, parentProps }) {
         }
         handleAccept();
     }, [count]);
-    // for when adding a meal to shopping list, the count is changed to the countValue of the individual ingredients in the recipe
     react_1.useEffect(() => {
         if (quantity) {
             setCount(quantity);
         }
     }, [quantity]);
-    // for making sure to save the original unit
     react_1.useEffect(() => {
         if (unit) {
             setOriginalUnit(unit);
@@ -83,8 +74,8 @@ function smallNumPicker({ unit, quantity, parentProps }) {
       <div className={classes.innerContainer}>
         <div className={classes.triangleUp} onClick={incrementCount}/>
         <span style={{
-        display: 'flex' // for aligning count and unit element
-    }}>
+            display: 'flex'
+        }}>
           <input className={classes.numberInput} onBlur={handleAccept} onChange={handleChange} type="number" name="productQty" value={Math.round(count * 100) / 100} min="1" max="10000"/>
           <span>{localUnit}</span>
         </span>
