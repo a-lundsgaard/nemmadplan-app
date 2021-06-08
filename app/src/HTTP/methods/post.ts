@@ -7,7 +7,7 @@ export default async function post(requestBody, extraOrdinaryUrl) {
     'shopping': this.shoppingUrl
   }
 
-  const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.prodUrl;
+  const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.testUrl;
   
   const body = extraOrdinaryUrl ? 
   requestBody : 

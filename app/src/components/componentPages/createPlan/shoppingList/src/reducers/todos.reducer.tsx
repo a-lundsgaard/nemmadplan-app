@@ -185,7 +185,7 @@ function deleteIngredients(ingredientArrayToDelete, stateArray) {
 
 
 function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
-  console.error('REDUCER CALLED')
+  //console.error('REDUCER CALLED')
   //alert('reducer called')
   const newArr = stateArray.map((oldIngredient) => {
     for (const newIngredient of ingredientArray) {

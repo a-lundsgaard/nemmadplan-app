@@ -23,7 +23,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
-const styles_1 = require("@material-ui/core/styles");
 const Button_1 = __importDefault(require("@material-ui/core/Button"));
 const Dialog_1 = __importDefault(require("@material-ui/core/Dialog"));
 const ListItem_1 = __importDefault(require("@material-ui/core/ListItem"));
@@ -43,53 +42,11 @@ const numberPicker_jsx_1 = __importDefault(require("../../../shared/pickers/numb
 const uploadImage_jsx_1 = __importDefault(require("../upload/uploadImage.jsx"));
 const circularLoader_jsx_1 = __importDefault(require("../../../shared/loaders/circular/circularLoader.jsx"));
 const http_1 = __importDefault(require("../../../../HTTP/http"));
-const useStyles = styles_1.makeStyles((theme) => ({
-    appBar: {
-        position: 'relative',
-        background: '#c24e00'
-    },
-    mainGrid: {
-        marginTop: -20,
-    },
-    importButton: {
-        marginLeft: 20
-    },
-    urlField: {
-        marginBottom: 20
-    },
-    imageInputField: {
-        marginTop: 20,
-        maxWidth: 280,
-        width: "100%"
-    },
-    importUrlInput: {
-        maxWidth: 500,
-        width: "100%"
-    },
-    textAreaGrid: {
-        marginTop: 32,
-    },
-    ImageUploader: {
-        cursor: 'pointer'
-    },
-    ingredientTextField: {
-        maxWidth: 300,
-        width: "100%"
-    },
-    prepareTextField: {
-        minWidth: 400,
-    },
-    numPicker: {
-        marginTop: 20
-    },
-    title: {
-        marginLeft: theme.spacing(2),
-        flex: 1,
-    },
-}));
+const styles_jsx_1 = __importDefault(require("./styles.jsx"));
 const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
+const useStyles = styles_jsx_1.default;
 function FullScreenDialog({ onReceiptSave }) {
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(false);

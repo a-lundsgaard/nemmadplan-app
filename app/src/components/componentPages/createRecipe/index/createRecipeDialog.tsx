@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -22,72 +21,16 @@ import ImageUploader from '../upload/uploadImage.jsx'
 import CircularLoader from '../../../shared/loaders/circular/circularLoader.jsx'
 import HTTP from '../../../../HTTP/http';
 
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: 'relative',
-    background: '#c24e00' // dark orange
-  },
-
-  mainGrid: {
-    marginTop: -20,
-    //overflow: 'hidden'
-  },
-
-  importButton: {
-    marginLeft: 20
-  },
-
-  urlField: {
-    marginBottom: 20
-  },
-
-  imageInputField: {
-    marginTop: 20,
-    maxWidth: 280,
-    width: "100%"
-  },
+import styles from './styles.jsx';
 
 
-  importUrlInput: {
-    maxWidth: 500,
-    width: "100%"
-  },
-
-  textAreaGrid: {
-    marginTop: 32,
-  },
-
-  ImageUploader: {
-    cursor: 'pointer'
-  },
-
-
-  ingredientTextField: {
-    maxWidth: 300,
-    width: "100%"
-  },
-
-  prepareTextField: {
-    minWidth: 400,
-
-  },
-
-  numPicker: {
-    marginTop: 20
-  },
-
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 
+const useStyles = styles;
 
 
 export default function FullScreenDialog({ onReceiptSave }) {
@@ -113,12 +56,6 @@ export default function FullScreenDialog({ onReceiptSave }) {
     title: false,
     ingredients: false
   });
-
-
-
-  /* useEffect(()=> {
-     setState({...state, importUrl: 'tester'})
-   }, [])*/
 
 
 
