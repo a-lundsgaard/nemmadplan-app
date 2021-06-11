@@ -10,7 +10,8 @@ exports.default = styles_1.makeStyles((theme) => ({
         marginTop: -20,
     },
     importButton: {
-        marginLeft: 20
+        marginLeft: 20,
+        minWidth: 180
     },
     urlField: {
         marginBottom: 20
@@ -26,6 +27,7 @@ exports.default = styles_1.makeStyles((theme) => ({
     },
     textAreaGrid: {
         marginTop: 32,
+        marginLeft: 20
     },
     ImageUploader: {
         cursor: 'pointer'

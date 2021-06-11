@@ -1,9 +1,10 @@
 .container {
     position: relative;
-    width: 80%;
-    max-width: 350px;
+    max-width: 250px;
     overflow-x:hidden;
     overflow-y:hidden;
+    border-radius: 8px;
+
   }
 
   

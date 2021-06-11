@@ -28,6 +28,10 @@ const pickers_1 = require("@material-ui/pickers");
 const styles_1 = require("@material-ui/styles");
 const core_1 = require("@material-ui/core");
 const core_2 = require("@material-ui/core");
+const Tooltip_1 = __importDefault(require("@material-ui/core/Tooltip"));
+const Zoom_1 = __importDefault(require("@material-ui/core/Zoom"));
+const styles_2 = require("@material-ui/core/styles");
+const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const format_1 = __importDefault(require("date-fns/format"));
 const da_1 = __importDefault(require("date-fns/locale/da"));
 class LocalizedUtils extends date_fns_1.default {
@@ -35,6 +39,83 @@ class LocalizedUtils extends date_fns_1.default {
         return format_1.default(date, "d MMM yyyy", { locale: this.locale });
     }
 }
+const defaultMaterialTheme = core_1.createMuiTheme({
+    overrides: {
+        MuiPickersToolbar: {
+            toolbar: {
+                backgroundColor: '#fed8b1',
+                text: 'black'
+            }
+        }
+    }
+});
+const HtmlTooltip = styles_2.withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: '#f5f5f9',
+        color: 'rgba(0, 0, 0, 0.87)',
+        maxWidth: 220,
+        fontSize: theme.typography.pxToRem(12),
+        border: '1px solid #dadde9',
+    },
+}))(Tooltip_1.default);
+function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
+    function dateWithoutTime(date) {
+        const d = new Date(date);
+        d.setHours(10, 0, 0, 0);
+        return d;
+    }
+    const [date, setDate] = react_1.useState(dateWithoutTime(new Date()));
+    const [dbClick, setDbClick] = react_1.useState(false);
+    const [tooltipOpen, setTooltipOpen] = react_1.useState(false);
+    react_1.useEffect(() => {
+        setTimeout(() => {
+            setTooltipOpen(true);
+            setTimeout(() => {
+                setTooltipOpen(false);
+            }, 3000);
+        }, 600);
+    }, []);
+    const handleClick = (d) => {
+        console.log(dbClick);
+        if (dbClick) {
+            let nextDate = new Date(date);
+            nextDate.setHours(+24);
+            hasDbClicked(true);
+            return;
+        }
+        const withOutTime = dateWithoutTime(d);
+        setDate(withOutTime);
+        pickedDate(withOutTime);
+        setDbClick(true);
+        setTimeout(() => {
+            setDbClick(false);
+        }, 300);
+    };
+    react_1.useEffect(() => {
+        colorDaysWithASelectedMeal(selectedMeals);
+    }, [selectedMeals]);
+    return (<styles_1.ThemeProvider theme={defaultMaterialTheme}>
+      <pickers_1.MuiPickersUtilsProvider utils={LocalizedUtils} locale={da_1.default}>
+
+        <HtmlTooltip TransitionComponent={Zoom_1.default} TransitionProps={{ timeout: 300 }} placement='right' arrow open={tooltipOpen} title={<react_1.default.Fragment>
+              <Typography_1.default color="inherit">Vælg retter ved at dobbeltklikke på en dato</Typography_1.default>
+            </react_1.default.Fragment>}>
+
+          <core_2.Paper elevation={20} variant='outlined' style={{ overflow: "hidden" }} onClick={() => setTooltipOpen(false)}>
+
+            <pickers_1.DatePicker disablePast autoOk={false} variant="static" openTo="date" value={date} onChange={date => handleClick(date)} onMonthChange={() => { return colorDaysWithASelectedMeal(selectedMeals, true); }}/>
+
+          </core_2.Paper>
+
+        </HtmlTooltip>
+
+
+
+      </pickers_1.MuiPickersUtilsProvider>
+    </styles_1.ThemeProvider>);
+}
+;
+exports.default = StaticDatePicker;
 const months = {
     'januar': 0,
     'februar': 1,
@@ -49,16 +130,6 @@ const months = {
     'november': 10,
     'december': 11
 };
-const defaultMaterialTheme = core_1.createMuiTheme({
-    overrides: {
-        MuiPickersToolbar: {
-            toolbar: {
-                backgroundColor: '#fed8b1',
-                text: 'black'
-            }
-        }
-    }
-});
 const paintDays = (meals) => {
     const calendarDays = document.querySelectorAll('.MuiPickersDay-day');
     let monthAndYearArray;
@@ -99,42 +170,3 @@ const colorDaysWithASelectedMeal = (meals, fromMonthChange) => {
     }
     return null;
 };
-function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
-    function dateWithoutTime(date) {
-        const d = new Date(date);
-        d.setHours(0, 0, 0, 0);
-        return d;
-    }
-    const [date, setDate] = react_1.useState(dateWithoutTime(new Date()));
-    const [dbClick, setDbClick] = react_1.useState(false);
-    const handleClick = (d) => {
-        console.log(dbClick);
-        if (dbClick) {
-            let nextDate = new Date(date);
-            nextDate.setHours(+24);
-            hasDbClicked(true);
-            return;
-        }
-        const withOutTime = dateWithoutTime(d);
-        setDate(withOutTime);
-        pickedDate(withOutTime);
-        setDbClick(true);
-        setTimeout(() => {
-            setDbClick(false);
-        }, 300);
-    };
-    react_1.useEffect(() => {
-        colorDaysWithASelectedMeal(selectedMeals);
-    }, [selectedMeals]);
-    return (<styles_1.ThemeProvider theme={defaultMaterialTheme}>
-
-      <pickers_1.MuiPickersUtilsProvider utils={LocalizedUtils} locale={da_1.default}>
-
-        <core_2.Paper elevation={20} variant='outlined' style={{ overflow: "hidden" }}>
-          <pickers_1.DatePicker disablePast autoOk={false} variant="static" openTo="date" value={date} onChange={date => handleClick(date)} onMonthChange={() => { return colorDaysWithASelectedMeal(selectedMeals, true); }}/>
-        </core_2.Paper>
-      </pickers_1.MuiPickersUtilsProvider>
-    </styles_1.ThemeProvider>);
-}
-;
-exports.default = StaticDatePicker;

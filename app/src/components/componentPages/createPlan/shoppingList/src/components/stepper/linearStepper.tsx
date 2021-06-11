@@ -170,7 +170,7 @@ export default function HorizontalLabelPositionBelowStepper() {
         // if step is 3, send request to shopping server
         if (activeStep === 2) {
 
-            if(isLoading) return false;
+            if (isLoading) return false;
 
             setIsLoading(true);
             const shoppedItems = await handleShopping();
@@ -201,7 +201,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     };
 
     const handleBack = () => {
-        if(isLoading) return false;
+        if (isLoading) return false;
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
@@ -218,35 +218,35 @@ export default function HorizontalLabelPositionBelowStepper() {
                         <Typography className={classes.instructions}>
                             <Alert severity={infoType} className={classes.alert}>
                                 {infoType !== 'success' && <AlertTitle>{infoTextLookup[infoType].header}</AlertTitle>}
-                                {infoTextLookup[infoType].infoText && infoTextLookup[infoType].infoText }
+                                {infoTextLookup[infoType].infoText && infoTextLookup[infoType].infoText}
                             </Alert>
                         </Typography>
                         <Button variant="outlined" color="primary" onClick={handleReset}>Handl igen</Button>
                     </div>
                 ) : (
-                        <div>
-                            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                            <div style={{display: 'flex'}}>
-                                <Button
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    className={classes.backButton}
-                                >
-                                    Tilbage
-                                </Button>
-                                <Button variant="contained" color="primary" onClick={handleNext} >
-                                
-                                {isLoading ? <CircularProgress color='secondary' style={{margin: '0px 20px 0 20px'}} size={25} thickness={5}/> :
+                    <div>
+                        <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                        <div style={{ display: 'flex' }}>
+                            <Button
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                className={classes.backButton}
+                            >
+                                Tilbage
+                            </Button>
+                            <Button variant="contained" color="primary" onClick={handleNext} >
+
+                                {isLoading ? <CircularProgress color='secondary' style={{ margin: '0px 20px 0 20px' }} size={25} thickness={5} /> :
                                     activeStep === steps.length - 1 ? 'Køb ind' : 'Næste'
-                                    }
+                                }
 
-                                </Button>
+                            </Button>
 
-                                
 
-                            </div>
+
                         </div>
-                    )}
+                    </div>
+                )}
             </div>
             <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label) => (

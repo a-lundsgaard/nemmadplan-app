@@ -11,23 +11,23 @@ class HTTP {
     constructor() {
         this.post = post_1.default.bind(this);
         this.testUrl = 'http://localhost:8080/graphql';
-        this.prodUrl = 'https://nmserver.herokuapp.com/graphql',
-            this.salesUrl = 'http://localhost:8090/sales';
+        this.prodUrl = 'https://nmserver.herokuapp.com/graphql';
+        this.salesUrl = 'http://localhost:8090/sales';
         this.shoppingUrl = 'http://localhost:3001/shopping';
         this.sales = {
             getSales: sales_1.default.getSales
-        },
-            this.user = {
-                verifyUserAndReturnFields: user_1.default.verifyUserAndReturnFields,
-                signInAndReturnFields: user_1.default.signInAndReturnFields,
-                signUpAndReturnFields: user_1.default.signUpAndReturnFields
-            };
+        };
+        this.user = {
+            verifyUserAndReturnFields: user_1.default.verifyUserAndReturnFields,
+            signInAndReturnFields: user_1.default.signInAndReturnFields,
+            signUpAndReturnFields: user_1.default.signUpAndReturnFields
+        };
         this.recipes = {
             scrapeRecipesAndReturnFields: recipes_1.default.scrapeRecipesAndReturnFields,
             getRecipesAndReturnFields: recipes_1.default.getRecipesAndReturnFields,
-            createRecipeQueryAndReturnFields: recipes_1.default.createRecipeAndReturnFields
+            createRecipeQueryAndReturnFields: recipes_1.default.createRecipeAndReturnFields,
+            saveWeekPlan: recipes_1.default.saveWeekPlan
         };
     }
-    ;
 }
 exports.default = new HTTP();

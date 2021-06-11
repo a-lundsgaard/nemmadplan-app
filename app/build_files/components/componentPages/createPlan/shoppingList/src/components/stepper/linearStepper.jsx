@@ -174,22 +174,22 @@ function HorizontalLabelPositionBelowStepper() {
                         </Typography_1.default>
                         <Button_1.default variant="outlined" color="primary" onClick={handleReset}>Handl igen</Button_1.default>
                     </div>) : (<div>
-                            <Typography_1.default className={classes.instructions}>{getStepContent(activeStep)}</Typography_1.default>
-                            <div style={{ display: 'flex' }}>
-                                <Button_1.default disabled={activeStep === 0} onClick={handleBack} className={classes.backButton}>
-                                    Tilbage
-                                </Button_1.default>
-                                <Button_1.default variant="contained" color="primary" onClick={handleNext}>
-                                
+                        <Typography_1.default className={classes.instructions}>{getStepContent(activeStep)}</Typography_1.default>
+                        <div style={{ display: 'flex' }}>
+                            <Button_1.default disabled={activeStep === 0} onClick={handleBack} className={classes.backButton}>
+                                Tilbage
+                            </Button_1.default>
+                            <Button_1.default variant="contained" color="primary" onClick={handleNext}>
+
                                 {isLoading ? <CircularProgress_1.default color='secondary' style={{ margin: '0px 20px 0 20px' }} size={25} thickness={5}/> :
                 activeStep === steps.length - 1 ? 'Køb ind' : 'Næste'}
 
-                                </Button_1.default>
+                            </Button_1.default>
 
-                                
 
-                            </div>
-                        </div>)}
+
+                        </div>
+                    </div>)}
             </div>
             <Stepper_1.default activeStep={activeStep} alternativeLabel>
                 {steps.map((label) => (<Step_1.default key={label}>

@@ -18,10 +18,13 @@ import PlusButton from '../../../shared/buttons/plusButton/plusButton'
 import SnackBar from "../../../shared/snackbar/snackbar.jsx";
 import NumberPicker from '../../../shared/pickers/number/numberPicker1/numberPicker.jsx'
 import ImageUploader from '../upload/uploadImage.jsx'
-import CircularLoader from '../../../shared/loaders/circular/circularLoader.jsx'
 import HTTP from '../../../../HTTP/http';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 import styles from './styles.jsx';
+
 
 
 
@@ -94,16 +97,12 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
 
   const handleImportUrl = () => {
-
     if (isLoading) return; // stops user from sending requests when already loading to get one
-
     if (!state.importUrl) {
       setInputError({ ...inputError, importUrl: true })
       return;
     }
-
     setLoading(true)
-
     const requestBody = HTTP.recipes.scrapeRecipesAndReturnFields('_id name text persons source text image ingredients { name unit quantity }', {
       crawlerInput: state.importUrl
     })
@@ -246,31 +245,19 @@ export default function FullScreenDialog({ onReceiptSave }) {
               className={classes.importUrlInput}
               value={state.importUrl}
             />
-            <Button className={classes.importButton} variant="contained" onClick={handleImportUrl}>
-              Importér opskrift
+            <Button className={classes.importButton} variant="contained" onClick={handleImportUrl} disabled={isLoading} >
+              Importer opskrift
             </Button>
-            <span className={classes.importButton}>{isLoading ? <CircularLoader /> : null}</span>
+            <span style={ { margin: '5px 0 0 20px' }} className={classes.importButton}>{ isLoading && <CircularProgress size={30} thickness={5}/> }</span>
 
           </ListItem>
         </List>
 
         <Divider />
 
-
-        <Grid
-          container
-          direction="row"
-          //justify="flex-start"
-          //alignItems="flex-start"
-          spacing={8}
-          xs={12}
-          className={classes.mainGrid}
-        >
-
-          <Grid item >
+        <div style={{ display: 'flex' }}>
+          <div style={{ height: '100%' }} >
             <List>
-              <div>
-
                 <ListItem className={classes.numPicker}>
                   <NumberPicker
                     name="numPicker"
@@ -295,61 +282,79 @@ export default function FullScreenDialog({ onReceiptSave }) {
                     InputLabelProps={{ shrink: state.source ? true : false }}
                   />
                 </ListItem>
-
-
-              </div>
             </List>
+          </div>
+
+
+          <Grid
+            container
+            direction="row"
+            //justify="flex-start"
+            //alignItems="flex-start"
+            spacing={5}
+            className={classes.mainGrid}
+          >
+
+
+
+            <Grid item className={classes.textAreaGrid}>
+              <TextField
+                name="ingredients"
+                className={classes.ingredientTextField}
+                label="Ingredienser*"
+                multiline
+                rows={20}
+                rowsMax={99}
+                variant="outlined"
+                size="medium"
+                error={inputError.ingredients}
+                onChange={onInputchange}
+                helperText='Indtast * ved angivelse af enheder, f.eks. stk*'
+                value={state.ingredients}
+                InputLabelProps={{ shrink: state.ingredients ? true : false }}
+
+              />
+            </Grid>
+
+            <Grid item className={classes.textAreaGrid}>
+
+              <TextField
+                name="receipt"
+                className={classes.prepareTextField}
+                label="Tilberedning"
+                multiline
+                rows={20}
+                rowsMax={99}
+                variant="outlined"
+                size="medium"
+                onChange={onInputchange}
+                value={state.receipt}
+                InputLabelProps={{ shrink: state.receipt ? true : false }}
+
+              />
+            </Grid>
+
+            <Grid item className={classes.textAreaGrid}>
+
+              <ImageUploader 
+              name="receipt" 
+              src={state.image}
+              onImageUpload={(imageUrl) => setState({...state, image: imageUrl})}
+               />
+
+              <TextField name="image" id="standard-basic" placeholder="Link til billede"
+                className={classes.imageInputField}
+                onChange={onInputchange}
+                value={ state.image && state.image.includes('localhost') ? '' : state.image }
+                InputLabelProps={{ shrink: state.image ? true : false }}
+              />
+            </Grid>
 
           </Grid>
 
-          <Grid item className={classes.textAreaGrid}>
-            <TextField
-              name="ingredients"
-              className={classes.ingredientTextField}
-              label="Ingredienser*"
-              multiline
-              rows={20}
-              rowsMax={99}
-              variant="outlined"
-              size="medium"
-              error={inputError.ingredients}
-              onChange={onInputchange}
-              helperText='Indtast * ved angivelse af enheder, f.eks. stk*'
-              value={state.ingredients}
-              InputLabelProps={{ shrink: state.ingredients ? true : false }}
+        </div>
 
-            />
-          </Grid>
 
-          <Grid item className={classes.textAreaGrid}>
-
-            <TextField
-              name="receipt"
-              className={classes.prepareTextField}
-              label="Tilberedning"
-              multiline
-              rows={20}
-              rowsMax={99}
-              variant="outlined"
-              size="medium"
-              onChange={onInputchange}
-              value={state.receipt}
-              InputLabelProps={{ shrink: state.receipt ? true : false }}
-
-            />
-          </Grid>
-
-          <Grid item className={classes.textAreaGrid}>
-            <ImageUploader name="receipt" src={state.image} />
-            <TextField name="image" id="standard-basic" label="Billede"
-              className={classes.imageInputField}
-              onChange={onInputchange}
-              value={state.image}
-              InputLabelProps={{ shrink: state.image ? true : false }}
-            />
-          </Grid>
-
-        </Grid>
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 
       </Dialog>

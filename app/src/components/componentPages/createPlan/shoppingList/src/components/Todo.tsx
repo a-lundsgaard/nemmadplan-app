@@ -22,6 +22,9 @@ import SmallNumberPicker from './smallNumPicker/smallNumPicker';
 
 //import { th } from 'date-fns/locale';
 
+//const fs = require('fs');
+// test
+
 
 function Todo(props) {
 
@@ -60,11 +63,9 @@ function Todo(props) {
       return [];
     }
 
-
     // If the user adds an item, the crawler searchs for the whole string
     const searchString = props.initiator === 'USER' ? ingredientString : possibleIngredients.pop();
     console.log(searchString);
-
 
     // for local server 
     // should make another server on heroku to handle just sales

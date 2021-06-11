@@ -282,9 +282,9 @@ export default function MiniDrawer() {
             {text: 'Opskrifter', url: '/receipts' }
           ].map((obj, index) => 
           (
-            <NavLink to={`${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
+            <NavLink key={index} to={`${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
 
-            <ListItem button key={obj.text}>
+            <ListItem button>
               <ListItemIcon>{findIcon(obj.text)}</ListItemIcon>
               
                   <ListItemText primary={obj.text} />

@@ -15,7 +15,7 @@ exports.default = styles_1.makeStyles((theme) => ({
     addReceiptButton: {
         position: 'fixed',
         bottom: 0,
-        left: "50%",
+        left: 'calc(50vw)',
         marginLeft: -50
     },
     control: {},

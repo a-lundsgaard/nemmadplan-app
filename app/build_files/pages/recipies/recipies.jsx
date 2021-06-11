@@ -32,19 +32,21 @@ const receiptSceletonLoader_1 = __importDefault(require("../../components/shared
 const styles_1 = __importDefault(require("./styles"));
 function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const classes = styles_1.default();
-    const [search, setSearch] = react_1.useState(window.store.getState().searchInput);
-    const [receipts, setReceipts] = react_1.useState([]);
+    const [searchString, setSearchString] = react_1.useState(window.store.getState().searchInput);
+    const [recipes, setRecipes] = react_1.useState([]);
+    const [recipesInSearch, setRecipesInSearch] = react_1.useState([]);
     const [isReceiptSaved, setReceiptSaved] = react_1.useState('');
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [clickedDishId, setClickedDishId] = react_1.useState('');
     const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
-    function getReceitps() {
+    function getRecipes() {
         setIsLoading(true);
         const token = localStorage.getItem('token');
         const requestBody = http_1.default.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token });
         http_1.default.post(requestBody)
             .then(res => {
-            setReceipts(res.data.receipts);
+            setRecipes(res.data.receipts);
+            setRecipesInSearch(res.data.receipts);
             localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length));
             setIsLoading(false);
         })
@@ -58,19 +60,33 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
         return props.recipies ? props.recipies.find((recipe) => recipe._id === id) : false;
     }
     react_1.useEffect(() => {
-        subscribe_1.default(setSearch);
+        subscribe_1.default(setSearchString);
     }, []);
     react_1.useEffect(() => {
-        console.log(search);
-    }, [search]);
+        console.log(searchString);
+    }, [searchString]);
     react_1.useEffect(() => {
         console.log('Found receipts:');
-        console.log(receipts);
-    }, [receipts]);
+        console.log(recipes);
+    }, [recipes]);
     react_1.useEffect(() => {
-    }, []);
+        if (!searchString) {
+            setRecipesInSearch(recipes);
+            return;
+        }
+        const filteredRecipes = recipes.filter((recipe) => {
+            const ingredientsString = recipe.ingredients.reduce((a, b) => {
+                a += b.name;
+                return a;
+            }, '');
+            if (searchString) {
+                return recipe.name.toLowerCase().includes(searchString) || ingredientsString.includes(searchString);
+            }
+        });
+        setRecipesInSearch(filteredRecipes);
+    }, [searchString]);
     react_1.useEffect(() => {
-        getReceitps();
+        getRecipes();
     }, [isReceiptSaved]);
     return (<react_1.Fragment>
 
@@ -83,11 +99,13 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
                 .map((receipt, index) => (<Grid_1.default key={index} item>
                       <receiptSceletonLoader_1.default />
                     </Grid_1.default>))
-            : receipts.map((receipt, index) => (<Grid_1.default key={receipt._id} item>
+            :
+                recipesInSearch.map((recipe, index) => {
+                    return <Grid_1.default key={recipe._id} item>
+                    <recipeCard_jsx_1.default recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)}/>
+                  </Grid_1.default>;
+                })}
 
-                    <recipeCard_jsx_1.default recipeOnPlan={recipeOnPlan(receipt._id)} recipe={receipt} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)}/>
-
-                  </Grid_1.default>))}
           </Grid_1.default>
 
         </Grid_1.default>

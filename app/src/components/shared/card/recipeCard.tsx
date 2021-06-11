@@ -96,48 +96,6 @@ interface Props {
 // test
 export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }: Props) {
 
-  function prettifyDate(date: string) {
-
-    const months = {
-      1: 'januar',
-      2: 'februar',
-      3: 'marts',
-      4: 'april',
-      5: 'maj',
-      6: 'juni',
-      7: 'juli',
-      8: 'august',
-      9: 'september',
-      10: 'oktober',
-      11: 'november',
-      12: 'december'
-    }
-
-    if (!date) {
-      return;
-    }
-
-    if (props.visitFromCreatePlanMealList) {
-      console.log(date)
-    }
-    //
-
-
-    let dateArr = date.split('-')
-    let year = dateArr[0]
-
-    const monthNumber = Number(dateArr[1]) as keyof typeof months
-
-    let month = months[monthNumber]
-    let day = dateArr[2]
-    const dayMatch = day.match(/.+(?=T)/);
-
-    if (dayMatch) {
-      day = dayMatch[0]
-    }
-
-    return `${day}. ${month} ${year}`
-  }
 
   const classes = useStyles();
 
@@ -239,7 +197,7 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
           }
 
           title={recipe.name}
-          subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}
+          subheader={prettifyDate(customDate ? customDate : recipe.createdAt, props)}
         />
 
 
@@ -307,4 +265,50 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
     </>
   )
 
+}
+
+
+
+function prettifyDate(date: string, props) {
+
+  const months = {
+    1: 'januar',
+    2: 'februar',
+    3: 'marts',
+    4: 'april',
+    5: 'maj',
+    6: 'juni',
+    7: 'juli',
+    8: 'august',
+    9: 'september',
+    10: 'oktober',
+    11: 'november',
+    12: 'december'
+  }
+
+  if (!date) {
+    return;
+  }
+
+     if (props.visitFromCreatePlanMealList) {
+    console.log(date)
+    console.log('Fandt dato to prettify: ', date)
+
+  } 
+  //
+
+  let dateArr = date.split('-')
+  let year = dateArr[0]
+
+  const monthNumber = Number(dateArr[1]) as keyof typeof months
+
+  let month = months[monthNumber]
+  let day = dateArr[2]
+  const dayMatch = day.match(/.+(?=T)/);
+
+  if (dayMatch) {
+    day = dayMatch[0]
+  }
+
+  return `${day}. ${month} ${year}`
 }

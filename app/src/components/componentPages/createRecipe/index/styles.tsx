@@ -12,7 +12,8 @@ export default makeStyles((theme) => ({
     },
   
     importButton: {
-      marginLeft: 20
+      marginLeft: 20,
+      minWidth: 180
     },
   
     urlField: {
@@ -33,6 +34,7 @@ export default makeStyles((theme) => ({
   
     textAreaGrid: {
       marginTop: 32,
+      marginLeft: 20
     },
   
     ImageUploader: {

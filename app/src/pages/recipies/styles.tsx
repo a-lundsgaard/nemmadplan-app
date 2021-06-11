@@ -28,7 +28,7 @@ export default makeStyles((theme) => ({
   addReceiptButton: {
     position: 'fixed',
     bottom: 0,
-    left: "50%",
+    left: 'calc(50vw)', // half of viewport width
     marginLeft: -50
   },
 

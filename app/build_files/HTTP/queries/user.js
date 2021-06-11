@@ -1,48 +1,36 @@
-import { RequestBody } from '../helpers/requestBody'
-
-export default {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.signInAndReturnFields = exports.verifyUserAndReturnFields = exports.signUpAndReturnFields = void 0;
+const requestBody_1 = require("../helpers/requestBody");
+exports.default = {
     verifyUserAndReturnFields,
     signInAndReturnFields,
     signUpAndReturnFields
- };
-
-
-export function signUpAndReturnFields (fieldsToQuery='', variables={}) {
-    const query = `mutation($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
+};
+function signUpAndReturnFields(fieldsToQuery = '', variables = {}) {
+    const query = `mutation($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
       createUser(userInput: {firstName: $firstName, lastName: $lastName, email: $email, password: $password}) {
           ${fieldsToQuery}
       }
     }`;
-  
-  return new RequestBody(query, variables)
-
+    return new requestBody_1.RequestBody(query, variables);
 }
-
-   export function verifyUserAndReturnFields (fieldsToQuery='', variables) {
-
-        const query = `query($token: String!) {
+exports.signUpAndReturnFields = signUpAndReturnFields;
+function verifyUserAndReturnFields(fieldsToQuery = '', variables) {
+    const query = `query($token: String!) {
             verifyUser(token: $token) {
               ${fieldsToQuery}
             }
           }`;
-    
-      //  return  {query: query, variables: variables };
-        return new RequestBody(query, variables)
-    }
-
-
-    export function signInAndReturnFields(fieldsToQuery='', variables={}) {
-
-        const query = `query($email: String!, $password: String!) {
+    return new requestBody_1.RequestBody(query, variables);
+}
+exports.verifyUserAndReturnFields = verifyUserAndReturnFields;
+function signInAndReturnFields(fieldsToQuery = '', variables = {}) {
+    const query = `query($email: String!, $password: String!) {
             login(email: $email, password: $password ) {
                 ${fieldsToQuery}
             } 
-          }`
-        
-      //  return  {query: query, variables: variables };
-        return new RequestBody(query, variables)
-
-    }
-
-
-
+          }`;
+    return new requestBody_1.RequestBody(query, variables);
+}
+exports.signInAndReturnFields = signInAndReturnFields;

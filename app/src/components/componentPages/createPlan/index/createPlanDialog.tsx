@@ -14,6 +14,10 @@ import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
+import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
+
+
 import { v4 as uuid } from 'uuid';
 
 import SnackBar from "../../../shared/snackbar/snackbar.jsx";
@@ -31,6 +35,9 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import styles from './styles.jsx';
 
 import { TransitionProps } from '@material-ui/core/transitions';
+
+import HTTP from '../../../../HTTP/http';
+
 // defining react as global
 window.React = React;
 
@@ -59,8 +66,8 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = useState([]);
   const [ingredientsToDelete, setIngredientsToDelete] = useState([]);
   const [ingredientsToAdd, setIngredientsToAdd] = useState([]);
-
   const [recipeToSwap, setRecipeToSwap] = useState(null);
+  const [mealPlanTitle, setMealPlanTitle] = useState('');
 
 
   // displaying server messages
@@ -91,8 +98,6 @@ export default function CreatePlanDialog({ onReceiptSave }) {
 
   // adding new recipe to plan - rename function
   function handleAddNewRecipeToPlan(newRecipe) {
-    //alert(date)
-
     console.log(newRecipe)
     newRecipe.date = date;
     newRecipe.listId = uuid();
@@ -103,11 +108,11 @@ export default function CreatePlanDialog({ onReceiptSave }) {
         return { ...ingredient, id: uuid() }
       })
     }
-// h
+    // h
 
-    let newRecipeArrayWithSwappedDish = state.recipies;
+    const newRecipeArrayWithSwappedDish = state.recipies;
 
-    if(recipeToSwap) {
+    if (recipeToSwap) {
       const index = state.recipies.findIndex(recipe => recipe.date === recipeToSwap.date);
       setIngredientsToDelete(recipeToSwap.ingredients);
       newRecipeArrayWithSwappedDish.splice(index, 1, newRecipe);
@@ -117,8 +122,6 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     }
 
     for (const [i, oldRecipe] of state.recipies.entries()) {
-
-      //console.log('Duplicate date found : ', newRecipe.date, date )
 
       if (oldRecipe.date.toISOString() === newRecipe.date.toISOString()) {
 
@@ -130,8 +133,6 @@ export default function CreatePlanDialog({ onReceiptSave }) {
           newRecipeArrayWithSwappedDish.splice(i, 1, newRecipe);
 
           console.log('Duplicate date found : ', oldRecipe.name, newRecipe.name, i, newRecipe.date, newRecipeArrayWithSwappedDish)
-
-
           //newRecipeArrayWithSwappedDish.slice().sort((a: any, b: any) => a.date - b.date) // sorting by date
           setIngredientsToAdd(newRecipe.ingredients)
           setState({ ...state, recipies: newRecipeArrayWithSwappedDish });
@@ -150,28 +151,8 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   }
 
 
-  /* function handleRecipePersonCountChange(originalPersonCountOnRecipe, newPersonCount, listId): void {
-    const ingredientItemsThatHaveChangedAmount = [];
-    // updating amount on ingredient
-    state.recipies.forEach((recipe) => {
 
-      if (recipe.listId === listId) {
-        //alert('Found recipe')
-        recipe.ingredients.forEach((ingredient) => {
-          const newQuantityCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
-          const difference = newQuantityCalculation - ingredient.quantity;
-
-
-          const ingredientWithNewQuantity = { ...ingredient, quantity: newQuantityCalculation }
-          ingredientItemsThatHaveChangedAmount.push(ingredientWithNewQuantity)
-        })
-      }
-    })
-    setIngredientsWithUpdatedAmounts(ingredientItemsThatHaveChangedAmount)
-  }
- */
-
-  function handleRecipePersonCountChange2(originalPersonCountOnRecipe, newPersonCount, listId): void {
+  function handleRecipePersonCountChange(originalPersonCountOnRecipe, newPersonCount, listId): void {
     //const ingredientItemsThatHaveChangedAmount = [];
     // updating amount on ingredient
     const newRecipeState = state.recipies.map((recipe) => {
@@ -200,20 +181,66 @@ export default function CreatePlanDialog({ onReceiptSave }) {
   };
 
   const handleCloseAndClearState = () => {
-    setState({
-      recipies: [],
-      date: new Date()
-    })
+    /*      setState({
+          recipies: [],
+          //date: new Date()
+        })  */
     setMessage({})
     setOpen(false);
   };
 
 
-  const handleSaveReceipt = () => {
+  function handleSaveRecipe() {
+
     console.log('Saved')
     console.log(state.recipies.flatMap(recipe => recipe.ingredients))
     console.log(state)
+    //alert(weekPlanTitle)
+    console.log(mealPlanTitle);
+
+    if(!mealPlanTitle) {
+      setMessage({ msg: 'Angiv et navn for madplanen', type: 'error', key: Math.random() })
+      return;
+    }
+
+    function transformTodosToIngredients(todos) {
+      return todos.map((todo) => {
+        return { name: todo.task, quantity: todo.quantity, unit: todo.unit }
+      })
+    }
+
+    function transformRecipiesToDayPlan(recipes) {
+      return recipes.map((recipe) => {
+        return {
+          day: recipe.date,
+          persons: recipe.persons,
+          dish: recipe._id
+        }
+      })
+    }
+
+    const requestBody = HTTP.recipes.saveWeekPlan('name', {
+      name: mealPlanTitle,
+      customShoppingList: transformTodosToIngredients(window.store.getState().sales),
+      plan: transformRecipiesToDayPlan(state.recipies)
+    })
+
+
+    console.log('retur', requestBody)
+    HTTP.post(requestBody)
+      .then(res => {
+        console.log('retur:' ,res);
+        setMessage({ msg: `Madplanen "${mealPlanTitle}" blev gemt`, type: 'success', key: Math.random() })
+        //const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;
+      })
+      .catch(error => {
+        //  console.log(error)
+        setMessage({ msg: error.message, type: 'error', key: Math.random() })
+      })
   }
+
+
+
 
   return (
     <div style={{ position: 'relative' }}>
@@ -224,10 +251,34 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             <IconButton edge="start" color="inherit" onClick={handleCloseAndClearState} aria-label="close">
               <CloseIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Opret madplan
+
+
+
+            <div className={classes.title}>
+              <Typography variant="h6" style={{
+                margin: '0 0 0 0'
+              }} >
+                Opret madplan
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSaveReceipt}>
+
+
+              <div className={classes.search}>
+                <InputBase
+                  placeholder="titel…"
+                  onChange={(e) => setMealPlanTitle(e.target.value)}
+                  // onBlur={storeSearchInputToRedux}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </div>
+
+            </div>
+
+
+            <Button autoFocus color="inherit" onClick={handleSaveRecipe}>
               gem
             </Button>
           </Toolbar>
@@ -249,7 +300,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
             boxShadow: "0px 0px 7px 1px #aaaaaa94",
           }}  >
             <span className={classes.daysSelect}>
-              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => { console.log(d); setDate(d) }} selectedMeals={state.recipies} />
+              <StaticDatePicker hasDbClicked={setRecipesOpen} pickedDate={d => { console.log(d); return setDate(d) }} selectedMeals={state.recipies} />
             </span>
 
             <span style={{
@@ -275,7 +326,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
           >
 
             {
-              state.recipies.length === 0 && <h1>Vælg retter ved at dobbeltklikke på en dato</h1>
+              //state.recipies.length === 0 && <h1>Vælg retter ved at dobbeltklikke på en dato</h1>
             }
 
             <Grid className={classes.recipeCardGrid} item>
@@ -302,7 +353,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
                             unit={'personer'}
                             quantity={recipe.persons}
                             listId={recipe.listId}
-                            onCountChange={({ count, listId }) => handleRecipePersonCountChange2(recipe.persons, count, listId)}
+                            onCountChange={({ count, listId }) => handleRecipePersonCountChange(recipe.persons, count, listId)}
                           />
                         </RecipeCard>
                       </Grid>

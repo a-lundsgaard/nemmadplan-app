@@ -54,5 +54,33 @@ exports.default = styles_1.makeStyles((theme) => ({
     title: {
         marginLeft: theme.spacing(2),
         flex: 1,
+        display: 'flex'
     },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: styles_1.fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: styles_1.fade(theme.palette.common.white, 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    },
+    inputRoot: {
+        color: 'white',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        paddingLeft: '15px',
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    }
 }));

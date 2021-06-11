@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { makeStyles } from '@material-ui/core/styles';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
 import listenToSales from 'Redux/helpers/variableSubscription'
-import shoppingListIconSelfMade from './shopping-list-icon.png'
-
-import Divider from '@material-ui/core/Divider';
 
 import ListIconAndItemCounter from '../components/listIconAndItemCounter/listIconAndItemCounter';
 import SalesList from '../components/itemList/salesList';

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
-    
+
   receiptText: {
     whiteSpace: "pre-wrap"
   },
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-  //  display: "inline-block"
+    //  display: "inline-block"
   }
 
 
@@ -45,9 +45,9 @@ export default function ScrollDialog(props) {
     props.onChange(false)
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setOpen(props.boolean)
-  },[props.boolean])
+  }, [props.boolean])
 
 
   const handleCheckBoxChange = (event) => {
@@ -65,7 +65,7 @@ export default function ScrollDialog(props) {
     }
   }, [open]);
 
- // <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
+  // <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
   //<Button onClick={handleClickOpen('body')}>scroll=body</Button>
 
   return (
@@ -91,28 +91,28 @@ export default function ScrollDialog(props) {
             component={'div'}
           >
 
-          <img className={classes.image} src={props.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}/>
+            <img className={classes.image} src={props.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} />
 
-          <Grid container spacing={4}>
+            <Grid container spacing={4}>
 
-            <Grid item xs={6} >
-            {props.ingredients.map((ingredient, index) => 
-              <li className={classes.list} key={index} variant={'body2'}>
-  
-              {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : '' } ${ingredient.name}`.trimLeft()}</li>
+              <Grid item xs={6} >
+                {props.ingredients.map((ingredient, index) =>
+                  <li className={classes.list} key={index} variant={'body2'}>
 
-              )}
+                    {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : ''} ${ingredient.name}`.trimLeft()}</li>
+
+                )}
+              </Grid>
+
+              <Grid item xs={6}>
+                <p>{props.text}</p>
+              </Grid>
+
+
+
             </Grid>
 
-            <Grid item xs={6}>
-              <p>{props.text}</p>
-            </Grid>
 
-
-
-            </Grid>
-
-          
           </DialogContentText>
 
 
