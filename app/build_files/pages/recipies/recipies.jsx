@@ -30,17 +30,18 @@ const recipeCard_jsx_1 = __importDefault(require("../../components/shared/card/r
 const createRecipeDialog_jsx_1 = __importDefault(require("../../components/componentPages/createRecipe/index/createRecipeDialog.jsx"));
 const receiptSceletonLoader_1 = __importDefault(require("../../components/shared/loaders/receiptSceletonLoader"));
 const styles_1 = __importDefault(require("./styles"));
+const snackbar_jsx_1 = __importDefault(require("../../components/shared/snackbar/snackbar.jsx"));
 function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const classes = styles_1.default();
     const [searchString, setSearchString] = react_1.useState(window.store.getState().searchInput);
     const [recipes, setRecipes] = react_1.useState([]);
     const [recipesInSearch, setRecipesInSearch] = react_1.useState([]);
-    const [isReceiptSaved, setReceiptSaved] = react_1.useState('');
+    const [isReceiptSavedOrDeleted, setReceiptSaved] = react_1.useState('');
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [clickedDishId, setClickedDishId] = react_1.useState('');
     const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
+    const [message, setMessage] = react_1.useState({});
     function getRecipes() {
-        setIsLoading(true);
         const token = localStorage.getItem('token');
         const requestBody = http_1.default.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token });
         http_1.default.post(requestBody)
@@ -48,7 +49,6 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             setRecipes(res.data.receipts);
             setRecipesInSearch(res.data.receipts);
             localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length));
-            setIsLoading(false);
         })
             .catch(e => console.log(e));
     }
@@ -87,7 +87,15 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     }, [searchString]);
     react_1.useEffect(() => {
         getRecipes();
-    }, [isReceiptSaved]);
+    }, [isReceiptSavedOrDeleted]);
+    const handleRecipeSave = (id) => {
+        setMessage({ msg: `Retten blev gemt`, type: 'success', key: Math.random() });
+        setReceiptSaved(id);
+    };
+    const handleRecipeDeletion = (id) => {
+        setMessage({ msg: `Retten blev slettet`, type: 'success', key: Math.random() });
+        setReceiptSaved(id);
+    };
     return (<react_1.Fragment>
 
       <Grid_1.default container className={classes.root} justify="center">
@@ -102,7 +110,7 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             :
                 recipesInSearch.map((recipe, index) => {
                     return <Grid_1.default key={recipe._id} item>
-                    <recipeCard_jsx_1.default recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)}/>
+                    <recipeCard_jsx_1.default recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)}/>
                   </Grid_1.default>;
                 })}
 
@@ -112,8 +120,10 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
       </Grid_1.default>
 
       <div className={classes.addReceiptButton}>
-        <createRecipeDialog_jsx_1.default onReceiptSave={(value) => setReceiptSaved(value)}/>
+        <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)}/>
       </div>
+
+      {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 
     </react_1.Fragment>);
 }

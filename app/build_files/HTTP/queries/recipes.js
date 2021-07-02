@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRecipeAndReturnFields = exports.scrapeRecipesAndReturnFields = void 0;
 const requestBody_1 = require("../helpers/requestBody");
 exports.default = {
     getRecipesAndReturnFields,
     scrapeRecipesAndReturnFields,
     createRecipeAndReturnFields,
-    saveWeekPlan
+    saveWeekPlan,
+    deleteRecipe
 };
 function getRecipesAndReturnFields(string, variables = {}) {
     const fieldsToQuery = string;
@@ -25,8 +25,7 @@ function scrapeRecipesAndReturnFields(fieldsToQuery, variables = {}) {
     }`;
     return { query: query, variables: variables };
 }
-exports.scrapeRecipesAndReturnFields = scrapeRecipesAndReturnFields;
-function createRecipeAndReturnFields(string, variables) {
+function createRecipeAndReturnFields(string, variables = {}) {
     const fieldsToQuery = string.split(' ');
     const includeIngredients = fieldsToQuery.includes('ingredients') ? `ingredients { name unit quantity }` : '';
     if (includeIngredients) {
@@ -50,7 +49,14 @@ function createRecipeAndReturnFields(string, variables) {
     console.log(query);
     return new requestBody_1.RequestBody(query, variables);
 }
-exports.createRecipeAndReturnFields = createRecipeAndReturnFields;
+function deleteRecipe(fieldsToQuery, variables = {}) {
+    const query = `mutation( $receiptId: ID! ) {
+        deleteReceipt( receiptId: $receiptId) {
+            ${fieldsToQuery}
+        }
+      }`;
+    return new requestBody_1.RequestBody(query, variables);
+}
 function saveWeekPlan(string, variables = {}) {
     const fieldsToQuery = string;
     const query = `mutation( $name: String!, $customShoppingList: [ingredientInput]!, $plan: [dayPlanInput]! ) {

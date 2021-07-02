@@ -33,6 +33,7 @@ import post from './methods/post';
             scrapeRecipesAndReturnFields: recipeQueries.scrapeRecipesAndReturnFields,
             getRecipesAndReturnFields: recipeQueries.getRecipesAndReturnFields,
             createRecipeQueryAndReturnFields: recipeQueries.createRecipeAndReturnFields,
+            deleteRecipe: recipeQueries.deleteRecipe,
             saveWeekPlan: recipeQueries.saveWeekPlan
         };
    // };

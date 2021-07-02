@@ -121,7 +121,7 @@ function FullScreenDialog({ onReceiptSave }) {
             setLoading(false);
         });
     };
-    const handleSaveReceipt = () => {
+    const handleSaveRecipe = () => {
         console.log(state);
         console.log(http_1.default.recipes.createRecipeQueryAndReturnFields('hej'));
         let errorState = inputError, stopScript = false;
@@ -169,6 +169,7 @@ function FullScreenDialog({ onReceiptSave }) {
             .then(res => {
             setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() });
             onReceiptSave(Date.now());
+            handleClose();
         })
             .catch(error => {
             console.log(error);
@@ -189,7 +190,7 @@ function FullScreenDialog({ onReceiptSave }) {
             <Typography_1.default variant="h6" className={classes.title}>
               Tilføj ny opskrift
             </Typography_1.default>
-            <Button_1.default autoFocus color="inherit" onClick={handleSaveReceipt}>
+            <Button_1.default autoFocus color="inherit" onClick={handleSaveRecipe}>
               gem
             </Button_1.default>
           </Toolbar_1.default>

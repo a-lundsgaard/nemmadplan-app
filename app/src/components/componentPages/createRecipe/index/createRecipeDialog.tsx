@@ -143,7 +143,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
   }
 
 
-  const handleSaveReceipt = () => {
+  const handleSaveRecipe = () => {
 
     // checks for empty required fields upon saving a receipt
     console.log(state);
@@ -208,6 +208,9 @@ export default function FullScreenDialog({ onReceiptSave }) {
       .then(res => {
         setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() })
         onReceiptSave(Date.now())
+        handleClose();
+
+        //setOpen(false)
       })
       .catch(error => {
         console.log(error)
@@ -231,7 +234,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
             <Typography variant="h6" className={classes.title}>
               Tilføj ny opskrift
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSaveReceipt}>
+            <Button autoFocus color="inherit" onClick={handleSaveRecipe}>
               gem
             </Button>
           </Toolbar>

@@ -26,6 +26,7 @@ class HTTP {
             scrapeRecipesAndReturnFields: recipes_1.default.scrapeRecipesAndReturnFields,
             getRecipesAndReturnFields: recipes_1.default.getRecipesAndReturnFields,
             createRecipeQueryAndReturnFields: recipes_1.default.createRecipeAndReturnFields,
+            deleteRecipe: recipes_1.default.deleteRecipe,
             saveWeekPlan: recipes_1.default.saveWeekPlan
         };
     }

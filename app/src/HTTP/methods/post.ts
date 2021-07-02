@@ -1,10 +1,10 @@
 
 
-export default async function post(requestBody, extraOrdinaryUrl) {
+export default async function post(requestBody: Object, extraOrdinaryUrl?: Object) {
 
   const urlObj = {
     'sales': this.salesUrl,
-    'shopping': this.shoppingUrl
+    'shopping': this.shoppingUrl  
   }
 
   const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.testUrl;

@@ -38,7 +38,11 @@ import SmallNumPicker from "../pickers/number/smallNumPicker/smallNumPicker.jsx"
 
 //import recipes from "../../HTTP/queries/recipes";
 
+//import http from "../../HTTP";
+
+import http from '../../../HTTP/http';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import Prompt from '../dialog/prompt/prompt'
 
 
 
@@ -84,13 +88,14 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   clikedDish: (recipe: any) => any,
   dialogOpen: (bool: boolean) => boolean;
-  swappedRecipe: (recipe: any) => any,
+  swappedRecipe?: (recipe: any) => any,
+  onRecipeDelete: (recipeId: string) => any
   recipe: any,
-  visitFromCreatePlan: boolean
-  visitFromCreatePlanMealList: boolean;
-  customDate: string,
+  visitFromCreatePlan?: boolean
+  visitFromCreatePlanMealList?: boolean;
+  customDate?: string,
   recipeOnPlan: boolean // check if the recipe is on the plan
-  children: React.FC
+  children?: React.FC
 }
 
 // test
@@ -104,6 +109,7 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
   const [anchorEl, setAnchorEl] = React.useState(null);
   const settingsOpen = Boolean(anchorEl);
   const [expanded, setExpanded] = React.useState(false);
+  const [agreeOnRecipeDeletePrompt, setAgreeOnRecipeDeletePrompt] = useState(false);
 
   const handleAddReceipeToFoodPlan = () => {
 
@@ -139,18 +145,45 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
     setAnchorEl(null);
   };
 
+  const handleDeleteRecipe = (id: string) => {
+    const token = localStorage.getItem('token')
+
+    const query = http.recipes.deleteRecipe('name',
+      {
+        receiptId: id,
+        token: token
+      });
+    //if (agreeOnRecipeDeletePrompt) alert('Deleted dish');
+    setAgreeOnRecipeDeletePrompt(false)
+    http.post(query).then(res => {
+      props.onRecipeDelete(recipe._id)
+      console.log(res)
+
+    }).catch((err) => {
+      console.log(err);
+
+    })
+    setAnchorEl(null);
+  };
+
+
   useEffect(() => {
     console.log('The state of set scrolldialog changed: ' + scrollDialogOpen);
 
   }, [scrollDialogOpen])
+
+
+  useEffect(() => {
+    if (agreeOnRecipeDeletePrompt) {
+      handleDeleteRecipe(recipe._id)
+    }
+  }, [agreeOnRecipeDeletePrompt])
 
   const navStyle = {
     textDecoration: "none",
     color: "inherit"
   }
 
-  //const {recipe} = recipe;jjs
-  // test
 
   return (
     <>
@@ -161,7 +194,7 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
               R
-        </Avatar>
+            </Avatar>
           }
           action={
             props.visitFromCreatePlanMealList ?
@@ -190,7 +223,16 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
                   <MenuItem onClick={handleClose}><EditIcon /></MenuItem>
                   <Divider />
                   <NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked') }}>
-                    <MenuItem onClick={handleClose}><DeleteForeverIcon /></MenuItem>
+                    <Prompt
+                      header={'Ønsker du virkelig at slette "' + recipe.name + '"?'}
+                      infoText={'Hvis du fortsætter denne handlig slettes retten permanent. Dette kan ikke fortrydes'}
+                      agree={(bool: boolean) => setAgreeOnRecipeDeletePrompt(bool)}
+                    >
+                      <MenuItem >
+                        <DeleteForeverIcon />
+                      </MenuItem>
+                    </Prompt>
+
                   </NavLink>
                 </Menu>
               </>
@@ -220,19 +262,19 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
           {props.visitFromCreatePlanMealList ?
             <>
               {props.children /*person picker*/}
-               <IconButton aria-label="swap dish" > <CachedIcon onClick={() => handleSwapRecipeInFoodPlan()} /></IconButton> 
+              <IconButton aria-label="swap dish" > <CachedIcon onClick={() => handleSwapRecipeInFoodPlan()} /></IconButton>
             </> :
             <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>
           }
 
           {props.visitFromCreatePlan && <>
-            {props.recipeOnPlan ?  
-            <IconButton disabled={true} aria-label="dish already added to plan"><PlaylistAddCheckIcon/></IconButton> : 
-            <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
-               <PostAddIcon /> 
-          </IconButton> 
-          
-        }
+            {props.recipeOnPlan ?
+              <IconButton disabled={true} aria-label="dish already added to plan"><PlaylistAddCheckIcon /></IconButton> :
+              <IconButton aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
+                <PostAddIcon />
+              </IconButton>
+
+            }
             <IconButton aria-label="share">
               <ShareIcon />
             </IconButton>
@@ -269,7 +311,7 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
 
 
 
-function prettifyDate(date: string, props) {
+function prettifyDate(date: string) {
 
   const months = {
     1: 'januar',
@@ -290,12 +332,7 @@ function prettifyDate(date: string, props) {
     return;
   }
 
-     if (props.visitFromCreatePlanMealList) {
-    console.log(date)
-    console.log('Fandt dato to prettify: ', date)
 
-  } 
-  //
 
   let dateArr = date.split('-')
   let year = dateArr[0]

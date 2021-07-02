@@ -4,10 +4,11 @@ export default {
     getRecipesAndReturnFields,
     scrapeRecipesAndReturnFields,
     createRecipeAndReturnFields,
-    saveWeekPlan
+    saveWeekPlan,
+    deleteRecipe
 }
 
-function getRecipesAndReturnFields(string, variables = {}) {
+function getRecipesAndReturnFields(string: string, variables = {}) {
     const fieldsToQuery = string;
     const query = `query {
         receipts {
@@ -18,7 +19,7 @@ function getRecipesAndReturnFields(string, variables = {}) {
 }
 
 
-export function scrapeRecipesAndReturnFields(fieldsToQuery, variables = {}) {
+function scrapeRecipesAndReturnFields(fieldsToQuery: string, variables = {}) {
     const query = `mutation($crawlerInput: String!) {
         scrapeReceipt(crawlerInput: $crawlerInput) {
             ${fieldsToQuery}
@@ -27,7 +28,7 @@ export function scrapeRecipesAndReturnFields(fieldsToQuery, variables = {}) {
     return { query: query, variables: variables }
 }
 
-export function createRecipeAndReturnFields(string, variables) {
+function createRecipeAndReturnFields(string: string, variables = {}) {
 
     // Splitting the string to array
     const fieldsToQuery = string.split(' ');
@@ -64,7 +65,18 @@ export function createRecipeAndReturnFields(string, variables) {
 // persons: $persons,
 
 
-function saveWeekPlan(string, variables = {}) {
+function deleteRecipe(fieldsToQuery: string, variables = {}) {
+    const query = `mutation( $receiptId: ID! ) {
+        deleteReceipt( receiptId: $receiptId) {
+            ${fieldsToQuery}
+        }
+      }`
+    return new RequestBody(query, variables)
+
+}
+
+
+function saveWeekPlan(string: string, variables = {}) {
     const fieldsToQuery = string;
 
     const query = `mutation( $name: String!, $customShoppingList: [ingredientInput]!, $plan: [dayPlanInput]! ) {

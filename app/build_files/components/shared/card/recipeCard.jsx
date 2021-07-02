@@ -49,7 +49,9 @@ const DeleteForever_1 = __importDefault(require("@material-ui/icons/DeleteForeve
 const PostAdd_1 = __importDefault(require("@material-ui/icons/PostAdd"));
 const Clear_1 = __importDefault(require("@material-ui/icons/Clear"));
 const Cached_1 = __importDefault(require("@material-ui/icons/Cached"));
+const http_1 = __importDefault(require("../../../HTTP/http"));
 const PlaylistAddCheck_1 = __importDefault(require("@material-ui/icons/PlaylistAddCheck"));
+const prompt_1 = __importDefault(require("../dialog/prompt/prompt"));
 const useStyles = styles_1.makeStyles((theme) => ({
     card: {
         maxWidth: 245,
@@ -85,6 +87,7 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
     const [anchorEl, setAnchorEl] = react_1.default.useState(null);
     const settingsOpen = Boolean(anchorEl);
     const [expanded, setExpanded] = react_1.default.useState(false);
+    const [agreeOnRecipeDeletePrompt, setAgreeOnRecipeDeletePrompt] = react_1.useState(false);
     const handleAddReceipeToFoodPlan = () => {
         clikedDish(recipe);
         dialogOpen(false);
@@ -102,9 +105,29 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleDeleteRecipe = (id) => {
+        const token = localStorage.getItem('token');
+        const query = http_1.default.recipes.deleteRecipe('name', {
+            receiptId: id,
+            token: token
+        });
+        setAgreeOnRecipeDeletePrompt(false);
+        http_1.default.post(query).then(res => {
+            props.onRecipeDelete(recipe._id);
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+        });
+        setAnchorEl(null);
+    };
     react_1.useEffect(() => {
         console.log('The state of set scrolldialog changed: ' + scrollDialogOpen);
     }, [scrollDialogOpen]);
+    react_1.useEffect(() => {
+        if (agreeOnRecipeDeletePrompt) {
+            handleDeleteRecipe(recipe._id);
+        }
+    }, [agreeOnRecipeDeletePrompt]);
     const navStyle = {
         textDecoration: "none",
         color: "inherit"
@@ -115,7 +138,7 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
       <Card_1.default className={classes.card}>
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R
-        </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
+            </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
             <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <Clear_1.default />
               </IconButton_1.default> :
@@ -133,7 +156,12 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
                   <MenuItem_1.default onClick={handleClose}><Edit_1.default /></MenuItem_1.default>
                   <Divider_1.default />
                   <react_router_dom_1.NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked'); }}>
-                    <MenuItem_1.default onClick={handleClose}><DeleteForever_1.default /></MenuItem_1.default>
+                    <prompt_1.default header={'Ønsker du virkelig at slette "' + recipe.name + '"?'} infoText={'Hvis du fortsætter denne handlig slettes retten permanent. Dette kan ikke fortrydes'} agree={(bool) => setAgreeOnRecipeDeletePrompt(bool)}>
+                      <MenuItem_1.default>
+                        <DeleteForever_1.default />
+                      </MenuItem_1.default>
+                    </prompt_1.default>
+
                   </react_router_dom_1.NavLink>
                 </Menu_1.default>
               </>} title={recipe.name} subheader={prettifyDate(customDate ? customDate : recipe.createdAt, props)}/>
@@ -154,16 +182,16 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
           {props.visitFromCreatePlanMealList ?
             <>
               {props.children}
-               <IconButton_1.default aria-label="swap dish"> <Cached_1.default onClick={() => handleSwapRecipeInFoodPlan()}/></IconButton_1.default> 
+              <IconButton_1.default aria-label="swap dish"> <Cached_1.default onClick={() => handleSwapRecipeInFoodPlan()}/></IconButton_1.default>
             </> :
             <IconButton_1.default aria-label="add to favorites"> <Favorite_1.default /></IconButton_1.default>}
 
           {props.visitFromCreatePlan && <>
             {props.recipeOnPlan ?
                 <IconButton_1.default disabled={true} aria-label="dish already added to plan"><PlaylistAddCheck_1.default /></IconButton_1.default> :
-                <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}> 
-               <PostAdd_1.default /> 
-          </IconButton_1.default>}
+                <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
+                <PostAdd_1.default />
+              </IconButton_1.default>}
             <IconButton_1.default aria-label="share">
               <Share_1.default />
             </IconButton_1.default>
@@ -189,7 +217,7 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
     </>);
 }
 exports.default = ReceiptCard;
-function prettifyDate(date, props) {
+function prettifyDate(date) {
     const months = {
         1: 'januar',
         2: 'februar',
@@ -206,10 +234,6 @@ function prettifyDate(date, props) {
     };
     if (!date) {
         return;
-    }
-    if (props.visitFromCreatePlanMealList) {
-        console.log(date);
-        console.log('Fandt dato to prettify: ', date);
     }
     let dateArr = date.split('-');
     let year = dateArr[0];
