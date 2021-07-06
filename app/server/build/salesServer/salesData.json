@@ -1,26 +1,58 @@
 [
   {
-    "productName": "rugbrød",
-    "date": "2021-07-02T21:20:23.744Z",
+    "productName": "æbler",
+    "date": "2021-07-05T10:51:41.782Z",
     "results": [
       {
-        "title": "Gestus, Rugbrød-skiver",
+        "title": "Æbler",
         "price": null,
         "unit": "",
-        "quantity": 8,
-        "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48361/SPAR262021_24_289x1660_2480x3767_zoom.jpg",
+        "quantity": 22,
+        "pricePrKg": "2,30 per stk.",
+        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48388/Løvbjerg272021_16_0x0_4963x7262_zoom.jpg",
         "date": ""
-      },
+      }
+    ]
+  },
+  {
+    "productName": "mælk",
+    "date": "2021-07-05T10:52:41.842Z",
+    "results": [
+      {
+        "title": "Thise, Græsmælk",
+        "price": null,
+        "unit": "",
+        "quantity": 13,
+        "pricePrKg": "13,56 per ltr.",
+        "chain": "\n                    \n                                                Irma\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48463/Irma272021_11_143x2130_1980x4110_zoom.jpg",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "productName": "rugbrød",
+    "date": "2021-07-05T10:52:42.113Z",
+    "results": [
       {
         "title": "Kohberg Herkules, Rugbrød-skiver",
         "price": null,
         "unit": "",
         "quantity": 10,
         "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48455/Meny272021_20_109x0_2457x2460_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kohberg Viking, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 10,
+        "pricePrKg": "10,00 per kg.",
+        "chain": "\n                    \n                                                \n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48499/Lidl272021_5_2496x547_4953x4490_zoom.jpg",
         "date": ""
       },
       {
@@ -29,18 +61,8 @@
         "unit": "",
         "quantity": 10,
         "pricePrKg": "10,53 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48455/Meny272021_20_109x0_2457x2460_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Herkules, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "12,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48386/REMA1000262021_24_77x3802_2678x7601_zoom.jpg",
         "date": ""
       },
       {
@@ -49,7 +71,7 @@
         "unit": "",
         "quantity": 10,
         "pricePrKg": "12,50 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48455/Meny272021_20_109x0_2457x2460_zoom.jpg",
         "date": ""
       },
@@ -99,6 +121,16 @@
         "unit": "",
         "quantity": 12,
         "pricePrKg": "12,63 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48456/REMA1000272021_11_2490x1782_4706x5539_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Schulstad Levebrød, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 12,
+        "pricePrKg": "12,63 per kg.",
         "chain": "\n                    \n                                                SPAR\n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48452/SPAR272021_8_2452x193_4871x3711_zoom.jpg",
         "date": ""
@@ -111,16 +143,6 @@
         "pricePrKg": "12,63 per kg.",
         "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48360/SuperBrugsen262021_14_37x28_2647x3992_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Solsikke, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "12,63 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48386/REMA1000262021_24_77x3802_2678x7601_zoom.jpg",
         "date": ""
       },
       {
@@ -144,23 +166,13 @@
         "date": ""
       },
       {
-        "title": "Kohberg Protein, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48386/REMA1000262021_24_77x3802_2678x7601_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Levebrød, Rugbrød-skiver",
+        "title": "Schulstad Det gode, Rugbrød-skiver",
         "price": null,
         "unit": "",
         "quantity": 16,
-        "pricePrKg": "20,00 per kg.",
+        "pricePrKg": "16,84 per kg.",
         "chain": "\n                    \n                                                Let-køb\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/25/48384/Let-køb262021_5_18x2570_2470x4893_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48454/Let-køb282021_5_2384x0_4872x2612_zoom.jpg",
         "date": ""
       },
       {
@@ -194,26 +206,6 @@
         "date": ""
       },
       {
-        "title": "Kohberg Rugbrødsboller, Boller",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "24,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48386/REMA1000262021_24_77x3802_2678x7601_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Mesterværk, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 15,
-        "pricePrKg": "25,00 per kg.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48362/MinKøbmand262021_7_289x4156_4956x7411_zoom.jpg",
-        "date": ""
-      },
-      {
         "title": "LingonGrova, Rugbrød-skiver",
         "price": null,
         "unit": "",
@@ -224,23 +216,13 @@
         "date": ""
       },
       {
-        "title": "Rema 1000, Rugbrød-skiver",
+        "title": "Rugbrødssnacks",
         "price": null,
         "unit": "",
-        "quantity": 15,
-        "pricePrKg": "30,00 per kg.",
+        "quantity": 12,
+        "pricePrKg": "109,09 per kg.",
         "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48386/REMA1000262021_14_193x1708_2497x5354_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Bageren rugbrød",
-        "price": null,
-        "unit": "",
-        "quantity": 15,
-        "pricePrKg": "",
-        "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48468/Lidl2620215_2386x4837_4889x6940_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48456/REMA1000272021_11_267x4872_2482x8274_zoom.jpg",
         "date": ""
       },
       {
@@ -252,15 +234,241 @@
         "chain": "\n                    \n                                                Bilka\n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48496/Bilka27202158_2548x498_4818x3577_zoom.jpg",
         "date": ""
-      },
+      }
+    ]
+  },
+  {
+    "productName": "razer",
+    "date": "2021-07-05T11:42:23.414Z",
+    "results": [
       {
-        "title": "Bageren rugbrød",
+        "title": "Razer, Mus",
         "price": null,
         "unit": "",
-        "quantity": 20,
+        "quantity": 1,
         "pricePrKg": "",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48361/SPAR262021_16_3328x5751_4645x7107_zoom.jpg",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_3_6x514_626x1350_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 399,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Bilka\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48496/Bilka27202145_2389x86_4763x2099_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 699,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elgiganten\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48520/Elgiganten272021_6_3295x0_4981x1488_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Tastatur",
+        "price": null,
+        "unit": "",
+        "quantity": 444,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elgiganten\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48520/Elgiganten272021_6_1625x4318_3364x5836_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mus",
+        "price": null,
+        "unit": "",
+        "quantity": 999,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Power\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48518/Power272021_24_63x563_391x789_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Tastatur",
+        "price": null,
+        "unit": "",
+        "quantity": 599,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Expert\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48443/Expert272021_3_2741x3596_4844x5199_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mus",
+        "price": null,
+        "unit": "",
+        "quantity": 849,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Expert\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48443/Expert272021_3_3433x5108_4839x6567_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Tastatur",
+        "price": null,
+        "unit": "",
+        "quantity": 1,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_3_623x0_1271x529_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Højttaler",
+        "price": null,
+        "unit": "",
+        "quantity": 849,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_3_1253x1889_1888x2716_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mikrofon",
+        "price": null,
+        "unit": "",
+        "quantity": 1,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_3_605x2719_1262x3226_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 399,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Expert\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/26/48443/Expert272021_3_2087x4749_3524x6577_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mus",
+        "price": null,
+        "unit": "",
+        "quantity": 249,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Power\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48518/Power272021_2_62x1178_395x1532_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Tastatur",
+        "price": null,
+        "unit": "",
+        "quantity": 777,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Power\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48518/Power272021_2_406x1177_735x1537_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 249,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elgiganten\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48520/Elgiganten272021_6_3265x1442_4981x2907_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 1,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_2_622x0_1880x831_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 1,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_2_1252x823_1880x1349_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mikrofon",
+        "price": null,
+        "unit": "",
+        "quantity": 849,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_3_0x1868_1277x2719_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Headset",
+        "price": null,
+        "unit": "",
+        "quantity": 499,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Power\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48518/Power272021_24_63x317_390x545_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mikrofon",
+        "price": null,
+        "unit": "",
+        "quantity": 1,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elsalg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/46694/ElsalgGaming282021-1_3_0x2722_629x3226_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Tastatur",
+        "price": null,
+        "unit": "",
+        "quantity": 349,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Power\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48518/Power272021_24_47x64_390x295_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Mus",
+        "price": null,
+        "unit": "",
+        "quantity": 699,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Power\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48518/Power272021_27_317x58_551x296_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Gamerstol",
+        "price": null,
+        "unit": "",
+        "quantity": 1,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elgiganten\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48520/Elgiganten272021_4_1623x11064_3331x12402_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Razer, Tastatur",
+        "price": null,
+        "unit": "",
+        "quantity": 799,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                Elgiganten\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/27/48520/Elgiganten272021_6_0x7224_1694x8651_zoom.jpg",
         "date": ""
       }
     ]

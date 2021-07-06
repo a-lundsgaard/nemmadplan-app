@@ -41,7 +41,9 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const [clickedDishId, setClickedDishId] = react_1.useState('');
     const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
     const [message, setMessage] = react_1.useState({});
-    function getRecipes() {
+    function getRecipes(showLoading) {
+        if (showLoading)
+            setIsLoading(true);
         const token = localStorage.getItem('token');
         const requestBody = http_1.default.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token });
         http_1.default.post(requestBody)
@@ -49,6 +51,7 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             setRecipes(res.data.receipts);
             setRecipesInSearch(res.data.receipts);
             localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length));
+            setIsLoading(false);
         })
             .catch(e => console.log(e));
     }
@@ -86,7 +89,8 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
         setRecipesInSearch(filteredRecipes);
     }, [searchString]);
     react_1.useEffect(() => {
-        getRecipes();
+        if (!isReceiptSavedOrDeleted)
+            getRecipes(true);
     }, [isReceiptSavedOrDeleted]);
     const handleRecipeSave = (id) => {
         setMessage({ msg: `Retten blev gemt`, type: 'success', key: Math.random() });

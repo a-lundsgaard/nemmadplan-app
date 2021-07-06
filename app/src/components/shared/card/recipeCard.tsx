@@ -127,9 +127,7 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
   const handleSwapRecipeInFoodPlan = () => {
     // sending recipe to recipe component
     dialogOpen(true)
-
     swappedRecipe(recipe);
-
   }
 
   const handleExpandClick = () => {
@@ -154,16 +152,18 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
         token: token
       });
     //if (agreeOnRecipeDeletePrompt) alert('Deleted dish');
-    setAgreeOnRecipeDeletePrompt(false)
     http.post(query).then(res => {
       props.onRecipeDelete(recipe._id)
-      console.log(res)
+      console.log(res);
+
 
     }).catch((err) => {
       console.log(err);
 
     })
-    setAnchorEl(null);
+    //setAnchorEl(null);
+    setAgreeOnRecipeDeletePrompt(false)
+
   };
 
 
@@ -187,8 +187,15 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
 
   return (
     <>
-      <ScrollDialog boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool: boolean) => setScrollDialogOpen(bool)} key={1} />
-
+      <ScrollDialog
+        boolean={scrollDialogOpen}
+        text={recipe.text}
+        ingredients={recipe.ingredients}
+        title={recipe.name}
+        image={recipe.image}
+        onChange={(bool: boolean) => setScrollDialogOpen(bool)}
+        key={1}
+      />
       <Card className={classes.card} >
         <CardHeader
           avatar={
@@ -220,20 +227,19 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
                   open={settingsOpen}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}><EditIcon /></MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <EditIcon />
+                  </MenuItem>
                   <Divider />
-                  <NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked') }}>
+                  <MenuItem >
                     <Prompt
                       header={'Ønsker du virkelig at slette "' + recipe.name + '"?'}
-                      infoText={'Hvis du fortsætter denne handlig slettes retten permanent. Dette kan ikke fortrydes'}
+                      infoText={'Hvis du fortsætter slettes retten permanent. Denne handling kan ikke fortrydes.'}
                       agree={(bool: boolean) => setAgreeOnRecipeDeletePrompt(bool)}
                     >
-                      <MenuItem >
-                        <DeleteForeverIcon />
-                      </MenuItem>
+                      <DeleteForeverIcon />
                     </Prompt>
-
-                  </NavLink>
+                  </MenuItem>
                 </Menu>
               </>
           }
@@ -244,7 +250,6 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
 
 
         <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
-
           <CardMedia
             className={classes.media}
             image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}
@@ -331,8 +336,6 @@ function prettifyDate(date: string) {
   if (!date) {
     return;
   }
-
-
 
   let dateArr = date.split('-')
   let year = dateArr[0]

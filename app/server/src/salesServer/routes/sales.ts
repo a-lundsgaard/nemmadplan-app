@@ -7,8 +7,27 @@ const fs = require('fs');
 const path = require('path');
 
 
+interface CachedResult {
+  productName: string,
+  date: Date,
+  results: [
+    {
+      title: string,
+      price: null,
+      unit: string,
+      quantity: number,
+      pricePrKg: string,
+      chain: string,
+      img: string,
+      date: string
+    }
+  ]
+
+}
+
+
 //Endpoint for adding user
-router.post('/', async (req, res) => {
+router.post('/', async (req: any, res: any) => {
   try {
     console.log(req.body);
     console.log('Endpoint hit');
@@ -20,7 +39,9 @@ router.post('/', async (req, res) => {
       const today = new Date();
 
       if (!firstDateIsPastDayComparedToSecond(cachedResultsDate, today)) {
+      //if (cachedResultsDate.getDate() < new Date().getDate() ) {
         cachedData = cachedResults;
+     // }
       }
 
     } catch (error) {
@@ -29,7 +50,7 @@ router.post('/', async (req, res) => {
 
     const productName = req.body.products[0];
 
-    const productFoundInCache = cachedData.find((productObject) => productObject.productName === productName);
+    const productFoundInCache = cachedData.find((productObject: CachedResult) => productObject.productName === productName);
     if (productFoundInCache) {
       return res.json(productFoundInCache.results);
     }
@@ -59,15 +80,20 @@ module.exports = router;
 
 
 
-function cacheResults(json) {
-  fs.writeFile('salesData.json', JSON.stringify(json, null, 2), (err) => {
-    if (err) {
-      throw err
-    }
-    console.log('Data written to file salesData.json');
-  });
+function cacheResults(json: CachedResult) {
+  try {
+    fs.writeFile('salesData.json', JSON.stringify(json, null, 2), (err: any) => {
+      if (err) {
+        throw err
+      }
+      console.log('Data written to file salesData.json');
+    });
+  } catch (error) {
+    console.error('Could not write json file: ', error)
+
+  }
 }
 
-const firstDateIsPastDayComparedToSecond = (firstDate, secondDate) => firstDate.setHours(0, 0, 0, 0) - secondDate.setHours(0, 0, 0, 0) < 0
+const firstDateIsPastDayComparedToSecond = (firstDate: Date, secondDate: Date) => firstDate.setHours(10, 0, 0, 0) - secondDate.setHours(10, 0, 0, 0) < 0
 
 

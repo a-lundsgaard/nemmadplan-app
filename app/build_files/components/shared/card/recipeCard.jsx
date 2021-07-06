@@ -42,7 +42,6 @@ const MoreVert_1 = __importDefault(require("@material-ui/icons/MoreVert"));
 const scrollDialog_jsx_1 = __importDefault(require("../dialog/scrollDialog.jsx"));
 const MenuItem_1 = __importDefault(require("@material-ui/core/MenuItem"));
 const Menu_1 = __importDefault(require("@material-ui/core/Menu"));
-const react_router_dom_1 = require("react-router-dom");
 const Divider_1 = __importDefault(require("@material-ui/core/Divider"));
 const Edit_1 = __importDefault(require("@material-ui/icons/Edit"));
 const DeleteForever_1 = __importDefault(require("@material-ui/icons/DeleteForever"));
@@ -111,14 +110,13 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
             receiptId: id,
             token: token
         });
-        setAgreeOnRecipeDeletePrompt(false);
         http_1.default.post(query).then(res => {
             props.onRecipeDelete(recipe._id);
             console.log(res);
         }).catch((err) => {
             console.log(err);
         });
-        setAnchorEl(null);
+        setAgreeOnRecipeDeletePrompt(false);
     };
     react_1.useEffect(() => {
         console.log('The state of set scrolldialog changed: ' + scrollDialogOpen);
@@ -134,7 +132,6 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
     };
     return (<>
       <scrollDialog_jsx_1.default boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool) => setScrollDialogOpen(bool)} key={1}/>
-
       <Card_1.default className={classes.card}>
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R
@@ -153,22 +150,20 @@ function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate
                     vertical: "top",
                     horizontal: "right"
                 }} open={settingsOpen} onClose={handleClose}>
-                  <MenuItem_1.default onClick={handleClose}><Edit_1.default /></MenuItem_1.default>
+                  <MenuItem_1.default onClick={handleClose}>
+                    <Edit_1.default />
+                  </MenuItem_1.default>
                   <Divider_1.default />
-                  <react_router_dom_1.NavLink to="/receipts" style={navStyle} onClick={() => { console.log('Recept settings clicked'); }}>
-                    <prompt_1.default header={'Ønsker du virkelig at slette "' + recipe.name + '"?'} infoText={'Hvis du fortsætter denne handlig slettes retten permanent. Dette kan ikke fortrydes'} agree={(bool) => setAgreeOnRecipeDeletePrompt(bool)}>
-                      <MenuItem_1.default>
-                        <DeleteForever_1.default />
-                      </MenuItem_1.default>
+                  <MenuItem_1.default>
+                    <prompt_1.default header={'Ønsker du virkelig at slette "' + recipe.name + '"?'} infoText={'Hvis du fortsætter slettes retten permanent. Denne handling kan ikke fortrydes.'} agree={(bool) => setAgreeOnRecipeDeletePrompt(bool)}>
+                      <DeleteForever_1.default />
                     </prompt_1.default>
-
-                  </react_router_dom_1.NavLink>
+                  </MenuItem_1.default>
                 </Menu_1.default>
               </>} title={recipe.name} subheader={prettifyDate(customDate ? customDate : recipe.createdAt, props)}/>
 
 
         <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
-
           <CardMedia_1.default className={classes.media} image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} title="Paella dish"/>
         </span>
 

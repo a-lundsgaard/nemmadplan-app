@@ -36,9 +36,9 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
   const [message, setMessage] = useState({});
 
 
-  function getRecipes() {
+  function getRecipes(showLoading: boolean) {
 
-    //setIsLoading(true)
+    if(showLoading) setIsLoading(true)
 
     const token = localStorage.getItem('token');
     const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token })
@@ -48,7 +48,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
         setRecipes(res.data.receipts);
         setRecipesInSearch(res.data.receipts);
         localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length)) // for loading skeleton recipes
-        //setIsLoading(false)
+        setIsLoading(false)
       })
       .catch(e =>
         console.log(e)
@@ -64,7 +64,6 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
   function recipeOnPlan(id) {
     return props.recipies ? props.recipies.find((recipe) => recipe._id === id) : false;
   }
-
 
   useEffect(() => {
     listenToSearchInput(setSearchString) // sets up redux listener on the search input
@@ -102,7 +101,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
 
 
   useEffect(() => {
-    getRecipes()
+    if(!isReceiptSavedOrDeleted) getRecipes(true)
   }, [isReceiptSavedOrDeleted])
 
   const handleRecipeSave = (id: string) => {
