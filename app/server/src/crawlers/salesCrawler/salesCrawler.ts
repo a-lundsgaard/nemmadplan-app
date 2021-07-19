@@ -37,8 +37,9 @@ async function runSalesCrawler(pageFunction, preferences) {
 
       //const waitFor = '.mx-0';
 
-      const waitFor = '.row.product_thumb.search_result_list.align-items-center';
+      //const waitFor = '.row.product_thumb.search_result_list.align-items-center';
 
+      const waitFor = '.search_result_list';
       console.log('Waiting for selector: "' + waitFor + '"...');
 
       try {

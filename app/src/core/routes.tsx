@@ -75,7 +75,7 @@ function Routes() {
     const DefaultContainer = () => (
       <>
       { state.isLoading ? null : <MiniDrawer key={1}/> }
-        <ProtectedRoute exact path={"/receipts"} component={Receipts} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
+        <ProtectedRoute exact path={ROUTES.RECIPES} component={Receipts} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
         <ProtectedRoute exact path={"/home"} component={Welcome} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
         <ProtectedRoute exact path={"/"} component={Welcome} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
         <ProtectedRoute exact path={ROUTES.CREATEPLAN} component={CreatePlan} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>

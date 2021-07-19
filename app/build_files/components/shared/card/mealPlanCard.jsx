@@ -39,7 +39,7 @@ const Favorite_1 = __importDefault(require("@material-ui/icons/Favorite"));
 const Share_1 = __importDefault(require("@material-ui/icons/Share"));
 const ExpandMore_1 = __importDefault(require("@material-ui/icons/ExpandMore"));
 const MoreVert_1 = __importDefault(require("@material-ui/icons/MoreVert"));
-const scrollDialog_jsx_1 = __importDefault(require("../dialog/scrollDialog.jsx"));
+const mealPlanScrollDialog_1 = __importDefault(require("../dialog/mealPlanScrollDialog/mealPlanScrollDialog"));
 const MenuItem_1 = __importDefault(require("@material-ui/core/MenuItem"));
 const Menu_1 = __importDefault(require("@material-ui/core/Menu"));
 const Divider_1 = __importDefault(require("@material-ui/core/Divider"));
@@ -80,7 +80,7 @@ const useStyles = styles_1.makeStyles((theme) => ({
         backgroundColor: colors_1.red[500],
     },
 }));
-function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }) {
+function RecipeCard({ recipe, clikedPlan: clikedDish, dialogOpen, swappedRecipe, customDate, ...props }) {
     const classes = useStyles();
     const [scrollDialogOpen, setScrollDialogOpen] = react_1.default.useState(false);
     const [anchorEl, setAnchorEl] = react_1.default.useState(null);
@@ -132,7 +132,7 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
     };
     return (<>
       {!props.createPlanCard &&
-            <scrollDialog_jsx_1.default boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool) => setScrollDialogOpen(bool)} key={1}/>}
+            <mealPlanScrollDialog_1.default boolean={scrollDialogOpen} text={recipe.text} ingredients={recipe.ingredients} title={recipe.name} image={recipe.image} onChange={(bool) => setScrollDialogOpen(bool)} key={1}/>}
       <Card_1.default className={classes.card}>
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R

@@ -19,7 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
 
 
-import ScrollDialog from '../dialog/scrollDialog.jsx';
+import RecipeScrollDialog from '../dialog/scrollDialog.jsx';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { Link, NavLink, useHistory } from "react-router-dom";
@@ -95,11 +95,12 @@ interface Props {
   visitFromCreatePlanMealList?: boolean;
   customDate?: string,
   recipeOnPlan: boolean // check if the recipe is on the plan
-  children?: React.FC
+  children?: React.FC,
+  createPlanCard?: boolean
 }
 
-// test
-export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }: Props) {
+
+export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }: Props) {
 
 
   const classes = useStyles();
@@ -187,7 +188,8 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
 
   return (
     <>
-      <ScrollDialog
+      { !props.createPlanCard && 
+      <RecipeScrollDialog
         boolean={scrollDialogOpen}
         text={recipe.text}
         ingredients={recipe.ingredients}
@@ -195,7 +197,7 @@ export default function ReceiptCard({ recipe, clikedDish, dialogOpen, swappedRec
         image={recipe.image}
         onChange={(bool: boolean) => setScrollDialogOpen(bool)}
         key={1}
-      />
+      /> }
       <Card className={classes.card} >
         <CardHeader
           avatar={

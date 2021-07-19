@@ -45,11 +45,16 @@ router.post('/', async (req, res) => {
 });
 module.exports = router;
 function cacheResults(json) {
-    fs.writeFile('salesData.json', JSON.stringify(json, null, 2), (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log('Data written to file salesData.json');
-    });
+    try {
+        fs.writeFile('salesData.json', JSON.stringify(json, null, 2), (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Data written to file salesData.json');
+        });
+    }
+    catch (error) {
+        console.error('Could not write json file: ', error);
+    }
 }
-const firstDateIsPastDayComparedToSecond = (firstDate, secondDate) => firstDate.setHours(0, 0, 0, 0) - secondDate.setHours(0, 0, 0, 0) < 0;
+const firstDateIsPastDayComparedToSecond = (firstDate, secondDate) => firstDate.setHours(10, 0, 0, 0) - secondDate.setHours(10, 0, 0, 0) < 0;

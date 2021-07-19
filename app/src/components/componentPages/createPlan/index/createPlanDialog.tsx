@@ -54,7 +54,7 @@ const Transition = React.forwardRef(function Transition(
 export default function CreatePlanDialog({ onReceiptSave }) {
 
   const classes = useStyles();
-  const [open, setOpen] = useState(true); // set false when not testing
+  const [open, setOpen] = useState(false); // set false when not testing
   const [recipesOpen, setRecipesOpen] = useState(false); // set false when not testing
 
   // state for input fields

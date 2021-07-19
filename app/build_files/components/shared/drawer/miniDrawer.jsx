@@ -23,6 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
+const react_router_dom_1 = require("react-router-dom");
 const clsx_1 = __importDefault(require("clsx"));
 const styles_1 = require("@material-ui/core/styles");
 const Drawer_1 = __importDefault(require("@material-ui/core/Drawer"));
@@ -39,7 +40,7 @@ const ChevronRight_1 = __importDefault(require("@material-ui/icons/ChevronRight"
 const ListItem_1 = __importDefault(require("@material-ui/core/ListItem"));
 const ListItemIcon_1 = __importDefault(require("@material-ui/core/ListItemIcon"));
 const ListItemText_1 = __importDefault(require("@material-ui/core/ListItemText"));
-const react_router_dom_1 = require("react-router-dom");
+const react_router_dom_2 = require("react-router-dom");
 const Fastfood_1 = __importDefault(require("@material-ui/icons/Fastfood"));
 const Schedule_1 = __importDefault(require("@material-ui/icons/Schedule"));
 const Home_1 = __importDefault(require("@material-ui/icons/Home"));
@@ -118,6 +119,17 @@ function MiniDrawer() {
     const [anchorEl, setAnchorEl] = react_1.default.useState(null);
     const open1 = Boolean(anchorEl);
     const [user, setUser] = react_1.useState('');
+    function headerString() {
+        const location = react_router_dom_1.useLocation();
+        const headerName = (path) => {
+            switch (path) {
+                case routes_json_1.default.RECIPES: return 'Mine retter';
+                case routes_json_1.default.CREATEPLAN: return 'Mine madplaner';
+                default: return 'Hjem';
+            }
+        };
+        return headerName(location.pathname);
+    }
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -171,26 +183,31 @@ function MiniDrawer() {
         })}>
             <Menu_1.default />
           </IconButton_1.default>
+
+          <Typography_1.default variant="h6" align="right" display="block" className={classes.appBar}>
+            {headerString()}
+          </Typography_1.default>
+
           <searchBar1_1.default />
           <span style={{ flex: 1 }}></span>
 
           <div>
-              <IconButton_1.default aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
-                <AccountCircle_1.default />
-              </IconButton_1.default>
-              <Menu_2.default id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
+            <IconButton_1.default aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
+              <AccountCircle_1.default />
+            </IconButton_1.default>
+            <Menu_2.default id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
             vertical: "top",
             horizontal: "right"
         }} keepMounted transformOrigin={{
             vertical: "top",
             horizontal: "right"
         }} open={open1} onClose={handleClose}>
-                <MenuItem_1.default onClick={handleClose}>Min konto</MenuItem_1.default>
-                <react_router_dom_1.NavLink to="/login" style={navStyle} onClick={() => { localStorage.removeItem('token'); }}>            
-                  <MenuItem_1.default onClick={handleClose}>Log ud</MenuItem_1.default>
-                </react_router_dom_1.NavLink>
-              </Menu_2.default>
-            </div>
+              <MenuItem_1.default onClick={handleClose}>Min konto</MenuItem_1.default>
+              <react_router_dom_2.NavLink to="/login" style={navStyle} onClick={() => { localStorage.removeItem('token'); }}>
+                <MenuItem_1.default onClick={handleClose}>Log ud</MenuItem_1.default>
+              </react_router_dom_2.NavLink>
+            </Menu_2.default>
+          </div>
 
 
           <Typography_1.default variant="h6" align="right" display="block" className={classes.appBar}>
@@ -215,28 +232,28 @@ function MiniDrawer() {
         </div>
         <Divider_1.default />
         <List_1.default>
-        {[
+          {[
             { text: 'Hjem', url: '/home' },
             { text: 'Madplaner', url: routes_json_1.default.CREATEPLAN },
-            { text: 'Opskrifter', url: '/receipts' }
-        ].map((obj, index) => (<react_router_dom_1.NavLink key={index} to={`${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
+            { text: 'Opskrifter', url: routes_json_1.default.RECIPES }
+        ].map((obj, index) => (<react_router_dom_2.NavLink key={index} to={`${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
 
-            <ListItem_1.default button>
-              <ListItemIcon_1.default>{findIcon(obj.text)}</ListItemIcon_1.default>
-              
-                  <ListItemText_1.default primary={obj.text}/>
-            </ListItem_1.default>
-            </react_router_dom_1.NavLink>))}
+              <ListItem_1.default button>
+                <ListItemIcon_1.default>{findIcon(obj.text)}</ListItemIcon_1.default>
+
+                <ListItemText_1.default primary={obj.text}/>
+              </ListItem_1.default>
+            </react_router_dom_2.NavLink>))}
         </List_1.default>
         <Divider_1.default />
         <List_1.default>
-        {['Mine tilbud', 'Søg tilbud'].map((text, index) => (<ListItem_1.default button key={text}>
+          {['Mine tilbud', 'Søg tilbud'].map((text, index) => (<ListItem_1.default button key={text}>
               <ListItemIcon_1.default>{findIcon(text)}</ListItemIcon_1.default>
 
-              <react_router_dom_1.NavLink to='/home' style={navStyle} activeClassName="active">
+              <react_router_dom_2.NavLink to='/home' style={navStyle} activeClassName="active">
                 <ListItemText_1.default primary={text}/>
-              </react_router_dom_1.NavLink>
-              
+              </react_router_dom_2.NavLink>
+
             </ListItem_1.default>))}
         </List_1.default>
       </Drawer_1.default>

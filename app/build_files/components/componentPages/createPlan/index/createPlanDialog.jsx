@@ -53,7 +53,7 @@ const Transition = react_1.default.forwardRef(function Transition(props, ref) {
 });
 function CreatePlanDialog({ onReceiptSave }) {
     const classes = useStyles();
-    const [open, setOpen] = react_1.useState(true);
+    const [open, setOpen] = react_1.useState(false);
     const [recipesOpen, setRecipesOpen] = react_1.useState(false);
     const [state, setState] = react_1.useState({
         recipies: [],

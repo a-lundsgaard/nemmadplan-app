@@ -8,8 +8,7 @@ export default {
     deleteRecipe
 }
 
-function getRecipesAndReturnFields(string: string, variables = {}) {
-    const fieldsToQuery = string;
+function getRecipesAndReturnFields(fieldsToQuery: string, variables = {}) {
     const query = `query {
         receipts {
             ${fieldsToQuery}
@@ -44,7 +43,7 @@ function createRecipeAndReturnFields(string: string, variables = {}) {
     const query = `mutation($name: String!, $type: String!, $persons: Float!, $source: String,  $text: String!, $image: String, $ingredients: [ingredientInput]!) {
             createReceipt(receiptInput: {
             name: $name, 
-            type: $type, 
+            type: $type,
             persons: $persons,
             source: $source,
             text: $text, 

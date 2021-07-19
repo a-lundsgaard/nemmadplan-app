@@ -81,8 +81,6 @@ export default function ScrollDialog(props) {
       >
         <DialogTitle id="scroll-dialog-title">{props.title}</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-
-
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
@@ -90,7 +88,6 @@ export default function ScrollDialog(props) {
             className={classes.receiptText}
             component={'div'}
           >
-
             <img className={classes.image} src={props.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} />
 
             <Grid container spacing={4}>
@@ -98,31 +95,22 @@ export default function ScrollDialog(props) {
               <Grid item xs={6} >
                 {props.ingredients.map((ingredient, index) =>
                   <li className={classes.list} key={index} variant={'body2'}>
-
                     {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : ''} ${ingredient.name}`.trimLeft()}</li>
-
                 )}
               </Grid>
-
               <Grid item xs={6}>
                 <p>{props.text}</p>
               </Grid>
-
-
-
             </Grid>
-
-
           </DialogContentText>
-
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
+          <Button color="primary">
+            Redigér
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Luk
           </Button>
         </DialogActions>
       </Dialog>

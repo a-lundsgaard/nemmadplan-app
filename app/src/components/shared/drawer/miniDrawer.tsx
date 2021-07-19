@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -15,7 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Link, NavLink, useHistory  } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -114,15 +115,15 @@ const useStyles = makeStyles((theme) => ({
     //padding: theme.spacing(6), // for content under drawer
 
   },
- /* content: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-  },*/
+  /* content: {
+     flexGrow: 1,
+     padding: theme.spacing(1),
+   },*/
 
 }));
 
 export default function MiniDrawer() {
-    
+
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -130,7 +131,25 @@ export default function MiniDrawer() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState('');
+
+  //const [header, setHeader] = useState(headerString());
+
+
+
+  function headerString() {
+    const location = useLocation();
+    const headerName = (path: string) => {
+      switch (path) {
+        case ROUTES.RECIPES: return 'Mine retter';
+        case ROUTES.CREATEPLAN: return 'Mine madplaner';
+        default: return 'Hjem';
+      }
+    }
+
+    return headerName(location.pathname)
+  }
+
 
 
   const handleMenu = (event) => {
@@ -158,38 +177,38 @@ export default function MiniDrawer() {
 
 
   const findIcon = text => {
-    switch(text) {
-      case 'Hjem' : return <HomeIcon/>
-      case 'Madplaner' : return <ScheduleIcon/>
-      case 'Opskrifter' : return <ReceiptIcon/>
-      case 'Mine tilbud' : return <AttachMoneyIcon/>
-      case 'Søg tilbud' : return <TrendingDownIcon/>
-      default : return <FastfoodIcon/>
+    switch (text) {
+      case 'Hjem': return <HomeIcon />
+      case 'Madplaner': return <ScheduleIcon />
+      case 'Opskrifter': return <ReceiptIcon />
+      case 'Mine tilbud': return <AttachMoneyIcon />
+      case 'Søg tilbud': return <TrendingDownIcon />
+      default: return <FastfoodIcon />
     }
   }
 
 
 
 
-  useEffect(()=> {
+  useEffect(() => {
 
 
-    const token = localStorage.getItem('token')  
-    const requestBody = HTTP.user.verifyUserAndReturnFields('firstName lastName', {token: token})
+    const token = localStorage.getItem('token')
+    const requestBody = HTTP.user.verifyUserAndReturnFields('firstName lastName', { token: token })
 
     HTTP.post(requestBody)
-        .then(response => {
+      .then(response => {
 
-            if(response.errors) {
-            } else {
-              const {firstName, lastName } = response.data.verifyUser
-              setUser(firstName + ' ' + lastName.split('')[0] + '.')
-            }
-        })
-        .catch((err) => {
-            console.log('Verification err: ' + err);
-        })
-})
+        if (response.errors) {
+        } else {
+          const { firstName, lastName } = response.data.verifyUser
+          setUser(firstName + ' ' + lastName.split('')[0] + '.')
+        }
+      })
+      .catch((err) => {
+        console.log('Verification err: ' + err);
+      })
+  })
 
 
 
@@ -214,40 +233,45 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <SearchBar/>
+
+          <Typography variant="h6" align="right" display="block" className={classes.appBar}>
+            {headerString()}
+          </Typography>
+
+          <SearchBar />
           <span style={{ flex: 1 }}></span>
 
           <div >
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                open={open1}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Min konto</MenuItem>
-                <NavLink to="/login" style={navStyle} onClick={()=> { localStorage.removeItem('token'); }}>            
-                  <MenuItem onClick={handleClose}>Log ud</MenuItem>
-                </NavLink>
-              </Menu>
-            </div>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              open={open1}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Min konto</MenuItem>
+              <NavLink to="/login" style={navStyle} onClick={() => { localStorage.removeItem('token'); }}>
+                <MenuItem onClick={handleClose}>Log ud</MenuItem>
+              </NavLink>
+            </Menu>
+          </div>
 
 
           <Typography variant="h6" align="right" display="block" className={classes.appBar}>
@@ -276,33 +300,33 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-        {[
-            {text: 'Hjem', url: '/home' }, 
-            {text: 'Madplaner', url: ROUTES.CREATEPLAN }, 
-            {text: 'Opskrifter', url: '/receipts' }
-          ].map((obj, index) => 
+          {[
+            { text: 'Hjem', url: '/home' },
+            { text: 'Madplaner', url: ROUTES.CREATEPLAN },
+            { text: 'Opskrifter', url: ROUTES.RECIPES }
+          ].map((obj, index) =>
           (
             <NavLink key={index} to={`${obj.url}`} style={navStyle} activeClassName="active" onClick={handleDrawerClose}>
 
-            <ListItem button>
-              <ListItemIcon>{findIcon(obj.text)}</ListItemIcon>
-              
-                  <ListItemText primary={obj.text} />
-            </ListItem>
+              <ListItem button>
+                <ListItemIcon>{findIcon(obj.text)}</ListItemIcon>
+
+                <ListItemText primary={obj.text} />
+              </ListItem>
             </NavLink>
 
           ))}
         </List>
         <Divider />
         <List>
-        {['Mine tilbud', 'Søg tilbud'].map((text, index) => (
+          {['Mine tilbud', 'Søg tilbud'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{findIcon(text)}</ListItemIcon>
 
               <NavLink to='/home' style={navStyle} activeClassName="active">
                 <ListItemText primary={text} />
               </NavLink>
-              
+
             </ListItem>
           ))}
         </List>

@@ -66,9 +66,6 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
         subscribe_1.default(setSearchString);
     }, []);
     react_1.useEffect(() => {
-        console.log(searchString);
-    }, [searchString]);
-    react_1.useEffect(() => {
         console.log('Found receipts:');
         console.log(recipes);
     }, [recipes]);

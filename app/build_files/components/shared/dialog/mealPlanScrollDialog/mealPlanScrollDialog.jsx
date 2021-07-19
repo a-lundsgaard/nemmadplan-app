@@ -40,7 +40,7 @@ const useStyles = styles_1.makeStyles((theme) => ({
     },
     list: {}
 }));
-function ScrollDialog(props) {
+function MealPlanScrollDialog(props) {
     const classes = useStyles();
     const [open, setOpen] = react_1.default.useState(false);
     const [scroll, setScroll] = react_1.default.useState('paper');
@@ -78,7 +78,7 @@ function ScrollDialog(props) {
             <Grid_1.default container spacing={4}>
 
               <Grid_1.default item xs={6}>
-                {props.ingredients.map((ingredient, index) => <li className={classes.list} key={index} variant={'body2'}>
+                {props.ingredients.map((ingredient, index) => <li className={classes.list} key={index}>
                     {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : ''} ${ingredient.name}`.trimLeft()}</li>)}
               </Grid_1.default>
               <Grid_1.default item xs={6}>
@@ -99,4 +99,4 @@ function ScrollDialog(props) {
       </Dialog_1.default>
     </div>);
 }
-exports.default = ScrollDialog;
+exports.default = MealPlanScrollDialog;

@@ -5,7 +5,10 @@ function tilbudsavisen() {
   
     //const itemDivs = $('.mx-0')
 
-    const itemDivs = $('.row.product_thumb.search_result_list.align-items-center');
+    //const itemDivs = $('.row.product_thumb.search_result_list.align-items-center');
+
+    const itemDivs = $('.search_result_list');
+
 
     //"row product_thumb search_result_list align-items-center"
   

@@ -1,5 +1,6 @@
 {
   "WELCOME": "/home",
+  "RECIPES": "/recipes",
   "SIGNUP": "/signup",
   "CREATEPLAN": "/createplan",
   "MOTD": "/motd",

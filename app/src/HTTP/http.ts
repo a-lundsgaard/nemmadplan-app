@@ -5,6 +5,11 @@ import userQueries from './queries/user';
 import recipeQueries from './queries/recipes';
 import salesQueries from './queries/sales';
 
+import mealPlanQueries from './queries/mealPlan';
+
+
+
+
 import post from './methods/post';
 
 // https://sales-api-nm.herokuapp.com/
@@ -36,6 +41,8 @@ import post from './methods/post';
             deleteRecipe: recipeQueries.deleteRecipe,
             saveWeekPlan: recipeQueries.saveWeekPlan
         };
+
+        mealPlans = mealPlanQueries
    // };
 }
 

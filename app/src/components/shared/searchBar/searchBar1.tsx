@@ -78,7 +78,7 @@ function SearchBar ({keyword,setKeyword}) {
       <SearchIcon />
     </div>
     <InputBase
-      placeholder="Search…"
+      placeholder="Søg…"
       onChange={storeSearchInputToRedux}
      // onBlur={storeSearchInputToRedux}
       classes={{
