@@ -31,6 +31,7 @@ class MealPlanRequests {
                 day
                 dish {
                   name
+                  image
                   ingredients {
                     name
                     unit

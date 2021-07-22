@@ -42,7 +42,8 @@ export interface MealPlan {
         plan: [{
             day: string, 
             dish: {
-                name: string, 
+                name: string,
+                image: string, 
                 ingredients: [{
                     name: string,
                     unit: string, 

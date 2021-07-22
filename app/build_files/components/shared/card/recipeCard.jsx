@@ -54,7 +54,7 @@ const prompt_1 = __importDefault(require("../dialog/prompt/prompt"));
 const useStyles = styles_1.makeStyles((theme) => ({
     card: {
         maxWidth: 245,
-        minWidth: 245
+        minWidth: 245,
     },
     span: {
         cursor: 'pointer'

@@ -45,6 +45,7 @@ const DeleteForever_1 = __importDefault(require("@material-ui/icons/DeleteForeve
 const styles_1 = __importDefault(require("./styles"));
 const http_1 = __importDefault(require("../../../../HTTP/http"));
 const prompt_1 = __importDefault(require("../../dialog/prompt/prompt"));
+const imageGridList_1 = __importDefault(require("../../image/imageGrid/imageGridList"));
 function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogOpen, customDate, ...props }) {
     const useStyles = styles_1.default;
     const classes = useStyles();
@@ -115,12 +116,23 @@ function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogOpen, customDate
 
 
         <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
-          <CardMedia_1.default className={classes.media} image={"https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} title={mealPlan.name}/>
+          {mealPlan.plan.length < 2 ?
+            <CardMedia_1.default className={classes.media} image={mealPlan.plan[0].dish.image} title={mealPlan.name}/> :
+            <imageGridList_1.default imageArray={mealPlan.plan.map((item) => item.dish.image)}/>}
+
+
+
+
+
         </span>
 
         <CardContent_1.default>
           <Typography_1.default variant="body2" color="textSecondary" component="p">
-            Madplan for uge...
+            {mealPlan.plan.reduce((a, b, index) => {
+            const string = !index ? b.dish.name : ', ' + b.dish.name.toLowerCase();
+            a += string;
+            return a;
+        }, '')}
           </Typography_1.default>
         </CardContent_1.default>
 
@@ -137,7 +149,7 @@ function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogOpen, customDate
           <CardContent_1.default>
             <i>Retter på denne plan:</i>
             {mealPlan.plan.map((plan, index) => <p key={index}>
-                {plan.dish.name}
+                {prettifyDate(plan.day, true) + ': ' + plan.dish.name.toLowerCase()}
               </p>)}
           </CardContent_1.default>
         </Collapse_1.default>
@@ -145,7 +157,7 @@ function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogOpen, customDate
     </>);
 }
 exports.default = MealPlanCard;
-function prettifyDate(date) {
+function prettifyDate(date, dontKeepYear) {
     const months = {
         1: 'januar',
         2: 'februar',
@@ -172,5 +184,7 @@ function prettifyDate(date) {
     if (dayMatch) {
         day = dayMatch[0];
     }
+    if (dontKeepYear)
+        return `${day}. ${month}`;
     return `${day}. ${month} ${year}`;
 }

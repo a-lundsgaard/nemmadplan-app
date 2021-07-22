@@ -5,7 +5,8 @@ const colors_1 = require("@material-ui/core/colors");
 exports.default = styles_1.makeStyles((theme) => ({
     card: {
         maxWidth: 245,
-        minWidth: 245
+        minWidth: 245,
+        minHeight: 325
     },
     span: {
         cursor: 'pointer'

@@ -38,7 +38,9 @@ import styles from './styles';
 
 import http from '../../../../HTTP/http';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import Prompt from '../../dialog/prompt/prompt'
+import Prompt from '../../dialog/prompt/prompt';
+
+import ImageGridList from '../../image/imageGrid/imageGridList';
 
 
 interface Props {
@@ -180,16 +182,35 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
 
 
         <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
-          <CardMedia
-            className={classes.media}
-            image={"https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}
-            title={mealPlan.name}
-          />
+          {
+            mealPlan.plan.length < 2 ?
+              <CardMedia
+                className={classes.media}
+                image={mealPlan.plan[0].dish.image}
+                title={mealPlan.name}
+              /> :
+              <ImageGridList
+                imageArray={
+                  mealPlan.plan.map((item) => item.dish.image)
+                }
+              />
+          }
+
+
+
+
+
         </span>
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            Madplan for uge...
+            {
+              mealPlan.plan.reduce((a, b, index) => {
+                const string = !index ? b.dish.name : ', ' + b.dish.name.toLowerCase();
+                a += string;
+                return a;
+              }, '')
+            }
           </Typography>
         </CardContent>
 
@@ -212,7 +233,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
             <i>Retter på denne plan:</i>
             {mealPlan.plan.map((plan, index: number) =>
               <p key={index}>
-                {plan.dish.name}
+                {prettifyDate(plan.day, true) + ': ' + plan.dish.name.toLowerCase()}
               </p>
             )}
           </CardContent>
@@ -225,7 +246,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
 
 
 
-function prettifyDate(date: string) {
+function prettifyDate(date: string, dontKeepYear?: boolean) {
 
   const months = {
     1: 'januar',
@@ -259,5 +280,7 @@ function prettifyDate(date: string) {
     day = dayMatch[0]
   }
 
-  return `${day}. ${month} ${year}`
+  if (dontKeepYear) return `${day}. ${month}`;
+
+  return `${day}. ${month} ${year}`;
 }
