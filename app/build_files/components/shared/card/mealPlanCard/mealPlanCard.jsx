@@ -119,11 +119,6 @@ function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogOpen, customDate
           {mealPlan.plan.length < 2 ?
             <CardMedia_1.default className={classes.media} image={mealPlan.plan[0].dish.image} title={mealPlan.name}/> :
             <imageGridList_1.default imageArray={mealPlan.plan.map((item) => item.dish.image)}/>}
-
-
-
-
-
         </span>
 
         <CardContent_1.default>

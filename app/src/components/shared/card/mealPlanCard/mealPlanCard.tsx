@@ -195,11 +195,6 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
                 }
               />
           }
-
-
-
-
-
         </span>
 
         <CardContent>

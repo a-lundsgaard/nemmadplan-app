@@ -15,7 +15,7 @@ function ImageGrid({ imageArray }) {
     }
     const height = 65;
     const width = 120;
-    return (<Grid_1.default container style={{}}>
+    return (<Grid_1.default container>
             {filledArray
             .slice(0, 4)
             .map((imageSrcString, index) => {
