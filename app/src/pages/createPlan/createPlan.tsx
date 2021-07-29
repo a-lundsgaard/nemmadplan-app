@@ -12,7 +12,7 @@ import HTTP from '../../HTTP/http';
 import MealPlanCard from '../../components/shared/card/mealPlanCard/mealPlanCard';
 import SnackBar from "../../components/shared/snackbar/snackbar.jsx";
 
-const mealPlanCount = 'mealPlanCount';
+const mealPlanCountKey = 'mealPlanCount';
 
 
 
@@ -23,7 +23,7 @@ function createPlan() {
   const [mealPlans, setMealPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
   const [message, setMessage] = useState({});
-  const recipeCount = parseInt(localStorage.getItem('mealPlanCount')) || 0;
+  const mealPlanCount: string | number | null = parseInt(localStorage.getItem(mealPlanCountKey)) || 0;
 
 
 
@@ -46,7 +46,7 @@ function createPlan() {
         const weekPlans = res.data.weekPlans;
         console.log(res);
         setMealPlans(weekPlans);
-        localStorage.setItem(mealPlanCount, JSON.stringify(weekPlans.length)) // for loading skeleton recipes
+        localStorage.setItem(mealPlanCountKey, JSON.stringify(weekPlans.length)) // for loading skeleton recipes
 
         setIsLoading(false);
         //localStorage.setItem('mealPlanCount', JSON.stringify(res.data.receipts.length)) // for loading skeleton recipes
@@ -68,8 +68,9 @@ function createPlan() {
           <Grid container justify="center" spacing={5}>
             {
               isLoading ?
-                Array(mealPlanCount).fill(mealPlanCount)
-                  .map((receipt, index) => (
+                Array(mealPlanCount)
+                .fill(mealPlanCount)
+                  .map((recipe, index) => (
                     <Grid key={index} item>
                       <ReceiptSceletonLoader />
                     </Grid>))

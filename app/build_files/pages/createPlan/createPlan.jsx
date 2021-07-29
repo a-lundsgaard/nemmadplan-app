@@ -30,14 +30,14 @@ const styles_1 = __importDefault(require("./styles"));
 const http_1 = __importDefault(require("../../HTTP/http"));
 const mealPlanCard_1 = __importDefault(require("../../components/shared/card/mealPlanCard/mealPlanCard"));
 const snackbar_jsx_1 = __importDefault(require("../../components/shared/snackbar/snackbar.jsx"));
-const mealPlanCount = 'mealPlanCount';
+const mealPlanCountKey = 'mealPlanCount';
 function createPlan() {
     const useStyles = styles_1.default;
     const classes = useStyles();
     const [mealPlans, setMealPlans] = react_1.useState([]);
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [message, setMessage] = react_1.useState({});
-    const recipeCount = parseInt(localStorage.getItem('mealPlanCount')) || 0;
+    const mealPlanCount = parseInt(localStorage.getItem(mealPlanCountKey)) || 0;
     react_1.useEffect(() => {
         getMealPlans();
     }, []);
@@ -52,7 +52,7 @@ function createPlan() {
             const weekPlans = res.data.weekPlans;
             console.log(res);
             setMealPlans(weekPlans);
-            localStorage.setItem(mealPlanCount, JSON.stringify(weekPlans.length));
+            localStorage.setItem(mealPlanCountKey, JSON.stringify(weekPlans.length));
             setIsLoading(false);
         })
             .catch(e => console.log(e));
@@ -65,8 +65,9 @@ function createPlan() {
 
           <Grid_1.default container justify="center" spacing={5}>
             {isLoading ?
-            Array(mealPlanCount).fill(mealPlanCount)
-                .map((receipt, index) => (<Grid_1.default key={index} item>
+            Array(mealPlanCount)
+                .fill(mealPlanCount)
+                .map((recipe, index) => (<Grid_1.default key={index} item>
                       <receiptSceletonLoader_1.default />
                     </Grid_1.default>))
             :

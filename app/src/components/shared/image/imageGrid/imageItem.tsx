@@ -27,7 +27,6 @@ export default function ImageGridItem({ imageSrcString, style }: Props) {
             item
         >
             <img
-            onClick={()=> window.print()}
                 style={
                     style
                 }
