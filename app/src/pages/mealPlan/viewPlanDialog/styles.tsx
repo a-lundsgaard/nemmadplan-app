@@ -57,5 +57,7 @@ export default makeStyles((theme) => ({
   
     title: {
       marginLeft: theme.spacing(2),
+      //position: 'flex'
+      //position: 'flex'
     },
   }));

@@ -31,6 +31,7 @@ const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const Close_1 = __importDefault(require("@material-ui/icons/Close"));
 const Slide_1 = __importDefault(require("@material-ui/core/Slide"));
 const styles_1 = __importDefault(require("./styles"));
+const ShoppingCart_1 = __importDefault(require("@material-ui/icons/ShoppingCart"));
 const recipies_1 = __importDefault(require("../../recipies/recipies"));
 const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
@@ -61,11 +62,16 @@ function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealP
             <Typography_1.default variant="h6" className={classes.title}>
               {mealPlan.name}
             </Typography_1.default>
+            <IconButton_1.default edge="start" color="inherit" aria-label="close">
+              <ShoppingCart_1.default />
+            </IconButton_1.default>
           </Toolbar_1.default>
         </AppBar_1.default>
         
         <span style={{ marginTop: 70 }}>
-          <recipies_1.default getRecipesFromParent={mealPlan.plan.map((plan) => plan.dish)} disableSettings={true} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={false} dialogOpen={bool => setVisible(bool)}/>
+          <recipies_1.default getRecipesFromParent={mealPlan.plan.map((plan) => {
+            return { ...plan.dish, date: plan.day };
+        })} disableSettings={true} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={false} dialogOpen={bool => setVisible(bool)}/>
         </span>
       </Dialog_1.default>
     </div>);

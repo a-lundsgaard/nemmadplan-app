@@ -55,15 +55,13 @@ const useStyles = styles_1.makeStyles((theme) => ({
         maxWidth: 245,
         minWidth: 245,
     },
-    span: {
-        cursor: 'pointer'
-    },
     control: {
         padding: theme.spacing(2),
     },
     media: {
         height: 0,
         paddingTop: '56.25%',
+        cursor: 'pointer'
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -161,12 +159,11 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
                     </prompt_1.default>
                   </MenuItem_1.default>
                 </Menu_1.default>
-              </>} title={recipe.name} subheader={prettifyDate(customDate ? customDate : recipe.createdAt, props)}/>
+              </>} title={recipe.name} subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}/>
 
 
-        <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
-          <CardMedia_1.default className={classes.media} image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} title="Paella dish"/>
-        </span>
+        <CardMedia_1.default onClick={() => setScrollDialogOpen(!scrollDialogOpen)} className={classes.media} image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} title="Paella dish" component={'div'}/>        
+        
 
         <CardContent_1.default>
           <Typography_1.default variant="body2" color="textSecondary" component="p">
@@ -188,7 +185,7 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
                 <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
                 <PostAdd_1.default />
               </IconButton_1.default>}
-        
+            
           </>}
 
 
@@ -226,17 +223,25 @@ function prettifyDate(date) {
         11: 'november',
         12: 'december'
     };
+    const days = {
+        0: 'Søn',
+        1: 'Man',
+        2: 'Tir',
+        3: 'Ons',
+        4: 'Tor',
+        5: 'Fre',
+        6: 'Lør'
+    };
     if (!date) {
         return;
     }
-    let dateArr = date.split('-');
-    let year = dateArr[0];
-    const monthNumber = Number(dateArr[1]);
-    let month = months[monthNumber];
-    let day = dateArr[2];
-    const dayMatch = day.match(/.+(?=T)/);
-    if (dayMatch) {
-        day = dayMatch[0];
-    }
-    return `${day}. ${month} ${year}`;
+    let d = new Date(date);
+    let dayNumber = d.getDate();
+    let month = months[d.getMonth()];
+    let year = d.getFullYear();
+    let dayName = days[d.getDay()];
+    const loc = location.href;
+    if (loc.includes('recipes'))
+        return `${dayNumber}. ${month} ${year}`;
+    return `${dayName.toLowerCase()}. ${dayNumber}. ${month} ${year}`;
 }

@@ -147,12 +147,11 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
                       visitFromCreatePlan={props.visitFromCreatePlan}
                       dialogOpen={bool => dialogOpen(bool)}
                       onRecipeDelete={id => handleRecipeDeletion(id) }
-                      customDate={new Date().toISOString()}
+                      customDate={recipe.date}
                     />
                   </Grid>
                 })}
           </Grid>
-
         </Grid>
       </Grid>
 

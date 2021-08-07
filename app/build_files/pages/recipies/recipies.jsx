@@ -114,11 +114,10 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             :
                 recipesInSearch.map((recipe, index) => {
                     return <Grid_1.default key={recipe._id} item>
-                    <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={new Date().toISOString()}/>
+                    <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={recipe.date}/>
                   </Grid_1.default>;
                 })}
           </Grid_1.default>
-
         </Grid_1.default>
       </Grid_1.default>
 
