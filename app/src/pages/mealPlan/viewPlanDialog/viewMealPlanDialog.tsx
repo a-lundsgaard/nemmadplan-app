@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,83 +7,30 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import { TransitionProps } from '@material-ui/core/transitions';
+import useStyles from './styles'
+
+import Recipes from '../../recipies/recipies';
+
+import { MealPlan } from '../mealPlanCard/types'; 
 
 
-//import Recipes from 'Pages/receipts/receipts.jsx';
 
-import Recipes from '../../../../pages/recipies/recipies.jsx';
-import SearchBar from '../../../shared/searchBar/searchBar1'
-
-
-
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: 'fixed',
-    background: '#c24e00', // dark orange
-    marginBottom: 60
-  },
-
-  mainGrid: {
-    marginTop: -20
-  },
-
-  importButton: {
-    marginLeft: 20
-  },
-
-  urlField: {
-    marginBottom: 20
-  },
-
-  imageInputField: {
-    marginTop: 20,
-    maxWidth: 280,
-    width: "100%"
-  },
-
-
-  importUrlInput: {
-    maxWidth: 500,
-    width: "100%"
-  },
-
-  textAreaGrid: {
-    marginTop: 32,
-  },
-
-  ImageUploader: {
-    cursor: 'pointer'
-  },
-
-
-  ingredientTextField: {
-    maxWidth: 300,
-    width: "100%"
-  },
-
-  prepareTextField: {
-    minWidth: 400,
-
-  },
-
-  numPicker: {
-    marginTop: 20
-  },
-
-  title: {
-    marginLeft: theme.spacing(2),
-  },
-}));
-
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>,
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+interface Props {
+  visible: boolean,
+  setVisible: (bool: boolean) => boolean;
+  chosenRecipe: (id: string ) => string;
+  mealPlan: MealPlan
+}
 
-
-
-export default function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
+export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealPlan, ...props }: Props ) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(visible); // set false when not testing
@@ -129,20 +76,21 @@ export default function FullScreenDialog({ visible, setVisible, chosenRecipe, ..
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Vælg opskrift
+              {mealPlan.name}
             </Typography>
-            <SearchBar />
           </Toolbar>
         </AppBar>
         
-        <div style={{ marginTop: 70 }}>
+        <span style={{ marginTop: 70 }}>
           <Recipes
-            recipies={props.recipies}
+            getRecipesFromParent={mealPlan.plan.map((plan) => plan.dish)}
+            disableSettings={true}
+            //recipies={recipes}
             onClick={recipe => chosenRecipe(recipe)}
-            visitFromCreatePlan={true}
+            visitFromCreatePlan={false}
             dialogOpen={bool => setVisible(bool)}
           />
-        </div>
+        </span>
       </Dialog>
     </div>
   );

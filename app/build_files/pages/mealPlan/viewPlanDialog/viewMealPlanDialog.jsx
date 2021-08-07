@@ -23,7 +23,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
-const styles_1 = require("@material-ui/core/styles");
 const Dialog_1 = __importDefault(require("@material-ui/core/Dialog"));
 const AppBar_1 = __importDefault(require("@material-ui/core/AppBar"));
 const Toolbar_1 = __importDefault(require("@material-ui/core/Toolbar"));
@@ -31,57 +30,13 @@ const IconButton_1 = __importDefault(require("@material-ui/core/IconButton"));
 const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const Close_1 = __importDefault(require("@material-ui/icons/Close"));
 const Slide_1 = __importDefault(require("@material-ui/core/Slide"));
-const recipies_jsx_1 = __importDefault(require("../../../../pages/recipies/recipies.jsx"));
-const searchBar1_1 = __importDefault(require("../../../shared/searchBar/searchBar1"));
-const useStyles = styles_1.makeStyles((theme) => ({
-    appBar: {
-        position: 'fixed',
-        background: '#c24e00',
-        marginBottom: 60
-    },
-    mainGrid: {
-        marginTop: -20
-    },
-    importButton: {
-        marginLeft: 20
-    },
-    urlField: {
-        marginBottom: 20
-    },
-    imageInputField: {
-        marginTop: 20,
-        maxWidth: 280,
-        width: "100%"
-    },
-    importUrlInput: {
-        maxWidth: 500,
-        width: "100%"
-    },
-    textAreaGrid: {
-        marginTop: 32,
-    },
-    ImageUploader: {
-        cursor: 'pointer'
-    },
-    ingredientTextField: {
-        maxWidth: 300,
-        width: "100%"
-    },
-    prepareTextField: {
-        minWidth: 400,
-    },
-    numPicker: {
-        marginTop: 20
-    },
-    title: {
-        marginLeft: theme.spacing(2),
-    },
-}));
+const styles_1 = __importDefault(require("./styles"));
+const recipies_1 = __importDefault(require("../../recipies/recipies"));
 const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
-function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
-    const classes = useStyles();
+function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealPlan, ...props }) {
+    const classes = styles_1.default();
     const [open, setOpen] = react_1.useState(visible);
     const [message, setMessage] = react_1.useState({});
     const [isLoading, setLoading] = react_1.useState(false);
@@ -104,16 +59,15 @@ function FullScreenDialog({ visible, setVisible, chosenRecipe, ...props }) {
               <Close_1.default />
             </IconButton_1.default>
             <Typography_1.default variant="h6" className={classes.title}>
-              Vælg opskrift
+              {mealPlan.name}
             </Typography_1.default>
-            <searchBar1_1.default />
           </Toolbar_1.default>
         </AppBar_1.default>
         
-        <div style={{ marginTop: 70 }}>
-          <recipies_jsx_1.default recipies={props.recipies} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={true} dialogOpen={bool => setVisible(bool)}/>
-        </div>
+        <span style={{ marginTop: 70 }}>
+          <recipies_1.default getRecipesFromParent={mealPlan.plan.map((plan) => plan.dish)} disableSettings={true} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={false} dialogOpen={bool => setVisible(bool)}/>
+        </span>
       </Dialog_1.default>
     </div>);
 }
-exports.default = FullScreenDialog;
+exports.default = ViewMealPlanDialogFullScreen;

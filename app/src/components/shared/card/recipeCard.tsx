@@ -209,8 +209,9 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
             props.visitFromCreatePlanMealList ?
               <IconButton aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <ClearIcon />
-              </IconButton> :
-              <>
+              </IconButton> 
+              :
+              !props.disableSettings && <>
                 <IconButton aria-label="settings" onClick={handleMenu}>
                   <MoreVertIcon />
                 </IconButton>
@@ -282,9 +283,9 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
               </IconButton>
 
             }
-            <IconButton aria-label="share">
+{/*             <IconButton aria-label="share">
               <ShareIcon />
-            </IconButton>
+            </IconButton> */}
           </>}
 
 

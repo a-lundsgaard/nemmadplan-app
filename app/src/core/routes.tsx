@@ -12,7 +12,8 @@ import SignIn from "../pages/signIn/signIn";
 import SignUp from "../pages/signUp/signUp";
 import ProtectedRoute from "../components/auth/protectedRoute/protectedRoute"
 import Receipts from "../pages/recipies/recipies";
-import CreatePlan from "../pages/createPlan/createPlan.jsx";
+import CreatePlan from "../pages/mealPlan/mealPlans";
+//import CreatePlan from "../pages/createPlan/createPlan.jsx";
 
 import MiniDrawer from "../components/shared/drawer/miniDrawer"
 

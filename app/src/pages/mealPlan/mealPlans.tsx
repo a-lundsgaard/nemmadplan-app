@@ -9,12 +9,13 @@ import CreatePlanDialog from '../../components/componentPages/createPlan/index/c
 import styles from './styles'
 import HTTP from '../../HTTP/http';
 
-import MealPlanCard from '../../components/shared/card/mealPlanCard/mealPlanCard';
+//import MealPlanCard from '../../components/shared/card/mealPlanCard/mealPlanCard';
+import MealPlanCard from './mealPlanCard/mealPlanCard';
 import SnackBar from "../../components/shared/snackbar/snackbar.jsx";
 
+import ViewMealPlanDialogFullScreen from './viewPlanDialog/viewMealPlanDialog';
+
 const mealPlanCountKey = 'mealPlanCount';
-
-
 
 function createPlan() {
   const useStyles = styles;
@@ -23,9 +24,11 @@ function createPlan() {
   const [mealPlans, setMealPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
   const [message, setMessage] = useState({});
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const mealPlanCount: string | number | null = parseInt(localStorage.getItem(mealPlanCountKey)) || 0;
 
-
+  // test
 
   useEffect(() => {
     getMealPlans()
@@ -33,7 +36,6 @@ function createPlan() {
 
 
   const getMealPlans = () => {
-
     setIsLoading(true)
     const token = localStorage.getItem('token');
     //const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', 
@@ -47,7 +49,6 @@ function createPlan() {
         console.log(res);
         setMealPlans(weekPlans);
         localStorage.setItem(mealPlanCountKey, JSON.stringify(weekPlans.length)) // for loading skeleton recipes
-
         setIsLoading(false);
         //localStorage.setItem('mealPlanCount', JSON.stringify(res.data.receipts.length)) // for loading skeleton recipes
       })
@@ -69,7 +70,7 @@ function createPlan() {
             {
               isLoading ?
                 Array(mealPlanCount)
-                .fill(mealPlanCount)
+                  .fill(mealPlanCount)
                   .map((recipe, index) => (
                     <Grid key={index} item>
                       <ReceiptSceletonLoader />
@@ -79,15 +80,19 @@ function createPlan() {
                   return <Grid
                     key={index}
                     item
-                    >
+                  >
                     <MealPlanCard
                       mealPlan={mealPlan}
-                      //dialogOpen={bool => dialogOpen(bool)}
-                      //onRecipeDelete={id => handleRecipeDeletion(id) }
+                      dialogOpen={bool => setDialogOpen(bool)}
+                    //onRecipeDelete={id => handleRecipeDeletion(id) }
                     />
+           {/*          <ViewMealPlanDialogFullScreen
+                      mealPlan={mealPlan}
+                      visible={dialogOpen}
+                      setVisible={bool => setDialogOpen(bool)}
+                    /> */}
                   </Grid>
                 })}
-
           </Grid>
 
         </Grid>

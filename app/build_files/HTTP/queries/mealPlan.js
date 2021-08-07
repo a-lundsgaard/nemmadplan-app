@@ -32,6 +32,7 @@ class MealPlanRequests {
                 dish {
                   name
                   image
+                  text
                   ingredients {
                     name
                     unit

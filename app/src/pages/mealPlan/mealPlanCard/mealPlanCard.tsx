@@ -31,21 +31,18 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import styles from './styles';
 
-
-//import recipes from "../../HTTP/queries/recipes";
-
-//import http from "../../HTTP";
-
-import http from '../../../../HTTP/http';
+import http from '../../../HTTP/http';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import Prompt from '../../dialog/prompt/prompt';
+import Prompt from '../../../components/shared/dialog/prompt/prompt';
+import ImageGridList from '../../../components/shared/image/imageGrid/imageGridList';
 
-import ImageGridList from '../../image/imageGrid/imageGridList';
+import ViewMealPlanDialogFullScreen from '../viewPlanDialog/viewMealPlanDialog';
+
 
 
 interface Props {
   clikedPlan?: (recipe: any) => any,
-  dialogOpen?: (bool: boolean) => boolean;
+  dialogOpen?: (bool: number) => number;
   onRecipeDelete?: (recipeId: string) => any
   mealPlan: MealPlan,
   visitFromCreatePlan?: boolean
@@ -63,7 +60,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
   const useStyles = styles;
   const classes = useStyles();
 
-  const [scrollDialogOpen, setScrollDialogOpen] = React.useState(false);
+  const [scrollDialogOpen, setScrollDialogOpen] = useState(0);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const settingsOpen = Boolean(anchorEl);
@@ -115,6 +112,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
 
   useEffect(() => {
     console.log('The state of set scrolldialog changed: ' + scrollDialogOpen);
+    dialogOpen(scrollDialogOpen)
   }, [scrollDialogOpen])
 
 
@@ -181,7 +179,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
         />
 
 
-        <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
+        <span className={classes.span} onClick={() => setScrollDialogOpen(scrollDialogOpen + 1)}>
           {
             mealPlan.plan.length < 2 ?
               <CardMedia
@@ -196,6 +194,12 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
               />
           }
         </span>
+
+        <ViewMealPlanDialogFullScreen
+          mealPlan={mealPlan}
+          visible={scrollDialogOpen}
+          setVisible={bool => setScrollDialogOpen(bool)}
+        />
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Grid from '@material-ui/core/Grid';
 import ImageGridItem from './imageItem';
 
+import placeholderImage from './Los-Cardos-logo_no-bkgd-1.png';
+
 
 interface Props {
     imageArray: Array<string>
@@ -10,10 +12,10 @@ interface Props {
 
 export default function ImageGrid({ imageArray }: Props) {
 
-    const imgString = "https://www.redwhitecellar.co.nz/wp-content/uploads/2020/07/Los-Cardos-logo_no-bkgd-1.png"
+    //const imgString = "https://www.redwhitecellar.co.nz/wp-content/uploads/2020/07/Los-Cardos-logo_no-bkgd-1.png";
     const filledArray = imageArray;
     if (filledArray.length < 4) {
-        while (filledArray.length < 5) filledArray.push(imgString)
+        while (filledArray.length < 5) filledArray.push(placeholderImage)
     }
 
     const height = 65;

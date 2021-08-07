@@ -24,36 +24,13 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
 
   const [searchString, setSearchString] = useState(window.store.getState().searchInput); // getting search bar input
   const [recipes, setRecipes] = useState([]);
-
   const [recipesInSearch, setRecipesInSearch] = useState([])
-
-  const [isReceiptSavedOrDeleted, setReceiptSaved] = useState('') // letting us know when a receipt is saved to rerender dishes
-  const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
+  const [isReceiptSavedOrDeleted, setReceiptSaved] = useState('') // letting us know when a recipe is saved to rerender dishes
+  const [isLoading, setIsLoading] = useState(false);
   const [clickedDishId, setClickedDishId] = useState('');
-
-  const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
-
   const [message, setMessage] = useState({});
 
-
-  function getRecipes(showLoading: boolean) {
-
-    if(showLoading) setIsLoading(true)
-
-    const token = localStorage.getItem('token');
-    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token })
-
-    HTTP.post(requestBody)
-      .then(res => {
-        setRecipes(res.data.receipts);
-        setRecipesInSearch(res.data.receipts);
-        localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length)) // for loading skeleton recipes
-        setIsLoading(false)
-      })
-      .catch(e =>
-        console.log(e)
-      )
-  }
+  const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
 
   const handleRecipeCardClick = (id) => {
     //console.log('ID of clicked dish: ' + id)
@@ -109,6 +86,35 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
     setReceiptSaved(id)
   }
 
+
+
+  function getRecipes(showLoading: boolean) {
+
+    if(props.getRecipesFromParent) {
+      //alert('got recipe: ' + JSON.stringify(props.getRecipesFromParent))
+      //setRecipes(props.getRecipesFromParent);
+      setRecipesInSearch(props.getRecipesFromParent);
+
+      return;
+    }
+
+    if(showLoading) setIsLoading(true)
+
+    const token = localStorage.getItem('token');
+    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token })
+
+    HTTP.post(requestBody)
+      .then(res => {
+        setRecipes(res.data.receipts);
+        setRecipesInSearch(res.data.receipts);
+        localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length)) // for loading skeleton recipes
+        setIsLoading(false)
+      })
+      .catch(e =>
+        console.log(e)
+      )
+  }
+
   // const [expanded, setExpanded] = React.useState(false);
 
   /*const handleExpandClick = () => {
@@ -117,7 +123,6 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
 
   return (
     <Fragment>
-
       <Grid container className={classes.root} justify="center" >
         <Grid item xs={10}>
 
@@ -135,24 +140,25 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }) {
                     key={recipe._id}
                     item>
                     <RecipeCard
+                      disableSettings={props.disableSettings}
                       recipeOnPlan={recipeOnPlan(recipe._id)}
                       recipe={recipe}
                       clikedDish={id => handleRecipeCardClick(id)}
                       visitFromCreatePlan={props.visitFromCreatePlan}
                       dialogOpen={bool => dialogOpen(bool)}
                       onRecipeDelete={id => handleRecipeDeletion(id) }
+                      customDate={new Date().toISOString()}
                     />
                   </Grid>
                 })}
-
           </Grid>
 
         </Grid>
       </Grid>
 
-      <div className={classes.addReceiptButton}>
+      { !props.disableSettings && <div className={classes.addReceiptButton} >
         <CreateRecipeDialog onReceiptSave={(value) => handleRecipeSave(value)} />
-      </div>
+      </div> }
 
       {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
 

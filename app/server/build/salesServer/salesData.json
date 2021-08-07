@@ -1,56 +1,46 @@
 [
   {
     "productName": "rugbrød",
-    "date": "2021-07-22T15:22:19.132Z",
+    "date": "2021-07-31T08:49:59.957Z",
     "results": [
       {
-        "title": "Coop, Rugbrød-skiver",
+        "title": "Kohberg Herkules, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                Dagli'Brugsen\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48605/DagliBrugsen292021_2_216x140_3276x5771_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Det gode, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 5,
-        "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48566/REMA1000292021_10_119x3835_2431x6392_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Levebrød, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 5,
-        "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48566/REMA1000292021_10_119x3835_2431x6392_zoom.jpg",
+        "quantity": 9,
+        "pricePrKg": "9,00 per kg.",
+        "chain": "\n                    \n                                                Netto\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48737/Netto312021_2_3240x775_4919x3537_zoom.jpg",
         "date": ""
       },
       {
         "title": "Schulstad Skovmand, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 5,
+        "quantity": 10,
         "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48566/REMA1000292021_10_119x3835_2431x6392_zoom.jpg",
+        "chain": "\n                    \n                                                Netto\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48737/Netto312021_1_194x3905_2498x6190_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Kohberg Viking, Rugbrød-skiver",
+        "title": "Kohberg Herkules, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 12,
-        "pricePrKg": "12,00 per kg.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48530/MinKøbmand292021_6_2550x562_4793x3709_zoom.jpg",
+        "quantity": 10,
+        "pricePrKg": "10,00 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48590/REMA1000302021_1_8x1324_2586x5056_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kohberg Solsikke, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 10,
+        "pricePrKg": "10,53 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48590/REMA1000302021_1_8x1324_2586x5056_zoom.jpg",
         "date": ""
       },
       {
@@ -69,28 +59,8 @@
         "unit": "",
         "quantity": 12,
         "pricePrKg": "12,00 per kg.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48530/MinKøbmand292021_6_2550x562_4793x3709_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Herkules, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "12,00 per kg.",
         "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48593/SuperBrugsen302021_14_2482x1665_4988x6016_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Coop, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "12,50 per kg.",
-        "chain": "\n                    \n                                                Fakta\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48602/Fakta292021_8_133x0_4872x3019_zoom.jpg",
         "date": ""
       },
       {
@@ -104,23 +74,23 @@
         "date": ""
       },
       {
-        "title": "Kohberg Solsikke, Rugbrød-skiver",
+        "title": "Schulstad Levebrød, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 13,
-        "pricePrKg": "13,68 per kg.",
-        "chain": "\n                    \n                                                Bilka\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48649/Bilka30202172_2511x3000_4738x5715_zoom.jpg",
+        "quantity": 12,
+        "pricePrKg": "12,63 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48680/REMA1000312021_6_2415x4182_4860x6337_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Kohberg Mille, Rugbrød-skiver",
+        "title": "Rema 1000, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 11,
-        "pricePrKg": "14,99 per kg.",
-        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48542/Løvbjerg292021_11_0x0_4992x2440_zoom.jpg",
+        "quantity": 9,
+        "pricePrKg": "15,00 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48680/REMA1000312021_12_2713x5987_4913x8387_zoom.jpg",
         "date": ""
       },
       {
@@ -137,150 +107,90 @@
         "title": "Kohberg Solsikke, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 11,
-        "pricePrKg": "15,99 per kg.",
-        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48542/Løvbjerg292021_11_0x0_4992x2440_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Salling, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 27,
-        "pricePrKg": "18,00 per kg.",
-        "chain": "\n                    \n                                                Bilka\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48628/Bilka2920215_148x3498_2474x5814_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Signaturbrød Gilleleje, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 14,
-        "pricePrKg": "18,67 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48546/Meny292021_15_2342x4233_4879x7315_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Signaturbrød Sol over Gudhjem, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 14,
-        "pricePrKg": "18,67 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48546/Meny292021_15_2342x4233_4879x7315_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Mesterværk, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 11,
-        "pricePrKg": "19,98 per kg.",
-        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48542/Løvbjerg292021_11_0x0_4992x2440_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Bagerens Bedste, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 11,
-        "pricePrKg": "19,98 per kg.",
-        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48542/Løvbjerg292021_11_0x0_4992x2440_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Mesterværk, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
         "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48637/SPAR292021_6_1879x286_4685x3711_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Bagerens Bedste, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48637/SPAR292021_6_1879x286_4685x3711_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Mesterværk, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48560/Coop365292021_17_102x2831_2620x8361_zoom.jpg",
+        "pricePrKg": "16,00 per kg.",
+        "chain": "\n                    \n                                                Dagli'Brugsen\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48707/DagliBrugsen312021_14_2157x100_4914x2336_zoom.jpg",
         "date": ""
       },
       {
         "title": "Kohberg Protein, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48560/Coop365292021_17_102x2831_2620x8361_zoom.jpg",
+        "quantity": 10,
+        "pricePrKg": "16,67 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48590/REMA1000302021_1_8x1324_2586x5056_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Schulstad Signaturbrød Gilleleje, Rugbrød-skiver",
+        "title": "Schulstad Levebrød, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 15,
-        "pricePrKg": "20,00 per kg.",
+        "quantity": 10,
+        "pricePrKg": "16,67 per kg.",
         "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/48555/CoopdkMad282021_4_125x150_164x217_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Signaturbrød Sol over Gudhjem, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 15,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/48555/CoopdkMad282021_4_164x150_203x217_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Signaturbrød Sol over Gudhjem, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 15,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Fakta\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48602/Fakta292021_8_2479x4943_4911x7501_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48679/Meny312021_3_80x293_2503x3500_zoom.jpg",
         "date": ""
       },
       {
         "title": "Schulstad Det gode, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 10,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48532/Meny292021_2_0x276_2682x3750_zoom.jpg",
+        "quantity": 13,
+        "pricePrKg": "17,33 per kg.",
+        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48676/SPAR312021_13_362x440_3278x3652_zoom.jpg",
         "date": ""
       },
       {
         "title": "Schulstad Signaturbrød Gilleleje, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 15,
+        "quantity": 14,
+        "pricePrKg": "19,99 per kg.",
+        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48586/Løvbjerg312021_8_3266x4733_4982x7133_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Schulstad Signaturbrød Sol over Gudhjem, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 14,
+        "pricePrKg": "19,99 per kg.",
+        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48586/Løvbjerg312021_8_3266x4733_4982x7133_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Schulstad Levebrød, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 12,
         "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Fakta\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48602/Fakta292021_8_2479x4943_4911x7501_zoom.jpg",
+        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48653/Coop365302021_13_2263x5666_4830x8332_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kohberg Rugbrødsboller, Boller",
+        "price": null,
+        "unit": "",
+        "quantity": 10,
+        "pricePrKg": "20,00 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48590/REMA1000302021_1_8x1324_2586x5056_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Coop, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 10,
+        "pricePrKg": "20,00 per kg.",
+        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48653/Coop365302021_18_142x5082_2661x8148_zoom.jpg",
         "date": ""
       },
       {
@@ -288,19 +198,39 @@
         "price": null,
         "unit": "",
         "quantity": 14,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48546/Meny292021_15_2342x4233_4879x7315_zoom.jpg",
+        "pricePrKg": "21,41 per kg.",
+        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48586/Løvbjerg312021_8_3266x4733_4982x7133_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Kohberg Solsikke, Rugbrød-skiver",
+        "title": "Kohberg Mesterværk, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 13,
+        "pricePrKg": "21,67 per kg.",
+        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48677/MinKøbmand312021_4_51x3710_3296x7261_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kornkammeret, Rugbrød-skiver",
         "price": null,
         "unit": "",
         "quantity": 12,
-        "pricePrKg": "20,87 per kg.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48637/SPAR292021_6_1879x286_4685x3711_zoom.jpg",
+        "pricePrKg": "24,00 per kg.",
+        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48653/Coop365302021_13_2263x5666_4830x8332_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Schulstad Levebrød, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 12,
+        "pricePrKg": "24,00 per kg.",
+        "chain": "\n                    \n                                                Fakta\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/30/48654/Fakta302021_12_108x2461_2465x7574_zoom.jpg",
         "date": ""
       },
       {
@@ -309,28 +239,38 @@
         "unit": "",
         "quantity": 12,
         "pricePrKg": "24,00 per kg.",
-        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48560/Coop365292021_17_102x2831_2620x8361_zoom.jpg",
+        "chain": "\n                    \n                                                Dagli'Brugsen\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48707/DagliBrugsen312021_14_2157x100_4914x2336_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Kohberg Protein, Rugbrød-skiver",
+        "title": "Schulstad Det gode, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 15,
-        "pricePrKg": "25,00 per kg.",
-        "chain": "\n                    \n                                                Føtex\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/28/48529/Føtex282021_17_242x154_2476x1591_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Kohberg Rugbrødsboller, Boller",
-        "price": null,
-        "unit": "",
-        "quantity": 14,
-        "pricePrKg": "29,98 per kg.",
+        "quantity": 12,
+        "pricePrKg": "25,98 per kg.",
         "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48542/Løvbjerg292021_10_0x4730_1812x7174_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48586/Løvbjerg312021_9_100x4817_4982x7244_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Schulstad Det gode, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 13,
+        "pricePrKg": "26,00 per kg.",
+        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48676/SPAR312021_13_362x440_3278x3652_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "LingonGrova, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 12,
+        "pricePrKg": "37,11 per kg.",
+        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48586/Løvbjerg312021_8_1661x4761_3310x7133_zoom.jpg",
         "date": ""
       },
       {
@@ -347,10 +287,10 @@
         "title": "Bageren rugbrød",
         "price": null,
         "unit": "",
-        "quantity": 15,
+        "quantity": 25,
         "pricePrKg": "",
-        "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48559/Lidl292021_4_1955x3488_4981x5332_zoom.jpg",
+        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48676/SPAR312021_13_3226x5256_4571x7014_zoom.jpg",
         "date": ""
       },
       {
@@ -367,10 +307,20 @@
         "title": "Bageren rugbrød",
         "price": null,
         "unit": "",
-        "quantity": 20,
+        "quantity": 24,
         "pricePrKg": "",
-        "chain": "\n                    \n                                                Bilka\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/29/48628/Bilka29202149_257x3702_2464x5709_zoom.jpg",
+        "chain": "\n                    \n                                                Dagli'Brugsen\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48707/DagliBrugsen312021_10_195x2615_2668x3939_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Bageren rugbrød",
+        "price": null,
+        "unit": "",
+        "quantity": 10,
+        "pricePrKg": "",
+        "chain": "\n                    \n                                                \n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48731/Lidl312021_11_2558x1217_4892x3270_zoom.jpg",
         "date": ""
       }
     ]

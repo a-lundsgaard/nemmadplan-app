@@ -39,22 +39,8 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const [isReceiptSavedOrDeleted, setReceiptSaved] = react_1.useState('');
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [clickedDishId, setClickedDishId] = react_1.useState('');
-    const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
     const [message, setMessage] = react_1.useState({});
-    function getRecipes(showLoading) {
-        if (showLoading)
-            setIsLoading(true);
-        const token = localStorage.getItem('token');
-        const requestBody = http_1.default.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token });
-        http_1.default.post(requestBody)
-            .then(res => {
-            setRecipes(res.data.receipts);
-            setRecipesInSearch(res.data.receipts);
-            localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length));
-            setIsLoading(false);
-        })
-            .catch(e => console.log(e));
-    }
+    const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
     const handleRecipeCardClick = (id) => {
         setClickedDishId(id);
         onClick(id);
@@ -97,8 +83,25 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
         setMessage({ msg: `Retten blev slettet`, type: 'success', key: Math.random() });
         setReceiptSaved(id);
     };
+    function getRecipes(showLoading) {
+        if (props.getRecipesFromParent) {
+            setRecipesInSearch(props.getRecipesFromParent);
+            return;
+        }
+        if (showLoading)
+            setIsLoading(true);
+        const token = localStorage.getItem('token');
+        const requestBody = http_1.default.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token });
+        http_1.default.post(requestBody)
+            .then(res => {
+            setRecipes(res.data.receipts);
+            setRecipesInSearch(res.data.receipts);
+            localStorage.setItem('recipeCount', JSON.stringify(res.data.receipts.length));
+            setIsLoading(false);
+        })
+            .catch(e => console.log(e));
+    }
     return (<react_1.Fragment>
-
       <Grid_1.default container className={classes.root} justify="center">
         <Grid_1.default item xs={10}>
 
@@ -111,18 +114,17 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             :
                 recipesInSearch.map((recipe, index) => {
                     return <Grid_1.default key={recipe._id} item>
-                    <recipeCard_jsx_1.default recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)}/>
+                    <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={new Date().toISOString()}/>
                   </Grid_1.default>;
                 })}
-
           </Grid_1.default>
 
         </Grid_1.default>
       </Grid_1.default>
 
-      <div className={classes.addReceiptButton}>
+      {!props.disableSettings && <div className={classes.addReceiptButton}>
         <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)}/>
-      </div>
+      </div>}
 
       {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 

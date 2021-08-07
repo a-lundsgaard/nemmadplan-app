@@ -36,7 +36,6 @@ const IconButton_1 = __importDefault(require("@material-ui/core/IconButton"));
 const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const colors_1 = require("@material-ui/core/colors");
 const Favorite_1 = __importDefault(require("@material-ui/icons/Favorite"));
-const Share_1 = __importDefault(require("@material-ui/icons/Share"));
 const ExpandMore_1 = __importDefault(require("@material-ui/icons/ExpandMore"));
 const MoreVert_1 = __importDefault(require("@material-ui/icons/MoreVert"));
 const scrollDialog_jsx_1 = __importDefault(require("../dialog/scrollDialog.jsx"));
@@ -139,18 +138,19 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
             </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
             <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <Clear_1.default />
-              </IconButton_1.default> :
-            <>
+              </IconButton_1.default>
+            :
+                !props.disableSettings && <>
                 <IconButton_1.default aria-label="settings" onClick={handleMenu}>
                   <MoreVert_1.default />
                 </IconButton_1.default>
                 <Menu_1.default id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                }} keepMounted transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                }} open={settingsOpen} onClose={handleClose}>
+                        vertical: "top",
+                        horizontal: "right"
+                    }} keepMounted transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right"
+                    }} open={settingsOpen} onClose={handleClose}>
                   <MenuItem_1.default onClick={handleClose}>
                     <Edit_1.default />
                   </MenuItem_1.default>
@@ -188,9 +188,7 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
                 <IconButton_1.default aria-label="add dish to plan" onClick={handleAddReceipeToFoodPlan} title={'Tilføj ret til madplan'}>
                 <PostAdd_1.default />
               </IconButton_1.default>}
-            <IconButton_1.default aria-label="share">
-              <Share_1.default />
-            </IconButton_1.default>
+        
           </>}
 
 

@@ -34,7 +34,7 @@ const signIn_1 = __importDefault(require("../pages/signIn/signIn"));
 const signUp_1 = __importDefault(require("../pages/signUp/signUp"));
 const protectedRoute_1 = __importDefault(require("../components/auth/protectedRoute/protectedRoute"));
 const recipies_1 = __importDefault(require("../pages/recipies/recipies"));
-const createPlan_jsx_1 = __importDefault(require("../pages/createPlan/createPlan.jsx"));
+const mealPlans_1 = __importDefault(require("../pages/mealPlan/mealPlans"));
 const miniDrawer_1 = __importDefault(require("../components/shared/drawer/miniDrawer"));
 const http_1 = __importDefault(require("../HTTP/http"));
 function Routes() {
@@ -74,7 +74,7 @@ function Routes() {
         <protectedRoute_1.default exact path={routes_1.default.RECIPES} component={recipies_1.default} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></protectedRoute_1.default>
         <protectedRoute_1.default exact path={"/home"} component={welcome_1.default} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></protectedRoute_1.default>
         <protectedRoute_1.default exact path={"/"} component={welcome_1.default} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></protectedRoute_1.default>
-        <protectedRoute_1.default exact path={routes_1.default.CREATEPLAN} component={createPlan_jsx_1.default} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></protectedRoute_1.default>
+        <protectedRoute_1.default exact path={routes_1.default.CREATEPLAN} component={mealPlans_1.default} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></protectedRoute_1.default>
 
         <react_router_1.Route path={routes_1.default.MOTD} component={motd_1.default}></react_router_1.Route>
         <react_router_1.Route path={routes_1.default.LOCALIZATION} component={localization_1.default}></react_router_1.Route>
