@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from '@material-ui/core/CardMedia'; 
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
@@ -22,16 +22,13 @@ import AddIcon from '@material-ui/icons/Add';
 import RecipeScrollDialog from '../dialog/scrollDialog.jsx';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { Link, NavLink, useHistory } from "react-router-dom";
 
 import Divider from '@material-ui/core/Divider';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import ClearIcon from '@material-ui/icons/Clear';
-import SwapVertIcon from '@material-ui/icons/SwapVert';
 import CachedIcon from '@material-ui/icons/Cached';
 
 import SmallNumPicker from "../pickers/number/smallNumPicker/smallNumPicker.jsx";
@@ -51,13 +48,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 245,
     minWidth: 245,
-
     //  height: 200,
     //  width: 245,
-  },
-
-  span: {
-    cursor: 'pointer'
   },
 
   control: {
@@ -68,6 +60,8 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
+    cursor: 'pointer'
+
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -188,16 +182,16 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
 
   return (
     <>
-      { !props.createPlanCard && 
-      <RecipeScrollDialog
-        boolean={scrollDialogOpen}
-        text={recipe.text}
-        ingredients={recipe.ingredients}
-        title={recipe.name}
-        image={recipe.image}
-        onChange={(bool: boolean) => setScrollDialogOpen(bool)}
-        key={1}
-      /> }
+      {!props.createPlanCard &&
+        <RecipeScrollDialog
+          boolean={scrollDialogOpen}
+          text={recipe.text}
+          ingredients={recipe.ingredients}
+          title={recipe.name}
+          image={recipe.image}
+          onChange={(bool: boolean) => setScrollDialogOpen(bool)}
+          key={1}
+        />}
       <Card className={classes.card} >
         <CardHeader
           avatar={
@@ -209,7 +203,7 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
             props.visitFromCreatePlanMealList ?
               <IconButton aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
                 <ClearIcon />
-              </IconButton> 
+              </IconButton>
               :
               !props.disableSettings && <>
                 <IconButton aria-label="settings" onClick={handleMenu}>
@@ -248,17 +242,18 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
           }
 
           title={recipe.name}
-          subheader={prettifyDate(customDate ? customDate : recipe.createdAt, props)}
+          subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}
         />
 
 
-        <span className={classes.span} onClick={() => setScrollDialogOpen(!scrollDialogOpen)}>
-          <CardMedia
-            className={classes.media}
-            image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}
-            title="Paella dish"
-          />
-        </span>
+        <CardMedia
+          onClick={() => setScrollDialogOpen(!scrollDialogOpen)}
+          className={classes.media}
+          image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}
+          title="Paella dish"
+          component={'div'}
+        />        
+        
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -283,7 +278,7 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
               </IconButton>
 
             }
-{/*             <IconButton aria-label="share">
+            {/*             <IconButton aria-label="share">
               <ShareIcon />
             </IconButton> */}
           </>}
@@ -336,22 +331,27 @@ function prettifyDate(date: string) {
     12: 'december'
   }
 
+  const days = {
+    0: 'Søn',
+    1: 'Man',
+    2: 'Tir',
+    3: 'Ons',
+    4: 'Tor',
+    5: 'Fre',
+    6: 'Lør'
+  }
+
   if (!date) {
     return;
   }
 
-  let dateArr = date.split('-')
-  let year = dateArr[0]
+  let d = new Date(date);
+  let dayNumber = d.getDate();
+  let month = months[d.getMonth() as keyof typeof months];
+  let year = d.getFullYear();
+  let dayName = days[d.getDay() as keyof typeof days];
+  const loc = location.href;
 
-  const monthNumber = Number(dateArr[1]) as keyof typeof months
-
-  let month = months[monthNumber]
-  let day = dateArr[2]
-  const dayMatch = day.match(/.+(?=T)/);
-
-  if (dayMatch) {
-    day = dayMatch[0]
-  }
-
-  return `${day}. ${month} ${year}`
+  if (loc.includes('recipes')) return `${dayNumber}. ${month} ${year}`
+  return `${dayName.toLowerCase()}. ${dayNumber}. ${month} ${year}`
 }

@@ -9,6 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 import useStyles from './styles'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
 
 import Recipes from '../../recipies/recipies';
 
@@ -78,12 +80,17 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
             <Typography variant="h6" className={classes.title}>
               {mealPlan.name}
             </Typography>
+            <IconButton edge="start" color="inherit" aria-label="close">
+              <ShoppingCartIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         
         <span style={{ marginTop: 70 }}>
           <Recipes
-            getRecipesFromParent={mealPlan.plan.map((plan) => plan.dish)}
+            getRecipesFromParent={mealPlan.plan.map((plan) => { 
+              return { ...plan.dish, date: plan.day }
+            })}
             disableSettings={true}
             //recipies={recipes}
             onClick={recipe => chosenRecipe(recipe)}
