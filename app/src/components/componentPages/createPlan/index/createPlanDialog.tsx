@@ -198,7 +198,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     //alert(weekPlanTitle)
     console.log(mealPlanTitle);
 
-    if(!mealPlanTitle) {
+    if (!mealPlanTitle) {
       setMessage({ msg: 'Angiv et navn for madplanen', type: 'error', key: Math.random() })
       return;
     }
@@ -229,7 +229,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     console.log('retur', requestBody)
     HTTP.post(requestBody)
       .then(res => {
-        console.log('retur:' ,res);
+        console.log('retur:', res);
         setMessage({ msg: `Madplanen "${mealPlanTitle}" blev gemt`, type: 'success', key: Math.random() })
         //const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;
       })
@@ -259,7 +259,7 @@ export default function CreatePlanDialog({ onReceiptSave }) {
                 margin: '0 0 0 0'
               }} >
                 Opret madplan
-            </Typography>
+              </Typography>
 
 
               <div className={classes.search}>
@@ -292,7 +292,6 @@ export default function CreatePlanDialog({ onReceiptSave }) {
           overflow: 'hidden'
         }}
         >
-
           <div style={{
             padding: '0 30px 0 20px',
             display: 'block',

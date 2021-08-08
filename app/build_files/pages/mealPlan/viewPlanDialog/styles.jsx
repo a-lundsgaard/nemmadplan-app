@@ -43,5 +43,6 @@ exports.default = styles_1.makeStyles((theme) => ({
     },
     title: {
         marginLeft: theme.spacing(2),
+        flex: 1
     },
 }));

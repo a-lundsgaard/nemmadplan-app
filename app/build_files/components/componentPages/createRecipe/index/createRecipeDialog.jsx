@@ -212,17 +212,17 @@ function FullScreenDialog({ onReceiptSave }) {
         <div style={{ display: 'flex' }}>
           <div style={{ height: '100%' }}>
             <List_1.default>
-                <ListItem_1.default className={classes.numPicker}>
-                  <numberPicker_jsx_1.default name="numPicker" onChange={(value) => onNumPickerChange(value)} value={state.numPicker}/>
-                </ListItem_1.default>
+              <ListItem_1.default className={classes.numPicker}>
+                <numberPicker_jsx_1.default name="numPicker" onChange={(value) => onNumPickerChange(value)} value={state.numPicker}/>
+              </ListItem_1.default>
 
-                <ListItem_1.default>
-                  <TextField_1.default name="title" id="standard-basic" label="Titel*" error={inputError.title} onChange={onInputchange} value={state.title} InputLabelProps={{ shrink: state.title ? true : false }}/>
-                </ListItem_1.default>
+              <ListItem_1.default>
+                <TextField_1.default name="title" id="standard-basic" label="Titel*" error={inputError.title} onChange={onInputchange} value={state.title} InputLabelProps={{ shrink: state.title ? true : false }}/>
+              </ListItem_1.default>
 
-                <ListItem_1.default>
-                  <TextField_1.default name="source" id="standard-basic" label="Kilde" onChange={onInputchange} value={state.source} InputLabelProps={{ shrink: state.source ? true : false }}/>
-                </ListItem_1.default>
+              <ListItem_1.default>
+                <TextField_1.default name="source" id="standard-basic" label="Kilde" onChange={onInputchange} value={state.source} InputLabelProps={{ shrink: state.source ? true : false }}/>
+              </ListItem_1.default>
             </List_1.default>
           </div>
 

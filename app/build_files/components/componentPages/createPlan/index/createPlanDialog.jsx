@@ -193,7 +193,7 @@ function CreatePlanDialog({ onReceiptSave }) {
             margin: '0 0 0 0'
         }}>
                 Opret madplan
-            </Typography_1.default>
+              </Typography_1.default>
 
 
               <div className={classes.search}>
@@ -219,7 +219,6 @@ function CreatePlanDialog({ onReceiptSave }) {
             height: '100%',
             overflow: 'hidden'
         }}>
-
           <div style={{
             padding: '0 30px 0 20px',
             display: 'block',

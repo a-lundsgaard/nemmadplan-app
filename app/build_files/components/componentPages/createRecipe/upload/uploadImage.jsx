@@ -25,7 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 require("./style.css");
 const placeholder_png_1 = __importDefault(require("./placeholder.png"));
-function uploadImage({ onImageUpload, ...props }) {
+function UploadImage({ onImageUpload, ...props }) {
     const [{ alt, src }, setImg] = react_1.useState({
         src: placeholder_png_1.default,
         alt: 'Upload an Image'
@@ -65,4 +65,4 @@ function uploadImage({ onImageUpload, ...props }) {
             </div>
         </div>);
 }
-exports.default = uploadImage;
+exports.default = UploadImage;

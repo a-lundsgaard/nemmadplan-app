@@ -251,7 +251,7 @@ export default function FullScreenDialog({ onReceiptSave }) {
             <Button className={classes.importButton} variant="contained" onClick={handleImportUrl} disabled={isLoading} >
               Importer opskrift
             </Button>
-            <span style={ { margin: '5px 0 0 20px' }} className={classes.importButton}>{ isLoading && <CircularProgress size={30} thickness={5}/> }</span>
+            <span style={{ margin: '5px 0 0 20px' }} className={classes.importButton}>{isLoading && <CircularProgress size={30} thickness={5} />}</span>
 
           </ListItem>
         </List>
@@ -261,30 +261,30 @@ export default function FullScreenDialog({ onReceiptSave }) {
         <div style={{ display: 'flex' }}>
           <div style={{ height: '100%' }} >
             <List>
-                <ListItem className={classes.numPicker}>
-                  <NumberPicker
-                    name="numPicker"
-                    onChange={(value) => onNumPickerChange(value)}
-                    value={state.numPicker}
-                  />
-                </ListItem>
+              <ListItem className={classes.numPicker}>
+                <NumberPicker
+                  name="numPicker"
+                  onChange={(value) => onNumPickerChange(value)}
+                  value={state.numPicker}
+                />
+              </ListItem>
 
-                <ListItem>
-                  <TextField name="title" id="standard-basic" label="Titel*"
-                    error={inputError.title}
-                    onChange={onInputchange}
-                    value={state.title}
-                    InputLabelProps={{ shrink: state.title ? true : false }}
-                  />
-                </ListItem>
+              <ListItem>
+                <TextField name="title" id="standard-basic" label="Titel*"
+                  error={inputError.title}
+                  onChange={onInputchange}
+                  value={state.title}
+                  InputLabelProps={{ shrink: state.title ? true : false }}
+                />
+              </ListItem>
 
-                <ListItem>
-                  <TextField name="source" id="standard-basic" label="Kilde"
-                    onChange={onInputchange}
-                    value={state.source}
-                    InputLabelProps={{ shrink: state.source ? true : false }}
-                  />
-                </ListItem>
+              <ListItem>
+                <TextField name="source" id="standard-basic" label="Kilde"
+                  onChange={onInputchange}
+                  value={state.source}
+                  InputLabelProps={{ shrink: state.source ? true : false }}
+                />
+              </ListItem>
             </List>
           </div>
 
@@ -339,16 +339,16 @@ export default function FullScreenDialog({ onReceiptSave }) {
 
             <Grid item className={classes.textAreaGrid}>
 
-              <ImageUploader 
-              name="receipt" 
-              src={state.image}
-              onImageUpload={(imageUrl) => setState({...state, image: imageUrl})}
-               />
+              <ImageUploader
+                name="receipt"
+                src={state.image}
+                onImageUpload={(imageUrl) => setState({ ...state, image: imageUrl })}
+              />
 
               <TextField name="image" id="standard-basic" placeholder="Link til billede"
                 className={classes.imageInputField}
                 onChange={onInputchange}
-                value={ state.image && state.image.includes('localhost') ? '' : state.image }
+                value={state.image && state.image.includes('localhost') ? '' : state.image}
                 InputLabelProps={{ shrink: state.image ? true : false }}
               />
             </Grid>

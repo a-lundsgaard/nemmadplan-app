@@ -8,16 +8,17 @@ import Stepper from './stepper/linearStepper';
 
 
 
-function App({ ingredientArray, updateAmountOnIngredients, ingredientsToDelete }) {
+function App({ ingredientArray, updateAmountOnIngredients, ingredientsToDelete, defaultItems, ...props }) {
   const classes = useStyles();
 
   return (
 
       <div className={classes.App}>
-        <header className={classes.header}>
+       { !props.excludeTitle && <header className={classes.header}>
           <h1>Min liste</h1>
-        </header>
-        <TodoApp ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients} ingredientsToDelete={ingredientsToDelete} />
+        </header> 
+        }
+        <TodoApp ingredientArray={ingredientArray} updateAmountOnIngredients={updateAmountOnIngredients} ingredientsToDelete={ingredientsToDelete} defaultItems={defaultItems} />
       </div>
   );
 }

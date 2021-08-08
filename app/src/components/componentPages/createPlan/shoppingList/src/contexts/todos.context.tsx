@@ -15,13 +15,14 @@ const storeTodosToRedux = sale => {
   window.store.dispatch({ type: 'SALES', data: sale })
 }
 
-export const TodosContext = createContext();
-export const DispatchContext = createContext();
+export const TodosContext = createContext([]);
+export const DispatchContext = createContext([]);
 
 
 export function TodosProvider(props) {
 
-  const [todos, dispatch] = useReducer(todosReducer, defaultItems)
+  const transformedItems = transformDefaultItems(props.defaultItems) || defaultItems;
+  const [todos, dispatch] = useReducer(todosReducer, transformedItems)
 
   // For storing shopping list state in localstorage
   /* const [todos, dispatch] = useLocalStorageReducer(
@@ -39,14 +40,15 @@ export function TodosProvider(props) {
 
   // For adding ingredients to shoppinglist when adding dish to meal plan programatically 
   useEffect(() => {
-    if (props.ingredientArray.length) {
+    if (props?.ingredientArray?.length) {
       dispatch({ type: ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
     }
+    console.log('Added ingredient array : ', props.ingredientArray);
+    
   }, [props.ingredientArray])
 
-
   useEffect(() => {
-    if (props.updateAmountOnIngredients.length) {
+    if (props?.updateAmountOnIngredients?.length) {
       //alert('Trying to update amount')
       //console.log('Found ingredients to change:  ', props.updateAmountOnIngredients)
       dispatch({ type: UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
@@ -54,7 +56,7 @@ export function TodosProvider(props) {
   }, [props.updateAmountOnIngredients])
 
   useEffect(() => {
-    if (props.ingredientsToDelete.length) {
+    if (props?.ingredientsToDelete?.length) {
       //alert('Trying to update amount')
       dispatch({ type: DELETE_INGREDIENTS, task: props.ingredientsToDelete });
       console.log('Found ingredients to delete:  ', props.ingredientsToDelete)
@@ -69,4 +71,17 @@ export function TodosProvider(props) {
       </DispatchContext.Provider>
     </TodosContext.Provider>
   );
+}
+
+
+const transformDefaultItems = (items) => {
+  if(!items) return false;
+  return items.map((item, index) => {
+    return {
+      id: Math.random(),
+      completed: false,
+      task: item.name,
+      ...item
+    }
+  })
 }

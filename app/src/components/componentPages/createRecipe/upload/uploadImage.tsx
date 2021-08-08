@@ -5,7 +5,7 @@ import placeholder from './placeholder.png';
 
 
 
-export default function uploadImage({ onImageUpload, ...props }) {
+export default function UploadImage({ onImageUpload, ...props }) {
 
 
     const [{ alt, src }, setImg] = useState({

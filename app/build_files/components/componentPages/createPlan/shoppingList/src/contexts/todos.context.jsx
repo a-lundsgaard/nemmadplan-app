@@ -34,25 +34,30 @@ const defaultItems = [
 const storeTodosToRedux = sale => {
     window.store.dispatch({ type: 'SALES', data: sale });
 };
-exports.TodosContext = react_1.createContext();
-exports.DispatchContext = react_1.createContext();
+exports.TodosContext = react_1.createContext([]);
+exports.DispatchContext = react_1.createContext([]);
 function TodosProvider(props) {
-    const [todos, dispatch] = react_1.useReducer(todos_reducer_jsx_1.default, defaultItems);
+    const transformedItems = transformDefaultItems(props.defaultItems) || defaultItems;
+    const [todos, dispatch] = react_1.useReducer(todos_reducer_jsx_1.default, transformedItems);
     react_1.useEffect(() => {
         storeTodosToRedux(todos);
     }, [todos]);
     react_1.useEffect(() => {
-        if (props.ingredientArray.length) {
+        var _a;
+        if ((_a = props === null || props === void 0 ? void 0 : props.ingredientArray) === null || _a === void 0 ? void 0 : _a.length) {
             dispatch({ type: actions_1.ADD_INGREDIENT_ARRAY, task: props.ingredientArray });
         }
+        console.log('Added ingredient array : ', props.ingredientArray);
     }, [props.ingredientArray]);
     react_1.useEffect(() => {
-        if (props.updateAmountOnIngredients.length) {
+        var _a;
+        if ((_a = props === null || props === void 0 ? void 0 : props.updateAmountOnIngredients) === null || _a === void 0 ? void 0 : _a.length) {
             dispatch({ type: actions_1.UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
         }
     }, [props.updateAmountOnIngredients]);
     react_1.useEffect(() => {
-        if (props.ingredientsToDelete.length) {
+        var _a;
+        if ((_a = props === null || props === void 0 ? void 0 : props.ingredientsToDelete) === null || _a === void 0 ? void 0 : _a.length) {
             dispatch({ type: actions_1.DELETE_INGREDIENTS, task: props.ingredientsToDelete });
             console.log('Found ingredients to delete:  ', props.ingredientsToDelete);
         }
@@ -64,3 +69,15 @@ function TodosProvider(props) {
     </exports.TodosContext.Provider>);
 }
 exports.TodosProvider = TodosProvider;
+const transformDefaultItems = (items) => {
+    if (!items)
+        return false;
+    return items.map((item, index) => {
+        return {
+            id: Math.random(),
+            completed: false,
+            task: item.name,
+            ...item
+        };
+    });
+};

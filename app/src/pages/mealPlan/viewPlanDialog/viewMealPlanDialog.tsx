@@ -10,11 +10,13 @@ import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 import useStyles from './styles'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-
-
+import EditIcon from '@material-ui/icons/Edit';
 import Recipes from '../../recipies/recipies';
 
-import { MealPlan } from '../mealPlanCard/types'; 
+import MealPlanShoppingListDialog from './shoppingList/mealPlanShoppingList';
+import { MealPlan } from '../mealPlanCard/types';
+
+import ShoppingList from '../../../components/componentPages/createPlan/shoppingList/src/components/App';
 
 
 
@@ -28,15 +30,18 @@ const Transition = React.forwardRef(function Transition(
 interface Props {
   visible: boolean,
   setVisible: (bool: boolean) => boolean;
-  chosenRecipe: (id: string ) => string;
+  chosenRecipe: (id: string) => string;
   mealPlan: MealPlan
 }
 
-export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealPlan, ...props }: Props ) {
+export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealPlan, ...props }: Props) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(visible); // set false when not testing
 
+  const [shopListOpen, setShopListOpen] = useState(false); // set false when not testing
+
+  
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -62,6 +67,11 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
     setOpen(visible)
   }, [visible])
 
+  useEffect(() => {
+    console.log('Found custom shop list: ', mealPlan.customShoppingList)
+
+  }, [])
+
 
   /*  useEffect(()=>{
         console.log(props.closeDialog)
@@ -80,15 +90,30 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
             <Typography variant="h6" className={classes.title}>
               {mealPlan.name}
             </Typography>
-            <IconButton edge="start" color="inherit" aria-label="close">
+            <IconButton onClick={()=> setShopListOpen(true)} edge="start" color="inherit" aria-label="close">
               <ShoppingCartIcon />
+            </IconButton>
+            <IconButton edge="start" color="inherit" aria-label="close">
+              <EditIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
-        
+
+        <MealPlanShoppingListDialog
+          title={'Indkøbsliste'}
+          visible={shopListOpen}
+          onOpenChange={(bool) => setShopListOpen(bool)}
+        >
+          <ShoppingList
+          excludeTitle={true}
+         //ingredientArray={mealPlan.customShoppingList}
+          defaultItems={mealPlan.customShoppingList}
+          />
+        </MealPlanShoppingListDialog>
+
         <span style={{ marginTop: 70 }}>
           <Recipes
-            getRecipesFromParent={mealPlan.plan.map((plan) => { 
+            getRecipesFromParent={mealPlan.plan.map((plan) => {
               return { ...plan.dish, date: plan.day }
             })}
             disableSettings={true}
