@@ -51,6 +51,7 @@ function FullScreenDialog({ onReceiptSave }) {
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(false);
     const [state, setState] = react_1.useState({
+        image: {},
         numPicker: 1
     });
     const [message, setMessage] = react_1.useState({});
@@ -78,6 +79,7 @@ function FullScreenDialog({ onReceiptSave }) {
     };
     const handleClose = () => {
         setState({
+            image: {},
             numPicker: 1
         });
         setMessage({});
@@ -108,7 +110,7 @@ function FullScreenDialog({ onReceiptSave }) {
                 numPicker: persons,
                 title: name,
                 receipt: text,
-                image: image,
+                image: { ...state.image, src: image },
                 source: source,
                 ingredients: formattedAttachments
             });
@@ -155,26 +157,50 @@ function FullScreenDialog({ onReceiptSave }) {
         console.log(transformedIngredients);
         const token = localStorage.getItem('token');
         const { title, type, numPicker, source, receipt, image } = state;
-        const query = http_1.default.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', {
+        const variables = {
             token: token,
             name: title,
             type: 'veg',
             persons: numPicker,
             source: source,
             text: receipt,
-            image: image,
+            image: image.src,
             ingredients: transformedIngredients
-        });
-        http_1.default.post(query)
-            .then(res => {
-            setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() });
-            onReceiptSave(Date.now());
-            handleClose();
-        })
-            .catch(error => {
-            console.log(error);
-            setMessage({ msg: error.message, type: 'error', key: Math.random() });
-        });
+        };
+        const query = http_1.default.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', variables);
+        if (image.file) {
+            const formdata = new FormData();
+            const serverFileName = 'IMG-' + Date.now();
+            formdata.append("productImage", image.file, serverFileName);
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+            fetch("http://localhost:8080/uploads", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                console.log(result);
+                variables.image = result.imageUrl;
+                saveRecipeToDb(query);
+            })
+                .catch(error => console.log('error', error));
+        }
+        else {
+            saveRecipeToDb(query);
+        }
+        function saveRecipeToDb(query) {
+            http_1.default.post(query)
+                .then(res => {
+                setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() });
+                onReceiptSave(Date.now());
+                handleClose();
+            })
+                .catch(error => {
+                console.log(error);
+                setMessage({ msg: error.message, type: 'error', key: Math.random() });
+            });
+        }
     };
     return (<div>
       <span onClick={handleClickOpen}><plusButton_1.default /></span>
@@ -242,9 +268,9 @@ function FullScreenDialog({ onReceiptSave }) {
 
             <Grid_1.default item className={classes.textAreaGrid}>
 
-              <uploadImage_jsx_1.default name="receipt" src={state.image} onImageUpload={(imageUrl) => setState({ ...state, image: imageUrl })}/>
+              <uploadImage_jsx_1.default name="receipt" src={state.image.src} onImageUpload={(imageObj) => setState({ ...state, image: imageObj })}/>
 
-              <TextField_1.default name="image" id="standard-basic" placeholder="Link til billede" className={classes.imageInputField} onChange={onInputchange} value={state.image && state.image.includes('localhost') ? '' : state.image} InputLabelProps={{ shrink: state.image ? true : false }}/>
+              <TextField_1.default name="image" id="standard-basic" placeholder="Link til billede" className={classes.imageInputField} onChange={onInputchange} value={state.image.src && state.image.src.includes('localhost') ? '' : state.image.src} InputLabelProps={{ shrink: state.image.src ? true : false }}/>
             </Grid_1.default>
 
           </Grid_1.default>

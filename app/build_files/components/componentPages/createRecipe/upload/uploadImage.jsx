@@ -25,43 +25,63 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 require("./style.css");
 const placeholder_png_1 = __importDefault(require("./placeholder.png"));
+const Cancel_1 = __importDefault(require("@material-ui/icons/Cancel"));
+const core_1 = require("@material-ui/core");
 function UploadImage({ onImageUpload, ...props }) {
-    const [{ alt, src }, setImg] = react_1.useState({
+    const [{ alt, src, file }, setImg] = react_1.useState({
         src: placeholder_png_1.default,
-        alt: 'Upload an Image'
+        alt: 'Upload an Image',
+        file: null
     });
     react_1.useEffect(() => {
         if (props.src) {
             setImg({
                 alt: alt,
                 src: props.src,
+                file: null
             });
         }
         if (!props.src) {
             setImg({
                 src: placeholder_png_1.default,
-                alt: 'Upload an Image'
+                alt: 'Upload an Image',
+                file: null
             });
         }
     }, [props.src]);
     react_1.useEffect(() => {
         if (src !== placeholder_png_1.default)
-            onImageUpload(src);
+            onImageUpload({ src, file });
     }, [src]);
     const handleImg = (e) => {
         if (e.target.files[0]) {
+            console.log('Fandt fil til upload : ', e.target.files[0]);
             setImg({
                 src: URL.createObjectURL(e.target.files[0]),
-                alt: e.target.files[0].name
+                alt: e.target.files[0].name,
+                file: e.target.files[0]
             });
         }
     };
-    return (<div className={"container"}>
-            <img src={src} alt={alt} className={"image"}/>
+    return (<div>
+            {src !== placeholder_png_1.default ? <core_1.IconButton onClick={() => setImg({
+                src: placeholder_png_1.default,
+                alt: 'Upload an Image',
+                file: null
+            })} style={{
+                float: 'right',
+                margin: '-24px 0 0 -20px',
+                zIndex: 1
+            }}>
+                <Cancel_1.default />
+            </core_1.IconButton> : null}
+            <div className={"container"}>
+                <img src={src} alt={alt} className={"image"}/>
 
-            <div className={"middle"}>
-                <label className={"text"} htmlFor="img">+</label>
-                <input type="file" id="img" name="img" accept="image/*" hidden onChange={handleImg}/>
+                <div className={"middle"}>
+                    <label className={"text"} htmlFor="img">+</label>
+                    <input type="file" id="img" name="productImage" accept="image/*" hidden onChange={handleImg} value={''}/>
+                </div>
             </div>
         </div>);
 }

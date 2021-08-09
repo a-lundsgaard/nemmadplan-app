@@ -36,11 +36,12 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const [searchString, setSearchString] = react_1.useState(window.store.getState().searchInput);
     const [recipes, setRecipes] = react_1.useState([]);
     const [recipesInSearch, setRecipesInSearch] = react_1.useState([]);
-    const [isReceiptSavedOrDeleted, setReceiptSaved] = react_1.useState('');
+    const [isReceiptSavedOrDeleted, setRecipeSavedOrDeleted] = react_1.useState('');
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [clickedDishId, setClickedDishId] = react_1.useState('');
     const [message, setMessage] = react_1.useState({});
-    const recipeCount = parseInt(localStorage.getItem('recipeCount')) || 0;
+    const lsCount = localStorage.getItem('recipeCount');
+    const recipeCount = lsCount ? parseInt(lsCount) : 0;
     const handleRecipeCardClick = (id) => {
         setClickedDishId(id);
         onClick(id);
@@ -72,16 +73,13 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
         setRecipesInSearch(filteredRecipes);
     }, [searchString]);
     react_1.useEffect(() => {
-        if (!isReceiptSavedOrDeleted)
-            getRecipes(true);
+        getRecipes(true);
     }, [isReceiptSavedOrDeleted]);
     const handleRecipeSave = (id) => {
-        setMessage({ msg: `Retten blev gemt`, type: 'success', key: Math.random() });
-        setReceiptSaved(id);
+        setRecipeSavedOrDeleted(id);
     };
     const handleRecipeDeletion = (id) => {
-        setMessage({ msg: `Retten blev slettet`, type: 'success', key: Math.random() });
-        setReceiptSaved(id);
+        setRecipeSavedOrDeleted(id);
     };
     function getRecipes(showLoading) {
         if (props.getRecipesFromParent) {
@@ -101,32 +99,28 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
         })
             .catch(e => console.log(e));
     }
-    return (<react_1.Fragment>
-      <Grid_1.default container className={classes.root} justify="center">
-        <Grid_1.default item xs={10}>
+    return (<Grid_1.default container className={classes.root} justify="center" component={'div'}>
+      <Grid_1.default item xs={10}>
 
-          <Grid_1.default container justify="center" spacing={5}>
-            {isLoading ?
+        <Grid_1.default container justify="center" spacing={5}>
+          {isLoading ?
             Array(recipeCount).fill(recipeCount)
                 .map((receipt, index) => (<Grid_1.default key={index} item>
-                      <receiptSceletonLoader_1.default />
-                    </Grid_1.default>))
+                    <receiptSceletonLoader_1.default />
+                  </Grid_1.default>))
             :
                 recipesInSearch.map((recipe, index) => {
                     return <Grid_1.default key={recipe._id} item>
-                    <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={recipe.date}/>
-                  </Grid_1.default>;
+                  <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={recipe.date}/>
+                </Grid_1.default>;
                 })}
-          </Grid_1.default>
         </Grid_1.default>
       </Grid_1.default>
-
-      {!props.disableSettings && <div className={classes.addReceiptButton}>
-        <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)}/>
-      </div>}
-
+      {!props.disableSettings &&
+            <div className={classes.addReceiptButton}>
+          <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)}/>
+        </div>}
       {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
-
-    </react_1.Fragment>);
+    </Grid_1.default>);
 }
 exports.default = SpacingGrid;

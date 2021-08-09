@@ -90,7 +90,8 @@ interface Props {
   customDate?: string,
   recipeOnPlan: boolean // check if the recipe is on the plan
   children?: React.FC,
-  createPlanCard?: boolean
+  createPlanCard?: boolean,
+  disableSettings: boolean
 }
 
 

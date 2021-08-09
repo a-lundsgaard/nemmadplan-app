@@ -6,7 +6,7 @@ async function post(requestBody, extraOrdinaryUrl) {
         'sales': this.salesUrl,
         'shopping': this.shoppingUrl
     };
-    const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.testUrl;
+    const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.requestUrl;
     const body = extraOrdinaryUrl ?
         requestBody :
         JSON.stringify({

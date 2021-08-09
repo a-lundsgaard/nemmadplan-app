@@ -1,56 +1,86 @@
 [
   {
-    "productName": "mælk",
-    "date": "2021-08-07T19:10:11.143Z",
+    "productName": "skyr",
+    "date": "2021-08-08T16:29:24.322Z",
     "results": [
       {
-        "title": "Milbona, Mælk",
+        "title": ", Skyr",
         "price": null,
         "unit": "",
-        "quantity": 7,
-        "pricePrKg": "7,00 per ltr.",
-        "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48821/Lidl322021_7_2552x4274_4967x6920_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Naturmælk, Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 7,
-        "pricePrKg": "7,99 per ltr.",
+        "quantity": 17,
+        "pricePrKg": "17,99 per kg.",
         "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48603/Løvbjerg322021_3_2581x717_4896x3844_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48603/Løvbjerg322021_11_44x2430_4966x4777_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Naturmælk, Letmælk",
+        "title": ", Skyr",
         "price": null,
         "unit": "",
-        "quantity": 7,
-        "pricePrKg": "7,99 per ltr.",
+        "quantity": 17,
+        "pricePrKg": "17,99 per kg.",
         "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48603/Løvbjerg322021_3_2581x717_4896x3844_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48603/Løvbjerg322021_11_44x2430_4966x4777_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Naturmælk, Skummetmælk",
+        "title": ", Skyr",
         "price": null,
         "unit": "",
-        "quantity": 7,
-        "pricePrKg": "7,99 per ltr.",
-        "chain": "\n                    \n                                                Løvbjerg\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48603/Løvbjerg322021_3_2581x717_4896x3844_zoom.jpg",
+        "quantity": 18,
+        "pricePrKg": "18,00 per kg.",
+        "chain": "\n                    \n                                                Føtex\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48741/Føtex322021_2_1592x1621_3435x6072_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Øllingegaard, Minimælk",
+        "title": "Stay Strong, Skyr",
         "price": null,
         "unit": "",
         "quantity": 10,
-        "pricePrKg": "10,00 per ltr.",
-        "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48770/MenyEkstra322021_9_2504x224_4709x4012_zoom.jpg",
+        "pricePrKg": "20,00 per kg.",
+        "chain": "\n                    \n                                                Netto\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48740/Netto322021_4_1678x3528_3320x7026_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Øllingegaard, Skyr",
+        "price": null,
+        "unit": "",
+        "quantity": 25,
+        "pricePrKg": "25,00 per ltr.",
+        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48770/MenyEkstra322021_6_3289x4847_4840x6810_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": ", Skyr",
+        "price": null,
+        "unit": "",
+        "quantity": 25,
+        "pricePrKg": "25,00 per kg.",
+        "chain": "\n                    \n                                                Let-køb\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/31/48678/Let-køb322021_5_826x4896_4800x7330_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Skyr",
+        "price": null,
+        "unit": "",
+        "quantity": 5,
+        "pricePrKg": "33,33 per ltr.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48773/REMA1000322021_13_246x5882_2475x8327_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": ", Skyr",
+        "price": null,
+        "unit": "",
+        "quantity": 8,
+        "pricePrKg": "64,00 per kg.",
+        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/32/48769/Meny322021_16_81x101_2471x3724_zoom.jpg",
         "date": ""
       }
     ]

@@ -7,7 +7,7 @@ export default async function post(requestBody: Object, extraOrdinaryUrl?: Objec
     'shopping': this.shoppingUrl  
   }
 
-  const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.testUrl;
+  const url = extraOrdinaryUrl ? urlObj[extraOrdinaryUrl] : this.requestUrl;
   
   const body = extraOrdinaryUrl ? 
   requestBody : 
@@ -38,6 +38,9 @@ export default async function post(requestBody: Object, extraOrdinaryUrl?: Objec
     console.log(jsonData)
     let err = jsonData.errors.reduce((a, n) => a + ' ' + n.message, '');
     console.error(jsonData)
+ /*    if(err.includes('unathenticated')) {
+      location.reload();
+    } */
     throw new Error(err)
   }
 }
