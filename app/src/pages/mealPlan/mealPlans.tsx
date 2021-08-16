@@ -25,11 +25,11 @@ function createPlan() {
   const [isLoading, setIsLoading] = useState(false) // letting us know when a receipt is saved to rerender dishes
   const [message, setMessage] = useState({});
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isMealPlanSavedOrDeleted, setMealPlanSavedOrDeleted] = useState('') // letting us know when a recipe is saved to rerender dishes
 
   const mealPlanCount: string | number | null = parseInt(localStorage.getItem(mealPlanCountKey)) || 0;
 
   // test
-
   useEffect(() => {
     getMealPlans()
   }, [])
@@ -45,8 +45,10 @@ function createPlan() {
 
     HTTP.post(requestBody)
       .then(res => {
-        const weekPlans = res.data.weekPlans;
-        console.log(res);
+        // TODO fix redundant data i database 
+        const weekPlans = res.data.weekPlans.filter((weekPlan) => weekPlan.plan.length );
+
+        console.log('Found weekplans : ', weekPlans);
         setMealPlans(weekPlans);
         localStorage.setItem(mealPlanCountKey, JSON.stringify(weekPlans.length)) // for loading skeleton recipes
         setIsLoading(false);
@@ -56,6 +58,22 @@ function createPlan() {
         console.log(e)
       )
   }
+
+  const handleMealPlanSave = (id: string) => {
+    const newCount = mealPlanCount+1;
+    localStorage.setItem(mealPlanCountKey, JSON.stringify(newCount))
+    setMealPlanSavedOrDeleted(id)
+  }
+
+  const handleMealPlanDeletion = (id: string) => {
+    const newCount = mealPlanCount-1;
+    localStorage.setItem(mealPlanCountKey, JSON.stringify(newCount))
+    setMealPlanSavedOrDeleted(id)
+  }
+
+  useEffect(()=> {
+    getMealPlans()
+  }, [isMealPlanSavedOrDeleted])
 
 
   // onReceiptSave={(value) => setReceiptSaved(value) }
@@ -84,9 +102,9 @@ function createPlan() {
                     <MealPlanCard
                       mealPlan={mealPlan}
                       dialogOpen={bool => setDialogOpen(bool)}
-                    //onRecipeDelete={id => handleRecipeDeletion(id) }
+                      onMealPlanDelete = {id => handleMealPlanDeletion(id)}
                     />
-           {/*          <ViewMealPlanDialogFullScreen
+                    {/*          <ViewMealPlanDialogFullScreen
                       mealPlan={mealPlan}
                       visible={dialogOpen}
                       setVisible={bool => setDialogOpen(bool)}
@@ -100,7 +118,7 @@ function createPlan() {
 
 
       <div className={classes.addReceiptButton}>
-        <CreatePlanDialog />
+        <CreatePlanDialog onMealPlanSave={(value: string) => handleMealPlanSave(value)} />
       </div>
 
       {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}

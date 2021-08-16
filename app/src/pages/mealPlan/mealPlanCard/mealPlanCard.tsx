@@ -42,8 +42,8 @@ import ViewMealPlanDialogFullScreen from '../viewPlanDialog/viewMealPlanDialog';
 
 interface Props {
   clikedPlan?: (recipe: any) => any,
-  dialogOpen?: (bool: number) => number;
-  onRecipeDelete?: (recipeId: string) => any
+  dialogOpen?: (bool: boolean) => void;
+  onMealPlanDelete: (recipeId: string) => void
   mealPlan: MealPlan,
   visitFromCreatePlan?: boolean
   visitFromCreatePlanMealList?: boolean;
@@ -83,24 +83,21 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
   };
 
 
+  // brug parametre i stedet for hardcode
   const handleDeleteMealPlan = (id: string) => {
     const token = localStorage.getItem('token');
-
     const requestBody = http.mealPlans.deleteMealPlan('_id name', {
       weekPlanId: mealPlan._id,
       token: token
     });
-
     http.post(requestBody).then(res => {
-      //props.onRecipeDelete(recipe._id)
+      props.onMealPlanDelete(mealPlan._id)
       console.log('MEALPLAN DELETED');
       console.log(res);
     }).catch((err) => {
       console.log(err);
-
     })
     setAgreeOnRecipeDeletePrompt(false)
-
   };
 
 
