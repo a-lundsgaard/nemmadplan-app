@@ -151,11 +151,8 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
     http.post(query).then(res => {
       props.onRecipeDelete(recipe._id)
       console.log(res);
-
-
     }).catch((err) => {
       console.log(err);
-
     })
     //setAnchorEl(null);
     setAgreeOnRecipeDeletePrompt(false)

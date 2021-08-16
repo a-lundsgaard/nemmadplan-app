@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-//import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,13 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-
 import InputBase from '@material-ui/core/InputBase';
-import TextField from '@material-ui/core/TextField';
-
-
 import { v4 as uuid } from 'uuid';
-
 import SnackBar from "../../../shared/snackbar/snackbar.jsx";
 import PlusButton from '../../../shared/buttons/plusButton/plusButton.jsx'
 import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx';
@@ -29,21 +20,16 @@ import StaticDatePicker from '../datePicker/staticDatePicker.jsx'
 import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
 import ShoppingList from '../shoppingList/src/components/App'
 import ShoppingListContainer from '../shoppingListContainer/index/container';
-
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import styles from './styles.jsx';
-
 import { TransitionProps } from '@material-ui/core/transitions';
-
 import HTTP from '../../../../HTTP/http';
 
 // defining react as global
 window.React = React;
 
 const useStyles = styles;
-
-
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
   ref: React.Ref<unknown>,
@@ -51,7 +37,11 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CreatePlanDialog({ onReceiptSave }) {
+interface Props {
+  onMealPlanSave: (id: string) => void;
+}
+
+export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false); // set false when not testing
@@ -229,6 +219,8 @@ export default function CreatePlanDialog({ onReceiptSave }) {
     console.log('retur', requestBody)
     HTTP.post(requestBody)
       .then(res => {
+        onMealPlanSave(Date.now())
+
         console.log('retur:', res);
         setMessage({ msg: `Madplanen "${mealPlanTitle}" blev gemt`, type: 'success', key: Math.random() })
         //const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;

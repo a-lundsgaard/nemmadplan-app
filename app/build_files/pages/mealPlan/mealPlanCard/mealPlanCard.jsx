@@ -71,6 +71,7 @@ function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogOpen, customDate
             token: token
         });
         http_1.default.post(requestBody).then(res => {
+            props.onMealPlanDelete(mealPlan._id);
             console.log('MEALPLAN DELETED');
             console.log(res);
         }).catch((err) => {

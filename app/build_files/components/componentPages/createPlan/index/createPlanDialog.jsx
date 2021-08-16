@@ -51,7 +51,7 @@ const useStyles = styles_jsx_1.default;
 const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
-function CreatePlanDialog({ onReceiptSave }) {
+function CreatePlanDialog({ onMealPlanSave }) {
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(false);
     const [recipesOpen, setRecipesOpen] = react_1.useState(false);
@@ -170,6 +170,7 @@ function CreatePlanDialog({ onReceiptSave }) {
         console.log('retur', requestBody);
         http_1.default.post(requestBody)
             .then(res => {
+            onMealPlanSave(Date.now());
             console.log('retur:', res);
             setMessage({ msg: `Madplanen "${mealPlanTitle}" blev gemt`, type: 'success', key: Math.random() });
         })

@@ -38,6 +38,7 @@ function createPlan() {
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [message, setMessage] = react_1.useState({});
     const [dialogOpen, setDialogOpen] = react_1.useState(false);
+    const [isMealPlanSavedOrDeleted, setMealPlanSavedOrDeleted] = react_1.useState('');
     const mealPlanCount = parseInt(localStorage.getItem(mealPlanCountKey)) || 0;
     react_1.useEffect(() => {
         getMealPlans();
@@ -50,14 +51,27 @@ function createPlan() {
         });
         http_1.default.post(requestBody)
             .then(res => {
-            const weekPlans = res.data.weekPlans;
-            console.log(res);
+            const weekPlans = res.data.weekPlans.filter((weekPlan) => weekPlan.plan.length);
+            console.log('Found weekplans : ', weekPlans);
             setMealPlans(weekPlans);
             localStorage.setItem(mealPlanCountKey, JSON.stringify(weekPlans.length));
             setIsLoading(false);
         })
             .catch(e => console.log(e));
     };
+    const handleMealPlanSave = (id) => {
+        const newCount = mealPlanCount + 1;
+        localStorage.setItem(mealPlanCountKey, JSON.stringify(newCount));
+        setMealPlanSavedOrDeleted(id);
+    };
+    const handleMealPlanDeletion = (id) => {
+        const newCount = mealPlanCount - 1;
+        localStorage.setItem(mealPlanCountKey, JSON.stringify(newCount));
+        setMealPlanSavedOrDeleted(id);
+    };
+    react_1.useEffect(() => {
+        getMealPlans();
+    }, [isMealPlanSavedOrDeleted]);
     return (<react_1.Fragment>
       
 
@@ -74,8 +88,8 @@ function createPlan() {
             :
                 mealPlans.map((mealPlan, index) => {
                     return <Grid_1.default key={index} item>
-                    <mealPlanCard_1.default mealPlan={mealPlan} dialogOpen={bool => setDialogOpen(bool)}/>
-           
+                    <mealPlanCard_1.default mealPlan={mealPlan} dialogOpen={bool => setDialogOpen(bool)} onMealPlanDelete={id => handleMealPlanDeletion(id)}/>
+                    
                   </Grid_1.default>;
                 })}
           </Grid_1.default>
@@ -85,7 +99,7 @@ function createPlan() {
 
 
       <div className={classes.addReceiptButton}>
-        <createPlanDialog_1.default />
+        <createPlanDialog_1.default onMealPlanSave={(value) => handleMealPlanSave(value)}/>
       </div>
 
       {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
