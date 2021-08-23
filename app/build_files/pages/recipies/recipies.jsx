@@ -31,7 +31,7 @@ const createRecipeDialog_jsx_1 = __importDefault(require("../../components/compo
 const receiptSceletonLoader_1 = __importDefault(require("../../components/shared/loaders/receiptSceletonLoader"));
 const styles_1 = __importDefault(require("./styles"));
 const snackbar_jsx_1 = __importDefault(require("../../components/shared/snackbar/snackbar.jsx"));
-function SpacingGrid({ onClick, dialogOpen, ...props }) {
+function SpacingGrid({ onClick, modalOpen, ...props }) {
     const classes = styles_1.default();
     const [searchString, setSearchString] = react_1.useState(window.store.getState().searchInput);
     const [recipes, setRecipes] = react_1.useState([]);
@@ -40,6 +40,7 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const [isLoading, setIsLoading] = react_1.useState(false);
     const [clickedDishId, setClickedDishId] = react_1.useState('');
     const [message, setMessage] = react_1.useState({});
+    const [createRecipeDialogOpen, setcreateRecipeDialogOpen] = react_1.useState(0);
     const lsCount = localStorage.getItem('recipeCount');
     const recipeCount = lsCount ? parseInt(lsCount) : 0;
     const handleRecipeCardClick = (id) => {
@@ -81,6 +82,9 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
     const handleRecipeDeletion = (id) => {
         setRecipeSavedOrDeleted(id);
     };
+    const handleUpdateDish = (recipe) => {
+        setcreateRecipeDialogOpen(createRecipeDialogOpen + 1);
+    };
     function getRecipes(showLoading) {
         if (props.getRecipesFromParent) {
             setRecipesInSearch(props.getRecipesFromParent);
@@ -111,14 +115,14 @@ function SpacingGrid({ onClick, dialogOpen, ...props }) {
             :
                 recipesInSearch.map((recipe, index) => {
                     return <Grid_1.default key={recipe._id} item>
-                  <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => dialogOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={recipe.date}/>
+                  <recipeCard_jsx_1.default disableSettings={props.disableSettings} recipeOnPlan={recipeOnPlan(recipe._id)} recipe={recipe} clikedDish={id => handleRecipeCardClick(id)} clickedDishToUpdate={recipe => handleUpdateDish(recipe)} visitFromCreatePlan={props.visitFromCreatePlan} dialogOpen={bool => modalOpen(bool)} onRecipeDelete={id => handleRecipeDeletion(id)} customDate={recipe.date}/>
                 </Grid_1.default>;
                 })}
         </Grid_1.default>
       </Grid_1.default>
       {!props.disableSettings &&
             <div className={classes.addReceiptButton}>
-          <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)}/>
+          <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}/>
         </div>}
       {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
     </Grid_1.default>);

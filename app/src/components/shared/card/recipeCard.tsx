@@ -17,8 +17,6 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
-
-
 import RecipeScrollDialog from '../dialog/scrollDialog.jsx';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -30,12 +28,6 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import CachedIcon from '@material-ui/icons/Cached';
-
-import SmallNumPicker from "../pickers/number/smallNumPicker/smallNumPicker.jsx";
-
-//import recipes from "../../HTTP/queries/recipes";
-
-//import http from "../../HTTP";
 
 import http from '../../../HTTP/http';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -80,9 +72,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 interface Props {
-  clikedDish: (recipe: any) => any,
+  clikedDish: (recipe: any) => void,
+  clickedDishToUpdate: (recipe: any) => void,
   dialogOpen: (bool: boolean) => boolean;
-  swappedRecipe?: (recipe: any) => any,
+  swappedRecipe: (recipe: any) => void,
   onRecipeDelete: (recipeId: string) => any
   recipe: any,
   visitFromCreatePlan?: boolean
@@ -95,7 +88,7 @@ interface Props {
 }
 
 
-export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }: Props) {
+export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen, swappedRecipe, clickedDishToUpdate, ...props }: Props) {
 
 
   const classes = useStyles();
@@ -108,16 +101,9 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
   const [agreeOnRecipeDeletePrompt, setAgreeOnRecipeDeletePrompt] = useState(false);
 
   const handleAddReceipeToFoodPlan = () => {
-
     // sending recipe to recipe component
     clikedDish(recipe);
-    // waiting a bit before removing dialog when add recipe btn is clicked
-    /*     setTimeout(
-          () => dialogOpen(false), 
-          50
-        ); */
     dialogOpen(false)
-
   }
 
   const handleSwapRecipeInFoodPlan = () => {
@@ -199,7 +185,7 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
           }
           action={
             props.visitFromCreatePlanMealList ?
-              <IconButton aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
+              <IconButton aria-label="delete" onClick={() => clikedDish(recipe.listId)}>
                 <ClearIcon />
               </IconButton>
               :
@@ -222,7 +208,7 @@ export default function RecipeCard({ recipe, clikedDish, dialogOpen, swappedReci
                   open={settingsOpen}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={()=> clickedDishToUpdate(recipe)}>
                     <EditIcon />
                   </MenuItem>
                   <Divider />

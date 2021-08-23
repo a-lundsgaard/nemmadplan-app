@@ -77,7 +77,7 @@ const useStyles = styles_1.makeStyles((theme) => ({
         backgroundColor: colors_1.red[500],
     },
 }));
-function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate, ...props }) {
+function RecipeCard({ recipe, customDate, clikedDish, dialogOpen, swappedRecipe, clickedDishToUpdate, ...props }) {
     const classes = useStyles();
     const [scrollDialogOpen, setScrollDialogOpen] = react_1.default.useState(false);
     const [anchorEl, setAnchorEl] = react_1.default.useState(null);
@@ -134,7 +134,7 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
         <CardHeader_1.default avatar={<Avatar_1.default aria-label="recipe" className={classes.avatar}>
               R
             </Avatar_1.default>} action={props.visitFromCreatePlanMealList ?
-            <IconButton_1.default aria-label="settings" onClick={() => clikedDish(recipe.listId)}>
+            <IconButton_1.default aria-label="delete" onClick={() => clikedDish(recipe.listId)}>
                 <Clear_1.default />
               </IconButton_1.default>
             :
@@ -149,7 +149,7 @@ function RecipeCard({ recipe, clikedDish, dialogOpen, swappedRecipe, customDate,
                         vertical: "top",
                         horizontal: "right"
                     }} open={settingsOpen} onClose={handleClose}>
-                  <MenuItem_1.default onClick={handleClose}>
+                  <MenuItem_1.default onClick={() => clickedDishToUpdate(recipe)}>
                     <Edit_1.default />
                   </MenuItem_1.default>
                   <Divider_1.default />

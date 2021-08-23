@@ -4,7 +4,6 @@ import todosReducer from '../reducers/todos.reducer.jsx';
 import { ADD_INGREDIENT_ARRAY, UPDATE_AMOUNT_OF_INGREDIENTS, DELETE_INGREDIENTS } from '../constants/actions';
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
-
 const defaultItems = [
   { id: '1', task: 'rugbrød', completed: false, initiator: 'USER', unit: 'stk', quantity: 1 },
   { id: '2', task: 'mælk', completed: false, initiator: 'USER', unit: 'stk', quantity: 1 },
@@ -14,9 +13,10 @@ const defaultItems = [
 const storeTodosToRedux = sale => {
   window.store.dispatch({ type: 'SALES', data: sale })
 }
-
 export const TodosContext = createContext([]);
 export const DispatchContext = createContext([]);
+
+
 
 
 export function TodosProvider(props) {

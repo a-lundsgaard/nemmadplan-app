@@ -47,7 +47,7 @@ const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
 const useStyles = styles_jsx_1.default;
-function FullScreenDialog({ onReceiptSave }) {
+function FullScreenDialog({ onReceiptSave, shouldOpen }) {
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(false);
     const [state, setState] = react_1.useState({
@@ -61,6 +61,11 @@ function FullScreenDialog({ onReceiptSave }) {
         title: false,
         ingredients: false
     });
+    react_1.useEffect(() => {
+        if (shouldOpen) {
+            setOpen(true);
+        }
+    }, [shouldOpen]);
     const onInputchange = (event) => {
         setState({
             ...state,

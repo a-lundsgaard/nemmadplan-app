@@ -37,7 +37,7 @@ interface Props {
 export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealPlan, ...props }: Props) {
 
   const classes = useStyles();
-  const [open, setOpen] = useState(visible); // set false when not testing
+  const [open, setOpen] = useState(false); // set false when not testing
 
   const [shopListOpen, setShopListOpen] = useState(false); // set false when not testing
 
@@ -59,12 +59,13 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
         numPicker: 1
       })*/
     setMessage({})
-    setVisible(false)
+    //setVisible(false)
     setOpen(false);
   };
 
   useEffect(() => {
-    setOpen(visible)
+    if(visible)setOpen(true)
+    
   }, [visible])
 
   useEffect(() => {
@@ -120,7 +121,7 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
             //recipies={recipes}
             onClick={recipe => chosenRecipe(recipe)}
             visitFromCreatePlan={false}
-            dialogOpen={bool => setVisible(bool)}
+            dialogOpen={ (bool: boolean) => setVisible(bool)}
           />
         </span>
       </Dialog>

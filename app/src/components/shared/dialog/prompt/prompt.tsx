@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 interface Props {
-    agree: (bool: boolean) => boolean;
+    agree: (bool: boolean) => void;
     children?: React.FC | React.ReactElement
     infoText: string
     header: string

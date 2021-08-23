@@ -8,14 +8,12 @@ import RecipeCard from '../../components/shared/card/recipeCard.jsx';
 
 import CreateRecipeDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
 import ReceiptSceletonLoader from '../../components/shared/loaders/receiptSceletonLoader';
-
 import useStyles from './styles';
-
 import SnackBar from "../../components/shared/snackbar/snackbar.jsx";
 
 interface Props {
   onClick: (id: string) => void,
-  dialogOpen: (boolean: boolean) => void,
+  modalOpen: (boolean: boolean) => boolean,
   recipies: any,
   getRecipesFromParent: any
 }
@@ -26,7 +24,7 @@ interface Ingredient {
   name: string
 }
 
-export default function SpacingGrid({ onClick, dialogOpen, ...props }: Props) {
+export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
   // const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
@@ -37,6 +35,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [clickedDishId, setClickedDishId] = useState('');
   const [message, setMessage] = useState({});
+  const [createRecipeDialogOpen, setcreateRecipeDialogOpen] = useState(0);
 
   const lsCount = localStorage.getItem('recipeCount')
   const recipeCount: number = lsCount ? parseInt(lsCount) : 0;
@@ -95,7 +94,10 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }: Props) {
     setRecipeSavedOrDeleted(id)
   }
 
-
+  const handleUpdateDish = (recipe) => {
+   // dialogOpen(true);
+   setcreateRecipeDialogOpen(createRecipeDialogOpen+1);
+  }
 
   function getRecipes(showLoading: boolean) {
 
@@ -151,8 +153,9 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }: Props) {
                     recipeOnPlan={recipeOnPlan(recipe._id)}
                     recipe={recipe}
                     clikedDish={id => handleRecipeCardClick(id)}
+                    clickedDishToUpdate={recipe => handleUpdateDish(recipe)}
                     visitFromCreatePlan={props.visitFromCreatePlan}
-                    dialogOpen={bool => dialogOpen(bool)}
+                    dialogOpen={bool => modalOpen(bool)}
                     onRecipeDelete={id => handleRecipeDeletion(id)}
                     customDate={recipe.date}
                   />
@@ -163,7 +166,7 @@ export default function SpacingGrid({ onClick, dialogOpen, ...props }: Props) {
       {
         !props.disableSettings &&
         <div className={classes.addReceiptButton} >
-          <CreateRecipeDialog onReceiptSave={(value) => handleRecipeSave(value)} />
+          <CreateRecipeDialog onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}  />
         </div>
       }
       {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}

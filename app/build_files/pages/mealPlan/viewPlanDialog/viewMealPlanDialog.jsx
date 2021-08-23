@@ -41,7 +41,7 @@ const Transition = react_1.default.forwardRef(function Transition(props, ref) {
 });
 function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealPlan, ...props }) {
     const classes = styles_1.default();
-    const [open, setOpen] = react_1.useState(visible);
+    const [open, setOpen] = react_1.useState(false);
     const [shopListOpen, setShopListOpen] = react_1.useState(false);
     const [message, setMessage] = react_1.useState({});
     const [isLoading, setLoading] = react_1.useState(false);
@@ -50,11 +50,11 @@ function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealP
     };
     const handleClose = () => {
         setMessage({});
-        setVisible(false);
         setOpen(false);
     };
     react_1.useEffect(() => {
-        setOpen(visible);
+        if (visible)
+            setOpen(true);
     }, [visible]);
     react_1.useEffect(() => {
         console.log('Found custom shop list: ', mealPlan.customShoppingList);
@@ -85,7 +85,7 @@ function ViewMealPlanDialogFullScreen({ visible, setVisible, chosenRecipe, mealP
         <span style={{ marginTop: 70 }}>
           <recipies_1.default getRecipesFromParent={mealPlan.plan.map((plan) => {
             return { ...plan.dish, date: plan.day };
-        })} disableSettings={true} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={false} dialogOpen={bool => setVisible(bool)}/>
+        })} disableSettings={true} onClick={recipe => chosenRecipe(recipe)} visitFromCreatePlan={false} dialogOpen={(bool) => setVisible(bool)}/>
         </span>
       </Dialog_1.default>
     </div>);

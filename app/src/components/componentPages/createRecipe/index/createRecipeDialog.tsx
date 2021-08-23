@@ -36,7 +36,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = styles;
 
 
-export default function FullScreenDialog({ onReceiptSave }) {
+export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false); // set false when not testing
@@ -59,6 +59,12 @@ export default function FullScreenDialog({ onReceiptSave }) {
     title: false,
     ingredients: false
   });
+
+  useEffect(()=> {
+    if(shouldOpen) {
+      setOpen(true);
+    }
+  }, [shouldOpen])
 
 
 
