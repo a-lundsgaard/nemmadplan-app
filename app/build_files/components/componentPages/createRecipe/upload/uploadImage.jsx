@@ -27,7 +27,7 @@ require("./style.css");
 const placeholder_png_1 = __importDefault(require("./placeholder.png"));
 const Cancel_1 = __importDefault(require("@material-ui/icons/Cancel"));
 const core_1 = require("@material-ui/core");
-function UploadImage({ onImageUpload, ...props }) {
+function UploadImage({ onImageUpload, onClose, ...props }) {
     const [{ alt, src, file }, setImg] = react_1.useState({
         src: placeholder_png_1.default,
         alt: 'Upload an Image',
@@ -63,14 +63,18 @@ function UploadImage({ onImageUpload, ...props }) {
             });
         }
     };
+    const handleImgClose = () => {
+        setImg({
+            src: placeholder_png_1.default,
+            alt: 'Upload an Image',
+            file: null
+        });
+        onClose();
+    };
     return (<div>
-            {src !== placeholder_png_1.default ? <core_1.IconButton onClick={() => setImg({
-                src: placeholder_png_1.default,
-                alt: 'Upload an Image',
-                file: null
-            })} style={{
+            {src !== placeholder_png_1.default ? <core_1.IconButton onClick={handleImgClose} style={{
                 float: 'right',
-                margin: '-24px 0 0 -20px',
+                margin: '-25px 0 0 -22px',
                 zIndex: 1
             }}>
                 <Cancel_1.default />

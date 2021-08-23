@@ -24,7 +24,7 @@ interface Ingredient {
   name: string
 }
 
-export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
+export default function ViewRecipes({ onClick, modalOpen, ...props }: Props) {
   // const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
@@ -33,16 +33,16 @@ export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
   const [recipesInSearch, setRecipesInSearch] = useState([])
   const [isReceiptSavedOrDeleted, setRecipeSavedOrDeleted] = useState('') // letting us know when a recipe is saved to rerender dishes
   const [isLoading, setIsLoading] = useState(false);
-  const [clickedDishId, setClickedDishId] = useState('');
   const [message, setMessage] = useState({});
-  const [createRecipeDialogOpen, setcreateRecipeDialogOpen] = useState(0);
+  const [createRecipeDialogOpen, setCreateRecipeDialogOpen] = useState(0);
+  const [recipeToUpdate, setRecipeToUpdate] = useState({});
+
+  const [visitFromEditPage, setVisitFromEditPage] = useState(false);
 
   const lsCount = localStorage.getItem('recipeCount')
   const recipeCount: number = lsCount ? parseInt(lsCount) : 0;
 
   const handleRecipeCardClick = (id: string) => {
-    //console.log('ID of clicked dish: ' + id)
-    setClickedDishId(id);
     onClick(id)
   }
 
@@ -53,11 +53,6 @@ export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
   useEffect(() => {
     listenToSearchInput(setSearchString) // sets up redux listener on the search input
   }, [])
-
-  useEffect(() => {
-    console.log('Found receipts:')
-    console.log(recipes);
-  }, [recipes])
 
 
   // For filtering search results
@@ -95,15 +90,24 @@ export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
   }
 
   const handleUpdateDish = (recipe) => {
-   // dialogOpen(true);
-   setcreateRecipeDialogOpen(createRecipeDialogOpen+1);
+    // dialogOpen(true);  
+    setVisitFromEditPage(true)
+    setRecipeToUpdate(recipe);
+    setCreateRecipeDialogOpen(createRecipeDialogOpen + 1);
   }
+/* 
+  useEffect(() => {
+    if(recipeToUpdate.image) {
+      setCreateRecipeDialogOpen(createRecipeDialogOpen + 1); 
+      //alert('hii')
+    } 
+   
+  }, [recipeToUpdate.image]) */
+
+
 
   function getRecipes(showLoading: boolean) {
-
     if (props.getRecipesFromParent) {
-      //alert('got recipe: ' + JSON.stringify(props.getRecipesFromParent))
-      //setRecipes(props.getRecipesFromParent);
       setRecipesInSearch(props.getRecipesFromParent);
       return;
     }
@@ -124,12 +128,6 @@ export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
         console.log(e)
       )
   }
-
-  // const [expanded, setExpanded] = React.useState(false);
-
-  /*const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };*/
 
   return (
     <Grid container className={classes.root} justify="center" component={'div'} >
@@ -163,10 +161,19 @@ export default function SpacingGrid({ onClick, modalOpen, ...props }: Props) {
               })}
         </Grid>
       </Grid>
-      {
+      { 
         !props.disableSettings &&
         <div className={classes.addReceiptButton} >
-          <CreateRecipeDialog onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}  />
+
+          <CreateRecipeDialog
+            onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}
+            recipeToUpdate={recipeToUpdate}
+            editPage={visitFromEditPage}
+            onClose = {() => {
+              setRecipeToUpdate({});
+              setVisitFromEditPage(false)
+            }}
+          />
         </div>
       }
       {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}

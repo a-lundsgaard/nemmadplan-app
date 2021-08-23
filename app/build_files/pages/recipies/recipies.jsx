@@ -31,20 +31,20 @@ const createRecipeDialog_jsx_1 = __importDefault(require("../../components/compo
 const receiptSceletonLoader_1 = __importDefault(require("../../components/shared/loaders/receiptSceletonLoader"));
 const styles_1 = __importDefault(require("./styles"));
 const snackbar_jsx_1 = __importDefault(require("../../components/shared/snackbar/snackbar.jsx"));
-function SpacingGrid({ onClick, modalOpen, ...props }) {
+function ViewRecipes({ onClick, modalOpen, ...props }) {
     const classes = styles_1.default();
     const [searchString, setSearchString] = react_1.useState(window.store.getState().searchInput);
     const [recipes, setRecipes] = react_1.useState([]);
     const [recipesInSearch, setRecipesInSearch] = react_1.useState([]);
     const [isReceiptSavedOrDeleted, setRecipeSavedOrDeleted] = react_1.useState('');
     const [isLoading, setIsLoading] = react_1.useState(false);
-    const [clickedDishId, setClickedDishId] = react_1.useState('');
     const [message, setMessage] = react_1.useState({});
-    const [createRecipeDialogOpen, setcreateRecipeDialogOpen] = react_1.useState(0);
+    const [createRecipeDialogOpen, setCreateRecipeDialogOpen] = react_1.useState(0);
+    const [recipeToUpdate, setRecipeToUpdate] = react_1.useState({});
+    const [visitFromEditPage, setVisitFromEditPage] = react_1.useState(false);
     const lsCount = localStorage.getItem('recipeCount');
     const recipeCount = lsCount ? parseInt(lsCount) : 0;
     const handleRecipeCardClick = (id) => {
-        setClickedDishId(id);
         onClick(id);
     };
     function recipeOnPlan(id) {
@@ -53,10 +53,6 @@ function SpacingGrid({ onClick, modalOpen, ...props }) {
     react_1.useEffect(() => {
         subscribe_1.default(setSearchString);
     }, []);
-    react_1.useEffect(() => {
-        console.log('Found receipts:');
-        console.log(recipes);
-    }, [recipes]);
     react_1.useEffect(() => {
         if (!searchString) {
             setRecipesInSearch(recipes);
@@ -83,7 +79,9 @@ function SpacingGrid({ onClick, modalOpen, ...props }) {
         setRecipeSavedOrDeleted(id);
     };
     const handleUpdateDish = (recipe) => {
-        setcreateRecipeDialogOpen(createRecipeDialogOpen + 1);
+        setVisitFromEditPage(true);
+        setRecipeToUpdate(recipe);
+        setCreateRecipeDialogOpen(createRecipeDialogOpen + 1);
     };
     function getRecipes(showLoading) {
         if (props.getRecipesFromParent) {
@@ -122,9 +120,13 @@ function SpacingGrid({ onClick, modalOpen, ...props }) {
       </Grid_1.default>
       {!props.disableSettings &&
             <div className={classes.addReceiptButton}>
-          <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}/>
+
+          <createRecipeDialog_jsx_1.default onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen} recipeToUpdate={recipeToUpdate} editPage={visitFromEditPage} onClose={() => {
+                    setRecipeToUpdate({});
+                    setVisitFromEditPage(false);
+                }}/>
         </div>}
       {message.msg ? <snackbar_jsx_1.default key={message.key} type={message.type} message={message.msg}/> : null}
     </Grid_1.default>);
 }
-exports.default = SpacingGrid;
+exports.default = ViewRecipes;

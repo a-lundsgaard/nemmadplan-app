@@ -31,21 +31,59 @@ import styles from './styles.jsx';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-
 const useStyles = styles;
 
 
-export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
+export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPage, onClose }) {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false); // set false when not testing
+  const [shouldUpdate, setShouldUpdate] = useState(true);
 
-  // state for input fields
-  const [state, setState] = useState({
+  const st = {
     image: {},
     numPicker: 1
-  });
+  }
+
+  // state for input fields
+  const [state, setState] = useState(st);
+
+  /*   useEffect(() => {
+      if (!editPage) {
+        setState({
+          image: {},
+          numPicker: 1
+        })
+      }
+    }, [open]) */
+  /* 
+  
+    } */
+
+  useEffect(() => {
+    if (recipeToUpdate._id) {
+      setState({
+        ...state,
+        numPicker: recipeToUpdate.persons,
+        title: recipeToUpdate.name,
+        receipt: recipeToUpdate.text,
+        image: { file: null, src: recipeToUpdate.image },
+        source: recipeToUpdate.source,
+        ingredients: formatIngredients(recipeToUpdate.ingredients)
+      })
+    }
+  }, [open])
+
+  /*   setState({
+      ...state,
+      numPicker: persons,
+      title: name,
+      receipt: text,
+      image: {...state.image, src: image },
+      source: source,
+      ingredients: formattedAttachments
+    }) */
+
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -60,8 +98,8 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
     ingredients: false
   });
 
-  useEffect(()=> {
-    if(shouldOpen) {
+  useEffect(() => {
+    if (shouldOpen) {
       setOpen(true);
     }
   }, [shouldOpen])
@@ -73,6 +111,16 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
     setState({
       ...state,
       [event.target.name]: event.target.value
+    });
+    // removes error when text field is edited
+    setInputError({ ...inputError, [event.target.name]: false });
+  }
+
+  const onImageChange = (event) => {
+    // sets state from by deriving the name of the input field when user entering input
+    setState({
+      ...state,
+      image: {file: '', src: event.target.value}
     });
     // removes error when text field is edited
     setInputError({ ...inputError, [event.target.name]: false });
@@ -91,12 +139,12 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
   };
 
   const handleClose = () => {
-
     // Clearing states and messages
     setState({
       image: {},
       numPicker: 1
     })
+    onClose(true)
     setMessage({})
     setOpen(false);
   };
@@ -110,7 +158,7 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
       return;
     }
     setLoading(true);
-      
+
     const requestBody = HTTP.recipes.scrapeRecipesAndReturnFields('_id name text persons source text image ingredients { name unit quantity }', {
       crawlerInput: state.importUrl
     })
@@ -120,17 +168,15 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
         setMessage({ msg: `Opskrift blev hentet`, type: 'success', key: Math.random() })
         const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;
 
-        let formattedAttachments = '';
-        ingredients.map(ingredient => {
-          formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();
-        });
+
+        let formattedAttachments = formatIngredients(ingredients);
 
         setState({
           ...state,
           numPicker: persons,
           title: name,
           receipt: text,
-          image: {...state.image, src: image },
+          image: { ...state.image, src: image },
           source: source,
           ingredients: formattedAttachments
         })
@@ -267,7 +313,7 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Tilføj ny opskrift
+              {editPage ? 'Rediger opskrift' : 'Tilføj ny opskrift'}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleSaveRecipe}>
               gem
@@ -377,12 +423,13 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
               <ImageUploader
                 name="receipt"
                 src={state.image.src}
+                onClose={() => setState({ ...state, image: { file: '', src: '' } })}
                 onImageUpload={(imageObj: { src: string, file: any }) => setState({ ...state, image: imageObj })}
               />
 
               <TextField name="image" id="standard-basic" placeholder="Link til billede"
                 className={classes.imageInputField}
-                onChange={onInputchange}
+                onChange={onImageChange}
                 value={state.image.src && state.image.src.includes('localhost') ? '' : state.image.src}
                 InputLabelProps={{ shrink: state.image.src ? true : false }}
               />
@@ -398,4 +445,13 @@ export default function FullScreenDialog({ onReceiptSave, shouldOpen }) {
       </Dialog>
     </div>
   );
+}
+
+
+function formatIngredients(ingredients: any) {
+  let formattedAttachments = '';
+  ingredients.map(ingredient => {
+    formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();
+  });
+  return formattedAttachments;
 }

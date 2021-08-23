@@ -7,7 +7,7 @@ import { IconButton } from "@material-ui/core";
 
 
 
-export default function UploadImage({ onImageUpload, ...props }) {
+export default function UploadImage({ onImageUpload, onClose, ...props }) {
 
 
     const [{ alt, src, file }, setImg] = useState({
@@ -36,7 +36,7 @@ export default function UploadImage({ onImageUpload, ...props }) {
 
     useEffect(() => {
         if (src !== placeholder) onImageUpload({ src, file })
-    }, [src])
+    }, [src]);
 
 
     const handleImg = (e) => {
@@ -51,19 +51,24 @@ export default function UploadImage({ onImageUpload, ...props }) {
         }
     }
 
+    const handleImgClose = () => {
+        setImg(
+            {
+                src: placeholder,
+                alt: 'Upload an Image',
+                file: null
+            }
+        )
+        onClose();
+    }
+
     return (
         <div>
             { src !== placeholder ? <IconButton
-                onClick={() => setImg(
-                    {
-                        src: placeholder,
-                        alt: 'Upload an Image',
-                        file: null
-                    }
-                )}
+                onClick={handleImgClose}
                 style={{
                     float: 'right',
-                    margin: '-24px 0 0 -20px',
+                    margin: '-25px 0 0 -22px',
                     zIndex: 1
                 }}  >
                 <CancelIcon />

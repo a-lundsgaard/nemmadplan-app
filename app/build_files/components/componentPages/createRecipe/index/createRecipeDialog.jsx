@@ -47,13 +47,28 @@ const Transition = react_1.default.forwardRef(function Transition(props, ref) {
     return <Slide_1.default direction="up" ref={ref} {...props}/>;
 });
 const useStyles = styles_jsx_1.default;
-function FullScreenDialog({ onReceiptSave, shouldOpen }) {
+function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPage, onClose }) {
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(false);
-    const [state, setState] = react_1.useState({
+    const [shouldUpdate, setShouldUpdate] = react_1.useState(true);
+    const st = {
         image: {},
         numPicker: 1
-    });
+    };
+    const [state, setState] = react_1.useState(st);
+    react_1.useEffect(() => {
+        if (recipeToUpdate._id) {
+            setState({
+                ...state,
+                numPicker: recipeToUpdate.persons,
+                title: recipeToUpdate.name,
+                receipt: recipeToUpdate.text,
+                image: { file: null, src: recipeToUpdate.image },
+                source: recipeToUpdate.source,
+                ingredients: formatIngredients(recipeToUpdate.ingredients)
+            });
+        }
+    }, [open]);
     const [message, setMessage] = react_1.useState({});
     const [isLoading, setLoading] = react_1.useState(false);
     const [inputError, setInputError] = react_1.useState({
@@ -73,6 +88,13 @@ function FullScreenDialog({ onReceiptSave, shouldOpen }) {
         });
         setInputError({ ...inputError, [event.target.name]: false });
     };
+    const onImageChange = (event) => {
+        setState({
+            ...state,
+            image: { file: '', src: event.target.value }
+        });
+        setInputError({ ...inputError, [event.target.name]: false });
+    };
     const onNumPickerChange = (value) => {
         setState({
             ...state,
@@ -87,6 +109,7 @@ function FullScreenDialog({ onReceiptSave, shouldOpen }) {
             image: {},
             numPicker: 1
         });
+        onClose(true);
         setMessage({});
         setOpen(false);
     };
@@ -106,10 +129,7 @@ function FullScreenDialog({ onReceiptSave, shouldOpen }) {
             setLoading(false);
             setMessage({ msg: `Opskrift blev hentet`, type: 'success', key: Math.random() });
             const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;
-            let formattedAttachments = '';
-            ingredients.map(ingredient => {
-                formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();
-            });
+            let formattedAttachments = formatIngredients(ingredients);
             setState({
                 ...state,
                 numPicker: persons,
@@ -219,7 +239,7 @@ function FullScreenDialog({ onReceiptSave, shouldOpen }) {
               <Close_1.default />
             </IconButton_1.default>
             <Typography_1.default variant="h6" className={classes.title}>
-              Tilføj ny opskrift
+              {editPage ? 'Rediger opskrift' : 'Tilføj ny opskrift'}
             </Typography_1.default>
             <Button_1.default autoFocus color="inherit" onClick={handleSaveRecipe}>
               gem
@@ -273,9 +293,9 @@ function FullScreenDialog({ onReceiptSave, shouldOpen }) {
 
             <Grid_1.default item className={classes.textAreaGrid}>
 
-              <uploadImage_jsx_1.default name="receipt" src={state.image.src} onImageUpload={(imageObj) => setState({ ...state, image: imageObj })}/>
+              <uploadImage_jsx_1.default name="receipt" src={state.image.src} onClose={() => setState({ ...state, image: { file: '', src: '' } })} onImageUpload={(imageObj) => setState({ ...state, image: imageObj })}/>
 
-              <TextField_1.default name="image" id="standard-basic" placeholder="Link til billede" className={classes.imageInputField} onChange={onInputchange} value={state.image.src && state.image.src.includes('localhost') ? '' : state.image.src} InputLabelProps={{ shrink: state.image.src ? true : false }}/>
+              <TextField_1.default name="image" id="standard-basic" placeholder="Link til billede" className={classes.imageInputField} onChange={onImageChange} value={state.image.src && state.image.src.includes('localhost') ? '' : state.image.src} InputLabelProps={{ shrink: state.image.src ? true : false }}/>
             </Grid_1.default>
 
           </Grid_1.default>
@@ -288,4 +308,11 @@ function FullScreenDialog({ onReceiptSave, shouldOpen }) {
       </Dialog_1.default>
     </div>);
 }
-exports.default = FullScreenDialog;
+exports.default = CreateRecipeDialog;
+function formatIngredients(ingredients) {
+    let formattedAttachments = '';
+    ingredients.map(ingredient => {
+        formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();
+    });
+    return formattedAttachments;
+}
