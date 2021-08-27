@@ -10,7 +10,7 @@ const nonce = require("./app/electron/create-nonce")();
 
 module.exports = merge(base, {
   mode: "development",
-  devtool: "inline-source-map", // Show the source map so we can debug when developing locally
+  devtool: "source-map", // Show the source map so we can debug when developing locally
   devServer: {
     host: "localhost",
     port: "40992",

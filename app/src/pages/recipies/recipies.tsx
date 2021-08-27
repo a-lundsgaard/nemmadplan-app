@@ -13,7 +13,7 @@ import SnackBar from "../../components/shared/snackbar/snackbar";
 
 interface Props {
   onClick: (id: string) => void,
-  modalOpen: (boolean: boolean) => boolean,
+  dialogOpen: (boolean: boolean) => boolean,
   recipies: any,
   getRecipesFromParent: any
 }
@@ -24,7 +24,7 @@ interface Ingredient {
   name: string
 }
 
-export default function ViewRecipes({ onClick, modalOpen, ...props }: Props) {
+export default function ViewRecipes({ onClick, dialogOpen, ...props }: Props) {
   // const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
@@ -153,7 +153,7 @@ export default function ViewRecipes({ onClick, modalOpen, ...props }: Props) {
                     clikedDish={id => handleRecipeCardClick(id)}
                     clickedDishToUpdate={recipe => handleUpdateDish(recipe)}
                     visitFromCreatePlan={props.visitFromCreatePlan}
-                    dialogOpen={bool => modalOpen(bool)}
+                    dialogOpen={bool => dialogOpen(bool)}
                     onRecipeDelete={id => handleRecipeDeletion(id)}
                     customDate={recipe.date}
                   />
