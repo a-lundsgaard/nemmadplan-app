@@ -29,6 +29,15 @@ module.exports = {
       },
       // loads .js/jsx files
       {
+        test: /\.tsx?$/,
+        include: [path.resolve(__dirname, 'src')],
+        use: 'ts-loader',
+        exclude: /node_modules/,
+        resolve: {
+          extensions: [".ts", ".tsx", ".js"]
+        }
+      },
+      {
         test: /\.jsx?$/,
         include: [path.resolve(__dirname, "app/build_files")],
         loader: "babel-loader",
