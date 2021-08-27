@@ -31,7 +31,10 @@ import CachedIcon from '@material-ui/icons/Cached';
 
 import http from '../../../HTTP/http';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import Prompt from '../dialog/prompt/prompt'
+import Prompt from '../dialog/prompt/prompt';
+
+//import 
+import placeholder from '../../../../../resources/placeholder.png';
 
 
 
@@ -233,7 +236,8 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
         <CardMedia
           onClick={() => setScrollDialogOpen(!scrollDialogOpen)}
           className={classes.media}
-          image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"}
+          image={recipe.image || placeholder}
+          //image={recipe.image || "https://m3placement.com/wp-content/uploads/2021/03/image-placeholder-350x350-1.png"}
           title="Paella dish"
           component={'div'}
         />        

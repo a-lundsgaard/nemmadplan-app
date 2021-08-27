@@ -50,6 +50,7 @@ const Cached_1 = __importDefault(require("@material-ui/icons/Cached"));
 const http_1 = __importDefault(require("../../../HTTP/http"));
 const PlaylistAddCheck_1 = __importDefault(require("@material-ui/icons/PlaylistAddCheck"));
 const prompt_1 = __importDefault(require("../dialog/prompt/prompt"));
+const placeholder_png_1 = __importDefault(require("../../../../../resources/placeholder.png"));
 const useStyles = styles_1.makeStyles((theme) => ({
     card: {
         maxWidth: 245,
@@ -162,7 +163,7 @@ function RecipeCard({ recipe, customDate, clikedDish, dialogOpen, swappedRecipe,
               </>} title={recipe.name} subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}/>
 
 
-        <CardMedia_1.default onClick={() => setScrollDialogOpen(!scrollDialogOpen)} className={classes.media} image={recipe.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} title="Paella dish" component={'div'}/>        
+        <CardMedia_1.default onClick={() => setScrollDialogOpen(!scrollDialogOpen)} className={classes.media} image={recipe.image || placeholder_png_1.default} title="Paella dish" component={'div'}/>        
         
 
         <CardContent_1.default>

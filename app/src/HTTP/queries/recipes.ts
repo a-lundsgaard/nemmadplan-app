@@ -5,7 +5,8 @@ export default {
     scrapeRecipesAndReturnFields,
     createRecipeAndReturnFields,
     saveWeekPlan,
-    deleteRecipe
+    deleteRecipe,
+    updateRecipeAndReturnFields
 }
 
 function getRecipesAndReturnFields(fieldsToQuery: string, variables = {}) {
@@ -25,6 +26,40 @@ function scrapeRecipesAndReturnFields(fieldsToQuery: string, variables = {}) {
         }
     }`;
     return { query: query, variables: variables }
+}
+
+function updateRecipeAndReturnFields(string: string, variables = {}) {
+
+    // Splitting the string to array
+    const fieldsToQuery = string.split(' ');
+    // auto filling ingredients fields
+    const includeIngredients = fieldsToQuery.includes('ingredients') ? `ingredients { name unit quantity }` : '';
+
+    // replacing "ingredients" with our includeIngredients variable
+    if (includeIngredients) {
+        let index = fieldsToQuery.indexOf('ingredients');
+        fieldsToQuery.splice(index, 1);
+    }
+
+    const query = `mutation($_id: String!, $name: String!, $type: String!, $persons: Float!, $source: String,  $text: String!, $image: String, $ingredients: [ingredientInput]!) {
+        updateRecipe(receiptInput: {
+            _id: $_id
+            name: $name, 
+            type: $type,
+            persons: $persons,
+            source: $source,
+            text: $text, 
+            image: $image
+            ingredients: $ingredients 
+        }) {
+                ${fieldsToQuery.join(' ')}
+                ${includeIngredients}
+            }
+        }`
+
+    console.log(query)
+    // return query;
+    return new RequestBody(query, variables)
 }
 
 function createRecipeAndReturnFields(string: string, variables = {}) {

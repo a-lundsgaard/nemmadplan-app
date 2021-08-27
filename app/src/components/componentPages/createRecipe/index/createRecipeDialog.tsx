@@ -25,6 +25,16 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import styles from './styles.jsx';
 
+interface State {
+  numPicker: number,
+  title: string,
+  receipt: string,
+  image: { file: File | string, src: string },
+  source: string,
+  ingredients: string,
+  importUrl: string
+}
+
 
 
 
@@ -40,25 +50,20 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
   const [open, setOpen] = useState(false); // set false when not testing
   const [shouldUpdate, setShouldUpdate] = useState(true);
 
-  const st = {
-    image: {},
-    numPicker: 1
+  const stateSkeleton: State = {
+    image: {
+      file: '',
+      src: ''
+    },
+    numPicker: 1,
+    title: '',
+    receipt: '',
+    source: '',
+    ingredients: '',
+    importUrl: ''
   }
-
   // state for input fields
-  const [state, setState] = useState(st);
-
-  /*   useEffect(() => {
-      if (!editPage) {
-        setState({
-          image: {},
-          numPicker: 1
-        })
-      }
-    }, [open]) */
-  /* 
-  
-    } */
+  const [state, setState] = useState(stateSkeleton);
 
   useEffect(() => {
     if (recipeToUpdate._id) {
@@ -67,23 +72,12 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
         numPicker: recipeToUpdate.persons,
         title: recipeToUpdate.name,
         receipt: recipeToUpdate.text,
-        image: { file: null, src: recipeToUpdate.image },
+        image: { file: '', src: recipeToUpdate.image },
         source: recipeToUpdate.source,
         ingredients: formatIngredients(recipeToUpdate.ingredients)
       })
     }
   }, [open])
-
-  /*   setState({
-      ...state,
-      numPicker: persons,
-      title: name,
-      receipt: text,
-      image: {...state.image, src: image },
-      source: source,
-      ingredients: formattedAttachments
-    }) */
-
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -120,7 +114,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
     // sets state from by deriving the name of the input field when user entering input
     setState({
       ...state,
-      image: {file: '', src: event.target.value}
+      image: { file: '', src: event.target.value }
     });
     // removes error when text field is edited
     setInputError({ ...inputError, [event.target.name]: false });
@@ -197,10 +191,10 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
 
   const handleSaveRecipe = () => {
 
-    // checks for empty required fields upon saving a receipt
     console.log(state);
-    console.log(HTTP.recipes.createRecipeQueryAndReturnFields('hej'))
+    //console.log(HTTP.recipes.createRecipeQueryAndReturnFields('hej'));
 
+    // checks for empty required fields upon saving a receipt
     let errorState = inputError, stopScript = false;
     Object.keys(inputError)
       .forEach((key) => {
@@ -213,31 +207,12 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
     setInputError(errorState);
     if (stopScript) return;
 
-
     // Script to transform ingredients into array with name, unit and quantity
     // Creating array from ingredient input field 
-    const ingrArray = state.ingredients.split('\n').filter(line => line !== "");
-    console.log(ingrArray)
-
+    const ingredientInputAsArray = state.ingredients.split('\n').filter(line => line !== "");
+    console.log(ingredientInputAsArray)
     // returns array of ingredient objects from input field
-    const transformedIngredients = ingrArray
-      .map((str, i) => {
-        let strArr = str.trimEnd().split(' ');
-        let quantity = strArr.find(el => Number(el)) || null;
-        let unit = strArr.find(el => el.includes('*')) || null;
-
-        // removes quantity and unit from array and leaves name
-        [quantity, unit].forEach((item) => {
-          const index = strArr.indexOf(item);
-          if (index != -1) {
-            //console.log('Splicing element: ' + strArr[index])
-            strArr.splice(index, 1);
-          }
-        })
-
-        return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity) }
-      })
-
+    const transformedIngredients = transformedIngredientsInput(ingredientInputAsArray);
     console.log(transformedIngredients);
 
     const token = localStorage.getItem('token');
@@ -253,9 +228,18 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
       image: image.src,
       ingredients: transformedIngredients
     }
-    const query = HTTP.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', variables)
+/*     const query = editPage ?
+    HTTP.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients', variables) :
+    HTTP.recipes.createRecipeAndReturnFields('_id name persons source text image ingredients', variables) */
 
-    if (image.file) {
+   let query = HTTP.recipes.createRecipeAndReturnFields('_id name persons source text image ingredients', variables);
+   if(editPage) {
+      variables._id = recipeToUpdate._id;
+      query = HTTP.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients', variables);
+      console.log('Found query: ', query)
+    } 
+
+    if (image.file && !editPage) {
       const formdata = new FormData();
       const serverFileName = 'IMG-' + Date.now()
       formdata.append("productImage", image.file, serverFileName);
@@ -276,29 +260,27 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
         .catch(error => console.log('error', error));
     } else {
       // eys
+      console.log('SAVING RECIPE TO DB WITHOUT FILE')
       saveRecipeToDb(query);
     }
-
-
 
     function saveRecipeToDb(query: any) {
       HTTP.post(query)
         .then(res => {
-          setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() })
+          const msg = editPage ?  'opdateret' : 'gemt';
+          setMessage({ msg: `${state.title} er ${msg}`, type: 'success', key: Math.random() })
           onReceiptSave(Date.now())
           handleClose();
-
           //setOpen(false)
         })
         .catch(error => {
           console.log(error)
-          setMessage({ msg: error.message, type: 'error', key: Math.random() })
+          setMessage({ msg: error, type: 'error', key: Math.random() })
         })
     }
-
-
-
   }
+
+
 
   return (
     <div>
@@ -346,7 +328,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
                 <NumberPicker
                   name="numPicker"
                   onChange={(value) => onNumPickerChange(value)}
-                  value={state.numPicker}
+                  value={recipeToUpdate.persons} // when editing af recipe
                 />
               </ListItem>
 
@@ -455,3 +437,24 @@ function formatIngredients(ingredients: any) {
   });
   return formattedAttachments;
 }
+
+function transformedIngredientsInput(ingrArray: string[]) {
+  return ingrArray
+    .map((str, i) => {
+      let strArr = str.trimEnd().split(' ');
+      let quantity = strArr.find(el => Number(el)) || null;
+      let unit = strArr.find(el => el.includes('*')) || null;
+
+      // removes quantity and unit from array and leaves name
+      [quantity, unit].forEach((item) => {
+        const index = strArr.indexOf(item);
+        if (index != -1) {
+          //console.log('Splicing element: ' + strArr[index])
+          strArr.splice(index, 1);
+        }
+      })
+
+      return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity) }
+    })
+}
+

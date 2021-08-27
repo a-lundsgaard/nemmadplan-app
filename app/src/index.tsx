@@ -6,24 +6,9 @@ import Root from "Core/root";
 import store, { history } from "Redux/store/store";
 
 // Declared globally in order to use async await, see this issue: https://github.com/babel/babel/issues/9849
-import regeneratorRuntime from "regenerator-runtime";
-
-//process.env.API_URL = 'http://localhost:8080/graphql';
-
-const increment = () => {
-  return {
-    type: 'INCREMENT'
-  }
-}
+//import regeneratorRuntime from "regenerator-runtime";
 
 window.store = store;
-
-console.log(store.getState())
-
-store.dispatch(increment())
-
-//process.env.API_URL = 'https://nmserver.herokuapp.com/graphql';
-
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>

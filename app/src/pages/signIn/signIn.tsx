@@ -96,7 +96,7 @@ export default function SignIn() {
         history.push('/home');
     }, // on succes
       error => {
-        setMessage({msg: error.message, type: 'error', key: Math.random()}) 
+        setMessage({msg: error, type: 'error', key: Math.random()}) 
       }// on failure
       )
 

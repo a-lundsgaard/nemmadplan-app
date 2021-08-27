@@ -51,11 +51,19 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
     const classes = useStyles();
     const [open, setOpen] = react_1.useState(false);
     const [shouldUpdate, setShouldUpdate] = react_1.useState(true);
-    const st = {
-        image: {},
-        numPicker: 1
+    const stateSkeleton = {
+        image: {
+            file: '',
+            src: ''
+        },
+        numPicker: 1,
+        title: '',
+        receipt: '',
+        source: '',
+        ingredients: '',
+        importUrl: ''
     };
-    const [state, setState] = react_1.useState(st);
+    const [state, setState] = react_1.useState(stateSkeleton);
     react_1.useEffect(() => {
         if (recipeToUpdate._id) {
             setState({
@@ -63,7 +71,7 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
                 numPicker: recipeToUpdate.persons,
                 title: recipeToUpdate.name,
                 receipt: recipeToUpdate.text,
-                image: { file: null, src: recipeToUpdate.image },
+                image: { file: '', src: recipeToUpdate.image },
                 source: recipeToUpdate.source,
                 ingredients: formatIngredients(recipeToUpdate.ingredients)
             });
@@ -150,7 +158,6 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
     };
     const handleSaveRecipe = () => {
         console.log(state);
-        console.log(http_1.default.recipes.createRecipeQueryAndReturnFields('hej'));
         let errorState = inputError, stopScript = false;
         Object.keys(inputError)
             .forEach((key) => {
@@ -164,21 +171,9 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
         setInputError(errorState);
         if (stopScript)
             return;
-        const ingrArray = state.ingredients.split('\n').filter(line => line !== "");
-        console.log(ingrArray);
-        const transformedIngredients = ingrArray
-            .map((str, i) => {
-            let strArr = str.trimEnd().split(' ');
-            let quantity = strArr.find(el => Number(el)) || null;
-            let unit = strArr.find(el => el.includes('*')) || null;
-            [quantity, unit].forEach((item) => {
-                const index = strArr.indexOf(item);
-                if (index != -1) {
-                    strArr.splice(index, 1);
-                }
-            });
-            return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity) };
-        });
+        const ingredientInputAsArray = state.ingredients.split('\n').filter(line => line !== "");
+        console.log(ingredientInputAsArray);
+        const transformedIngredients = transformedIngredientsInput(ingredientInputAsArray);
         console.log(transformedIngredients);
         const token = localStorage.getItem('token');
         const { title, type, numPicker, source, receipt, image } = state;
@@ -192,8 +187,13 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
             image: image.src,
             ingredients: transformedIngredients
         };
-        const query = http_1.default.recipes.createRecipeQueryAndReturnFields('_id name persons source text image ingredients', variables);
-        if (image.file) {
+        let query = http_1.default.recipes.createRecipeAndReturnFields('_id name persons source text image ingredients', variables);
+        if (editPage) {
+            variables._id = recipeToUpdate._id;
+            query = http_1.default.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients', variables);
+            console.log('Found query: ', query);
+        }
+        if (image.file && !editPage) {
             const formdata = new FormData();
             const serverFileName = 'IMG-' + Date.now();
             formdata.append("productImage", image.file, serverFileName);
@@ -212,18 +212,20 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
                 .catch(error => console.log('error', error));
         }
         else {
+            console.log('SAVING RECIPE TO DB WITHOUT FILE');
             saveRecipeToDb(query);
         }
         function saveRecipeToDb(query) {
             http_1.default.post(query)
                 .then(res => {
-                setMessage({ msg: `${state.title} er gemt`, type: 'success', key: Math.random() });
+                const msg = editPage ? 'opdateret' : 'gemt';
+                setMessage({ msg: `${state.title} er ${msg}`, type: 'success', key: Math.random() });
                 onReceiptSave(Date.now());
                 handleClose();
             })
                 .catch(error => {
                 console.log(error);
-                setMessage({ msg: error.message, type: 'error', key: Math.random() });
+                setMessage({ msg: error, type: 'error', key: Math.random() });
             });
         }
     };
@@ -264,7 +266,7 @@ function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeToUpdate, editPag
           <div style={{ height: '100%' }}>
             <List_1.default>
               <ListItem_1.default className={classes.numPicker}>
-                <numberPicker_jsx_1.default name="numPicker" onChange={(value) => onNumPickerChange(value)} value={state.numPicker}/>
+                <numberPicker_jsx_1.default name="numPicker" onChange={(value) => onNumPickerChange(value)} value={recipeToUpdate.persons}/>
               </ListItem_1.default>
 
               <ListItem_1.default>
@@ -315,4 +317,19 @@ function formatIngredients(ingredients) {
         formattedAttachments += `${ingredient.quantity || ''} ${ingredient.unit || ''} ${ingredient.name} \n`.trimLeft();
     });
     return formattedAttachments;
+}
+function transformedIngredientsInput(ingrArray) {
+    return ingrArray
+        .map((str, i) => {
+        let strArr = str.trimEnd().split(' ');
+        let quantity = strArr.find(el => Number(el)) || null;
+        let unit = strArr.find(el => el.includes('*')) || null;
+        [quantity, unit].forEach((item) => {
+            const index = strArr.indexOf(item);
+            if (index != -1) {
+                strArr.splice(index, 1);
+            }
+        });
+        return { name: strArr.join(' ').toLowerCase(), unit: unit, quantity: parseFloat(quantity) };
+    });
 }

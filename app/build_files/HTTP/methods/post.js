@@ -13,23 +13,28 @@ async function post(requestBody, extraOrdinaryUrl) {
             query: requestBody.query,
             variables: requestBody.variables,
         });
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + ((_a = requestBody === null || requestBody === void 0 ? void 0 : requestBody.variables) === null || _a === void 0 ? void 0 : _a.token)
-        },
-        body: body
-    });
-    const jsonData = await response.json();
-    if (response.ok && response.status === 200) {
-        return jsonData;
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + ((_a = requestBody === null || requestBody === void 0 ? void 0 : requestBody.variables) === null || _a === void 0 ? void 0 : _a.token)
+            },
+            body: body
+        });
+        const jsonData = await response.json();
+        if (response.ok && response.status === 200 && !jsonData.errors) {
+            console.log('Returned data from api: ', jsonData);
+            return jsonData;
+        }
+        else {
+            const err = jsonData.errors.reduce((a, n) => a + ' ' + n.message, '');
+            throw err;
+        }
     }
-    else {
-        console.log(jsonData);
-        let err = jsonData.errors.reduce((a, n) => a + ' ' + n.message, '');
-        console.error(jsonData);
-        throw new Error(err);
+    catch (error) {
+        console.error(error);
+        throw error;
     }
 }
 exports.default = post;

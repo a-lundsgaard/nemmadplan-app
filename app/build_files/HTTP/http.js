@@ -14,21 +14,9 @@ class HTTP {
         this.requestUrl = 'http://localhost:8080/graphql';
         this.salesUrl = 'http://localhost:8090/sales';
         this.shoppingUrl = 'http://localhost:3001/shopping';
-        this.sales = {
-            getSales: sales_1.default.getSales
-        };
-        this.user = {
-            verifyUserAndReturnFields: user_1.default.verifyUserAndReturnFields,
-            signInAndReturnFields: user_1.default.signInAndReturnFields,
-            signUpAndReturnFields: user_1.default.signUpAndReturnFields
-        };
-        this.recipes = {
-            scrapeRecipesAndReturnFields: recipes_1.default.scrapeRecipesAndReturnFields,
-            getRecipesAndReturnFields: recipes_1.default.getRecipesAndReturnFields,
-            createRecipeQueryAndReturnFields: recipes_1.default.createRecipeAndReturnFields,
-            deleteRecipe: recipes_1.default.deleteRecipe,
-            saveWeekPlan: recipes_1.default.saveWeekPlan
-        };
+        this.sales = sales_1.default;
+        this.user = user_1.default;
+        this.recipes = recipes_1.default;
         this.mealPlans = mealPlan_1.default;
     }
 }

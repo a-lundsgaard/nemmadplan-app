@@ -6,7 +6,8 @@ exports.default = {
     scrapeRecipesAndReturnFields,
     createRecipeAndReturnFields,
     saveWeekPlan,
-    deleteRecipe
+    deleteRecipe,
+    updateRecipeAndReturnFields
 };
 function getRecipesAndReturnFields(fieldsToQuery, variables = {}) {
     const query = `query {
@@ -23,6 +24,31 @@ function scrapeRecipesAndReturnFields(fieldsToQuery, variables = {}) {
         }
     }`;
     return { query: query, variables: variables };
+}
+function updateRecipeAndReturnFields(string, variables = {}) {
+    const fieldsToQuery = string.split(' ');
+    const includeIngredients = fieldsToQuery.includes('ingredients') ? `ingredients { name unit quantity }` : '';
+    if (includeIngredients) {
+        let index = fieldsToQuery.indexOf('ingredients');
+        fieldsToQuery.splice(index, 1);
+    }
+    const query = `mutation($_id: String!, $name: String!, $type: String!, $persons: Float!, $source: String,  $text: String!, $image: String, $ingredients: [ingredientInput]!) {
+        updateRecipe(receiptInput: {
+            _id: $_id
+            name: $name, 
+            type: $type,
+            persons: $persons,
+            source: $source,
+            text: $text, 
+            image: $image
+            ingredients: $ingredients 
+        }) {
+                ${fieldsToQuery.join(' ')}
+                ${includeIngredients}
+            }
+        }`;
+    console.log(query);
+    return new requestBody_1.RequestBody(query, variables);
 }
 function createRecipeAndReturnFields(string, variables = {}) {
     const fieldsToQuery = string.split(' ');

@@ -1,181 +1,136 @@
-import React, {useState, useEffect} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-//import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
-
-import Auth from '../../components/auth/auth';
-import SnackBar from "../../components/shared/snackbar/snackbar";
-
-import { useHistory } from "react-router-dom";
-import ROUTES from "../../constants/routes";
-import http from '../../HTTP/http';
-
-
-
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importStar(require("react"));
+const Avatar_1 = __importDefault(require("@material-ui/core/Avatar"));
+const Button_1 = __importDefault(require("@material-ui/core/Button"));
+const CssBaseline_1 = __importDefault(require("@material-ui/core/CssBaseline"));
+const TextField_1 = __importDefault(require("@material-ui/core/TextField"));
+const FormControlLabel_1 = __importDefault(require("@material-ui/core/FormControlLabel"));
+const Checkbox_1 = __importDefault(require("@material-ui/core/Checkbox"));
+const Grid_1 = __importDefault(require("@material-ui/core/Grid"));
+const Box_1 = __importDefault(require("@material-ui/core/Box"));
+const LockOutlined_1 = __importDefault(require("@material-ui/icons/LockOutlined"));
+const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
+const styles_1 = require("@material-ui/core/styles");
+const Container_1 = __importDefault(require("@material-ui/core/Container"));
+const react_hook_form_1 = require("react-hook-form");
+const react_router_dom_1 = require("react-router-dom");
+const auth_1 = __importDefault(require("../../components/auth/auth"));
+const snackbar_1 = __importDefault(require("../../components/shared/snackbar/snackbar"));
+const react_router_dom_2 = require("react-router-dom");
+const routes_1 = __importDefault(require("../../constants/routes"));
+const http_1 = __importDefault(require("../../HTTP/http"));
 function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    return (<Typography_1.default variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" to="https://material-ui.com/">
+      <react_router_dom_1.Link color="inherit" to="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </react_router_dom_1.Link>{' '}
       {new Date().getFullYear()}
       {'.'}
-    </Typography>
-  );
+    </Typography_1.default>);
 }
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+const useStyles = styles_1.makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%',
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
-
-
-
-
-
-export default function SignIn() {
-
-  const history = useHistory();
-  const classes = useStyles();
-  const { register, handleSubmit, errors, watch } = useForm();
-
-
-  const [input, setInput] = useState({email: '', password: ''});
-  const [message, setMessage] = useState({});
-
-
-  
-
-  const onSubmit = async ()=> {
-
-  //  console.log('Sending request to: ' + process.env.API_URL)
-    const requestBody1 = `query {
+function SignIn() {
+    const history = react_router_dom_2.useHistory();
+    const classes = useStyles();
+    const { register, handleSubmit, errors, watch } = react_hook_form_1.useForm();
+    const [input, setInput] = react_1.useState({ email: '', password: '' });
+    const [message, setMessage] = react_1.useState({});
+    const onSubmit = async () => {
+        const requestBody1 = `query {
         login(email: "${input.email}", password:"${input.password}") {
           token
           userId
           tokenExpiration
         } 
-      }`
-    
-      const requestBody = http.user.signInAndReturnFields('token userId tokenExpiration', {email: input.email, password: input.password})
-      console.log(requestBody)
-      //const variables = {email: input.email, password: input.password}
-
-
-    Auth.login(requestBody,
-      user => { 
-        setMessage({msg: 'Login succesfull', type: 'success', key: Math.random()});
-        history.push('/home');
-    }, // on succes
-      error => {
-        setMessage({msg: error.message, type: 'error', key: Math.random()}) 
-      }// on failure
-      )
-
-  }
-
-
-
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+      }`;
+        const requestBody = http_1.default.user.signInAndReturnFields('token userId tokenExpiration', { email: input.email, password: input.password });
+        console.log(requestBody);
+        auth_1.default.login(requestBody, user => {
+            setMessage({ msg: 'Login succesfull', type: 'success', key: Math.random() });
+            history.push('/home');
+        }, error => {
+            setMessage({ msg: error, type: 'error', key: Math.random() });
+        });
+    };
+    return (<Container_1.default component="main" maxWidth="xs">
+      <CssBaseline_1.default />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+        <Avatar_1.default className={classes.avatar}>
+          <LockOutlined_1.default />
+        </Avatar_1.default>
+        <Typography_1.default component="h1" variant="h5">
           Sign in
-        </Typography>
-        <form className={classes.form}
-          onSubmit ={handleSubmit(onSubmit)}
-        >
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={(event)=> setInput({...input, email: event.target.value})}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={(event)=> setInput({...input, password: event.target.value})}
-
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+        </Typography_1.default>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+          <TextField_1.default variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus onChange={(event) => setInput({ ...input, email: event.target.value })}/>
+          <TextField_1.default variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" onChange={(event) => setInput({ ...input, password: event.target.value })}/>
+          <FormControlLabel_1.default control={<Checkbox_1.default value="remember" color="primary"/>} label="Remember me"/>
+          <Button_1.default type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link to="#" variant="body2">
+          </Button_1.default>
+          <Grid_1.default container>
+            <Grid_1.default item xs>
+              <react_router_dom_1.Link to="#" variant="body2">
                 Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to={ROUTES.SIGNUP} variant="body2">
+              </react_router_dom_1.Link>
+            </Grid_1.default>
+            <Grid_1.default item>
+              <react_router_dom_1.Link to={routes_1.default.SIGNUP} variant="body2">
                 {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+              </react_router_dom_1.Link>
+            </Grid_1.default>
+          </Grid_1.default>
         </form>
       </div>
-      <Box mt={8}>
+      <Box_1.default mt={8}>
         <Copyright />
-      </Box>
+      </Box_1.default>
 
 
-      { message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg}/> : null}
+      {message.msg ? <snackbar_1.default key={message.key} type={message.type} message={message.msg}/> : null}
 
-    </Container>
-  );
+    </Container_1.default>);
 }
+exports.default = SignIn;
