@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { REMOVE_TODO, TOGGLE_TODO, COMPLETE_TODO, UNCOMPLETE_TODO } from '../../constants/actions';
 
-//import OpenSelect from 'Components/select/controlledOpenSelect.jsx'
+//import OpenSelect from 'Components/select/controlledOpenSelect'
 //import OpenSelect from '../../../../shared/select/controlledOpenSelect'
 
 import OpenSelect from '../../../../../../shared/select/controlledOpenSelect'
@@ -23,7 +23,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import HTTP from '../../../../../../../HTTP/http';
 
 
-import { TodosContext, DispatchContext } from '../../contexts/todos.context.jsx';
+import { TodosContext, DispatchContext } from '../../contexts/todos.context';
 
 
 const useStyles = makeStyles((theme) => ({

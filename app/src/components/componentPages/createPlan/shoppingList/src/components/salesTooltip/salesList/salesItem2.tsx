@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Button from '@material-ui/core/Button';
 //import { DispatchContext } from '../contexts/todos.context';
 
-import { DispatchContext } from '../../../contexts/todos.context.jsx';
+import { DispatchContext } from '../../../contexts/todos.context';
 import { EDIT_TODO } from '../../../constants/actions';
 import ImageModal from '../modal';
 import { withStyles, makeStyles } from '@material-ui/core/styles';

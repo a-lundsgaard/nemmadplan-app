@@ -4,12 +4,12 @@ import Grid from '@material-ui/core/Grid';
 import listenToSearchInput from 'Redux/helpers/subscribe'
 import HTTP from '../../HTTP/http';
 
-import RecipeCard from '../../components/shared/card/recipeCard.jsx';
+import RecipeCard from '../../components/shared/card/recipeCard';
 
-import CreateRecipeDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog.jsx';
+import CreateRecipeDialog from '../../components/componentPages/createRecipe/index/createRecipeDialog';
 import ReceiptSceletonLoader from '../../components/shared/loaders/receiptSceletonLoader';
 import useStyles from './styles';
-import SnackBar from "../../components/shared/snackbar/snackbar.jsx";
+import SnackBar from "../../components/shared/snackbar/snackbar";
 
 interface Props {
   onClick: (id: string) => void,

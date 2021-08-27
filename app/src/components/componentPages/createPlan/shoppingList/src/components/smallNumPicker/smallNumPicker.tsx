@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import './style.css'; // for removing default chrome styles on input elements 
-import styles from './styles.js';
+import styles from './styles';
 
 import { EDIT_TODO } from '../../constants/actions';
-import { DispatchContext } from '../../contexts/todos.context.jsx';
+import { DispatchContext } from '../../contexts/todos.context';
 
 
 

@@ -11,18 +11,18 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuid } from 'uuid';
-import SnackBar from "../../../shared/snackbar/snackbar.jsx";
-import PlusButton from '../../../shared/buttons/plusButton/plusButton.jsx'
-import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker.jsx';
+import SnackBar from "../../../shared/snackbar/snackbar";
+import PlusButton from '../../../shared/buttons/plusButton/plusButton'
+import SmallNumberPicker from '../../../shared/pickers/number/smallNumPicker/smallNumPicker';
 
 import RecipeCard from "../../../shared/card/recipeCard";
-import StaticDatePicker from '../datePicker/staticDatePicker.jsx'
-import RecipeDialog from '../pickRecipe/pickRecipeDialog.jsx'
+import StaticDatePicker from '../datePicker/staticDatePicker'
+import RecipeDialog from '../pickRecipe/pickRecipeDialog'
 import ShoppingList from '../shoppingList/src/components/App'
 import ShoppingListContainer from '../shoppingListContainer/index/container';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import styles from './styles.jsx';
+import styles from './styles';
 import { TransitionProps } from '@material-ui/core/transitions';
 import HTTP from '../../../../HTTP/http';
 

@@ -11,7 +11,7 @@ import HTTP from '../../HTTP/http';
 
 //import MealPlanCard from '../../components/shared/card/mealPlanCard/mealPlanCard';
 import MealPlanCard from './mealPlanCard/mealPlanCard';
-import SnackBar from "../../components/shared/snackbar/snackbar.jsx";
+import SnackBar from "../../components/shared/snackbar/snackbar";
 
 import ViewMealPlanDialogFullScreen from './viewPlanDialog/viewMealPlanDialog';
 

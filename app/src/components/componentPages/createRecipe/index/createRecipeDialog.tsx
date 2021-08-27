@@ -15,15 +15,15 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 import PlusButton from '../../../shared/buttons/plusButton/plusButton'
-import SnackBar from "../../../shared/snackbar/snackbar.jsx";
-import NumberPicker from '../../../shared/pickers/number/numberPicker1/numberPicker.jsx'
-import ImageUploader from '../upload/uploadImage.jsx'
+import SnackBar from "../../../shared/snackbar/snackbar";
+import NumberPicker from '../../../shared/pickers/number/numberPicker1/numberPicker'
+import ImageUploader from '../upload/uploadImage'
 import HTTP from '../../../../HTTP/http';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-import styles from './styles.jsx';
+import styles from './styles';
 
 interface State {
   numPicker: number,

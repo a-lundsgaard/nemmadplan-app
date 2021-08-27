@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import todosReducer from '../reducers/todos.reducer.jsx';
+import todosReducer from '../reducers/todos.reducer';
 
 import { ADD_INGREDIENT_ARRAY, UPDATE_AMOUNT_OF_INGREDIENTS, DELETE_INGREDIENTS } from '../constants/actions';
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';

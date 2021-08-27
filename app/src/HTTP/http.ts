@@ -1,5 +1,7 @@
 // For using async await in post method
-import regeneratorRuntime from "regenerator-runtime";
+//import regeneratorRuntime from "regenerator-runtime";
+/* import "core-js/stable";
+import "regenerator-runtime/runtime"; */
 
 import userQueries from './queries/user';
 import recipeQueries from './queries/recipes';

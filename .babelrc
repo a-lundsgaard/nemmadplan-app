@@ -7,12 +7,12 @@
                 "alias": {
                    // "Images": "./app/src/components/componentPages/createPlan/shoppingList",
 
-                    "HTTP": "./app/build_files/http",
-                    "Constants": "./app/build_files/constants",
-                    "Components": "./app/build_files/components",
-                    "Core": "./app/build_files/core",
-                    "Pages": "./app/build_files/pages",
-                    "Redux": "./app/build_files/redux",
+                    "HTTP": "./app/src/http",
+                    "Constants": "./app/src/constants",
+                    "Components": "./app/src/components",
+                    "Core": "./app/src/core",
+                    "Pages": "./app/src/pages",
+                    "Redux": "./app/src/redux",
                     "I18n": "./app/localization"
                 }
             }
@@ -26,6 +26,22 @@
     ],
     "presets": [
         "@babel/preset-env",
-        "@babel/preset-react"
+        "@babel/preset-react",
+        "@babel/preset-typescript" 
+/* 
+          [
+            "@babel/preset-react",
+            {
+              "flow": false,
+              "typescript": true
+            }
+          ], */
+   /*      [
+            "@babel/preset-typescript",
+            {
+              "isTSX": true,
+              "allExtensions": true
+            }
+          ]   */
     ]
 }

@@ -1,6 +1,9 @@
-import HTTP from '../../HTTP/http.js';
-import regeneratorRuntime from "regenerator-runtime";
+import HTTP from '../../HTTP/http';
+//import regeneratorRuntime from "regenerator-runtime";
 
+// for using async await. See this issue: https://stackoverflow.com/questions/53558916/babel-7-referenceerror-regeneratorruntime-is-not-defined
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 class Auth {
     constructor() {
