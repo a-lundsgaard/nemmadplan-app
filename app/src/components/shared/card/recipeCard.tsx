@@ -245,7 +245,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            Nice cheap paella
+            Beskrivelse af ret
           </Typography>
         </CardContent>
         <CardActions disableSpacing>

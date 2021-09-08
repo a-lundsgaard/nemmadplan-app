@@ -3,15 +3,15 @@ import { Preferences } from '../types/sharedTypes'
 module.exports = async function nemlig(preferences: Preferences) {
     document.write(`Vent et øjeblik...`);
 
-/*     const $ = (selector) =>  {
-        const nodeList = Array.from(document.querySelectorAll(selector));
-        return nodeList.length === 1 ? nodeList[0] : nodeList;
-    }; */
+    /*     const $ = (selector) =>  {
+            const nodeList = Array.from(document.querySelectorAll(selector));
+            return nodeList.length === 1 ? nodeList[0] : nodeList;
+        }; */
 
-    const { products, profile: {price} } = preferences;
+    const { products, profile: { price } } = preferences;
 
-    const urls = products.map(todo => ( {name: todo.task, url: `https://www.nemlig.com/webapi/AAAAAAAA-/-/1/0/Search/Search?query=${todo}&take=20&skip=0&recipeCount=2&`} ))
-        
+    const urls = products.map(todo => ({ name: todo.task, url: `https://www.nemlig.com/webapi/AAAAAAAA-/-/1/0/Search/Search?query=${todo.task}&take=20&skip=0&recipeCount=2&` }))
+
     //`https://www.nemlig.com/webapi/AAAAAAAA-EIvZlM1q/2020100805-60-600/1/0/Search/Search?query=${name}&take=20&skip=0&recipeCount=2&`
     //"https://www.nemlig.com/webapi/AAAAAAAA-cEoFe4Jr/2020100823-300-300/1/0/Search/Search?query=leverpostej&take=20&skip=0&recipeCount=2&"
 
@@ -30,13 +30,13 @@ module.exports = async function nemlig(preferences: Preferences) {
 
             const { Products } = jsonData.Products
 
-           /* console.log(Products)
-            let smallest = Products[0];
-            Products.forEach((product, i)=> {
-                if(product.UnitPriceCalc < smallest.UnitPriceCalc){
-                    smallest = product;   
-                }                        
-            })*/
+            /* console.log(Products)
+             let smallest = Products[0];
+             Products.forEach((product, i)=> {
+                 if(product.UnitPriceCalc < smallest.UnitPriceCalc){
+                     smallest = product;   
+                 }                        
+             })*/
 
             function sortByCheapest(arr: any[]) {
 
@@ -45,27 +45,27 @@ module.exports = async function nemlig(preferences: Preferences) {
                 //const item = () => {
 
                 let cheap1 = sortedArray.find(item => {
-                    const {Brand, Category, Name, SubCategory, Url} = item;
+                    const { Brand, Category, Name, SubCategory, Url } = item;
                     console.log([Brand, Category, Name, SubCategory, Url])
 
-                   // const keywords = [Brand, Category, Name, SubCategory, Url]
+                    // const keywords = [Brand, Category, Name, SubCategory, Url]
                     const keywords = [Url]
                     const matchName = obj.name.toLowerCase().split(' ')[0]
-                                        .replace(/æ/g, 'ae')
-                                        .replace(/ø/g, 'oe')
-                                        .replace(/å/g, 'aa')
-                                        .replace(/-/g, '')
+                        .replace(/æ/g, 'ae')
+                        .replace(/ø/g, 'oe')
+                        .replace(/å/g, 'aa')
+                        .replace(/-/g, '')
 
                     return keywords
-                          //  .filter(prop => !!prop)
-                            .map(el => el.toLowerCase().replace(/-/g, ''))
-                            .join()
-                            .match(new RegExp(`${matchName}`))
-                            //.includes(obj.name.toLowerCase())
+                        //  .filter(prop => !!prop)
+                        .map(el => el.toLowerCase().replace(/-/g, ''))
+                        .join()
+                        .match(new RegExp(`${matchName}`))
+                    //.includes(obj.name.toLowerCase())
                 })
-                
-                return cheap1 || arr ||sortedArray[0] || obj.name
-                
+
+                return cheap1 || arr || sortedArray[0] || obj.name
+
             }
 
             console.log('Calculating smallest');
@@ -85,21 +85,23 @@ module.exports = async function nemlig(preferences: Preferences) {
 
     let count = 1
     let str = '';
-    productsNotFound.forEach((name, index )=> {
-        str += `\n${index+1}. ${name}`
+    productsNotFound.forEach((name, index) => {
+        str += `\n${index + 1}. ${name}`
     });
 
     let addItems = new Promise((resolve, reject) => {
-        
-        items.forEach(async (item)=>{
-            const body = {productId: item.Id, quantity: 1};
+
+        items.forEach(async (item) => {
+            const body = { productId: item.Id, quantity: 1 };
+            const fetchUrl = "https://www.nemlig.com/webapi/basket/AddToBasket";
+            // "https://www.nemlig.com/webapi/basket/PlusOneToBasket"
             try {
-                const data = await fetch("https://www.nemlig.com/webapi/basket/PlusOneToBasket", {
-                    method:'post',
-                    headers: {"Content-Type": "application/json"},
+                const data = await fetch(fetchUrl, {
+                    method: 'post',
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body),
                 })
-        
+
                 const jsonData = await data.json();
                 console.log('Found json data in after basket plus on')
                 console.log(jsonData);
@@ -107,25 +109,28 @@ module.exports = async function nemlig(preferences: Preferences) {
                 count++
                 document.open()
                 document.write(`Handler ind for dig. Vent venligst.. Varer i kurv: ${count}`)
-                
-                if(count === items.length) {
-                    alert(`Tilføjede ${items.length} varer til kurven. ${str ? '\nKunne ikke finde:' + str : 'Alle varer fundet'}`);
+
+                if (count === items.length) {
+                    setTimeout(() =>
+                        alert(`Tilføjede ${items.length} varer til kurven. ${str ? '\nKunne ikke finde:' + str : 'Alle varer fundet'}`)
+                        , 50)
+                    //alert(`Tilføjede ${items.length} varer til kurven. ${str ? '\nKunne ikke finde:' + str : 'Alle varer fundet'}`);
                     //window.location = window.location.href + "#refresh";
                     resolve(items)
                     location.reload();
-                } 
-                
+                }
+
             } catch (error) {
                 reject(error)
             }
         })
 
-    }) 
+    })
 
-   // alert('i remove cookies')
-   //if(location.href.includes('refresh')) alert('Page includes refresh')
-   const finished = await addItems;
-   //alert('i remove cookies')
+    // alert('i remove cookies')
+    //if(location.href.includes('refresh')) alert('Page includes refresh')
+    const finished = await addItems;
+    //alert('i remove cookies')
 
     return finished
 }

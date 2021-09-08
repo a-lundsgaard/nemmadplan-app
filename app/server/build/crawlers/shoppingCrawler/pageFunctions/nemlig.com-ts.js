@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 module.exports = async function nemlig(preferences) {
     document.write(`Vent et øjeblik...`);
     const { products, profile: { price } } = preferences;
-    const urls = products.map(todo => ({ name: todo.task, url: `https://www.nemlig.com/webapi/AAAAAAAA-/-/1/0/Search/Search?query=${todo}&take=20&skip=0&recipeCount=2&` }));
+    const urls = products.map(todo => ({ name: todo.task, url: `https://www.nemlig.com/webapi/AAAAAAAA-/-/1/0/Search/Search?query=${todo.task}&take=20&skip=0&recipeCount=2&` }));
     console.log(urls);
     let items = [];
     let productsNotFound = [];
@@ -52,8 +52,9 @@ module.exports = async function nemlig(preferences) {
     let addItems = new Promise((resolve, reject) => {
         items.forEach(async (item) => {
             const body = { productId: item.Id, quantity: 1 };
+            const fetchUrl = "https://www.nemlig.com/webapi/basket/AddToBasket";
             try {
-                const data = await fetch("https://www.nemlig.com/webapi/basket/PlusOneToBasket", {
+                const data = await fetch(fetchUrl, {
                     method: 'post',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body),
@@ -65,7 +66,7 @@ module.exports = async function nemlig(preferences) {
                 document.open();
                 document.write(`Handler ind for dig. Vent venligst.. Varer i kurv: ${count}`);
                 if (count === items.length) {
-                    alert(`Tilføjede ${items.length} varer til kurven. ${str ? '\nKunne ikke finde:' + str : 'Alle varer fundet'}`);
+                    setTimeout(() => alert(`Tilføjede ${items.length} varer til kurven. ${str ? '\nKunne ikke finde:' + str : 'Alle varer fundet'}`), 50);
                     resolve(items);
                     location.reload();
                 }
