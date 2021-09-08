@@ -1,26 +1,26 @@
 [
   {
     "productName": "rugbrød",
-    "date": "2021-08-27T12:10:19.047Z",
+    "date": "2021-08-29T20:26:41.122Z",
     "results": [
       {
-        "title": "Rema 1000, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 4,
-        "pricePrKg": "8,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48904/REMA1000342021_13_2397x747_4989x4224_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Skovmand, Rugbrød-skiver",
+        "title": "Kohberg Herkules, Rugbrød-skiver",
         "price": null,
         "unit": "",
         "quantity": 9,
-        "pricePrKg": "9,95 per kg.",
-        "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48906/342021_1_2028x3819_4904x5628_zoom.jpg",
+        "pricePrKg": "9,00 per kg.",
+        "chain": "\n                    \n                                                Netto\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48941/Netto352021_25_2867x1470_4967x3522_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kohberg Herkules, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 9,
+        "pricePrKg": "9,00 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48972/REMA1000352021_1_27x1298_2425x4454_zoom.jpg",
         "date": ""
       },
       {
@@ -31,26 +31,6 @@
         "pricePrKg": "10,00 per kg.",
         "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_1_2459x2000_4814x3770_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Skovmand, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48904/REMA1000342021_1_2351x1336_4983x3752_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Kondi Karl, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per kg.",
-        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48904/REMA1000342021_1_2351x1336_4983x3752_zoom.jpg",
         "date": ""
       },
       {
@@ -84,13 +64,13 @@
         "date": ""
       },
       {
-        "title": "Schulstad Skovmand, Rugbrød-skiver",
+        "title": "Kohberg Solsikke, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 12,
+        "quantity": 9,
         "pricePrKg": "12,00 per kg.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48885/MinKøbmand342021_6_2386x3691_4972x7415_zoom.jpg",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48972/REMA1000352021_1_27x1298_2425x4454_zoom.jpg",
         "date": ""
       },
       {
@@ -124,23 +104,33 @@
         "date": ""
       },
       {
-        "title": "Schulstad Levebrød, Rugbrød-skiver",
+        "title": "Kohberg Solsikke, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 9,
-        "pricePrKg": "13,27 per kg.",
+        "quantity": 10,
+        "pricePrKg": "13,33 per kg.",
         "chain": "\n                    \n                                                \n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48906/342021_1_2028x3819_4904x5628_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48964/Lidl352021_6_1814x30_4981x2986_zoom.jpg",
         "date": ""
       },
       {
-        "title": "Kohberg Mille, Rugbrød-skiver",
+        "title": "Kohberg Protein, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 12,
+        "quantity": 9,
         "pricePrKg": "15,00 per kg.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48888/Netto342021_12_2530x2334_4967x4698_zoom.jpg",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48972/REMA1000352021_1_27x1298_2425x4454_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kohberg Bagerens Bedste, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 9,
+        "pricePrKg": "15,00 per kg.",
+        "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48972/REMA1000352021_1_27x1298_2425x4454_zoom.jpg",
         "date": ""
       },
       {
@@ -204,16 +194,6 @@
         "date": ""
       },
       {
-        "title": "Kohberg Bagerens Bedste, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48888/Netto342021_12_2530x2334_4967x4698_zoom.jpg",
-        "date": ""
-      },
-      {
         "title": "ØGO, Rugbrød-skiver",
         "price": null,
         "unit": "",
@@ -224,26 +204,6 @@
         "date": ""
       },
       {
-        "title": "Schulstad Levebrød, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_13_97x97_2905x3710_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Levebrød, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 12,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_13_97x97_2905x3710_zoom.jpg",
-        "date": ""
-      },
-      {
         "title": "Schulstad Signaturbrød Gilleleje, Rugbrød-skiver",
         "price": null,
         "unit": "",
@@ -264,33 +224,33 @@
         "date": ""
       },
       {
-        "title": "Kornkammeret, Rugbrød-skiver",
+        "title": "Schulstad Signaturbrød Gilleleje, Rugbrød-skiver",
         "price": null,
         "unit": "",
-        "quantity": 10,
+        "quantity": 15,
+        "pricePrKg": "20,00 per kg.",
+        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48901/Coop365342021_10_100x3155_2509x7627_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Schulstad Signaturbrød Sol over Gudhjem, Rugbrød-skiver",
+        "price": null,
+        "unit": "",
+        "quantity": 15,
+        "pricePrKg": "20,00 per kg.",
+        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48901/Coop365342021_10_100x3155_2509x7627_zoom.jpg",
+        "date": ""
+      },
+      {
+        "title": "Kohberg Rugbrødsboller, Boller",
+        "price": null,
+        "unit": "",
+        "quantity": 9,
         "pricePrKg": "20,00 per kg.",
         "chain": "\n                    \n                                                REMA 1000\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48904/REMA1000342021_1_2351x1336_4983x3752_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Signaturbrød Gilleleje, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 15,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48901/Coop365342021_10_100x3155_2509x7627_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Schulstad Signaturbrød Sol over Gudhjem, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 15,
-        "pricePrKg": "20,00 per kg.",
-        "chain": "\n                    \n                                                Coop 365\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48901/Coop365342021_10_100x3155_2509x7627_zoom.jpg",
+        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48972/REMA1000352021_1_27x1298_2425x4454_zoom.jpg",
         "date": ""
       },
       {
@@ -299,7 +259,7 @@
         "unit": "",
         "quantity": 12,
         "pricePrKg": "24,00 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48938/Meny352021_13_1667x4038_4949x7354_zoom.jpg",
         "date": ""
       },
@@ -309,7 +269,7 @@
         "unit": "",
         "quantity": 12,
         "pricePrKg": "24,00 per kg.",
-        "chain": "\n                    \n                                                Meny\n                                            \n                ",
+        "chain": "\n                    \n                                                \n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48938/Meny352021_13_1667x4038_4949x7354_zoom.jpg",
         "date": ""
       },
@@ -321,16 +281,6 @@
         "pricePrKg": "25,00 per kg.",
         "chain": "\n                    \n                                                Irma\n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48944/Irma342021_9_23x1705_2061x3156_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "LingonGrova, Rugbrød-skiver",
-        "price": null,
-        "unit": "",
-        "quantity": 16,
-        "pricePrKg": "32,00 per kg.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48885/MinKøbmand342021_6_116x4234_2522x7318_zoom.jpg",
         "date": ""
       },
       {
@@ -371,240 +321,6 @@
         "pricePrKg": "",
         "chain": "\n                    \n                                                SPAR\n                                            \n                ",
         "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/49009/SPAR352021_2_288x5726_2392x7132_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Bageren rugbrød",
-        "price": null,
-        "unit": "",
-        "quantity": 20,
-        "pricePrKg": "",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_13_1765x3875_3251x7261_zoom.jpg",
-        "date": ""
-      }
-    ]
-  },
-  {
-    "productName": "æbler",
-    "date": "2021-08-27T16:58:24.062Z",
-    "results": [
-      {
-        "title": "Pink lady, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 25,
-        "pricePrKg": "3,13 per stk.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48941/Netto352021_9_2513x3532_4976x6973_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Pink lady, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 22,
-        "pricePrKg": "3,67 per stk.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_8_2496x2799_4801x5104_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Pink lady, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 22,
-        "pricePrKg": "3,67 per stk.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/49009/SPAR352021_7_3026x3466_4935x4936_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Fejø Dansk Kernefrugt, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 11,
-        "pricePrKg": "22,00 per kg.",
-        "chain": "\n                    \n                                                Irma\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48944/Irma342021_5_93x3230_2661x5997_zoom.jpg",
-        "date": ""
-      }
-    ]
-  },
-  {
-    "productName": "mælk",
-    "date": "2021-08-27T16:58:26.668Z",
-    "results": [
-      {
-        "title": ", Letmælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_2_197x1570_3547x4563_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": ", Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_2_197x1570_3547x4563_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Øllingegaard, Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_7_51x4203_2411x6903_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Øllingegaard, Letmælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_7_51x4203_2411x6903_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": ", Letmælk",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per ltr.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48888/Netto342021_14_0x2377_2499x4674_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": ", Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per ltr.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48888/Netto342021_14_0x2377_2499x4674_zoom.jpg",
-        "date": ""
-      }
-    ]
-  },
-  {
-    "productName": "mælk",
-    "date": "2021-08-27T16:58:29.683Z",
-    "results": [
-      {
-        "title": ", Letmælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_2_197x1570_3547x4563_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": ", Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_2_197x1570_3547x4563_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Øllingegaard, Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_7_51x4203_2411x6903_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Øllingegaard, Letmælk",
-        "price": null,
-        "unit": "",
-        "quantity": 9,
-        "pricePrKg": "9,95 per ltr.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48884/SPAR342021_7_51x4203_2411x6903_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": ", Letmælk",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per ltr.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48888/Netto342021_14_0x2377_2499x4674_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": ", Minimælk",
-        "price": null,
-        "unit": "",
-        "quantity": 10,
-        "pricePrKg": "10,00 per ltr.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48888/Netto342021_14_0x2377_2499x4674_zoom.jpg",
-        "date": ""
-      }
-    ]
-  },
-  {
-    "productName": "æbler",
-    "date": "2021-08-27T16:58:42.342Z",
-    "results": [
-      {
-        "title": "Pink lady, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 25,
-        "pricePrKg": "3,13 per stk.",
-        "chain": "\n                    \n                                                Netto\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48941/Netto352021_9_2513x3532_4976x6973_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Pink lady, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 22,
-        "pricePrKg": "3,67 per stk.",
-        "chain": "\n                    \n                                                Min Købmand\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/48937/MinKøbmand352021_8_2496x2799_4801x5104_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Pink lady, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 22,
-        "pricePrKg": "3,67 per stk.",
-        "chain": "\n                    \n                                                SPAR\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/35/49009/SPAR352021_7_3026x3466_4935x4936_zoom.jpg",
-        "date": ""
-      },
-      {
-        "title": "Fejø Dansk Kernefrugt, Æbler",
-        "price": null,
-        "unit": "",
-        "quantity": 11,
-        "pricePrKg": "22,00 per kg.",
-        "chain": "\n                    \n                                                Irma\n                                            \n                ",
-        "img": "https://static.Tilbudsugen.dk/1st-retail/2021/34/48944/Irma342021_5_93x3230_2661x5997_zoom.jpg",
         "date": ""
       }
     ]

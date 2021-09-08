@@ -28,7 +28,7 @@ const salesServer = require('../server/build/salesServer/salesServer');
 //const salesServer = require('../src/server/src/salesServer/salesServer.js');
 
 //const loadBalancer = require('../server/salesServer/load-balancer/load-balancer');
-//const shoppingServer = require('../server/shoppingServer/server');
+//const shoppingServer = require('../server/build/shoppingServer/server');
 
 
 // Keep a global reference of the window object, if you don't, the window will

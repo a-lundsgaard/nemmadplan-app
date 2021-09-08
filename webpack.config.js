@@ -27,14 +27,12 @@ module.exports = {
           }
         }
       },
-      // loads .js/jsx files
+      // loads .js/jsx or ts files
       {
         test: /\.(ts|js)x?$/,
-        //test: /\.(ts)x?/,
         include: [path.resolve(__dirname, "app/src")],
         //loader: 'ts-loader',
         loader: 'babel-loader',
-        //use: 'ts-loader',
         exclude: /node_modules/,
         resolve: {
           extensions: [".ts", ".tsx", ".json", ".jsx", '.js']
