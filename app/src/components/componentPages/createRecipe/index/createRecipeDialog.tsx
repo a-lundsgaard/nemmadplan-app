@@ -110,8 +110,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
     setInputError({ ...inputError, [event.target.name]: false });
   }
 
-  const onImageChange = (event) => {
-    // sets state from by deriving the name of the input field when user entering input
+  const onImageSrcUrlChange = (event) => {
     setState({
       ...state,
       image: { file: '', src: event.target.value }
@@ -228,18 +227,16 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
       image: image.src,
       ingredients: transformedIngredients
     }
-/*     const query = editPage ?
-    HTTP.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients', variables) :
-    HTTP.recipes.createRecipeAndReturnFields('_id name persons source text image ingredients', variables) */
 
-   let query = HTTP.recipes.createRecipeAndReturnFields('_id name persons source text image ingredients', variables);
-   if(editPage) {
+
+    let query = HTTP.recipes.createRecipeAndReturnFields('_id name persons source text image ingredients', variables);
+    if (editPage) {
       variables._id = recipeToUpdate._id;
       query = HTTP.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients', variables);
       console.log('Found query: ', query)
-    } 
+    }
 
-    if (image.file && !editPage) {
+    if (image.file) {
       const formdata = new FormData();
       const serverFileName = 'IMG-' + Date.now()
       formdata.append("productImage", image.file, serverFileName);
@@ -264,10 +261,12 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
       saveRecipeToDb(query);
     }
 
+    
+
     function saveRecipeToDb(query: any) {
       HTTP.post(query)
         .then(res => {
-          const msg = editPage ?  'opdateret' : 'gemt';
+          const msg = editPage ? 'opdateret' : 'gemt';
           setMessage({ msg: `${state.title} er ${msg}`, type: 'success', key: Math.random() })
           onReceiptSave(Date.now())
           handleClose();
@@ -411,7 +410,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
 
               <TextField name="image" id="standard-basic" placeholder="Link til billede"
                 className={classes.imageInputField}
-                onChange={onImageChange}
+                onChange={onImageSrcUrlChange}
                 value={state.image.src && state.image.src.includes('localhost') ? '' : state.image.src}
                 InputLabelProps={{ shrink: state.image.src ? true : false }}
               />
