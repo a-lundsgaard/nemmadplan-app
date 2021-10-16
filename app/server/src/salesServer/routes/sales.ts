@@ -22,13 +22,25 @@ interface CachedResult {
       date: string
     }
   ]
+}
 
+interface Product {
+  products: [string]
+  chains: {
+    wanted: boolean
+    chainNames: []
+  }
+}
+
+interface Request extends Body {
+  body: Product
 }
 
 
 //Endpoint for adding user
-router.post('/', async (req: any, res: any) => {
+router.post('/', async (req: Request, res: any) => {
   try {
+    const requestBody = req.body;
     console.log(req.body);
     console.log('Endpoint hit');
 
@@ -38,24 +50,20 @@ router.post('/', async (req: any, res: any) => {
       const cachedResultsDate = new Date(cachedResults[0].date);
       const today = new Date();
 
-      if (!firstDateIsPastDayComparedToSecond(cachedResultsDate, today)) {
-      //if (cachedResultsDate.getDate() < new Date().getDate() ) {
+      if (fromSameDate(today, cachedResultsDate)) {
         cachedData = cachedResults;
-     // }
       }
-
     } catch (error) {
-      console.log('Creating new file: salesDaa.json');
+      console.log('Creating new file: salesData.json');
     }
 
-    const productName = req.body.products[0];
-
+    const productName = requestBody.products[0];
     const productFoundInCache = cachedData.find((productObject: CachedResult) => productObject.productName === productName);
     if (productFoundInCache) {
       return res.json(productFoundInCache.results);
     }
 
-    const results = await salesCrawler(tilbudsugen, req.body);
+    const results = await salesCrawler(tilbudsugen, requestBody);
     const newData = {
       productName: productName,
       date: new Date(),
@@ -66,8 +74,6 @@ router.post('/', async (req: any, res: any) => {
       cachedData.push(newData)
       cacheResults(cachedData)
     }
-
-
     return res.json(results);
 
   } catch (error) {
@@ -90,10 +96,15 @@ function cacheResults(json: CachedResult) {
     });
   } catch (error) {
     console.error('Could not write json file: ', error)
-
   }
 }
 
-const firstDateIsPastDayComparedToSecond = (firstDate: Date, secondDate: Date) => firstDate.setHours(10, 0, 0, 0) - secondDate.setHours(10, 0, 0, 0) < 0
+function fromSameDate(today: Date, cachedResultsDate: Date): boolean {
+  return (cachedResultsDate.getDate() == today.getDate() &&
+    cachedResultsDate.getMonth() == today.getMonth() &&
+    cachedResultsDate.getFullYear() == today.getFullYear()
+  )
+}
+
 
 

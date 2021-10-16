@@ -24,7 +24,7 @@ const selfHost = `http://localhost:${port}`;
 
 // Used for shutting down all node servers e.g. sales server
 const triggerCommand = require('./helpers/triggerCommand')
-const salesServer = require('../server/build/salesServer/salesServer');
+// const salesServer = require('../server/build/salesServer/salesServer');
 //const salesServer = require('../src/server/src/salesServer/salesServer.js');
 
 //const loadBalancer = require('../server/salesServer/load-balancer/load-balancer');

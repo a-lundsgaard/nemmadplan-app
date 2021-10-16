@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 router.post('/', async (req, res) => {
     try {
+        const requestBody = req.body;
         console.log(req.body);
         console.log('Endpoint hit');
         let cachedData = [];
@@ -14,19 +15,19 @@ router.post('/', async (req, res) => {
             const cachedResults = require('../salesData.json');
             const cachedResultsDate = new Date(cachedResults[0].date);
             const today = new Date();
-            if (!firstDateIsPastDayComparedToSecond(cachedResultsDate, today)) {
+            if (fromSameDate(today, cachedResultsDate)) {
                 cachedData = cachedResults;
             }
         }
         catch (error) {
-            console.log('Creating new file: salesDaa.json');
+            console.log('Creating new file: salesData.json');
         }
-        const productName = req.body.products[0];
+        const productName = requestBody.products[0];
         const productFoundInCache = cachedData.find((productObject) => productObject.productName === productName);
         if (productFoundInCache) {
             return res.json(productFoundInCache.results);
         }
-        const results = await salesCrawler(tilbudsugen, req.body);
+        const results = await salesCrawler(tilbudsugen, requestBody);
         const newData = {
             productName: productName,
             date: new Date(),
@@ -57,4 +58,8 @@ function cacheResults(json) {
         console.error('Could not write json file: ', error);
     }
 }
-const firstDateIsPastDayComparedToSecond = (firstDate, secondDate) => firstDate.setHours(10, 0, 0, 0) - secondDate.setHours(10, 0, 0, 0) < 0;
+function fromSameDate(today, cachedResultsDate) {
+    return (cachedResultsDate.getDate() == today.getDate() &&
+        cachedResultsDate.getMonth() == today.getMonth() &&
+        cachedResultsDate.getFullYear() == today.getFullYear());
+}
