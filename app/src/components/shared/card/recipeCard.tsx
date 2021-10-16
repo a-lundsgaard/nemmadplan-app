@@ -43,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 245,
     minWidth: 245,
+    borderRadius: 25
+    //border: "1px solid dimgray"
     //  height: 200,
     //  width: 245,
   },
@@ -87,9 +89,20 @@ interface Props {
   recipeOnPlan: boolean // check if the recipe is on the plan
   children?: React.FC,
   createPlanCard?: boolean,
-  disableSettings: boolean
+  disableSettings: boolean,
+  currentDateOnPlan?: Date
 }
 
+// function (date )
+
+function fromSameDate(today: Date, cachedResultsDate: Date): boolean {
+  console.log('Found the two dates ', today, cachedResultsDate);
+  const same = (cachedResultsDate.getDate() == today.getDate() &&
+    cachedResultsDate.getMonth() == today.getMonth() &&
+    cachedResultsDate.getFullYear() == today.getFullYear()
+  )
+  return same;
+}
 
 export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen, swappedRecipe, clickedDishToUpdate, ...props }: Props) {
 
@@ -179,7 +192,9 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
           onChange={(bool: boolean) => setScrollDialogOpen(bool)}
           key={1}
         />}
-      <Card className={classes.card} >
+      <Card className={classes.card} style={{
+            border: customDate && props.currentDateOnPlan && fromSameDate(new Date(customDate), new Date(props.currentDateOnPlan)) ? "3px solid #90c200" : ""
+      }} >
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
@@ -228,7 +243,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
               </>
           }
 
-          title={recipe.name}
+          title={displayTitleWithoutBreak(recipe.name)}
           subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}
         />
 
@@ -238,7 +253,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
           className={classes.media}
           image={recipe.image || placeholder}
           //image={recipe.image || "https://m3placement.com/wp-content/uploads/2021/03/image-placeholder-350x350-1.png"}
-          title="Paella dish"
+          title={recipe.name}
           component={'div'}
         />        
         
@@ -300,23 +315,32 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
 
 }
 
+function displayTitleWithoutBreak(string: string) {
+  const maxStringLength = 17;
+  if(string.length > maxStringLength) {
+    const newTitle = string.slice(0, (maxStringLength-2)).trimRight() + "..";
+    return newTitle
+  } else {
+    return string;
+  }
 
+}
 
 function prettifyDate(date: string) {
 
   const months = {
-    1: 'januar',
-    2: 'februar',
-    3: 'marts',
-    4: 'april',
+    1: 'jan',
+    2: 'feb',
+    3: 'mar',
+    4: 'apr',
     5: 'maj',
-    6: 'juni',
-    7: 'juli',
-    8: 'august',
-    9: 'september',
-    10: 'oktober',
-    11: 'november',
-    12: 'december'
+    6: 'jun',
+    7: 'jul',
+    8: 'aug',
+    9: 'sep',
+    10: 'okt',
+    11: 'nov',
+    12: 'dec'
   }
 
   const days = {
@@ -341,5 +365,5 @@ function prettifyDate(date: string) {
   const loc = location.href;
 
   if (loc.includes('recipes')) return `${dayNumber}. ${month} ${year}`
-  return `${dayName.toLowerCase()}. ${dayNumber}. ${month} ${year}`
+  return `${dayName.toLowerCase()}. ${dayNumber}. ${month}`
 }

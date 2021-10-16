@@ -4,12 +4,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import { ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core";
+// import { createMuiTheme } from "@material-ui/core";
 import { Paper, Button } from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import InfoIcon from '@material-ui/icons/Info';
 
+import { createTheme } from '@material-ui/core/styles'
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -28,12 +29,10 @@ class LocalizedUtils extends DateFnsUtils {
 }
 
 
-
-
 //import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 //import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const defaultMaterialTheme = createMuiTheme({
+const defaultMaterialTheme = createTheme({
   //   selectColor: 'red',
   //  spacing: 2,
   overrides: {

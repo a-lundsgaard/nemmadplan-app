@@ -338,6 +338,7 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
                           visitFromCreatePlanMealList={true}
                           dialogOpen={setRecipesOpen}
                           customDate={recipe.date.toISOString()}
+                          currentDateOnPlan={date}
                           swappedRecipe={setRecipeToSwap}
                         >
                           <SmallNumberPicker
