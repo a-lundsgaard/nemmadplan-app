@@ -34,7 +34,7 @@ export function TodosProvider(props) {
    
   useEffect(() => {
     // storing shopping list items to redux. The sidebar containing the shoppinglist uses the first sale-image of every item and displays it in the sidebar
-    storeTodosToRedux(todos)
+    storeTodosToRedux([...todos])
   }, [todos])
 
 
@@ -50,7 +50,7 @@ export function TodosProvider(props) {
   useEffect(() => {
     if (props?.updateAmountOnIngredients?.length) {
       //alert('Trying to update amount')
-      //console.log('Found ingredients to change:  ', props.updateAmountOnIngredients)
+      console.log('Found ingredients to change:  ', props.updateAmountOnIngredients)
       dispatch({ type: UPDATE_AMOUNT_OF_INGREDIENTS, task: props.updateAmountOnIngredients });
     }
   }, [props.updateAmountOnIngredients])

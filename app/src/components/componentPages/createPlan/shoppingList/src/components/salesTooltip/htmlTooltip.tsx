@@ -12,6 +12,7 @@ const HtmlTooltip = withStyles((theme) => ({
         // backgroundColor: '#f5f5f9',
         zIndex: '1',
         backgroundColor: '#f5f5f9',
+        borderRadius: 25,
         //backgroundColor: 'white',
 
         color: 'rgba(0, 0, 0, 0.87)',
@@ -34,11 +35,12 @@ export default function CustomizedTooltips({ sales, id, onClick }) {
 
 
     return (
-        <div style={{ zIndex: '-1' }}
+        <div
+            style={{ zIndex: '-1' }}
             onClick={(e) => e.stopPropagation()}
-            onMouseLeave={()=> setOpen(false)} // no propagation when using leave instead of onmouseout
+            onMouseLeave={() => setOpen(false)} // no propagation when using leave instead of onmouseout
         >
-            { sales.length ?
+            {sales.length ?
                 <HtmlTooltip
                     interactive
                     //disableHoverListener={true}
@@ -46,16 +48,16 @@ export default function CustomizedTooltips({ sales, id, onClick }) {
                     //arrow={true}
                     title={<SalesList sales={sales} id={id} />}
                     open={open}
-                    onClick={()=> setOpen(true)}
-                    //enterDelay={200}
-                    //onMouseEnter={()=> { setTimeout(()=> setOpen(true), 200) }}                     
+                    onClick={() => setOpen(true)}
+                //enterDelay={200}
+                //onMouseEnter={()=> { setTimeout(()=> setOpen(true), 200) }}                     
                 >
                     <Button
                         color="primary"
                     >
                         <i>{sales.length < 10 ? sales.length + ' ' : sales.length} tilbud</i>
                     </Button>
-                </HtmlTooltip> 
+                </HtmlTooltip>
                 :
                 <Button
                     style={{ color: '#69696969', textDecoration: 'line-through' }}

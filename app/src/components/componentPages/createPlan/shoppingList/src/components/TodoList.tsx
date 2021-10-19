@@ -16,7 +16,7 @@ function TodoList() {
           <Todo key={index+300} {...todo} />
         )) */
         todos.map((todo, index) => {          
-          return <Todo key={todo.task} {...todo} />
+          return <Todo key={todo.id} {...todo} />
         })
       }
     </ul>

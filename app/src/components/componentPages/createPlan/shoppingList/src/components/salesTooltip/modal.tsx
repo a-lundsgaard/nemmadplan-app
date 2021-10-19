@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import ModalUnstyled from '@mui/core/ModalUnstyled';
+
+
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
@@ -9,17 +12,22 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: '2100 !important'
-    },
+        zIndex: '2100 !important',
+         "& .MuiModal-rounded": {
+            borderRadius: 25
+          } 
+        },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
+        // border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        //borderRadius: 25
     },
 
     img2: {
-        maxHeight: 500
+        maxHeight: 500,
+        borderRadius: 25,
     },
 
 
@@ -29,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         transition: "transform .2s",
         zIndex: "9",
-        cursor:'pointer'
+        cursor:'pointer',
+        // borderRadius: 25,
+
     }
 }));
 
@@ -50,7 +60,9 @@ export default function TransitionsModal({ imageSource }) {
       }, [boolean]) */
 
     return (
-        <div>
+        <div 
+        //style={{borderRadius: 25}}
+        >
             <img className={classes.img} src={imageSource} onClick={handleOpen} />
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -58,7 +70,7 @@ export default function TransitionsModal({ imageSource }) {
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
-                onBlur={handleClose}
+                //onBlur={handleClose}
                 //onMouseOut={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
@@ -66,7 +78,9 @@ export default function TransitionsModal({ imageSource }) {
                     timeout: 500,
                 }}
             >
-                <Fade in={open}>
+                <Fade in={open} 
+                //style={{borderRadius: 25}} 
+                >
                     <div className={classes.paper}>
                         <img className={classes.img2} src={imageSource} />
                     </div>

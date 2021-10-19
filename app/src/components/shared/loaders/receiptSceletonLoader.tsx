@@ -14,7 +14,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 245,
-    minWidth: 245
+    minWidth: 245,
+    borderRadius: 25
   },
   media: {
     height: 190,

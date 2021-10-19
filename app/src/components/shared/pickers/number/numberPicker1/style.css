@@ -9,13 +9,13 @@
     position: relative;
     font-size: 0;
     overflow: hidden;
-    border-radius: 3px; /**/
+    border-radius: 5px; /**/
     width: 44px;
     height: 132px;
 }
 .plusminus button {
 
-    border-radius: 3px; 
+    border-radius: 5px; 
 
     display: block;
     width: 44px;

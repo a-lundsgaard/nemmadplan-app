@@ -38,11 +38,11 @@ export default function smallNumPicker({ countValue, unit, quantity, onCountChan
     }) */
 
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (countValue) {
       setCount(countValue);
     }
-  }, [countValue])
+  }, [countValue]) */
 
 
   useEffect(() => {

@@ -243,7 +243,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
               </>
           }
 
-          title={displayTitleWithoutBreak(recipe.name)}
+          title={displayTitleWithoutBreak(recipe.name, 17)}
           subheader={prettifyDate(customDate ? customDate : recipe.createdAt)}
         />
 
@@ -315,15 +315,13 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
 
 }
 
-function displayTitleWithoutBreak(string: string) {
-  const maxStringLength = 17;
+function displayTitleWithoutBreak(string: string, maxStringLength: number) {
   if(string.length > maxStringLength) {
     const newTitle = string.slice(0, (maxStringLength-2)).trimRight() + "..";
     return newTitle
   } else {
     return string;
   }
-
 }
 
 function prettifyDate(date: string) {

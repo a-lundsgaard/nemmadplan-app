@@ -171,7 +171,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
             </>
           }
 
-          title={mealPlan.name}
+          title={displayTitleWithoutBreak(mealPlan.name, 17)}
           subheader={prettifyDate(customDate ? customDate : mealPlan.createdAt)}
         />
 
@@ -199,13 +199,14 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
         />
 
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="span">
             {
+              displayTitleWithoutBreak(
               mealPlan.plan.reduce((a, b, index) => {
                 const string = !index ? b.dish.name : ', ' + b.dish.name.toLowerCase();
                 a += string;
                 return a;
-              }, '')
+              }, ''), 30 )
             }
           </Typography>
         </CardContent>
@@ -240,6 +241,14 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
 
 }
 
+function displayTitleWithoutBreak(string: string, maxStringLength: number) {
+  if(string.length > maxStringLength) {
+    const newTitle = string.slice(0, (maxStringLength-2)).trimRight() + "..";
+    return newTitle
+  } else {
+    return string;
+  }
+}
 
 
 function prettifyDate(date: string, dontKeepYear?: boolean) {

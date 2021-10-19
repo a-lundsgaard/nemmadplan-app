@@ -39,12 +39,13 @@ const Transition = React.forwardRef(function Transition(
 
 interface Props {
   onMealPlanSave: (id: string) => void;
+  children: Element
 }
 
-export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
+export default function CreatePlanDialog({ onMealPlanSave }: Props) {
 
   const classes = useStyles();
-  const [open, setOpen] = useState(false); // set false when not testing
+  const [open, setOpen] = useState(true); // set false when not testing
   const [recipesOpen, setRecipesOpen] = useState(false); // set false when not testing
 
   // state for input fields
@@ -77,6 +78,8 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
 
     const newState = state.recipies.filter((recipe: { listId: string }) => {
       if (recipe.listId == idOfDeletedDish) {
+        console.log('Fandt ingredienser der skal slettes: ', recipe.ingredients);
+        
         setIngredientsToDelete(recipe.ingredients);
       }
       return recipe.listId !== idOfDeletedDish
@@ -88,7 +91,7 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
 
   // adding new recipe to plan - rename function
   function handleAddNewRecipeToPlan(newRecipe) {
-    console.log(newRecipe)
+    console.log('Fandt en ny opskrift til at  adde : ', newRecipe)
     newRecipe.date = date;
     newRecipe.listId = uuid();
     newRecipe.ingredients = addIdToEachIngredient(newRecipe.ingredients)
@@ -142,16 +145,25 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
 
 
 
-  function handleRecipePersonCountChange(originalPersonCountOnRecipe, newPersonCount, listId): void {
+  function handleRecipePersonCountChange(previousPersonCount, newPersonCount, listId): void {
     //const ingredientItemsThatHaveChangedAmount = [];
     // updating amount on ingredient
     const newRecipeState = state.recipies.map((recipe) => {
-      if (recipe.listId === listId) {
+      if (recipe.listId === listId && newPersonCount != previousPersonCount) {
         //alert('Found recipe')
         const newIngredientArray = recipe.ingredients.map((ingredient) => {
           //for(const ingredient of recipe.ingredients) {
-          const newQuantityCalculation = (ingredient.quantity / originalPersonCountOnRecipe) * newPersonCount;
-          return { ...ingredient, quantity: newQuantityCalculation }
+          const divider = 4;
+          const oldQuantityCalculation = (ingredient.quantity / divider) * previousPersonCount;
+          const newQuantityCalculation = (ingredient.quantity / divider) * newPersonCount;
+
+          const diff = newQuantityCalculation-oldQuantityCalculation;
+          //console.log('Found diff on');
+          
+
+          return { ...ingredient, task: ingredient.name, diff: diff, currentQuantity: newQuantityCalculation }
+
+          //return { ...ingredient, task: ingredient.name, quantity: newQuantityCalculation }
         })
         setIngredientsWithUpdatedAmounts(newIngredientArray)
         return { ...(recipe as object), persons: newPersonCount, ingredients: newIngredientArray }
@@ -164,8 +176,6 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
   }
 
 
-
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -175,6 +185,8 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props ) {
           recipies: [],
           //date: new Date()
         })  */
+
+    setDate(new Date()); // removing border color of recipe card
     setMessage({})
     setOpen(false);
   };

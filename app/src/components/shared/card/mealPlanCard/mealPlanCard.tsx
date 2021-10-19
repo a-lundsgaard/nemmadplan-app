@@ -176,7 +176,7 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
             </>
           }
 
-          title={mealPlan.name}
+          title={displayTitleWithoutBreak(mealPlan.name, 17)}
           subheader={prettifyDate(customDate ? customDate : mealPlan.createdAt)}
         />
 
@@ -238,6 +238,17 @@ export default function MealPlanCard({ mealPlan, clikedPlan: clikedDish, dialogO
   )
 
 }
+
+
+function displayTitleWithoutBreak(string: string, maxStringLength: number) {
+  if(string.length > maxStringLength) {
+    const newTitle = string.slice(0, (maxStringLength-2)).trimRight() + "..";
+    return newTitle
+  } else {
+    return string;
+  }
+}
+
 
 
 

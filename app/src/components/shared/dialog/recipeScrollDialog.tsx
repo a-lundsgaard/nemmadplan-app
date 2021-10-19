@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
   list: {
     //  display: "inline-block"
+  },
+
+  root: {
+    "& .MuiPaper-rounded": {
+      borderRadius: 25
+    }
   }
 
 
@@ -69,9 +75,11 @@ export default function ScrollDialog(props) {
   //<Button onClick={handleClickOpen('body')}>scroll=body</Button>
 
   return (
-    <div>
+    <div >
 
       <Dialog
+        //style={{borderRadius: 25}}
+        className={classes.root}
         open={open}
         onClose={handleClose}
         scroll={scroll}
@@ -80,7 +88,8 @@ export default function ScrollDialog(props) {
         maxWidth='lg'
       >
         <DialogTitle id="scroll-dialog-title">{props.title}</DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>
+        <DialogContent  
+          dividers={scroll === 'paper'}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}

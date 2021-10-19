@@ -72,7 +72,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
     return d;
   }
 
-  const [date, setDate] = useState(dateWithoutTime(new Date()));
+  const [date, setDate] = useState(dateWithoutTime(pickedDate ? new Date(pickedDate) : new Date() ));
   // For opening receipts
   const [dbClick, setDbClick] = useState(false);
 
@@ -147,7 +147,7 @@ function StaticDatePicker({ hasDbClicked, pickedDate, selectedMeals }) {
           <Paper 
           elevation={20} 
           variant='outlined' 
-          style={{ overflow: "hidden" }}
+          style={{ overflow: "hidden", borderRadius: 25 }}
           onClick={() => setTooltipOpen(false)}
           >
 
@@ -226,9 +226,11 @@ const paintDays = (meals) => {
 
       if (mealDateString === dateString) {
         el.style.background = '#90c200';
+        //el.style.border = "1px solid black"
         break;
       } else {
         el.style.background = '';
+        //el.style.border = ""
       }
     }
   }))
