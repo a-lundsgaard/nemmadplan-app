@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter, Redirect } from "react-router";
 import ROUTES from "Constants/routes";
 import Welcome from "Pages/welcome/welcome";
 import Motd from "Pages/motd/motd";
-import Localization from "Pages/localization/localization";
+//import Localization from "Pages/localization/localization";
 import UndoRedo from "Pages/undoredo/undoredo";
 import ContextMenu from "Pages/contextmenu/contextmenu";
 
@@ -82,7 +82,7 @@ function Routes() {
         <ProtectedRoute exact path={ROUTES.CREATEPLAN} component={CreatePlan} isAuthenticated={state.isAuthenticated} isLoading={state.isLoading}></ProtectedRoute>
 
         <Route path={ROUTES.MOTD} component={Motd}></Route>
-        <Route path={ROUTES.LOCALIZATION} component={Localization}></Route>
+
         <Route path={ROUTES.UNDOREDO} component={UndoRedo}></Route>
         <Route path={ROUTES.CONTEXTMENU} component={ContextMenu}></Route>
       </>

@@ -16,6 +16,8 @@ class HTTP {
     post = post.bind(this);
     requestUrl = 'http://localhost:8080/graphql';
     //requestUrl = 'https://nmserver.herokuapp.com/graphql';
+    baseUrl = 'http://localhost:8080';
+    //baseurl = 'https://nmserver.herokuapp.com'
     salesUrl = 'http://localhost:8090/sales';
     //this.salesUrl = 'https://sales-api-nm.herokuapp.com/sales';
     shoppingUrl = 'http://localhost:3001/shopping';

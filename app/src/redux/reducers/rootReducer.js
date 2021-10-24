@@ -19,7 +19,7 @@ import salesReducer from '../components/test/salesReducer';
 const createRootReducer = (history) =>
   combineReducers({
     router: connectRouter(history),
-    home: homeReducer,
+    //home: homeReducer,
     signin: counterReducer2,
     searchInput: searchInput,
     sales: salesReducer,

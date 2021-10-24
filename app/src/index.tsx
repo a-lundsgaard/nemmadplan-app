@@ -11,10 +11,8 @@ import "regenerator-runtime/runtime"; */
 window.store = store;
 
 ReactDOM.render(
-  <I18nextProvider i18n={i18n}>
     <Suspense fallback="loading">
       <Root store={store} history={history}></Root>
     </Suspense>,
-  </I18nextProvider>,
   document.getElementById("target")
 );

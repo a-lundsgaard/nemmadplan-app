@@ -19,6 +19,7 @@ import SnackBar from "../../../shared/snackbar/snackbar";
 import NumberPicker from '../../../shared/pickers/number/numberPicker1/numberPicker'
 import ImageUploader from '../upload/uploadImage'
 import HTTP from '../../../../HTTP/http';
+import deleteConvertedImage from "../helpers"
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -49,6 +50,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
   const classes = useStyles();
   const [open, setOpen] = useState(false); // set false when not testing
   const [shouldUpdate, setShouldUpdate] = useState(true);
+  const [originalImgSrc, setOriginalImgSrc] = useState(null)
 
   const stateSkeleton: State = {
     image: {
@@ -77,7 +79,10 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
         ingredients: formatIngredients(recipeToUpdate.ingredients)
       })
     }
+    setOriginalImgSrc(recipeToUpdate.image)
   }, [open])
+
+
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -131,12 +136,32 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
     setOpen(true);
   };
 
-  const handleClose = () => {
-    // Clearing states and messages
+
+  const handleClose2 = () => {
     setState({
       image: {},
       numPicker: 1
     })
+
+    onClose(true)
+    setMessage({})
+    setOpen(false);
+  }
+
+  const handleClose = () => {
+    // Clearing states and messages
+    //if(!stopDelete) {
+    if (state.image.src && state.image.src.includes('productImage-') && state.image.src != originalImgSrc) {
+      console.log('Deleting new redundant image from server: ', state.image.src);
+      deleteConvertedImage(state.image.src!)
+    }
+    //}
+
+    setState({
+      image: {},
+      numPicker: 1
+    })
+
     onClose(true)
     setMessage({})
     setOpen(false);
@@ -160,8 +185,6 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
         setLoading(false)
         setMessage({ msg: `Opskrift blev hentet`, type: 'success', key: Math.random() })
         const { data: { scrapeReceipt: { _id, name, text, persons, source, image, ingredients } } } = res;
-
-
         let formattedAttachments = formatIngredients(ingredients);
 
         setState({
@@ -234,6 +257,12 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
       variables._id = recipeToUpdate._id;
       query = HTTP.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients', variables);
       console.log('Found query: ', query)
+
+      if (originalImgSrc && state.image.src != originalImgSrc) {
+        console.log('Deleting old image from server: ', originalImgSrc);
+        deleteConvertedImage(originalImgSrc!)
+      }
+
     }
 
     if (image.file) {
@@ -261,7 +290,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
       saveRecipeToDb(query);
     }
 
-    
+
 
     function saveRecipeToDb(query: any) {
       HTTP.post(query)
@@ -269,7 +298,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
           const msg = editPage ? 'opdateret' : 'gemt';
           setMessage({ msg: `${state.title} er ${msg}`, type: 'success', key: Math.random() })
           onReceiptSave(Date.now())
-          handleClose();
+          handleClose2();
           //setOpen(false)
         })
         .catch(error => {
@@ -285,9 +314,15 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
     <div>
       <span onClick={handleClickOpen}><PlusButton /></span>
 
-      <Dialog style={{
-        overflowY: 'visible'
-      }} fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog
+        style={{
+          overflowY: 'visible'
+        }}
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}>
+
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -350,7 +385,6 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
             </List>
           </div>
 
-
           <Grid
             container
             direction="row"
@@ -359,9 +393,6 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
             spacing={5}
             className={classes.mainGrid}
           >
-
-
-
             <Grid item className={classes.textAreaGrid}>
               <TextField
                 name="ingredients"
@@ -403,6 +434,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
 
               <ImageUploader
                 name="receipt"
+                editPage={editPage}
                 src={state.image.src}
                 onClose={() => setState({ ...state, image: { file: '', src: '' } })}
                 onImageUpload={(imageObj: { src: string, file: any }) => setState({ ...state, image: imageObj })}
@@ -419,10 +451,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
           </Grid>
 
         </div>
-
-
         {message.msg ? <SnackBar key={message.key} type={message.type} message={message.msg} /> : null}
-
       </Dialog>
     </div>
   );

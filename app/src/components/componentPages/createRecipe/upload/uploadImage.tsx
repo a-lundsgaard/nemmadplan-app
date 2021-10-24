@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import './style.css'
-
 import placeholder from './placeholder.png';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { IconButton } from "@material-ui/core";
+import { fil } from "date-fns/locale";
 
+import deleteConvertedImage from "../helpers"
+import http from "../../../../HTTP/http";
 
-
-export default function UploadImage({ onImageUpload, onClose, ...props }) {
+export default function UploadImage({ onImageUpload, onClose, editPage, ...props }) {
 
 
     const [{ alt, src, file }, setImg] = useState({
@@ -16,6 +17,14 @@ export default function UploadImage({ onImageUpload, onClose, ...props }) {
         file: null
     });
 
+    const [originalImgSrc, setOriginalImgSrc] = useState(null)
+
+    useEffect(() => {
+        if (props.src) {
+            setOriginalImgSrc(props.src)
+        }
+    }, [])
+    
     useEffect(() => {
         if (props.src) {
             setImg({
@@ -39,19 +48,64 @@ export default function UploadImage({ onImageUpload, onClose, ...props }) {
     }, [src]);
 
 
-    const handleImg = (e) => {
+    const handleImgChange = (e) => {
+        
+        if(!editPage) {
+            if(src.includes('productImage-')) {
+                deleteConvertedImage(src)
+            }
+        }
+
         if (e.target.files[0]) {
-            //e.target.value = ''
-            console.log('Fandt fil til upload : ', e.target.files[0])
-            setImg({
-                src: URL.createObjectURL(e.target.files[0]),
-                alt: e.target.files[0].name,
-                file: e.target.files[0]
-            });
+            const file = e.target.files[0];
+
+            if(file.type === 'image/heic') {
+                console.log('Fandt fil til upload : ', file)
+
+                const formdata = new FormData();
+                const serverFileName = 'IMG-' + Date.now();
+                const url = http.baseUrl + "/convertimage"
+
+                formdata.append("productImage", file, serverFileName);
+                const requestOptions = {
+                    method: 'POST',
+                    body: formdata,
+                    redirect: 'follow'
+                  };
+                  
+                fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log('found result from convert:', result);
+                    setImg({
+                    // src: URL.createObjectURL(result.imageUrl),
+                        src: result.imageUrl,
+                        alt: 'pic',
+                        file: null
+                    });
+                })
+                .catch(error => console.log('error', error));
+
+            } else {
+                console.log('Fandt fil til upload : ', e.target.files[0])
+                setImg({
+                    src: URL.createObjectURL(e.target.files[0]),
+                    alt: e.target.files[0].name,
+                    file: e.target.files[0]
+                });
+            }
+  
         }
     }
 
     const handleImgClose = () => {
+
+        if(!editPage || originalImgSrc != src ) {
+            if(src.includes('productImage-')) {
+                deleteConvertedImage(src)
+            }
+        }
+
         setImg(
             {
                 src: placeholder,
@@ -87,9 +141,9 @@ export default function UploadImage({ onImageUpload, onClose, ...props }) {
                         type="file"
                         id="img"
                         name="productImage"
-                        accept="image/*"
+                        accept="image/*,image/HEIC"
                         hidden
-                        onChange={handleImg}
+                        onChange={handleImgChange}
                         value={''} // for detecting change when uploading same file twice
                     />
                 </div>
@@ -97,8 +151,6 @@ export default function UploadImage({ onImageUpload, onClose, ...props }) {
         </div>
     )
 }
-
-
 
 
 

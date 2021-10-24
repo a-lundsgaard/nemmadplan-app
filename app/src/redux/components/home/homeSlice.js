@@ -4,9 +4,9 @@ const homeSlice = createSlice({
   name: "home",
   initialState: {
     message:
-      typeof window.api.store.initial()["motd"] !== "undefined"
-        ? window.api.store.initial()["motd"]
-        : "Hello and welcome to the temp!"
+     // typeof window.api.store.initial()["motd"] !== "undefined"
+       // ? window.api.store.initial()["motd"]
+         "Hello and welcome to the temp!"
   },
   reducers: {
     changeMessage(state, action) {

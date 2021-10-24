@@ -3,7 +3,8 @@ export interface NewIngredient {
     name: string,
     unit: string,
     quantity: number | null
-    id: string
+    id: string;
+    currentQuantity?: number
   }
   
 export interface StateIngredient {
@@ -14,7 +15,8 @@ export interface StateIngredient {
     task: string,
     completed: boolean,
     initiator?: string | undefined
-    img?: string | undefined
+    img?: string | undefined;
+    currentQuantity?: number
   }
   
 export interface IngredientHash {

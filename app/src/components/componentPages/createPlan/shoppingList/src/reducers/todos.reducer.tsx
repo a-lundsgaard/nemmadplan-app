@@ -23,7 +23,7 @@ import {
 
 
 
-const reducer = (state, action) => {
+const reducer = (state: any, action) => {
   switch (action.type) {
     case ADD_TODO:
       let index = 0;
@@ -90,26 +90,22 @@ export default reducer;
 
 
 
-function deleteIngredients(ingredientArrayToDelete, stateArray) {
-  /*   console.log('Items to delete', ingredientArrayToDelete);
-    console.log('Items to delete2', stateArray); */
-  const deletedIngredientsFilteredOut = [];
+function deleteIngredients(ingredientArrayToDelete: NewIngredient[], stateArray: StateIngredient[]) {
+  const deletedIngredientsFilteredOut: StateIngredient[] = [];
 
   stateArray.forEach((oldIngredient) => {
     console.log('Item to delete old', oldIngredient.task);
-
     const ingredientToDelete = ingredientArrayToDelete.find(ingredient => ingredient.name === oldIngredient.name);
     if (ingredientToDelete) {
       const minusQ = ingredientToDelete.currentQuantity ? ingredientToDelete.currentQuantity : ingredientToDelete.quantity;
-      const quantity = oldIngredient.quantity - minusQ;
+      const quantity = oldIngredient.quantity! - minusQ!;
       if (quantity <= 0 || !oldIngredient.quantity || !ingredientToDelete.quantity) {
         return;
       }
-      deletedIngredientsFilteredOut.push({ ...oldIngredient, quantity: quantity });
+      deletedIngredientsFilteredOut.push({ ...oldIngredient, quantity: quantity }); // updating quantity
     } else {
       deletedIngredientsFilteredOut.push(oldIngredient);
     }
-
   });
   return deletedIngredientsFilteredOut;
 }
@@ -137,9 +133,8 @@ function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
 
 
 function addIngredientArray(action: any, state: StateIngredient[]) {
-  const originalArray = state;
   const newIngredientArrayToAdd: Array<NewIngredient> = action.task;
-  const stateArrayHash = originalArray.reduce((a, n, i) => {
+  const stateArrayHash = state.reduce((a, n, i) => {
     a[n.task] = { task: n.task, index: i }
     return a;
   }, {} as IngredientHash);
@@ -147,12 +142,12 @@ function addIngredientArray(action: any, state: StateIngredient[]) {
     const foundDuplicate = stateArrayHash[newIngredient.name];
     if (foundDuplicate) {
       const duplicateIndex = foundDuplicate.index;
-      const duplicateInStateArray = originalArray[duplicateIndex];
+      const duplicateInStateArray = state[duplicateIndex];
       const q1 = duplicateInStateArray.quantity || 1; // if no quantity assigns one as quantity, so the quantity also increases when a duplicate is found
       const q2 = newIngredient.quantity || 1;
-      originalArray[duplicateIndex] = { ...duplicateInStateArray, quantity: q1 + q2 }
+      state[duplicateIndex] = { ...duplicateInStateArray, quantity: q1 + q2 }
     } else {
-      originalArray.push({
+      state.push({
         ...newIngredient, // id, quantity etc.
         task: newIngredient.name,
         unit: newIngredient.unit && newIngredient.unit.replace('*', ''),
@@ -160,5 +155,5 @@ function addIngredientArray(action: any, state: StateIngredient[]) {
       })
     }
   })
-  return originalArray;
+  return state;
 }
