@@ -35,7 +35,7 @@ function NumberPicker({ label, onChange, value }) {
 
     const handleChange = (e) => {
         // console.log(e.target.value)
-        setCount(e.target.value)
+        setCount(parseInt(e.target.value))
         // onChange(count)
         console.log('Changed')
     }

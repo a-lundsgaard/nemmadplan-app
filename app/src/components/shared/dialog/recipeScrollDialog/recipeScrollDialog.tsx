@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import IngredientListing from './ingrdientListing';
+import IngredientListing from './ingredientItem/ingrdientListing';
 import IngredientList from './ingredientList';
 
 import placeholder from '../../../../../../resources/placeholder.png'
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
   image: {
     maxWidth: 350,
+    width: '100%',
     borderRadius: 25
   },
 
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiPaper-rounded": {
       borderRadius: 25
     },
-    fontSize: 20
+    fontSize: 18
   }
 
 
@@ -107,14 +108,18 @@ export default function ScrollDialog(props) {
             component={'div'}
           >
 
-            <Grid container spacing={4}>
-
+            <Grid
+              container
+              spacing={4}
+              
+            >
               <Grid item xs={6} >
                 <img className={classes.image} src={props.image || placeholder} />
                 <IngredientList ingredients={props.ingredients} originalPersonCount={props.persons} />
-
               </Grid>
+
               <Grid item xs={6}>
+                <strong>Fremgangsmåde:</strong>
                 <p>{props.text}</p>
               </Grid>
             </Grid>
