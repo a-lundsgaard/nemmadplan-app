@@ -8,15 +8,23 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+import IngredientListing from './ingrdientListing';
+import IngredientList from './ingredientList';
+
+import placeholder from '../../../../../../resources/placeholder.png'
+
 
 const useStyles = makeStyles((theme) => ({
 
   receiptText: {
-    whiteSpace: "pre-wrap"
+    whiteSpace: "pre-wrap",
+    fontSize: '120%',
+    color: 'black'
   },
 
   image: {
-    maxWidth: 350
+    maxWidth: 350,
+    borderRadius: 25
   },
 
   list: {
@@ -26,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiPaper-rounded": {
       borderRadius: 25
-    }
+    },
+    fontSize: 20
   }
 
 
@@ -57,7 +66,7 @@ export default function ScrollDialog(props) {
 
 
   const handleCheckBoxChange = (event) => {
-    setChecked(event.target.checked);
+    //setChecked(event.target.checked);
   };
 
 
@@ -88,7 +97,7 @@ export default function ScrollDialog(props) {
         maxWidth='lg'
       >
         <DialogTitle id="scroll-dialog-title">{props.title}</DialogTitle>
-        <DialogContent  
+        <DialogContent
           dividers={scroll === 'paper'}>
           <DialogContentText
             id="scroll-dialog-description"
@@ -97,20 +106,19 @@ export default function ScrollDialog(props) {
             className={classes.receiptText}
             component={'div'}
           >
-            <img className={classes.image} src={props.image || "https://images.arla.com/recordid/96f498c04e7743fc9e8ca6ea0042c0d8/rejepaella.jpg?crop=(0,1258,0,-524)&w=1269&h=715&ak=6826258c&hm=d1853743"} />
 
             <Grid container spacing={4}>
 
               <Grid item xs={6} >
-                {props.ingredients.map((ingredient, index) =>
-                  <li className={classes.list} key={index} variant={'body2'}>
-                    {`${ingredient.quantity || ""} ${ingredient.unit ? ingredient.unit.replace("*", '') : ''} ${ingredient.name}`.trimLeft()}</li>
-                )}
+                <img className={classes.image} src={props.image || placeholder} />
+                <IngredientList ingredients={props.ingredients} originalPersonCount={props.persons} />
+
               </Grid>
               <Grid item xs={6}>
                 <p>{props.text}</p>
               </Grid>
             </Grid>
+
           </DialogContentText>
 
         </DialogContent>

@@ -17,7 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
-import RecipeScrollDialog from '../dialog/recipeScrollDialog';
+import RecipeScrollDialog from '../dialog/recipeScrollDialog/recipeScrollDialog';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
@@ -188,6 +188,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
           text={recipe.text}
           ingredients={recipe.ingredients}
           title={recipe.name}
+          persons={recipe.persons}
           image={recipe.image}
           onChange={(bool: boolean) => setScrollDialogOpen(bool)}
           key={1}

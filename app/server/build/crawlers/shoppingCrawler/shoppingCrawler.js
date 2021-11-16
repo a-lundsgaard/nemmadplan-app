@@ -5,17 +5,19 @@ const puppeteer = require('puppeteer');
 const nemlig = require('./pageFunctions/nemlig.com-ts');
 const rema1000 = require('./pageFunctions/rema1000.js');
 const path = require('path');
+const chromePath = require('./locateChrome');
 const libPath = path.join(__dirname, './scripts/rema/algorithms.js');
 async function runShoppingListCrawler(url, pageFunction, preferences) {
     console.log('Starting crawler...');
     console.log(preferences);
     try {
+        const foundChromePath = await chromePath();
         console.log('Launching pupeteer...');
         const browser = await puppeteer.launch({
             headless: false,
-            args: ["--no-sandbox", '--start-maximized'],
+            args: ['--start-maximized'],
             defaultViewport: null,
-            ignoreDefaultArgs: ["--enable-automation"]
+            ignoreDefaultArgs: ["--enable-automation"],
         });
         const page = await browser.newPage();
         browser.on('targetcreated', async function f() {

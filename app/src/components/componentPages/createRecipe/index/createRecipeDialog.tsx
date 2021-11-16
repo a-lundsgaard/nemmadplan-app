@@ -470,7 +470,7 @@ function transformedIngredientsInput(ingrArray: string[]) {
   return ingrArray
     .map((str, i) => {
       let strArr = str.trimEnd().split(' ');
-      let quantity = strArr.find(el => Number(el)) || null;
+      let quantity = strArr.find(el => Number(el) ) || null;
       let unit = strArr.find(el => el.includes('*')) || null;
 
       // removes quantity and unit from array and leaves name
