@@ -6,8 +6,9 @@ import './styles.css'
 
 export default function IngredientListing({ ingredient, personCount, originalPersonCount, ...props }) {
 
-    // test
-    const quantity = Number(ingredient.quantity) ? ingredient.quantity / originalPersonCount * personCount : "";
+    console.log('Fandt origianl person count : ', personCount, originalPersonCount);
+    
+    const quantity = typeof ingredient.quantity == 'number' ? ingredient.quantity / originalPersonCount * personCount : "";
 
     const [checked, setChecked] = useState(false);
 

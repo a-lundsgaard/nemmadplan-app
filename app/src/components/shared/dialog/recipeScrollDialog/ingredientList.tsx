@@ -11,10 +11,11 @@ export default function IngredientList({ ingredients, originalPersonCount, ...pr
     // test
     return (
         <div style={{
-           // margin: "35px 0 30px 0",
+            // margin: "35px 0 30px 0",
             alignItems: "center"
         }} >
             <div
+                className={'numPickerContainer'}
                 style={{
                     margin: "35px 0 30px 0",
                     display: 'flex'
@@ -23,15 +24,17 @@ export default function IngredientList({ ingredients, originalPersonCount, ...pr
                 <NumberPicker
                     name="numPicker"
                     onChange={(value: number) => setPersonCount(value)}
-                    value={4} // when editing af recipe
+                    value={originalPersonCount} // when editing af recipe
                 />
             </div>
-            <ul style={{
-                listStylePosition: 'outside',
-                listStyleType: 'none',
-                paddingLeft: 12,
-                //margin: '0 0 0 8px'
-            }}>
+            <ul
+                className={'ingredientList'}
+                style={{
+                    listStylePosition: 'outside',
+                    listStyleType: 'none',
+                    paddingLeft: 12,
+                    //margin: '0 0 0 8px'
+                }}>
                 {ingredients.map((ingredient, index) =>
                     <IngredientListing key={index} ingredient={ingredient} personCount={personCount} originalPersonCount={originalPersonCount} />
                 )}

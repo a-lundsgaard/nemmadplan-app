@@ -192,7 +192,7 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
   };
 
 
-  function handleSaveRecipe() {
+  function handleSaveMealPlan() {
 
     console.log('Saved')
     console.log(state.recipies.flatMap(recipe => recipe.ingredients))
@@ -282,7 +282,7 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
             </div>
 
 
-            <Button autoFocus color="inherit" onClick={handleSaveRecipe}>
+            <Button autoFocus color="inherit" onClick={handleSaveMealPlan}>
               gem
             </Button>
           </Toolbar>

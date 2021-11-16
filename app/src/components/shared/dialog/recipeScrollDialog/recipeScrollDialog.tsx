@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     maxWidth: 350,
     width: '100%',
-    borderRadius: 25
+    borderRadius: 15
   },
 
   list: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ScrollDialog(props) {
+export default function ScrollDialog({recipe, recipeToEdit,visitFromCreatePlanMealList, ...props}) {
 
   const classes = useStyles();
 
@@ -62,6 +62,8 @@ export default function ScrollDialog(props) {
   };
 
   useEffect(() => {
+    console.log('Found dialog recipe: ', recipe);
+    
     setOpen(props.boolean)
   }, [props.boolean])
 
@@ -97,7 +99,7 @@ export default function ScrollDialog(props) {
         aria-describedby="scroll-dialog-description"
         maxWidth='lg'
       >
-        <DialogTitle id="scroll-dialog-title">{props.title}</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">{recipe.name}</DialogTitle>
         <DialogContent
           dividers={scroll === 'paper'}>
           <DialogContentText
@@ -111,16 +113,16 @@ export default function ScrollDialog(props) {
             <Grid
               container
               spacing={4}
-              
+
             >
               <Grid item xs={6} >
-                <img className={classes.image} src={props.image || placeholder} />
-                <IngredientList ingredients={props.ingredients} originalPersonCount={props.persons} />
+                <img className={classes.image} src={recipe.image || placeholder} />
+                <IngredientList ingredients={recipe.ingredients} originalPersonCount={recipe.persons} />
               </Grid>
 
               <Grid item xs={6}>
                 <strong>Fremgangsmåde:</strong>
-                <p>{props.text}</p>
+                <p>{recipe.text}</p>
               </Grid>
             </Grid>
 
@@ -128,9 +130,11 @@ export default function ScrollDialog(props) {
 
         </DialogContent>
         <DialogActions>
-          <Button color="primary">
+          {visitFromCreatePlanMealList && <Button
+            onClick={()=> recipeToEdit(recipe)}
+            color="primary">
             Redigér
-          </Button>
+          </Button> }
           <Button onClick={handleClose} color="primary">
             Luk
           </Button>

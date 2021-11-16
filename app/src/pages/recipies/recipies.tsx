@@ -108,6 +108,9 @@ export default function ViewRecipes({ onClick, dialogOpen, ...props }: Props) {
 
   function getRecipes(showLoading: boolean) {
     if (props.getRecipesFromParent) {
+      //setRecipes(props.getRecipesFromParent)
+      console.log('fa åå _:', props.getRecipesFromParent);
+      
       setRecipesInSearch(props.getRecipesFromParent);
       return;
     }

@@ -118,7 +118,9 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
               return { ...plan.dish, date: plan.day }
             })}
             disableSettings={true}
-            //recipies={recipes}
+     /*        recipies={mealPlan.plan.map((plan) => {
+              return { ...plan.dish, date: plan.day }
+            })} */
             onClick={recipe => chosenRecipe(recipe)}
             visitFromCreatePlan={false}
             dialogOpen={ (bool: boolean) => setVisible(bool)}

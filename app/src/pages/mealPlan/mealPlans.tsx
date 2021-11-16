@@ -13,7 +13,7 @@ import HTTP from '../../HTTP/http';
 import MealPlanCard from './mealPlanCard/mealPlanCard';
 import SnackBar from "../../components/shared/snackbar/snackbar";
 
-import ViewMealPlanDialogFullScreen from './viewPlanDialog/viewMealPlanDialog';
+// import ViewMealPlanDialogFullScreen from './viewPlanDialog/viewMealPlanDialog';
 
 const mealPlanCountKey = 'mealPlanCount';
 

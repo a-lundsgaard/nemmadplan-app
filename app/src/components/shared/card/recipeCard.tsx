@@ -185,13 +185,11 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
       {!props.createPlanCard &&
         <RecipeScrollDialog
           boolean={scrollDialogOpen}
-          text={recipe.text}
-          ingredients={recipe.ingredients}
-          title={recipe.name}
-          persons={recipe.persons}
-          image={recipe.image}
+          recipe={recipe}
           onChange={(bool: boolean) => setScrollDialogOpen(bool)}
           key={1}
+          recipeToEdit={(recipe: any) => clickedDishToUpdate(recipe)}
+          visitFromCreatePlanMealList={props.visitFromCreatePlanMealList}
         />}
       <Card className={classes.card} style={{
             border: customDate && props.currentDateOnPlan && fromSameDate(new Date(customDate), new Date(props.currentDateOnPlan)) ? "3px solid #90c200" : ""
