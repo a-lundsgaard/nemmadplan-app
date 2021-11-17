@@ -26,6 +26,10 @@ import styles from './styles';
 import { TransitionProps } from '@material-ui/core/transitions';
 import HTTP from '../../../../HTTP/http';
 
+import { Recipe } from "TYPES/recipe"
+import { MealPlan, Ingredient } from "TYPES/mealPlan"
+import { Todo } from "TYPES/todos"
+
 // defining react as global
 window.React = React;
 
@@ -38,9 +42,39 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface Props {
-  onMealPlanSave: (id: string) => void;
+  onMealPlanSave: (randomNumberToTriggerChange: number) => void;
   children: Element
 }
+
+interface ExtendedRecipe extends Recipe {
+  date: Date
+  listId: string
+  originalPersonCount: number
+  ingredients: ExtendedIngredient[]
+}
+
+interface ExtendedIngredient extends Ingredient {
+  id: string
+}
+
+interface State {
+  recipies: ExtendedRecipe[]
+}
+
+interface ExtendedIngredientForUpdatingAmount extends Ingredient {
+  task: string;
+  diff: number;
+  currentQuantity: number;
+  id: string;
+  name: string;
+  unit: string;
+  quantity: number;
+}
+
+/* interface State2  {
+  persons: number;
+  ingredients: ExtendedIngredientForUpdatingAmount;
+}[] */
 
 export default function CreatePlanDialog({ onMealPlanSave }: Props) {
 
@@ -49,15 +83,15 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
   const [recipesOpen, setRecipesOpen] = useState(false); // set false when not testing
 
   // state for input fields
-  const [state, setState] = useState({
+  const [state, setState] = useState<State>({
     recipies: [],
     //  date: new Date()
   });
 
-  const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = useState([]);
-  const [ingredientsToDelete, setIngredientsToDelete] = useState([]);
-  const [ingredientsToAdd, setIngredientsToAdd] = useState([]);
-  const [recipeToSwap, setRecipeToSwap] = useState(null);
+  const [ingredientsWithUpdatedAmounts, setIngredientsWithUpdatedAmounts] = useState<ExtendedIngredient[]>([]);
+  const [ingredientsToDelete, setIngredientsToDelete] = useState<Ingredient[]>([]);
+  const [ingredientsToAdd, setIngredientsToAdd] = useState<ExtendedIngredient[]>([]);
+  const [recipeToSwap, setRecipeToSwap] = useState<ExtendedRecipe | null>(null);
   const [mealPlanTitle, setMealPlanTitle] = useState('');
 
 
@@ -76,10 +110,10 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
   function handleDeleteRecipeFromPlan(idOfDeletedDish: string) {
     console.log(idOfDeletedDish);
 
-    const newState = state.recipies.filter((recipe: { listId: string }) => {
+    const newState = state.recipies.filter((recipe) => {
       if (recipe.listId == idOfDeletedDish) {
         console.log('Fandt ingredienser der skal slettes: ', recipe.ingredients);
-        
+
         setIngredientsToDelete(recipe.ingredients);
       }
       return recipe.listId !== idOfDeletedDish
@@ -90,21 +124,20 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
 
 
   // adding new recipe to plan - rename function
-  function handleAddNewRecipeToPlan(newRecipe) {
+  function handleAddNewRecipeToPlan(newRecipe: ExtendedRecipe) {
     console.log('Fandt en ny opskrift til at  adde : ', newRecipe)
     newRecipe.date = date;
     newRecipe.listId = uuid();
+    newRecipe.originalPersonCount = newRecipe.persons // used as divider when calculating new quantities
     newRecipe.ingredients = addIdToEachIngredient(newRecipe.ingredients)
 
-    function addIdToEachIngredient(ingredientArray: any) {
+    function addIdToEachIngredient(ingredientArray: ExtendedIngredient[]) {
       return ingredientArray.map((ingredient) => {
         return { ...ingredient, id: uuid() }
       })
     }
-    // h
 
     const newRecipeArrayWithSwappedDish = state.recipies;
-
     if (recipeToSwap) {
       const index = state.recipies.findIndex(recipe => recipe.date === recipeToSwap.date);
       setIngredientsToDelete(recipeToSwap.ingredients);
@@ -145,28 +178,23 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
 
 
 
-  function handleRecipePersonCountChange(previousPersonCount, newPersonCount, listId): void {
+  function handleRecipePersonCountChange(previousPersonCount: number, newPersonCount: number, listId: string): void {
     //const ingredientItemsThatHaveChangedAmount = [];
     // updating amount on ingredient
     const newRecipeState = state.recipies.map((recipe) => {
+
       if (recipe.listId === listId && newPersonCount != previousPersonCount) {
-        //alert('Found recipe')
-        const newIngredientArray = recipe.ingredients.map((ingredient) => {
-          //for(const ingredient of recipe.ingredients) {
-          const divider = 4;
+
+        const newIngredientArray: ExtendedIngredientForUpdatingAmount[] = recipe.ingredients.map((ingredient) => {
+          const divider = recipe.originalPersonCount;
           const oldQuantityCalculation = (ingredient.quantity / divider) * previousPersonCount;
           const newQuantityCalculation = (ingredient.quantity / divider) * newPersonCount;
-
-          const diff = newQuantityCalculation-oldQuantityCalculation;
-          //console.log('Found diff on');
-          
-
+          const diff = newQuantityCalculation - oldQuantityCalculation;
           return { ...ingredient, task: ingredient.name, diff: diff, currentQuantity: newQuantityCalculation }
-
-          //return { ...ingredient, task: ingredient.name, quantity: newQuantityCalculation }
         })
+
         setIngredientsWithUpdatedAmounts(newIngredientArray)
-        return { ...(recipe as object), persons: newPersonCount, ingredients: newIngredientArray }
+        return { ...recipe, persons: newPersonCount, ingredients: newIngredientArray }
       }
       return recipe;
     })
@@ -195,7 +223,7 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
   function handleSaveMealPlan() {
 
     console.log('Saved')
-    console.log(state.recipies.flatMap(recipe => recipe.ingredients))
+    //console.log(state.recipies.flatMap(recipe => recipe.ingredients))
     console.log(state)
     //alert(weekPlanTitle)
     console.log(mealPlanTitle);
@@ -205,13 +233,13 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
       return;
     }
 
-    function transformTodosToIngredients(todos) {
+    function transformTodosToIngredients(todos: Todo[]) {
       return todos.map((todo) => {
         return { name: todo.task, quantity: todo.quantity, unit: todo.unit }
       })
     }
 
-    function transformRecipiesToDayPlan(recipes) {
+    function transformRecipiesToDayPlan(recipes: ExtendedRecipe[]) {
       return recipes.map((recipe) => {
         return {
           day: recipe.date,
@@ -388,4 +416,3 @@ export default function CreatePlanDialog({ onMealPlanSave }: Props) {
   );
 }
 
-//state?.recipies[state.recipies.length - 1]?.ingredients

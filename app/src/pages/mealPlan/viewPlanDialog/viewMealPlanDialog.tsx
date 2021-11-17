@@ -1,3 +1,5 @@
+import { MealPlan, Ingredient } from 'TYPES/mealPlan';
+
 import React, { useEffect, useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,8 +16,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import Recipes from '../../recipies/recipies';
 
 import MealPlanShoppingListDialog from './shoppingList/mealPlanShoppingList';
-import { MealPlan } from '../mealPlanCard/types';
-
 import ShoppingList from '../../../components/componentPages/createPlan/shoppingList/src/components/App';
 
 
@@ -41,7 +41,7 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
 
   const [shopListOpen, setShopListOpen] = useState(false); // set false when not testing
 
-  
+
 
   // displaying server messages
   const [message, setMessage] = useState({});
@@ -64,12 +64,14 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
   };
 
   useEffect(() => {
-    if(visible)setOpen(true)
-    
+    if (visible) setOpen(true)
+
   }, [visible])
 
   useEffect(() => {
     console.log('Found custom shop list: ', mealPlan.customShoppingList)
+    console.log('Found meal plans to pass: ', mealPlan)
+
 
   }, [])
 
@@ -91,7 +93,7 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
             <Typography variant="h6" className={classes.title}>
               {mealPlan.name}
             </Typography>
-            <IconButton onClick={()=> setShopListOpen(true)} edge="start" color="inherit" aria-label="close">
+            <IconButton onClick={() => setShopListOpen(true)} edge="start" color="inherit" aria-label="close">
               <ShoppingCartIcon />
             </IconButton>
             <IconButton edge="start" color="inherit" aria-label="close">
@@ -106,27 +108,45 @@ export default function ViewMealPlanDialogFullScreen({ visible, setVisible, chos
           onOpenChange={(bool) => setShopListOpen(bool)}
         >
           <ShoppingList
-          excludeTitle={true}
-         //ingredientArray={mealPlan.customShoppingList}
-          defaultItems={mealPlan.customShoppingList}
+            excludeTitle={true}
+            //ingredientArray={mealPlan.customShoppingList}
+            defaultItems={mealPlan.customShoppingList}
           />
         </MealPlanShoppingListDialog>
 
         <span style={{ marginTop: 70 }}>
           <Recipes
+            /*          getRecipesFromParent={mealPlan.plan.map((plan) => {
+                       return { ...plan.dish, persons: plan.persons, date: plan.day }
+                     }) */
+
             getRecipesFromParent={mealPlan.plan.map((plan) => {
-              return { ...plan.dish, date: plan.day }
-            })}
+              return {
+                ...plan.dish,
+                ingredients: calculateIngredientAmount(plan.dish.ingredients, plan.dish.persons, plan.persons),
+                persons: plan.persons,
+                date: plan.day
+              }
+            })
+            }
             disableSettings={true}
-     /*        recipies={mealPlan.plan.map((plan) => {
-              return { ...plan.dish, date: plan.day }
-            })} */
+            /*        recipies={mealPlan.plan.map((plan) => {
+                     return { ...plan.dish, date: plan.day }
+                   })} */
             onClick={recipe => chosenRecipe(recipe)}
             visitFromCreatePlan={false}
-            dialogOpen={ (bool: boolean) => setVisible(bool)}
+            dialogOpen={(bool: boolean) => setVisible(bool)}
           />
         </span>
       </Dialog>
     </div>
   );
 }
+
+function calculateIngredientAmount(ingredients: Ingredient[], oldPersonCount: number, newPersonsCount: number) {
+  return ingredients.map((ingredient) => {
+    const quantity = typeof ingredient.quantity == "number" ? ingredient.quantity / oldPersonCount * newPersonsCount : ""
+    return { ...ingredient, quantity: quantity }
+  })
+}
+

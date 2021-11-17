@@ -7,6 +7,7 @@
         "alias": {
           // "Images": "./app/src/components/componentPages/createPlan/shoppingList",
           "HTTP": "./app/src/http",
+          "TYPES": "./app/src/globalTypes",
           "Constants": "./app/src/constants",
           "Components": "./app/src/components",
           "Core": "./app/src/core",

@@ -11,11 +11,20 @@ import ReceiptSceletonLoader from '../../components/shared/loaders/receiptScelet
 import useStyles from './styles';
 import SnackBar from "../../components/shared/snackbar/snackbar";
 
+import { Recipe } from "TYPES/recipe"
+
+
 interface Props {
   onClick: (id: string) => void,
   dialogOpen: (boolean: boolean) => boolean,
-  recipies: any,
-  getRecipesFromParent: any
+  recipies: ExtendedRecipe[],
+  getRecipesFromParent: ExtendedRecipe[],
+  disableSettings: boolean,
+  visitFromCreatePlan: boolean
+}
+
+interface ExtendedRecipe extends Recipe {
+  date: string
 }
 
 interface Ingredient {
@@ -30,7 +39,7 @@ export default function ViewRecipes({ onClick, dialogOpen, ...props }: Props) {
 
   const [searchString, setSearchString] = useState(window.store.getState().searchInput); // getting search bar input
   const [recipes, setRecipes] = useState([]);
-  const [recipesInSearch, setRecipesInSearch] = useState([])
+  const [recipesInSearch, setRecipesInSearch] = useState<ExtendedRecipe[]>([])
   const [isReceiptSavedOrDeleted, setRecipeSavedOrDeleted] = useState('') // letting us know when a recipe is saved to rerender dishes
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({});
@@ -89,7 +98,7 @@ export default function ViewRecipes({ onClick, dialogOpen, ...props }: Props) {
     setRecipeSavedOrDeleted(id)
   }
 
-  const handleUpdateDish = (recipe) => {
+  const handleUpdateDish = (recipe: Recipe) => {
     // dialogOpen(true);  
     setVisitFromEditPage(true)
     setRecipeToUpdate(recipe);
@@ -169,7 +178,7 @@ export default function ViewRecipes({ onClick, dialogOpen, ...props }: Props) {
         <div className={classes.addReceiptButton} >
 
           <CreateRecipeDialog
-            onReceiptSave={(value) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}
+            onReceiptSave={(value: string) => handleRecipeSave(value)} shouldOpen={createRecipeDialogOpen}
             recipeToUpdate={recipeToUpdate}
             editPage={visitFromEditPage}
             onClose = {() => {

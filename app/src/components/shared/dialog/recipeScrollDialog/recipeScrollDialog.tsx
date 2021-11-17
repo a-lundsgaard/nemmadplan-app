@@ -130,7 +130,7 @@ export default function ScrollDialog({recipe, recipeToEdit,visitFromCreatePlanMe
 
         </DialogContent>
         <DialogActions>
-          {visitFromCreatePlanMealList && <Button
+          {visitFromCreatePlanMealList ? "" : <Button
             onClick={()=> recipeToEdit(recipe)}
             color="primary">
             Redigér

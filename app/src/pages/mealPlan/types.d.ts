@@ -40,9 +40,11 @@ export interface MealPlan {
             quantity: number
         }],
         plan: [{
-            day: string, 
+            day: string,
+            persons: number, 
             dish: {
                 name: string,
+                persons: number, 
                 image: string, 
                 ingredients: [{
                     name: string,
@@ -54,3 +56,8 @@ export interface MealPlan {
         }]
 }
 
+export interface Ingredient {
+    name: string,
+    unit: string, 
+    quantity: number
+}

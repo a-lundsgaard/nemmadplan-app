@@ -31,6 +31,7 @@ class MealPlanRequests {
               }
               plan {
                 day
+                persons
                 dish {
                   name
                   image
