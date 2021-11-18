@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import './style.css'
 
-function NumberPicker({ label, onChange, value }) {
+interface Props {
+    label: string,
+    onChange: (value: number) => number
+    value: number
+}
 
-    //  console.log(onChange)
-    // console.log(label)
+function NumberPicker({ label, onChange, value }: Props) {
 
     const [count, setCount] = useState(1);
-    const str = count < 2 ? 'person' : 'persons';
+    //const str = count < 2 ? 'person' : 'persons';
 
     const style = {
         content: 'hi'
     }
 
-    const decrementCount = (e) => {
+    const decrementCount = () => {
         if (count < 2) return false;
         setCount(prevCount => prevCount - 1)
         //onChange(count)
     }
 
-    const incrementCount = (e) => {
+    const incrementCount = () => {
         setCount(prevCount => prevCount + 1)
         // onChange(count)
     }
@@ -33,11 +36,8 @@ function NumberPicker({ label, onChange, value }) {
         if(value) setCount(value) // when scraping a receipt
     }, [value]) 
 
-    const handleChange = (e) => {
-        // console.log(e.target.value)
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCount(parseInt(e.target.value))
-        // onChange(count)
-        console.log('Changed')
     }
 
     return (

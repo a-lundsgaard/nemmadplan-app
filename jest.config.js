@@ -1,8 +1,11 @@
 module.exports = {
     roots: ['<rootDir>/app/src'],
     transform: {
-        '^.+\\.tsx?$': 'ts-jest'
+        '^.+\\.tsx?$': 'ts-jest',
     },
+    moduleNameMapper: {
+        "\\.(css|sass)$": "identity-obj-proxy", // for css files
+      },
     setupFilesAfterEnv: [
         '@testing-library/jest-dom/extend-expect'
     ],
