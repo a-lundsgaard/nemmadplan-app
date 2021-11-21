@@ -7,7 +7,7 @@ interface Props {
     value: number
 }
 
-function NumberPicker({ label, onChange, value }: Props) {
+function NumberPicker({  onChange = () => 1, value, label }: Props) {
 
     const [count, setCount] = useState(1);
     //const str = count < 2 ? 'person' : 'persons';

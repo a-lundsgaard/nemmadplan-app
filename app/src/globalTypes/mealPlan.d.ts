@@ -1,3 +1,6 @@
+import { Ingredient } from "./recipe";
+
+
 export interface MealPlan {
     _id: string,
     name: string,
@@ -18,10 +21,4 @@ export interface MealPlan {
         },
         creator: string
     }]
-}
-
-export interface Ingredient {
-    name: string,
-    unit: string,
-    quantity: number
 }

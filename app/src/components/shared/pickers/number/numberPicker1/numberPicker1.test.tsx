@@ -7,9 +7,9 @@ Enzyme.configure({ adapter: new Adapter() });
 import NumberPicker from './numberPicker';
 
 
-describe('MyComponent', () => {
+describe('NumberPicker component', () => {
 
-    const onCountChange = jest.fn();
+    const onCountChange = jest.fn(); // mock callback function for numberpicker
     let wrapper: any;
     let incrementButton: any
     beforeEach(() => {

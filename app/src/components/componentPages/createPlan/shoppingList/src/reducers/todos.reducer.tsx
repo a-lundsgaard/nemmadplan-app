@@ -1,6 +1,6 @@
-//import uuid from 'uuid/v4';
-//import { uuidv4 } from 'uuid';
-import uuidv4 from "uuid/dist/v4";
+//import uuidv4 from "uuid/dist/v4";
+import { v4 as uuidv4 } from 'uuid';
+
 
 import {
   NewIngredient,
@@ -21,9 +21,10 @@ import {
   DELETE_INGREDIENTS
 } from '../constants/actions';
 
+import { Todo } from "TYPES/todos";
 
 
-const reducer = (state: any, action) => {
+const reducer = (state: Todo[], action: any) => {
   switch (action.type) {
     case ADD_TODO:
       let index = 0;
@@ -90,6 +91,7 @@ export default reducer;
 
 
 
+
 function deleteIngredients(ingredientArrayToDelete: NewIngredient[], stateArray: StateIngredient[]) {
   const deletedIngredientsFilteredOut: StateIngredient[] = [];
 
@@ -110,9 +112,7 @@ function deleteIngredients(ingredientArrayToDelete: NewIngredient[], stateArray:
   return deletedIngredientsFilteredOut;
 }
 
-
-
-function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
+function updateAmountOfProvidedIngredients3(ingredientArray: NewIngredient[], stateArray: Todo[]) {
   //console.error('Fandt duplicate ingrediens der skal opdateres: ', stateArray)
   //alert('reducer called')
   const newArr = stateArray.map((oldIngredient) => {
@@ -123,14 +123,13 @@ function updateAmountOfProvidedIngredients3(ingredientArray, stateArray) {
 
       if (oldIngredient.task === newIngredient.task) {
         console.log('Fandt duplicate ingrediens der skal opdateres: ', oldIngredient, newIngredient)
-        return { ...oldIngredient, quantity: oldIngredient.quantity + newIngredient.diff }
+        return { ...oldIngredient, quantity: oldIngredient.quantity! + newIngredient.diff }
       }
     }
     return oldIngredient;
   });
   return newArr;
 }
-
 
 function addIngredientArray(action: any, state: StateIngredient[]) {
   const newIngredientArrayToAdd: Array<NewIngredient> = action.task;

@@ -1,4 +1,3 @@
-import { Ingredient } from "./mealPlan";
 
 
   export interface Recipe {
@@ -14,3 +13,10 @@ import { Ingredient } from "./mealPlan";
       createdAt: string,
       updatedAt: string
   }
+
+
+  export interface Ingredient {
+    name: string,
+    unit: string,
+    quantity: number
+}

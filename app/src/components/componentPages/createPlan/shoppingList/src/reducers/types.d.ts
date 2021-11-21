@@ -1,9 +1,11 @@
 
 export interface NewIngredient {
+    task: string,
     name: string,
     unit: string,
     quantity: number | null
     id: string;
+    diff: number
     currentQuantity?: number
   }
   
