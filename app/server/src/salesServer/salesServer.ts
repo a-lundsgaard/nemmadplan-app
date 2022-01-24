@@ -6,9 +6,8 @@ const PORT = 8090;
 const bodyParser = require('body-parser');
 
 async function salesServer() {
-
     app.use(bodyParser.json());
-
+    app.use('/sales', salesRoute);
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
@@ -19,27 +18,19 @@ async function salesServer() {
         next();
     });
 
-
     app.get('/', function (req, res) {
         res.send("Local sales server is running...");
     });
 
-    app.use('/sales', salesRoute);
-
-
     try {
         await fetch(`http://localhost:${PORT}/sales`);
-
     } catch (error) {
         console.error(`Could not fetch from local server running on ${PORT}, starting new server and displays error:`)
         console.error(error)
         let localServer = app.listen(PORT, async function () {
             console.log('Express server listening on port ' + localServer.address().port);
-
         })
-
     }
-
 }
 
 salesServer();
