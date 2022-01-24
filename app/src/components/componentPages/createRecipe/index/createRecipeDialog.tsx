@@ -141,7 +141,6 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
       image: {},
       numPicker: 1
     })
-
     onClose(true)
     setMessage({})
     setOpen(false);
@@ -237,7 +236,7 @@ export default function CreateRecipeDialog({ onReceiptSave, shouldOpen, recipeTo
     console.log(transformedIngredients);
 
     const token = localStorage.getItem('token');
-    const { title, type, numPicker, source, receipt, image } = state;
+    const { title, numPicker, source, receipt, image } = state;
 
     const variables = {
       token: token,

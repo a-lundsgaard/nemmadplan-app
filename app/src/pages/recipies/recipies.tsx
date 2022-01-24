@@ -127,7 +127,7 @@ export default function ViewRecipes({ onClick, dialogOpen, ...props }: Props) {
     if (showLoading) setIsLoading(true)
 
     const token = localStorage.getItem('token');
-    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons', { token: token })
+    const requestBody = HTTP.recipes.getRecipesAndReturnFields('_id name text image createdAt ingredients {name unit quantity} persons type favorite', { token: token })
 
     HTTP.post(requestBody)
       .then(res => {

@@ -18,9 +18,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CustomizedSnackbars({message, type}) {
-    const classes = useStyles();
+function CustomizedSnackbars({message, type, postion}) {
+    const classes = useStyles();    
     const [open, setOpen] = useState(true);
+
+    const pos = {
+        vertical:  postion?.y || 'bottom',
+        horizontal: postion?.x || 'left'
+      }
+    const { vertical, horizontal } = pos;
 
 
     const handleClose = (event, reason) => {
@@ -32,7 +38,10 @@ function CustomizedSnackbars({message, type}) {
 
     return (
         <div className={classes.root}>
-            <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+            <Snackbar 
+            open={open} autoHideDuration={5000} onClose={handleClose}
+            anchorOrigin={{ vertical, horizontal }}
+            >
                 <Alert onClose={handleClose} severity={type}>
                     {message}
                 </Alert>

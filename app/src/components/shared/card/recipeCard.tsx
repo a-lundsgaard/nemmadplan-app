@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia'; 
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
@@ -13,6 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -32,6 +34,8 @@ import CachedIcon from '@material-ui/icons/Cached';
 import http from '../../../HTTP/http';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import Prompt from '../dialog/prompt/prompt';
+
+import Snackbar from "../snackbar/snackbar"
 
 //import 
 import placeholder from '../../../../../resources/placeholder.png';
@@ -115,6 +119,11 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
   const settingsOpen = Boolean(anchorEl);
   const [expanded, setExpanded] = React.useState(false);
   const [agreeOnRecipeDeletePrompt, setAgreeOnRecipeDeletePrompt] = useState(false);
+  const [isFavorite, setFavorite] = useState<boolean>(recipe.favorite)
+  // displaying server messages
+  const [message, setMessage] = useState({});
+  // watching first load
+  const [fst, setFst] = useState(true)
 
   const handleAddReceipeToFoodPlan = () => {
     // sending recipe to recipe component
@@ -161,6 +170,63 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
 
   };
 
+ // if first run
+  useEffect(() => {
+    setFst(false)
+  });
+
+  useEffect(() => {
+
+    if (fst === false ) {
+
+      const token = localStorage.getItem('token');
+      const variables = { ...recipe, favorite: isFavorite, token: token }
+      const query = http.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients favorite', variables);
+
+      console.log('Found fav query: ' + query);
+
+      http.post(query)
+        .then(res => {
+          const msg = isFavorite ? 'Tilføjet til dine favoritter' : 'Retten er fjernet fra dine favoritter';
+          setMessage({ msg: msg, type: 'success', key: Math.random() })
+          // onReceiptSave(Date.now())
+          // handleClose2();
+          //setOpen(false)
+        })
+        .catch(error => {
+          console.log(error)
+          // setMessage({ msg: error, type: 'error', key: Math.random() })
+        })
+    }
+
+  }, [isFavorite])
+
+  const handleFavorite = () => {
+    const token = localStorage.getItem('token');
+    setFavorite(!isFavorite)
+
+    // const variables = { ...recipe, favorite: !isFavorite, token: token }
+
+    // const query = http.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients favorite', variables);
+
+    // console.log('Found fav query: ' + query);
+
+    // http.post(query)
+    //   .then(res => {
+    //     // const msg = editPage ? 'opdateret' : 'gemt';
+    //     // setMessage({ msg: `${state.title} er ${msg}`, type: 'success', key: Math.random() })
+    //     // onReceiptSave(Date.now())
+    //     // handleClose2();
+    //     //setOpen(false)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     // setMessage({ msg: error, type: 'error', key: Math.random() })
+    //   })
+
+
+  }
+
 
   useEffect(() => {
     console.log('The state of set scrolldialog changed: ' + scrollDialogOpen);
@@ -192,7 +258,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
           visitFromCreatePlanMealList={props.visitFromCreatePlanMealList}
         />}
       <Card className={classes.card} style={{
-            border: customDate && props.currentDateOnPlan && fromSameDate(new Date(customDate), new Date(props.currentDateOnPlan)) ? "3px solid #90c200" : ""
+        border: customDate && props.currentDateOnPlan && fromSameDate(new Date(customDate), new Date(props.currentDateOnPlan)) ? "3px solid #90c200" : ""
       }} >
         <CardHeader
           avatar={
@@ -225,7 +291,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
                   open={settingsOpen}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={()=> clickedDishToUpdate(recipe)}>
+                  <MenuItem onClick={() => clickedDishToUpdate(recipe)}>
                     <EditIcon />
                   </MenuItem>
                   <Divider />
@@ -254,8 +320,8 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
           //image={recipe.image || "https://m3placement.com/wp-content/uploads/2021/03/image-placeholder-350x350-1.png"}
           title={recipe.name}
           component={'div'}
-        />        
-        
+        />
+
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -268,8 +334,13 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
             <>
               {props.children /*person picker*/}
               <IconButton aria-label="swap dish" > <CachedIcon onClick={() => handleSwapRecipeInFoodPlan()} /></IconButton>
-            </> :
-            <IconButton aria-label="add to favorites"> <FavoriteIcon /></IconButton>
+            </>
+            : <IconButton
+              aria-label="add to favorites"
+              onClick={handleFavorite}
+            >
+              {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
           }
 
           {props.visitFromCreatePlan && <>
@@ -309,14 +380,15 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
           </CardContent>
         </Collapse>
       </Card>
+      {message.msg && <Snackbar key={message.key} type={message.type} message={message.msg} postion={{ x: 'left', y: 'bottom' }} />}
     </>
   )
 
 }
 
 function displayTitleWithoutBreak(string: string, maxStringLength: number) {
-  if(string.length > maxStringLength) {
-    const newTitle = string.slice(0, (maxStringLength-2)).trimRight() + "..";
+  if (string.length > maxStringLength) {
+    const newTitle = string.slice(0, (maxStringLength - 2)).trimRight() + "..";
     return newTitle
   } else {
     return string;

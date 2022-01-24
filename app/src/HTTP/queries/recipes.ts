@@ -41,7 +41,7 @@ function updateRecipeAndReturnFields(string: string, variables = {}) {
         fieldsToQuery.splice(index, 1);
     }
 
-    const query = `mutation($_id: String!, $name: String!, $type: String!, $persons: Float!, $source: String,  $text: String!, $image: String, $ingredients: [ingredientInput]!) {
+    const query = `mutation($_id: String!, $name: String!, $type: String!, $persons: Float!, $source: String,  $text: String!, $image: String, $favorite: Boolean, $ingredients: [ingredientInput]!) {
         updateRecipe(receiptInput: {
             _id: $_id
             name: $name, 
@@ -49,7 +49,8 @@ function updateRecipeAndReturnFields(string: string, variables = {}) {
             persons: $persons,
             source: $source,
             text: $text, 
-            image: $image
+            image: $image,
+            favorite: $favorite,
             ingredients: $ingredients 
         }) {
                 ${fieldsToQuery.join(' ')}
@@ -57,7 +58,7 @@ function updateRecipeAndReturnFields(string: string, variables = {}) {
             }
         }`
 
-    console.log(query)
+    //console.log(query)
     // return query;
     return new RequestBody(query, variables)
 }
