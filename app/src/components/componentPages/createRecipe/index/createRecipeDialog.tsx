@@ -23,7 +23,6 @@ import deleteConvertedImage from "../helpers"
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
 import styles from './styles';
 
 interface State {
