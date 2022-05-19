@@ -183,15 +183,10 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
       const variables = { ...recipe, favorite: isFavorite, token: token }
       const query = http.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients favorite', variables);
 
-      console.log('Found fav query: ' + query);
-
       http.post(query)
         .then(res => {
-          const msg = isFavorite ? 'Tilføjet til dine favoritter' : 'Retten er fjernet fra dine favoritter';
+          const msg = isFavorite ? 'Tilføjet til dine favoritter' : 'Fjernet fra dine favoritter';
           setMessage({ msg: msg, type: 'success', key: Math.random() })
-          // onReceiptSave(Date.now())
-          // handleClose2();
-          //setOpen(false)
         })
         .catch(error => {
           console.log(error)
@@ -202,29 +197,7 @@ export default function RecipeCard({ recipe, customDate, clikedDish, dialogOpen,
   }, [isFavorite])
 
   const handleFavorite = () => {
-    const token = localStorage.getItem('token');
     setFavorite(!isFavorite)
-
-    // const variables = { ...recipe, favorite: !isFavorite, token: token }
-
-    // const query = http.recipes.updateRecipeAndReturnFields('_id name persons source text image ingredients favorite', variables);
-
-    // console.log('Found fav query: ' + query);
-
-    // http.post(query)
-    //   .then(res => {
-    //     // const msg = editPage ? 'opdateret' : 'gemt';
-    //     // setMessage({ msg: `${state.title} er ${msg}`, type: 'success', key: Math.random() })
-    //     // onReceiptSave(Date.now())
-    //     // handleClose2();
-    //     //setOpen(false)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //     // setMessage({ msg: error, type: 'error', key: Math.random() })
-    //   })
-
-
   }
 
 
