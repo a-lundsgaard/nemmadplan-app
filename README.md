@@ -17,3 +17,4 @@ As it is users can now:
 - React
 - Material UI 
 - Puppeteer for webcrawling
+- Jest for testing components
