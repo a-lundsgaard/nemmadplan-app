@@ -1,6 +1,6 @@
 # nemmadplan-app
 
-Not finished Electron and web app.
+Not finished Electron and web app. The app is using the [nemmadplan-api](https://github.com/a-lundsgaard/nemmadplan-api) for backend.
 
 ## Features
 As it is users can now:
@@ -10,3 +10,10 @@ As it is users can now:
 - Make the app to put the groceries in the basket on sites such as nemlig.com in a new chromium window.
 - Filter and view recipes and choose for how many people the recipe must cover.
 - Make the grocery list automatically check for sales for every item on the list.
+
+
+## Tech stack
+- Electron
+- React
+- Material UI 
+- Puppeteer for webcrawling
