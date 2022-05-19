@@ -2,6 +2,8 @@
 
 Not finished Electron and web app. The app is using the [nemmadplan-api](https://github.com/a-lundsgaard/nemmadplan-api) for backend.
 
+The app uses the [secure-electron-template](https://github.com/reZach/secure-electron-template) as a foundation for security.
+
 ## Features
 As it is users can now:
 
